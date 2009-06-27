@@ -20,6 +20,21 @@ namespace Uncas.EBS.Domain.Model
             this.Elapsed = 0d;
         }
 
+        /// <summary>
+        /// Reconstructs the task.
+        /// </summary>
+        /// <param name="taskId">The task id.</param>
+        /// <param name="refIssueId">The issue id.</param>
+        /// <param name="description">The description.</param>
+        /// <param name="status">The status.</param>
+        /// <param name="sequence">The sequence.</param>
+        /// <param name="originalEstimate">The original estimate.</param>
+        /// <param name="currentEstimate">The current estimate.</param>
+        /// <param name="elapsed">The elapsed.</param>
+        /// <param name="startDate">The start date.</param>
+        /// <param name="endDate">The end date.</param>
+        /// <param name="createdDate">The created date.</param>
+        /// <returns></returns>
         public static Task ReconstructTask
             (int taskId
             , int refIssueId
@@ -51,6 +66,18 @@ namespace Uncas.EBS.Domain.Model
             return task;
         }
 
+        /// <summary>
+        /// Reconstructs the task to update.
+        /// </summary>
+        /// <param name="taskId">The task id.</param>
+        /// <param name="description">The description.</param>
+        /// <param name="status">The status.</param>
+        /// <param name="sequence">The sequence.</param>
+        /// <param name="currentEstimate">The current estimate.</param>
+        /// <param name="elapsed">The elapsed.</param>
+        /// <param name="startDate">The start date.</param>
+        /// <param name="endDate">The end date.</param>
+        /// <returns></returns>
         public static Task ReconstructTaskToUpdate
             (int taskId
             , string description
@@ -75,6 +102,18 @@ namespace Uncas.EBS.Domain.Model
             return task;
         }
 
+        /// <summary>
+        /// Constructs the task.
+        /// </summary>
+        /// <param name="refIssueId">The issue id.</param>
+        /// <param name="description">The description.</param>
+        /// <param name="status">The status.</param>
+        /// <param name="sequence">The sequence.</param>
+        /// <param name="originalEstimate">The original estimate.</param>
+        /// <param name="elapsed">The elapsed.</param>
+        /// <param name="startDate">The start date.</param>
+        /// <param name="endDate">The end date.</param>
+        /// <returns></returns>
         public static Task ConstructTask
             (int refIssueId
             , string description

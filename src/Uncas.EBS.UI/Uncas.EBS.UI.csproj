@@ -111,6 +111,9 @@
     <Compile Include="Estimates.aspx.designer.cs">
       <DependentUpon>Estimates.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
     <Compile Include="Language.aspx.cs">
       <DependentUpon>Language.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -163,6 +166,7 @@
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Phrases.da.designer.cs</LastGenOutput>
     </Content>
+    <Content Include="Global.asax" />
     <Content Include="Language.aspx" />
   </ItemGroup>
   <ItemGroup>

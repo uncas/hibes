@@ -5,6 +5,9 @@ using Uncas.EBS.Domain.Repository;
 
 namespace Uncas.EBS.UI.AppRepository
 {
+    /// <summary>
+    /// Task repository - layer for the web application.
+    /// </summary>
     public class AppTaskRepository
     {
         private IIssueRepository _issueRepo

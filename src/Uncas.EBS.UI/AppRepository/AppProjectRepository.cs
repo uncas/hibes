@@ -6,6 +6,9 @@ using Uncas.EBS.Domain.ViewModel;
 
 namespace Uncas.EBS.UI.AppRepository
 {
+    /// <summary>
+    /// Project repository - layer for the web application.
+    /// </summary>
     public class AppProjectRepository
     {
         private const int NumberOfSimulations = 10 * 1000;

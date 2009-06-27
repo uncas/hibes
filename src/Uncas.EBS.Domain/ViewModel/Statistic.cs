@@ -6,8 +6,17 @@ using Uncas.EBS.Domain.Simulation;
 
 namespace Uncas.EBS.Domain.ViewModel
 {
+    /// <summary>
+    /// Handles statistic for an iterator of some data.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class Statistic<T>
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Statistic&lt;T&gt;"/> class.
+        /// </summary>
+        /// <param name="data">The data.</param>
+        /// <param name="transformToQuantity">The transform to quantity.</param>
         public Statistic(IEnumerable<T> data
             , Func<T, double> transformToQuantity)
         {
@@ -17,6 +26,10 @@ namespace Uncas.EBS.Domain.ViewModel
 
         private Func<T, double> _transformToQuantity;
 
+        /// <summary>
+        /// Gets or sets the data.
+        /// </summary>
+        /// <value>The data.</value>
         public IEnumerable<T> Data { get; private set; }
 
         /// <summary>
@@ -63,6 +76,10 @@ namespace Uncas.EBS.Domain.ViewModel
             }
         }
 
+        /// <summary>
+        /// Gets the average.
+        /// </summary>
+        /// <value>The average.</value>
         public double Average
         {
             get
@@ -71,6 +88,10 @@ namespace Uncas.EBS.Domain.ViewModel
             }
         }
 
+        /// <summary>
+        /// Gets the standard deviation.
+        /// </summary>
+        /// <value>The standard deviation.</value>
         public double StandardDeviation
         {
             get
@@ -89,6 +110,10 @@ namespace Uncas.EBS.Domain.ViewModel
             }
         }
 
+        /// <summary>
+        /// Gets the min.
+        /// </summary>
+        /// <value>The min.</value>
         public double Min
         {
             get
@@ -98,6 +123,10 @@ namespace Uncas.EBS.Domain.ViewModel
             }
         }
 
+        /// <summary>
+        /// Gets the max.
+        /// </summary>
+        /// <value>The max.</value>
         public double Max
         {
             get
@@ -107,6 +136,10 @@ namespace Uncas.EBS.Domain.ViewModel
             }
         }
 
+        /// <summary>
+        /// Gets the count.
+        /// </summary>
+        /// <value>The count.</value>
         public int Count
         {
             get
@@ -115,6 +148,12 @@ namespace Uncas.EBS.Domain.ViewModel
             }
         }
 
+        /// <summary>
+        /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+        /// </returns>
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();

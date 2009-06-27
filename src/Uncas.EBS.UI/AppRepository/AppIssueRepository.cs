@@ -5,6 +5,9 @@ using Uncas.EBS.Domain.ViewModel;
 
 namespace Uncas.EBS.UI.AppRepository
 {
+    /// <summary>
+    /// Issue repository - layer for the web application.
+    /// </summary>
     public class AppIssueRepository
     {
         private IIssueRepository _parent

@@ -3,6 +3,9 @@ using System.Web.UI;
 
 namespace Uncas.EBS.UI
 {
+    /// <summary>
+    /// Base page for the web pages.
+    /// </summary>
     public class BasePage : Page
     {
         protected override void InitializeCulture()

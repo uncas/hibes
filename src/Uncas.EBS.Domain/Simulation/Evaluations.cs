@@ -6,8 +6,15 @@ using Uncas.EBS.Domain.ViewModel;
 
 namespace Uncas.EBS.Domain.Simulation
 {
+    /// <summary>
+    /// Represents a collection of evaluations.
+    /// </summary>
     public class Evaluations
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Evaluations"/> class.
+        /// </summary>
+        /// <param name="historicalTasks">The historical tasks.</param>
         public Evaluations(IList<Task> historicalTasks)
         {
             this.HistoricalTasks = historicalTasks
@@ -19,6 +26,12 @@ namespace Uncas.EBS.Domain.Simulation
 
         private Random _rnd = new Random();
 
+        /// <summary>
+        /// Gets the project evaluation.
+        /// </summary>
+        /// <param name="issueViews">The issue views.</param>
+        /// <param name="numberOfSimulations">The number of simulations.</param>
+        /// <returns></returns>
         public ProjectEvaluation GetProjectEvaluation
             (IList<IssueView> issueViews
             , int numberOfSimulations)
@@ -35,6 +48,11 @@ namespace Uncas.EBS.Domain.Simulation
             return result;
         }
 
+        /// <summary>
+        /// Runs the simulation.
+        /// </summary>
+        /// <param name="issueViews">The issue views.</param>
+        /// <param name="evaluation">The evaluation.</param>
         public void RunSimulation(IList<IssueView> issueViews
             , ProjectEvaluation evaluation)
         {
@@ -53,6 +71,11 @@ namespace Uncas.EBS.Domain.Simulation
             evaluation.AddEvaluation(statisticalRemainingForProject);
         }
 
+        /// <summary>
+        /// Gets the issue simulation.
+        /// </summary>
+        /// <param name="issueView">The issue view.</param>
+        /// <returns></returns>
         public double GetIssueSimulation(IssueView issueView)
         {
             double statisticalRemainingForIssue = 0d;
@@ -66,6 +89,11 @@ namespace Uncas.EBS.Domain.Simulation
             return statisticalRemainingForIssue;
         }
 
+        /// <summary>
+        /// Gets the task simulation.
+        /// </summary>
+        /// <param name="task">The task.</param>
+        /// <returns></returns>
         public double GetTaskSimulation(Task task)
         {
             // TODO: Look among similar historical tasks:

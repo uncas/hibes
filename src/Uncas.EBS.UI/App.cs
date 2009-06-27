@@ -4,8 +4,15 @@ using Uncas.EBS.Domain.Repository;
 
 namespace Uncas.EBS.UI
 {
+    /// <summary>
+    /// Handles common operations for the web application.
+    /// </summary>
     internal class App
     {
+        /// <summary>
+        /// Gets the repositories for the web application.
+        /// </summary>
+        /// <value>The repositories.</value>
         internal static IRepositoryFactory Repositories
         {
             get
@@ -15,10 +22,15 @@ namespace Uncas.EBS.UI
         }
 
         private const string _languageCookieKey = "Language";
+        /// <summary>
+        /// Gets or sets the selected language.
+        /// </summary>
+        /// <value>The selected language.</value>
         internal string SelectedLanguage
         {
             get
             {
+                // Tries to get a cookie with the selected language:
                 var context = HttpContext.Current;
                 if (context != null
                     && context.Request != null
@@ -29,11 +41,13 @@ namespace Uncas.EBS.UI
                 }
                 else
                 {
+                    // If no such cookie:
                     return "en";
                 }
             }
             set
             {
+                // Sets the cookie value here:
                 HttpCookie cookie = new HttpCookie(_languageCookieKey, value);
                 HttpContext.Current.Response.Cookies.Add(cookie);
             }

@@ -4,10 +4,25 @@ using Uncas.EBS.Domain.ViewModel;
 
 namespace Uncas.EBS.Domain.Repository
 {
-    public interface IIssueRepository : IRepository
+    /// <summary>
+    /// Handles storage of issues.
+    /// </summary>
+    public interface IIssueRepository
     {
+        /// <summary>
+        /// Gets the issues.
+        /// </summary>
+        /// <param name="projectId">The project id.</param>
+        /// <param name="status">The status.</param>
+        /// <returns></returns>
         IList<IssueDetails> GetIssues(int? projectId, Status status);
 
+        /// <summary>
+        /// Gets the issue view.
+        /// </summary>
+        /// <param name="issueId">The issue id.</param>
+        /// <param name="taskStatus">The task status.</param>
+        /// <returns></returns>
         IssueView GetIssueView(int issueId, Status taskStatus);
 
         /// <summary>
@@ -17,8 +32,16 @@ namespace Uncas.EBS.Domain.Repository
         /// <exception cref="RepositoryException"></exception>
         void InsertIssue(Issue issue);
 
+        /// <summary>
+        /// Updates the issue.
+        /// </summary>
+        /// <param name="issue">The issue.</param>
         void UpdateIssue(Issue issue);
 
+        /// <summary>
+        /// Deletes the issue.
+        /// </summary>
+        /// <param name="issueId">The issue id.</param>
         void DeleteIssue(int issueId);
     }
 }

@@ -2,14 +2,33 @@
 
 namespace Uncas.EBS.Domain.ViewModel
 {
+    /// <summary>
+    /// Represents details about an issue.
+    /// </summary>
     public class IssueDetails : Issue
     {
+        /// <summary>
+        /// Gets or sets the number of tasks.
+        /// </summary>
+        /// <value>The number of tasks.</value>
         public int NumberOfTasks { get; set; }
 
+        /// <summary>
+        /// Gets or sets the remaining.
+        /// </summary>
+        /// <value>The remaining.</value>
         public double? Remaining { get; set; }
 
+        /// <summary>
+        /// Gets or sets the elapsed.
+        /// </summary>
+        /// <value>The elapsed.</value>
         public double? Elapsed { get; set; }
 
+        /// <summary>
+        /// Gets the total.
+        /// </summary>
+        /// <value>The total.</value>
         public double? Total
         {
             get
@@ -30,6 +49,10 @@ namespace Uncas.EBS.Domain.ViewModel
             }
         }
 
+        /// <summary>
+        /// Gets the fraction elapsed.
+        /// </summary>
+        /// <value>The fraction elapsed.</value>
         public double? FractionElapsed
         {
             get
