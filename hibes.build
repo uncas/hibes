@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<project name="QAndA" default="all">
+
+    <property name="configuration" value="debug" />
+    <property name="framework.version" value="v2.0.50727" />
+	
+	<property name="msbuild"
+		value="C:\WINDOWS\Microsoft.NET\Framework\v3.5\msbuild.exe" />
+
+    <target name="all"/>
+
+	<target name="cleanFolder">
+        <delete dir="src\Uncas.EBS.${folderToClean}\bin" />
+        <delete dir="src\Uncas.EBS.${folderToClean}\obj" />
+	</target>
+
+	<target name="clean">
+		<delete dir="build" />
+        <property name="folderToClean" value="DAL" />
+        <call target="cleanFolder" />
+        <property name="folderToClean" value="Domain" />
+        <call target="cleanFolder" />
+        <property name="folderToClean" value="Tests" />
+        <call target="cleanFolder" />
+        <property name="folderToClean" value="UI" />
+        <call target="cleanFolder" />
+	</target>
+	
+	<target name="init">
+		<mkdir dir="build" />
+	</target>
+
+	<target name="compile" depends="init">
+	</target>
+	
+</project>

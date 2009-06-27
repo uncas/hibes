@@ -349,7 +349,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Evidence Based Scheduling.
+        ///   Looks up a localized string similar to History Based Estimation.
         /// </summary>
         internal static string SiteName {
             get {
