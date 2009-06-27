@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Database Name="EBS" Class="EBSDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=.\sqlexpress;Initial Catalog=EBS;Integrated Security=True" SettingsObjectName="Uncas.EBS.DAL.Properties.Settings" SettingsPropertyName="EBSConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Issue" Member="Issues">
+    <Type Name="Issue">
+      <Column Name="IssueId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Title" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="CreatedDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="RefProjectId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="RefStatusId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Priority" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Issue_Task" Member="Tasks" ThisKey="IssueId" OtherKey="RefIssueId" Type="Task" />
+      <Association Name="Project_Issue" Member="Project" ThisKey="RefProjectId" OtherKey="ProjectId" Type="Project" IsForeignKey="true" />
+      <Association Name="Status_Issue" Member="Status" ThisKey="RefStatusId" OtherKey="StatusId" Type="Status" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Task" Member="Tasks">
+    <Type Name="Task">
+      <Column Name="TaskId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="CreatedDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="RefIssueId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="RefStatusId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Sequence" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="StartDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="EndDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="OriginalEstimateInHours" Type="System.Decimal" DbType="Decimal(10,2) NOT NULL" CanBeNull="false" />
+      <Column Name="CurrentEstimateInHours" Type="System.Decimal" DbType="Decimal(10,2) NOT NULL" CanBeNull="false" />
+      <Column Name="ElapsedHours" Type="System.Decimal" DbType="Decimal(10,2) NOT NULL" CanBeNull="false" />
+      <Association Name="Issue_Task" Member="Issue" ThisKey="RefIssueId" OtherKey="IssueId" Type="Issue" IsForeignKey="true" />
+      <Association Name="Status_Task" Member="Status" ThisKey="RefStatusId" OtherKey="StatusId" Type="Status" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Project" Member="Projects">
+    <Type Name="Project">
+      <Column Name="ProjectId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ProjectName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="CreatedDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="Project_Issue" Member="Issues" ThisKey="ProjectId" OtherKey="RefProjectId" Type="Issue" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Status" Member="Status">
+    <Type Name="Status">
+      <Column Name="StatusId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="StatusName" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+      <Association Name="Status_Issue" Member="Issues" ThisKey="StatusId" OtherKey="RefStatusId" Type="Issue" />
+      <Association Name="Status_Task" Member="Tasks" ThisKey="StatusId" OtherKey="RefStatusId" Type="Task" />
+    </Type>
+  </Table>
+</Database>

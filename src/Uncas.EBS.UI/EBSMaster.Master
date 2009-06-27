@@ -1,0 +1,41 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="EBSMaster.master.cs"
+    Inherits="Uncas.EBS.UI.EBSMaster" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>
+        <%= Resources.Phrases.SiteName %></title>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <asp:ScriptManager ID="sm1" runat="server">
+    </asp:ScriptManager>
+    <div id="page">
+        <div id="header">
+            <h1>
+                <a href="Default.aspx">
+                    <%= Resources.Phrases.SiteName %></a></h1>
+            <ul id="menu">
+                <li><a href="Default.aspx">
+                    <%= Resources.Phrases.Issues %></a></li>
+                <li><a href="Estimates.aspx">
+                    <%= Resources.Phrases.Estimates %></a></li>
+                <li><a href="Speeds.aspx">
+                    <%= Resources.Phrases.History %></a></li>
+            </ul>
+            <ul id="languages">
+                <li><a href="Language.aspx?Language=en">English</a></li>
+                <li><a href="Language.aspx?Language=da">dansk</a></li>
+            </ul>
+        </div>
+        <div id="content">
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+            </asp:ContentPlaceHolder>
+        </div>
+    </div>
+    </form>
+</body>
+</html>

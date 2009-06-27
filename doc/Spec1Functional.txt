@@ -1,0 +1,94 @@
+History Based Estimation (hibes) / Evidence Based Scheduling (EBS)
+------------------------------------------------------------------
+
+Small program *only* to estimate projects:
+
+Screens
+-------
+Data entry
+    Issue list
+        Filters: [Project(All,...)] [Status(Open,Closed,All)]
+        [Project.Name] [Title] [Priority] [Status] [CreatedDate] [Edit] [Delete]
+        [New]
+    Task list (for a given issue)
+        Project.Name Issue.Title Priority Issue.Status
+        Filters: [Status(Open,Closed,All)]
+        [Sequence] [Description] [Status] [OriginalEstimate] [CurrentEstimate] ...
+            ... [Elapsed] [StartDate] [EndDate] [CreatedDate] [Edit] [Delete]
+        [New]
+Reports
+    Project estimate
+        Filters: [Project(All,...)] [Max priority]
+        Summary:
+            Average = 16 weeks
+            Standard deviation = 3 weeks
+             8-10: 0,9 %
+            11-13: 17,2 %
+            14-16: 45,6 %
+            17-19: 30,1 %
+            20-22: 6,0 %
+            23-25: 0,3 %
+        Issues:
+            [ProjectName] [Title] [Average] [Standard deviation]
+
+Technical considerations
+------------------------
+- Repository
+    ProjectRepository
+        IList<Project> GetProjects()
+        ProjectEvaluation GetProjectEvaluation(int? projectId, int? maxPriority)
+    IssueRepository
+        IList<Issue> GetIssues(int? projectId, Status status)
+        IssueView GetIssueView(int issueId, Status taskStatus)
+        InsertIssue(Issue)
+        UpdateIssue(Issue)
+        DeleteIssue(int issueId)
+        [ private Issue GetIssue(int issueId) ]
+    TaskRepository
+        InsertTask(Task)
+        UpdateTask(Task)
+        DeleteTask(int taskId)
+        [ internal IList<Task> GetTasks(int issueId, Status status) ]
+- ViewModel
+    IssueDetails : Issue
+        NumberOfTasks
+    IssueView
+        Issue
+        IList<Tasks>
+    ProjectEvaluation
+        Statistic<double> Statistics
+        IList<IssueEvaluation>
+    IssueEvaluation
+        Issue
+        double Average
+    Statistic<T>
+        Average
+        Deviation
+        IList<IntervalProbability> ProbabilityDistribution
+    IntervalProbability
+        Lower
+        Upper
+        Probability
+- Model
+    Issue
+        int? IssueId
+        DateTime CreatedDate
+        string ProjectName
+        string Title
+        int Priority
+        Status Status
+    Task
+        int? TaskId
+        DateTime CreatedDate
+        int RefIssueId
+        int Sequence
+        string Description
+        Status Status
+        decimal OriginalEstimate
+        decimal CurrentEstimate
+        decimal Elapsed
+        DateTime StartDate
+        DateTime EndDate
+    Status
+        Open
+        Closed

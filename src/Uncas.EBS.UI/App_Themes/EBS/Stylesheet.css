@@ -1,0 +1,100 @@
+﻿/* Elements */
+
+body
+{
+	padding: 1em;
+}
+
+h1
+{
+	float: left;
+	margin: 0;
+	padding: 0;
+}
+
+h1 a
+{
+	text-decoration: none;
+}
+
+h2
+{
+	margin: 0;
+	padding: 0;
+}
+
+th
+{
+	background-color: #399;
+	color: #FFFFFF;
+	text-align: left;
+}
+
+/* Master layout */
+
+#page
+{
+	border: solid 0.1em #CCCCCC;
+	padding: 1em;
+}
+
+#header
+{
+	border-bottom: solid 0.1em #CCCCCC;
+	margin-bottom: 0.5em;
+	overflow: hidden;
+	padding-bottom: 0.5em;
+}
+
+#header ul
+{
+	float: left;
+	font-size: 120%;
+	margin: 0.4em 0 0 1em;
+	padding: 0;
+}
+
+#header ul li
+{
+	display: inline;
+	margin: 0 0.1em;
+}
+
+#header ul a
+{
+	background-color: #DDDDFF;
+	color: inherit;
+	padding: 0.3em 0.5em;
+	text-decoration: none;
+}
+
+#header ul a:hover
+{
+	background-color: #CCCCFF;
+	color: inherit;
+}
+
+
+/* Common layout */
+
+.options
+{
+	overflow: hidden;
+}
+
+.option
+{
+	float: left;
+	padding: 0.2em;
+}
+
+.parts
+{
+	overflow: hidden;
+}
+
+.part
+{
+	float: left;
+	padding: 0.5em;
+}

@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="EBS">
+  <DataContextMoniker Name="/EBSDataContext" />
+  <nestedChildShapes>
+    <classShape Id="390b9e30-9417-4eb4-b55d-f8f203d389c1" absoluteBounds="3.5, 1.5, 2, 1.9631982421875003">
+      <DataClassMoniker Name="/EBSDataContext/Issue" />
+      <nestedChildShapes>
+        <elementListCompartment Id="be486f88-d7ac-45df-85af-905def0e0f59" absoluteBounds="3.515, 1.96, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="808f8290-cc61-4b4f-8489-91d5eb0cad2c" absoluteBounds="6.25, 1, 2, 2.9247054036458326">
+      <DataClassMoniker Name="/EBSDataContext/Task" />
+      <nestedChildShapes>
+        <elementListCompartment Id="66580b68-2954-47f7-9d58-baa7b4746295" absoluteBounds="6.265, 1.46, 1.9700000000000002, 2.364705403645833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="e37a2988-ae82-4a34-ab54-0e2529b894c7" absoluteBounds="0.75, 5.75, 2, 1.3862939453125005">
+      <DataClassMoniker Name="/EBSDataContext/Project" />
+      <nestedChildShapes>
+        <elementListCompartment Id="f94cc78e-c26c-43c8-aec2-191c3f623aec" absoluteBounds="0.765, 6.21, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="79f058fe-c1a8-40a7-8138-7e4281f39fd6" absoluteBounds="0.75, 1.875, 2, 1.1939925130208335">
+      <DataClassMoniker Name="/EBSDataContext/Status" />
+      <nestedChildShapes>
+        <elementListCompartment Id="cd731015-19cb-419f-ab34-60617f185246" absoluteBounds="0.765, 2.335, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(5.5 : 2.48159912109375); (6.25 : 2.48159912109375)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/EBSDataContext/Issue/Issue_Task" />
+      <nodes>
+        <classShapeMoniker Id="390b9e30-9417-4eb4-b55d-f8f203d389c1" />
+        <classShapeMoniker Id="808f8290-cc61-4b4f-8489-91d5eb0cad2c" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(2.75 : 6.44314697265625); (4.5 : 6.44314697265625); (4.5 : 3.4631982421875)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/EBSDataContext/Project/Project_Issue" />
+      <nodes>
+        <classShapeMoniker Id="e37a2988-ae82-4a34-ab54-0e2529b894c7" />
+        <classShapeMoniker Id="390b9e30-9417-4eb4-b55d-f8f203d389c1" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(2.75 : 2.47199625651042); (3.5 : 2.47199625651042)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/EBSDataContext/Status/Status_Issue" />
+      <nodes>
+        <classShapeMoniker Id="79f058fe-c1a8-40a7-8138-7e4281f39fd6" />
+        <classShapeMoniker Id="390b9e30-9417-4eb4-b55d-f8f203d389c1" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(1.75 : 3.06899251302083); (1.75 : 3.72520182291667); (4.41666666666667 : 3.72520182291667 : JumpStart); (4.58333333333333 : 3.72520182291667 : JumpEnd); (6.25 : 3.72520182291667)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/EBSDataContext/Status/Status_Task" />
+      <nodes>
+        <classShapeMoniker Id="79f058fe-c1a8-40a7-8138-7e4281f39fd6" />
+        <classShapeMoniker Id="808f8290-cc61-4b4f-8489-91d5eb0cad2c" />
+      </nodes>
+    </associationConnector>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>

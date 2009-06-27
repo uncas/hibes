@@ -1,0 +1,7 @@
+- Comments and documentation
+- Time units?
+- Handle project selection differently
+- Possibility to change project name
+- Design: gridview, charts
+- Validation
+- Import data from csv file
