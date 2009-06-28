@@ -61,6 +61,7 @@
     <Compile Include="Repository\RepositoryException.cs" />
     <Compile Include="Simulation\IntervalProbability.cs" />
     <Compile Include="Simulation\Evaluations.cs" />
+    <Compile Include="ViewModel\CompletionDateConfidence.cs" />
     <Compile Include="ViewModel\IssueDetails.cs" />
     <Compile Include="ViewModel\IssueEvaluation.cs" />
     <Compile Include="ViewModel\ProjectEvaluation.cs" />

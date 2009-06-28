@@ -110,6 +110,58 @@
                         </ChartAreas>
                     </asp:Chart>
                 </div>
+                <div class="part">
+                    <asp:ObjectDataSource ID="odsCompletionDateConfidences" runat="server" TypeName="Uncas.EBS.UI.AppRepository.AppProjectRepository"
+                        SelectMethod="GetCompletionDateConfidences">
+                        <SelectParameters>
+                            <asp:ControlParameter ControlID="psProjects" Name="projectId" PropertyName="SelectedValue"
+                                Type="Int32" />
+                            <asp:ControlParameter ControlID="nbMaxPriority" Name="maxPriority" PropertyName="Text"
+                                Type="Int32" />
+                        </SelectParameters>
+                    </asp:ObjectDataSource>
+                    <asp:Chart ID="chartCompletionDateConfidences" runat="server" DataSourceID="odsCompletionDateConfidences">
+                        <Series>
+                            <asp:Series Name="Series1" XValueMember="Date" YValueMembers="Probability" ChartType="Line"
+                                Color="#339999">
+                            </asp:Series>
+                        </Series>
+                        <ChartAreas>
+                            <asp:ChartArea Name="ChartArea1">
+                                <AxisY Minimum="0" Maximum="100">
+                                </AxisY>
+                            </asp:ChartArea>
+                        </ChartAreas>
+                    </asp:Chart>
+                    <asp:Repeater ID="rptrCompletionDate" runat="server" DataSourceID="odsCompletionDateConfidences">
+                        <HeaderTemplate>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <%= Resources.Phrases.End %>
+                                        </th>
+                                        <th align="right">
+                                            <%= Resources.Phrases.Probability %>
+                                        </th>
+                                    </tr>
+                                </thead>
+                        </HeaderTemplate>
+                        <ItemTemplate>
+                            <tr runat="server" visible='<%# (double)Eval("Probability") == 5d || (double)Eval("Probability") == 50d || (double)Eval("Probability") == 95d %>'>
+                                <td>
+                                    <asp:Label ID="lblDate" runat="server"> <%# Eval("Date", "{0:d}") %></asp:Label>
+                                </td>
+                                <td align="right">
+                                    <asp:Label ID="lblPercentage" runat="server"> <%# Eval("Probability") %></asp:Label>%
+                                </td>
+                            </tr>
+                        </ItemTemplate>
+                        <FooterTemplate>
+                            </table>
+                        </FooterTemplate>
+                    </asp:Repeater>
+                </div>
             </div>
             <div id="divIssues">
                 <asp:GridView ID="gvIssues" runat="server" DataSourceID="odsIssues" AutoGenerateColumns="false"

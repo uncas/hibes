@@ -86,6 +86,33 @@ namespace Uncas.EBS.UI {
         protected global::System.Web.UI.DataVisualization.Charting.Chart chartProbabilities;
         
         /// <summary>
+        /// odsCompletionDateConfidences control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ObjectDataSource odsCompletionDateConfidences;
+        
+        /// <summary>
+        /// chartCompletionDateConfidences control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.DataVisualization.Charting.Chart chartCompletionDateConfidences;
+        
+        /// <summary>
+        /// rptrCompletionDate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater rptrCompletionDate;
+        
+        /// <summary>
         /// gvIssues control.
         /// </summary>
         /// <remarks>

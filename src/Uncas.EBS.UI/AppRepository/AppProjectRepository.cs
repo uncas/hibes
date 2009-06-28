@@ -11,7 +11,7 @@ namespace Uncas.EBS.UI.AppRepository
     /// </summary>
     public class AppProjectRepository
     {
-        private const int NumberOfSimulations = 5 * 1000;
+        private const int NumberOfSimulations = 2 * 1000;
         private const int MaxNumberOfHistoricalTasks = 50;
 
         private IProjectRepository _parent
@@ -64,6 +64,13 @@ namespace Uncas.EBS.UI.AppRepository
         {
             return GetProjEval(projectId, maxPriority)
                 .GetIssueEvaluations();
+        }
+
+        public IEnumerable<CompletionDateConfidence> GetCompletionDateConfidences
+            (int? projectId, int? maxPriority)
+        {
+            return GetProjEval(projectId, maxPriority)
+                .CompletionDateConfidences;
         }
     }
 }

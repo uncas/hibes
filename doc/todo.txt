@@ -2,16 +2,17 @@
     On estimate page:
         Include elapsed
         Include progress percentage
-        Requires new table for recording holidays etc:
-            Completion date estimation
-            Confidence distribution of shipping date
             50% ship date per priority
+            Evolution of 5%/50%/95% ship date distribution over time
+        Requires multiple developers:
+            Distribution of possible ship dates for each developer
     On history page:
         Speed average + standard deviation
 
+- Issue list: button to move priority up/down
+- About page
+- New table for recording holidays etc
 - Comments and documentation
-- Project version
-
 - Possibility to change project name
 - Handle project selection differently
 - Time units?
@@ -19,3 +20,5 @@
 - Validation
 - Import data from csv file
 - Export to pdf / word file
+
+- Project version
