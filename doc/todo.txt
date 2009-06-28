@@ -1,7 +1,21 @@
+- Reporting:
+    On estimate page:
+        Include elapsed
+        Include progress percentage
+        Requires new table for recording holidays etc:
+            Completion date estimation
+            Confidence distribution of shipping date
+            50% ship date per priority
+    On history page:
+        Speed average + standard deviation
+
 - Comments and documentation
-- Time units?
-- Handle project selection differently
+- Project version
+
 - Possibility to change project name
+- Handle project selection differently
+- Time units?
 - Design: gridview, charts
 - Validation
 - Import data from csv file
+- Export to pdf / word file

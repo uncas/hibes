@@ -1,9 +1,9 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using NUnit.Framework;
 using Uncas.EBS.Domain.Model;
 using Uncas.EBS.Domain.Repository;
-using System;
 
 namespace Uncas.EBS.Tests.RepositoryTests
 {
@@ -15,6 +15,9 @@ namespace Uncas.EBS.Tests.RepositoryTests
 
         private ITaskRepository _taskRepo
             = TestApp.Repositories.TaskRepository;
+
+        private IProjectRepository _projectRepo
+            = TestApp.Repositories.ProjectRepository;
 
         private Random _rnd = new Random();
 
@@ -319,6 +322,128 @@ namespace Uncas.EBS.Tests.RepositoryTests
                 .Issue;
             Assert.IsNull(retrievedIssue);
         }
+        #endregion
+
+        #region Speed tests
+
+        private delegate void TestFunc();
+
+        /*
+No indexes:
+    GetIssues: 0,62
+    GetIssueView-Any: 3,22
+    GetIssueView-Open: 3,57
+    GetIssueView-Closed: 3,54
+    GetTasks: 0,58
+    GetProjects: 0,23
+    GetProjectEvaluation-10-10: 8,81
+Indexes on all foreign keys:
+    GetIssues: 0,67
+    GetIssueView-Any: 3,26
+    GetIssueView-Open: 3,48
+    GetIssueView-Closed: 3,47
+    GetTasks: 0,56
+    GetProjects: 0,20
+    GetProjectEvaluation-10-10: 8,69
+         */
+
+        public void RunAllSpeedTests()
+        {
+            GetIssues_Speed();
+            GetIssueView_Speed(Status.Any);
+            GetIssueView_Speed(Status.Open);
+            GetIssueView_Speed(Status.Closed);
+            GetTasks_Speed();
+            GetProjects_Speed();
+            GetProjectEvaluation_Speed(10, 10);
+        }
+
+        public void GetIssueView_Speed(Status status)
+        {
+            int issueId = _issueRepo.GetIssues
+                (null, status).First().IssueId.Value;
+            TestFunc tf = () =>
+            {
+                _issueRepo.GetIssueView(issueId, status);
+                _issueRepo.GetIssueView(issueId, status);
+                _issueRepo.GetIssueView(issueId, status);
+            };
+            string testTitle = string.Format("GetIssueView-{0}"
+                , status);
+            TestSpeed(testTitle, tf);
+        }
+
+        public void GetProjectEvaluation_Speed
+            (int numberOfSimulations
+            , int maxNumberOfHistoricalData)
+        {
+            TestFunc tf = () =>
+            {
+                _projectRepo.GetProjectEvaluation
+                    (null, null, numberOfSimulations
+                    , maxNumberOfHistoricalData);
+                _projectRepo.GetProjectEvaluation
+                    (null, null, numberOfSimulations
+                    , maxNumberOfHistoricalData);
+                _projectRepo.GetProjectEvaluation
+                    (null, null, numberOfSimulations
+                    , maxNumberOfHistoricalData);
+            };
+            string testTitle = string.Format("GetProjectEvaluation-{0}-{1}"
+                , numberOfSimulations
+                , maxNumberOfHistoricalData);
+            TestSpeed(testTitle, tf);
+        }
+
+        public void GetIssues_Speed()
+        {
+            int projectId = _projectRepo.GetProjects().First().ProjectId;
+            TestFunc tf = () =>
+            {
+                _issueRepo.GetIssues(null, Status.Any);
+                _issueRepo.GetIssues(null, Status.Closed);
+                _issueRepo.GetIssues(projectId, Status.Any);
+            };
+            TestSpeed("GetIssues", tf);
+        }
+
+        public void GetTasks_Speed()
+        {
+            TestFunc tf = () =>
+                {
+                    _taskRepo.GetTasksByStatus(Status.Any);
+                    _taskRepo.GetTasksByStatus(Status.Closed);
+                    _taskRepo.GetTasksByStatus(Status.Open);
+                };
+            TestSpeed("GetTasks", tf);
+        }
+
+        public void GetProjects_Speed()
+        {
+            TestFunc tf = () =>
+            {
+                _projectRepo.GetProjects();
+                _projectRepo.GetProjects();
+                _projectRepo.GetProjects();
+            };
+            TestSpeed("GetProjects", tf);
+        }
+
+        private static void TestSpeed(string testTitle, TestFunc tf)
+        {
+            tf();
+            long begin = DateTime.Now.Ticks;
+            for (int i = 0; i < 50; i++)
+            {
+                tf();
+            }
+            long end = DateTime.Now.Ticks;
+            string message = string.Format("{0}: {1:N2}"
+                , testTitle
+                , TimeSpan.FromTicks(end - begin).TotalSeconds);
+            Trace.WriteLine(message);
+        }
+
         #endregion
     }
 }

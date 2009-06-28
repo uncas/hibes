@@ -68,3 +68,79 @@ CREATE TABLE Task
 	, ElapsedHours decimal(10,2) NOT NULL
 		CONSTRAINT DF_Task_Elapsed DEFAULT 0
 )
+
+GO
+
+IF  EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[Issue]') AND name = N'IX_Issue_Project')
+DROP INDEX [IX_Issue_Project] ON [dbo].[Issue] WITH ( ONLINE = OFF )
+
+GO
+
+CREATE NONCLUSTERED INDEX [IX_Issue_Project] ON Issue
+(
+	RefProjectID ASC
+)
+
+GO
+
+IF  EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[Issue]') AND name = N'IX_Issue_Status')
+DROP INDEX [IX_Issue_Status] ON [dbo].[Issue] WITH ( ONLINE = OFF )
+
+GO
+
+CREATE NONCLUSTERED INDEX [IX_Issue_Status] ON Issue
+(
+	RefStatusID ASC
+)
+
+GO
+
+IF  EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[Issue]') AND name = N'IX_Issue_ProjectStatus')
+DROP INDEX [IX_Issue_ProjectStatus] ON [dbo].[Issue] WITH ( ONLINE = OFF )
+
+GO
+
+CREATE NONCLUSTERED INDEX [IX_Issue_ProjectStatus] ON Issue
+(
+	RefProjectID ASC
+	, RefStatusID ASC
+)
+
+GO
+
+IF  EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[Task]') AND name = N'IX_Task_Status')
+DROP INDEX [IX_Task_Status] ON [dbo].[Task] WITH ( ONLINE = OFF )
+
+GO
+
+CREATE NONCLUSTERED INDEX [IX_Task_Status] ON Task
+(
+	RefStatusID ASC
+)
+
+GO
+
+IF  EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[Task]') AND name = N'IX_Task_Issue')
+DROP INDEX [IX_Task_Issue] ON [dbo].[Task] WITH ( ONLINE = OFF )
+
+GO
+
+CREATE NONCLUSTERED INDEX [IX_Task_Issue] ON Task
+(
+	RefIssueID ASC
+)
+
+GO
+
+IF  EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[Task]') AND name = N'IX_Task_IssueStatus')
+DROP INDEX [IX_Task_IssueStatus] ON [dbo].[Task] WITH ( ONLINE = OFF )
+
+GO
+
+CREATE NONCLUSTERED INDEX [IX_Task_IssueStatus] ON Task
+(
+	RefIssueID ASC
+	, RefStatusID ASC
+)
+
+GO

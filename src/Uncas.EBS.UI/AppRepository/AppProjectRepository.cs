@@ -11,7 +11,7 @@ namespace Uncas.EBS.UI.AppRepository
     /// </summary>
     public class AppProjectRepository
     {
-        private const int NumberOfSimulations = 10 * 1000;
+        private const int NumberOfSimulations = 5 * 1000;
         private const int MaxNumberOfHistoricalTasks = 50;
 
         private IProjectRepository _parent

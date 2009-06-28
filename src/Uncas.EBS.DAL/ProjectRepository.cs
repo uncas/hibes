@@ -15,7 +15,10 @@ namespace Uncas.EBS.DAL
 
         public IList<Model.Project> GetProjects()
         {
-            var result = db.Projects.Select
+            var result = db.Projects
+                // Only shows projects with issues:
+                .Where(p => p.Issues.Count > 0)
+                .Select
                 (p => new Model.Project
                     {
                         ProjectId = p.ProjectId,
