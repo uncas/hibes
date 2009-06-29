@@ -34,8 +34,10 @@ namespace Uncas.EBS.DAL
             , int numberOfSimulations
             , int maxNumberOfHistoricalData)
         {
+            // TODO: Refactor this: Create app layer class...
             IssueRepository issueRepo = new IssueRepository();
             TaskRepository taskRepo = new TaskRepository();
+            PersonOffRepository personOffRepo = new PersonOffRepository();
 
             IList<IssueView> issueViews
                 = issueRepo.GetOpenIssuesAndOpenTasks
@@ -53,6 +55,9 @@ namespace Uncas.EBS.DAL
             var projectEvaluation = evals.GetProjectEvaluation
                 (issueViews
                 , numberOfSimulations);
+
+            projectEvaluation.PersonOffs = personOffRepo.GetPersonOffs();
+
             return projectEvaluation;
         }
 

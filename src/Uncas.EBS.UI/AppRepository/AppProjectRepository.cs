@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Uncas.EBS.Domain.Model;
 using Uncas.EBS.Domain.Repository;
 using Uncas.EBS.Domain.Simulation;
@@ -14,12 +15,12 @@ namespace Uncas.EBS.UI.AppRepository
         private const int NumberOfSimulations = 2 * 1000;
         private const int MaxNumberOfHistoricalTasks = 50;
 
-        private IProjectRepository _parent
+        private IProjectRepository _projectRepo
             = App.Repositories.ProjectRepository;
 
         public IList<Project> GetProjects()
         {
-            return _parent.GetProjects();
+            return _projectRepo.GetProjects();
         }
 
         private int? _currentProjectForEstimate = null;
@@ -33,7 +34,7 @@ namespace Uncas.EBS.UI.AppRepository
                 || projectId != _currentProjectForEstimate
                 || maxPriority != _currentMaxPriority)
             {
-                _currentEvaluation = _parent.GetProjectEvaluation
+                _currentEvaluation = _projectRepo.GetProjectEvaluation
                     (projectId
                     , maxPriority
                     , NumberOfSimulations
@@ -66,11 +67,12 @@ namespace Uncas.EBS.UI.AppRepository
                 .GetIssueEvaluations();
         }
 
-        public IEnumerable<CompletionDateConfidence> GetCompletionDateConfidences
+        public IEnumerable<CompletionDateConfidence>
+            GetCompletionDateConfidences
             (int? projectId, int? maxPriority)
         {
-            return GetProjEval(projectId, maxPriority)
-                .CompletionDateConfidences;
+            var projectEvaluation = GetProjEval(projectId, maxPriority);
+            return projectEvaluation.GetCompletionDateConfidences();
         }
     }
 }

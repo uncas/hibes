@@ -11,14 +11,19 @@ namespace Uncas.EBS.DAL
             get { return new IssueRepository(); }
         }
 
-        public ITaskRepository TaskRepository
+        public IPersonOffRepository PersonOffRepository
         {
-            get { return new TaskRepository(); }
+            get { return new PersonOffRepository(); }
         }
 
         public IProjectRepository ProjectRepository
         {
             get { return new ProjectRepository(); }
+        }
+
+        public ITaskRepository TaskRepository
+        {
+            get { return new TaskRepository(); }
         }
 
         #endregion

@@ -29,49 +29,54 @@ namespace Uncas.EBS.Domain.ViewModel
         }
 
         /// <summary>
+        /// Gets or sets the person offs.
+        /// </summary>
+        /// <value>The person offs.</value>
+        public IList<PersonOff> PersonOffs { get; set; }
+
+        /// <summary>
         /// Gets the completion date confidences.
         /// </summary>
         /// <value>The completion date confidences.</value>
-        public IList<CompletionDateConfidence> CompletionDateConfidences
+        public IList<CompletionDateConfidence>
+            GetCompletionDateConfidences()
         {
-            get
+            var result = new List<CompletionDateConfidence>();
+            IEnumerable<double> orderedEvaluations =
+                _evaluations.OrderBy(d => d);
+            int count = this.Statistics.Count;
+            for (int percentage = 1; percentage <= 100; percentage++)
             {
-                var result = new List<CompletionDateConfidence>();
-                IEnumerable<double> orderedEvaluations =
-                    _evaluations.OrderBy(d => d);
-                int count = this.Statistics.Count;
-                for (int percentage = 1; percentage <= 100; percentage++)
+                int countForPercentage = (count * percentage) / 100;
+                double hoursAtThisPercentage = orderedEvaluations
+                    .Skip(countForPercentage - 1).FirstOrDefault();
+
+                // See how many days ahead this amounts to:
+                double numberOfHoursPerDay = 7.5d;
+                // Run forward one day at a time, beginning tomorrow
+                // and sum the number of hours.
+                // When the sum equals hoursAtThisPercentage
+                // we take the day as the completion date:
+                DateTime date = DateTime.Now;
+                double sumOfHours = 0d;
+                while (sumOfHours <= hoursAtThisPercentage)
                 {
-                    int countForPercentage = (count * percentage) / 100;
-                    double hoursAtThisPercentage = orderedEvaluations
-                        .Skip(countForPercentage - 1).FirstOrDefault();
-
-                    // See how many days ahead this amounts to:
-                    double numberOfHoursPerDay = 7.5d;
-                    // Run forward one day at a time, beginning tomorrow
-                    // and sum the number of hours.
-                    // When the sum equals hoursAtThisPercentage
-                    // we take the day as the completion date:
-                    DateTime date = DateTime.Now;
-                    double sumOfHours = 0d;
-                    while (sumOfHours <= hoursAtThisPercentage)
+                    date = date.AddDays(1d);
+                    if (date.DayOfWeek != DayOfWeek.Saturday
+                        && date.DayOfWeek != DayOfWeek.Sunday
+                        && !this.PersonOffs.IsPersonOff(date))
                     {
-                        date = date.AddDays(1d);
-                        if (date.DayOfWeek != DayOfWeek.Saturday
-                            && date.DayOfWeek != DayOfWeek.Sunday)
-                        {
-                            sumOfHours += numberOfHoursPerDay;
-                        }
+                        sumOfHours += numberOfHoursPerDay;
                     }
-
-                    result.Add(new CompletionDateConfidence
-                    {
-                        Probability = percentage,
-                        Date = date
-                    });
                 }
-                return result;
+
+                result.Add(new CompletionDateConfidence
+                {
+                    Probability = percentage,
+                    Date = date
+                });
             }
+            return result;
         }
 
         /// <summary>

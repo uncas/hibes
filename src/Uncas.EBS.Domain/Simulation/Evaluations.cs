@@ -112,6 +112,14 @@ namespace Uncas.EBS.Domain.Simulation
                 // HACK: What to do when historical closed task has null speed?
                 speed = randomHistoricalTask.Speed ?? 1d;
             }
+            else
+            {
+                // Sets the speed to a random number:
+                double minRandomSpeed = 0.5d;
+                double maxRandomSpeed = 1.5d;
+                speed = minRandomSpeed
+                    + (maxRandomSpeed - minRandomSpeed) * _rnd.NextDouble();
+            }
 
             // Calculates a statistical remaining time by:
 

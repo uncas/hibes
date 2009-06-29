@@ -12,15 +12,21 @@
         IIssueRepository IssueRepository { get; }
 
         /// <summary>
-        /// Gets the task repository.
+        /// Gets the person off repository.
         /// </summary>
-        /// <value>The task repository.</value>
-        ITaskRepository TaskRepository { get; }
+        /// <value>The person off repository.</value>
+        IPersonOffRepository PersonOffRepository { get; }
 
         /// <summary>
         /// Gets the project repository.
         /// </summary>
         /// <value>The project repository.</value>
         IProjectRepository ProjectRepository { get; }
+
+        /// <summary>
+        /// Gets the task repository.
+        /// </summary>
+        /// <value>The task repository.</value>
+        ITaskRepository TaskRepository { get; }
     }
 }
