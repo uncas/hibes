@@ -96,7 +96,7 @@ namespace Uncas.EBS.Domain.Simulation
         /// <returns></returns>
         public double GetTaskSimulation(Task task)
         {
-            // TODO: Look among similar historical tasks:
+            // TODO: FEATURE: Look among similar historical tasks:
             //       Improve this by getting a random historical task 
             //       among the tasks that are most similar to the current task.
             //       For example by comparing estimated remaining time.
@@ -109,7 +109,7 @@ namespace Uncas.EBS.Domain.Simulation
                 var randomHistoricalTask = this.HistoricalTasks[randomIndex];
 
                 // Gets the speed of the random historical task:
-                // HACK: What to do when historical closed task has null speed?
+                // TODO: FEATURE: Consider what to do when historical closed task has null speed.
                 speed = randomHistoricalTask.Speed ?? 1d;
             }
             else

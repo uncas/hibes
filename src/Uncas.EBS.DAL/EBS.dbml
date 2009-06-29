@@ -47,4 +47,11 @@
       <Association Name="Status_Task" Member="Tasks" ThisKey="StatusId" OtherKey="RefStatusId" Type="Task" />
     </Type>
   </Table>
+  <Table Name="dbo.PersonOff" Member="PersonOffs">
+    <Type Name="PersonOff">
+      <Column Name="PersonOffId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="FromDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="ToDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
 </Database>

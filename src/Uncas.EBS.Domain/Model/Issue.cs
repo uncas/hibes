@@ -8,7 +8,7 @@ namespace Uncas.EBS.Domain.Model
     /// </summary>
     public class Issue
     {
-        // TODO: Consider constructors.
+        // TODO: REFACTOR: Consider constructors.
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Issue"/> class.

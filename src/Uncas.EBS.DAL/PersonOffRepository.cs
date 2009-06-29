@@ -1,38 +1,59 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Uncas.EBS.Domain.Repository;
 using Model = Uncas.EBS.Domain.Model;
 
 namespace Uncas.EBS.DAL
 {
-    class PersonOffRepository : IPersonOffRepository
+    class PersonOffRepository : BaseRepository, IPersonOffRepository
     {
         #region IPersonOffRepository Members
 
         public IList<Model.PersonOff> GetPersonOffs()
         {
-            // HACK: Hardcoded days the person is off:
-            var personOffs = new List<Model.PersonOff>();
-            personOffs.Add(new Model.PersonOff
-                (new DateTime(2009, 7, 13), new DateTime(2009, 7, 24)));
-            personOffs.Add(new Model.PersonOff
-                (new DateTime(2009, 8, 3), new DateTime(2009, 8, 7)));
-            return personOffs;
+            return db.PersonOffs
+                .Where(po => po.ToDate.Date >= DateTime.Now.Date)
+                .OrderByDescending(po => po.ToDate)
+                .Select(po => Model.PersonOff.ReconstructPersonOff
+                    (po.PersonOffId, po.FromDate, po.ToDate))
+                .ToList();
         }
 
         public void InsertPersonOff(Model.PersonOff personOff)
         {
-            throw new NotImplementedException();
+            db.PersonOffs.InsertOnSubmit
+                (new PersonOff
+                {
+                    FromDate = personOff.FromDate,
+                    ToDate = personOff.ToDate
+                });
+            base.SubmitChanges();
         }
 
         public void DeletePersonOff(int personOffId)
         {
-            throw new NotImplementedException();
+            db.PersonOffs.DeleteOnSubmit(GetPersonOff(personOffId));
+            db.SubmitChanges();
+        }
+
+        private PersonOff GetPersonOff(int personOffId)
+        {
+            return db.PersonOffs
+                .Where(po => po.PersonOffId == personOffId)
+                .SingleOrDefault();
         }
 
         public void UpdatePersonOff(Model.PersonOff personOff)
         {
-            throw new NotImplementedException();
+            if (!personOff.PersonOffId.HasValue)
+            {
+                return;
+            }
+            var dbpo = GetPersonOff(personOff.PersonOffId.Value);
+            dbpo.FromDate = personOff.FromDate;
+            dbpo.ToDate = personOff.ToDate;
+            db.SubmitChanges();
         }
 
         #endregion

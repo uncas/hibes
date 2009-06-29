@@ -25,6 +25,8 @@
                     <%= Resources.Phrases.Estimates %></a></li>
                 <li><a href="Speeds.aspx">
                     <%= Resources.Phrases.History %></a></li>
+                <li><a href="PersonSetup.aspx">
+                    <%= Resources.Phrases.Setup %></a></li>
             </ul>
             <ul id="languages">
                 <li><a href="Language.aspx?Language=en">English</a></li>

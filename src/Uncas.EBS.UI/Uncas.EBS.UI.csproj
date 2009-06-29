@@ -62,6 +62,7 @@
   <ItemGroup>
     <Compile Include="App.cs" />
     <Compile Include="AppRepository\AppIssueRepository.cs" />
+    <Compile Include="AppRepository\AppPersonOffRepository.cs" />
     <Compile Include="AppRepository\AppProjectRepository.cs" />
     <Compile Include="AppRepository\AppTaskRepository.cs" />
     <Compile Include="App_GlobalResources\Phrases.da.designer.cs">
@@ -121,6 +122,13 @@
     <Compile Include="Language.aspx.designer.cs">
       <DependentUpon>Language.aspx</DependentUpon>
     </Compile>
+    <Compile Include="PersonSetup.aspx.cs">
+      <DependentUpon>PersonSetup.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PersonSetup.aspx.designer.cs">
+      <DependentUpon>PersonSetup.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Speeds.aspx.cs">
       <DependentUpon>Speeds.aspx</DependentUpon>
@@ -168,6 +176,7 @@
     </Content>
     <Content Include="Global.asax" />
     <Content Include="Language.aspx" />
+    <Content Include="PersonSetup.aspx" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

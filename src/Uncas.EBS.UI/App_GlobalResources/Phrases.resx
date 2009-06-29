@@ -234,4 +234,10 @@
   <data name="To" xml:space="preserve">
     <value>To</value>
   </data>
+  <data name="Setup" xml:space="preserve">
+    <value>Setup</value>
+  </data>
+  <data name="SetupDaysOff" xml:space="preserve">
+    <value>Enter days off</value>
+  </data>
 </root>

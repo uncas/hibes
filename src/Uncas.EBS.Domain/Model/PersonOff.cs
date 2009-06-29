@@ -25,6 +25,29 @@ namespace Uncas.EBS.Domain.Model
         }
 
         /// <summary>
+        /// Reconstructs the person off.
+        /// </summary>
+        /// <param name="personOffId">The person off id.</param>
+        /// <param name="from">From.</param>
+        /// <param name="to">To.</param>
+        /// <returns></returns>
+        public static PersonOff ReconstructPersonOff
+            (int personOffId
+            , DateTime from
+            , DateTime to)
+        {
+            var personOff = new PersonOff(from, to);
+            personOff.PersonOffId = personOffId;
+            return personOff;
+        }
+
+        /// <summary>
+        /// Gets or sets the person off id.
+        /// </summary>
+        /// <value>The person off id.</value>
+        public int? PersonOffId { get; set; }
+
+        /// <summary>
         /// Gets or sets from date.
         /// </summary>
         /// <value>From date.</value>

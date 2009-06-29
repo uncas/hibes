@@ -47,6 +47,8 @@
                             <th>
                                 <%= Resources.Phrases.Status %>
                             </th>
+                            <th>
+                            </th>
                         </tr>
                     </thead>
                     <tr>

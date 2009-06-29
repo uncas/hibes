@@ -34,7 +34,7 @@ namespace Uncas.EBS.DAL
             , int numberOfSimulations
             , int maxNumberOfHistoricalData)
         {
-            // TODO: Refactor this: Create app layer class...
+            // TODO: REFACTOR: Create app layer class.
             IssueRepository issueRepo = new IssueRepository();
             TaskRepository taskRepo = new TaskRepository();
             PersonOffRepository personOffRepo = new PersonOffRepository();

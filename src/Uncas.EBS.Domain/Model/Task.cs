@@ -8,7 +8,7 @@ namespace Uncas.EBS.Domain.Model
     /// </summary>
     public class Task
     {
-        // TODO: Make this constructor private.
+        // TODO: REFACTOR: Make this constructor private.
         /// <summary>
         /// Initializes a new instance of the <see cref="Task"/> class.
         /// </summary>

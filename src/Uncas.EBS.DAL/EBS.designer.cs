@@ -42,6 +42,9 @@ namespace Uncas.EBS.DAL
     partial void InsertStatus(Status instance);
     partial void UpdateStatus(Status instance);
     partial void DeleteStatus(Status instance);
+    partial void InsertPersonOff(PersonOff instance);
+    partial void UpdatePersonOff(PersonOff instance);
+    partial void DeletePersonOff(PersonOff instance);
     #endregion
 		
 		public EBSDataContext() : 
@@ -103,6 +106,14 @@ namespace Uncas.EBS.DAL
 			get
 			{
 				return this.GetTable<Status>();
+			}
+		}
+		
+		public System.Data.Linq.Table<PersonOff> PersonOffs
+		{
+			get
+			{
+				return this.GetTable<PersonOff>();
 			}
 		}
 	}
@@ -1060,6 +1071,116 @@ namespace Uncas.EBS.DAL
 		{
 			this.SendPropertyChanging();
 			entity.Status = null;
+		}
+	}
+	
+	[Table(Name="dbo.PersonOff")]
+	public partial class PersonOff : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _PersonOffId;
+		
+		private System.DateTime _FromDate;
+		
+		private System.DateTime _ToDate;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnPersonOffIdChanging(int value);
+    partial void OnPersonOffIdChanged();
+    partial void OnFromDateChanging(System.DateTime value);
+    partial void OnFromDateChanged();
+    partial void OnToDateChanging(System.DateTime value);
+    partial void OnToDateChanged();
+    #endregion
+		
+		public PersonOff()
+		{
+			OnCreated();
+		}
+		
+		[Column(Storage="_PersonOffId", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int PersonOffId
+		{
+			get
+			{
+				return this._PersonOffId;
+			}
+			set
+			{
+				if ((this._PersonOffId != value))
+				{
+					this.OnPersonOffIdChanging(value);
+					this.SendPropertyChanging();
+					this._PersonOffId = value;
+					this.SendPropertyChanged("PersonOffId");
+					this.OnPersonOffIdChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_FromDate", DbType="DateTime NOT NULL")]
+		public System.DateTime FromDate
+		{
+			get
+			{
+				return this._FromDate;
+			}
+			set
+			{
+				if ((this._FromDate != value))
+				{
+					this.OnFromDateChanging(value);
+					this.SendPropertyChanging();
+					this._FromDate = value;
+					this.SendPropertyChanged("FromDate");
+					this.OnFromDateChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_ToDate", DbType="DateTime NOT NULL")]
+		public System.DateTime ToDate
+		{
+			get
+			{
+				return this._ToDate;
+			}
+			set
+			{
+				if ((this._ToDate != value))
+				{
+					this.OnToDateChanging(value);
+					this.SendPropertyChanging();
+					this._ToDate = value;
+					this.SendPropertyChanged("ToDate");
+					this.OnToDateChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
 		}
 	}
 }

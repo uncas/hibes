@@ -16,6 +16,9 @@ Data entry
         [Sequence] [Description] [Status] [OriginalEstimate] [CurrentEstimate] ...
             ... [Elapsed] [StartDate] [EndDate] [CreatedDate] [Edit] [Delete]
         [New]
+    PersonOff
+        [New]
+        [From] [To] [Edit] [Delete]
 Reports
     Project estimate
         Filters: [Project(All,...)] [Max priority]
@@ -49,6 +52,12 @@ Technical considerations
         UpdateTask(Task)
         DeleteTask(int taskId)
         [ internal IList<Task> GetTasks(int issueId, Status status) ]
+    PersonOffRepository
+        GetPersonOffs()
+            -> returns future PersonOffs, i.e. ToDate >= DateTime.Now
+        InsertPersonOff(PersonOff personOff)
+        DeletePersonOff(int personOffId)
+        UpdatePersonOff(PersonOff personOff)
 - ViewModel
     IssueDetails : Issue
         NumberOfTasks
@@ -92,3 +101,6 @@ Technical considerations
     Status
         Open
         Closed
+    PersonOff
+        FromDate
+        ToDate

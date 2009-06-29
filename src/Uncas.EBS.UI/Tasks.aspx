@@ -114,6 +114,8 @@
                                     <th>
                                         <%= Resources.Phrases.End %>
                                     </th>
+                                    <th>
+                                    </th>
                                 </tr>
                             </thead>
                             <tr>

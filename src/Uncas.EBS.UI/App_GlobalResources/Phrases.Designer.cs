@@ -349,6 +349,24 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Setup.
+        /// </summary>
+        internal static string Setup {
+            get {
+                return ResourceManager.GetString("Setup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter days off.
+        /// </summary>
+        internal static string SetupDaysOff {
+            get {
+                return ResourceManager.GetString("SetupDaysOff", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to History Based Estimation.
         /// </summary>
         internal static string SiteName {

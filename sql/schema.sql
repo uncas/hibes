@@ -70,6 +70,17 @@ CREATE TABLE Task
 )
 
 GO
+--DROP TABLE PersonOff
+GO
+CREATE TABLE PersonOff
+(
+	PersonOffId  int  NOT NULL  IDENTITY(1,1)
+		CONSTRAINT PK_PersonOff PRIMARY KEY CLUSTERED
+	, FromDate  datetime  NOT NULL
+	, ToDate  datetime  NOT NULL
+)
+
+GO
 
 IF  EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[Issue]') AND name = N'IX_Issue_Project')
 DROP INDEX [IX_Issue_Project] ON [dbo].[Issue] WITH ( ONLINE = OFF )

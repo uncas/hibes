@@ -234,4 +234,10 @@
   <data name="To" xml:space="preserve">
     <value>Til</value>
   </data>
+  <data name="Setup" xml:space="preserve">
+    <value>Opsætning</value>
+  </data>
+  <data name="SetupDaysOff" xml:space="preserve">
+    <value>Indtast fraværsdage</value>
+  </data>
 </root>
