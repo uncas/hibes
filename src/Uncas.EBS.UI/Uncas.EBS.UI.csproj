@@ -80,6 +80,8 @@
     </Compile>
     <Compile Include="Controls\BoundFieldResource.cs" />
     <Compile Include="Controls\CancelButton.cs" />
+    <Compile Include="Controls\DateBox.cs" />
+    <Compile Include="Controls\DateField.cs" />
     <Compile Include="Controls\HyperLinkFieldResource.cs" />
     <Compile Include="Controls\StatusLabel.cs" />
     <Compile Include="Controls\StatusOptions.cs" />

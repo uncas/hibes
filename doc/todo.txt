@@ -1,3 +1,12 @@
+Usability:
+- Wider text boxes
+- Issue list: button to move priority up/down
+- Validation
+- Handle project selection differently
+- About page
+- Datebox
+
+Features:
 - Reporting:
     On estimate page:
         Include elapsed
@@ -7,37 +16,31 @@
         Requires multiple developers:
             Distribution of possible ship dates for each developer
             Database:
-                PersonOff
-                    PersonOffId
-                    FromDate
-                    ToDate
-                    (RefPersonId)
-                (Person
+                + Person
                     PersonId
                     PersonName
                     DaysPerWeek
                     HoursPerDay
+                PersonOff
+                    + RefPersonId
                 Task
-                    + RefPersonId)
+                    + RefPersonId
     On history page:
         Speed average + standard deviation
-
+- Possibility to change project name
 - When task is closed: require elapsed = current estimate
 - When issue is closed: require all tasks closed
-- Datebox
-- Wider text boxes
-- Schema -> Schema-001.sql or some kind of version check
-    SchemaVersions
-- Issue list: button to move priority up/down
-- About page
-- New table for recording holidays etc
-- Comments and documentation
-- Possibility to change project name
-- Handle project selection differently
 - Time units?
-- Design: gridview, charts
-- Validation
 - Import data from csv file
 - Export to pdf / word file
 
+Design:
+- Design: gridview, charts
+
+Setup/administration:
+- Comments and documentation
+- Schema -> Schema-001.sql or some kind of version check
+    SchemaVersions
+
+Rejected:
 - Project version
