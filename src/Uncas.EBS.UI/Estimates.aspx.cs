@@ -13,6 +13,8 @@ namespace Uncas.EBS.UI
             chartArea = chartCompletionDateConfidences.ChartAreas[0];
             chartArea.AxisX.Title = Resources.Phrases.End;
             chartArea.AxisY.Title = Resources.Phrases.Probability;
+
+            gvIssues.EmptyDataText = Resources.Phrases.NoIssues;
         }
     }
 }

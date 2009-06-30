@@ -165,7 +165,7 @@
             </div>
             <div id="divIssues">
                 <asp:GridView ID="gvIssues" runat="server" DataSourceID="odsIssues" AutoGenerateColumns="false"
-                    AllowSorting="false" EmptyDataText="Ingen sager har de valgte kriterier.">
+                    AllowSorting="false">
                     <Columns>
                         <uncas:BoundFieldResource HeaderResourceName="Project" DataField="ProjectName" />
                         <uncas:BoundFieldResource HeaderResourceName="Priority" DataField="Priority" ItemStyle-HorizontalAlign="Right"

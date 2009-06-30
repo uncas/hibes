@@ -76,7 +76,7 @@
     </div>
     <div id="issues">
         <asp:GridView ID="gvIssues" runat="server" AutoGenerateColumns="False" DataSourceID="odsIssues"
-            DataKeyNames="IssueId" EmptyDataText="Ingen sager har de valgte kriterier.">
+            DataKeyNames="IssueId">
             <Columns>
                 <uncas:BoundFieldResource HeaderResourceName="Project" DataField="ProjectName" ReadOnly="true" />
                 <asp:TemplateField>

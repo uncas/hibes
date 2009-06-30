@@ -156,7 +156,7 @@
     </div>
     <div id="divTasks">
         <asp:GridView ID="gvTasks" runat="server" DataSourceID="odsTasks" AutoGenerateColumns="False"
-            DataKeyNames="TaskId" EmptyDataText="Ingen opgaver har de valgte kriterier.">
+            DataKeyNames="TaskId">
             <Columns>
                 <asp:TemplateField>
                     <HeaderTemplate>

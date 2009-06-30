@@ -12,6 +12,7 @@ namespace Uncas.EBS.UI
         protected void Page_Load(object sender, EventArgs e)
         {
             lblInfo.Text = string.Empty;
+            gvIssues.EmptyDataText = Resources.Phrases.NoIssues;
         }
 
         void odsIssues_Deleted(object sender, System.Web.UI.WebControls.ObjectDataSourceStatusEventArgs e)

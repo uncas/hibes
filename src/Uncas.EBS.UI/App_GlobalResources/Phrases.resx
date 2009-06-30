@@ -240,4 +240,10 @@
   <data name="SetupDaysOff" xml:space="preserve">
     <value>Enter days off</value>
   </data>
+  <data name="NoIssues" xml:space="preserve">
+    <value>No issues with the chosen criteria.</value>
+  </data>
+  <data name="NoTasks" xml:space="preserve">
+    <value>No tasks with the chosen criteria.</value>
+  </data>
 </root>

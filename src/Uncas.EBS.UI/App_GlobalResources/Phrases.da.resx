@@ -240,4 +240,10 @@
   <data name="SetupDaysOff" xml:space="preserve">
     <value>Indtast fraværsdage</value>
   </data>
+  <data name="NoIssues" xml:space="preserve">
+    <value>Ingen sager med de valgte kriterier.</value>
+  </data>
+  <data name="NoTasks" xml:space="preserve">
+    <value>Ingen opgaver med de valgte kriterier.</value>
+  </data>
 </root>
