@@ -7,8 +7,12 @@ namespace Uncas.EBS.UI
         protected void Page_Load(object sender, EventArgs e)
         {
             var chartArea = chartProbabilities.ChartAreas[0];
-            chartArea.AxisY.Title = Resources.Phrases.Probability;
             chartArea.AxisX.Title = Resources.Phrases.Remaining;
+            chartArea.AxisY.Title = Resources.Phrases.Probability;
+
+            chartArea = chartCompletionDateConfidences.ChartAreas[0];
+            chartArea.AxisX.Title = Resources.Phrases.End;
+            chartArea.AxisY.Title = Resources.Phrases.Probability;
         }
     }
 }

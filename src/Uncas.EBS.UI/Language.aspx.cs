@@ -8,7 +8,11 @@ namespace Uncas.EBS.UI
         {
             App app = new App();
             app.SelectedLanguage = Request.QueryString["Language"];
-            Response.Redirect("Default.aspx");
+            string redirectUrl =
+               Request.UrlReferrer != null
+               ? Request.UrlReferrer.AbsoluteUri
+               : "Default.aspx";
+            Response.Redirect(redirectUrl);
         }
     }
 }

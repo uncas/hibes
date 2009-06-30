@@ -1,10 +1,12 @@
 Usability:
+- Layout of estimation page!
 - Wider text boxes
 - Issue list: button to move priority up/down
 - Validation
 - Handle project selection differently
 - About page
 - Datebox
+- Web.config: set default culture (en=English or da=dansk)
 
 Features:
 - Reporting:
