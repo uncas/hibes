@@ -1,0 +1,4 @@
+﻿<appSettings>
+    <add key="ChartImageHandler" 
+        value="storage=file;timeout=20;dir=@websiteFolder@App_Data;" />
+</appSettings>

@@ -1,0 +1,6 @@
+﻿<connectionStrings>
+  <clear/>
+  <add name="hibesConnectionString"
+       connectionString="@connectionString@"
+       providerName="System.Data.SqlClient"/>
+</connectionStrings>

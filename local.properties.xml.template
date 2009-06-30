@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<properties>
+    <property name="connectionString"
+        value="Server=.\SqlExpress;Database=EBS;Integrated Security=true;" />
+    <property name="testFolder"
+        value="c:\inetpub\wwwroot\hibes\" />
+</properties>

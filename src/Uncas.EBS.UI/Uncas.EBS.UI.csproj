@@ -181,6 +181,12 @@
     <Content Include="PersonSetup.aspx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Web.connectionStrings.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Web.appSettings.config" />
+  </ItemGroup>
+  <ItemGroup>
     <Folder Include="App_Data\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

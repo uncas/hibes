@@ -1,12 +1,24 @@
 <?xml version="1.0"?>
-<project name="QAndA" default="all">
+<project name="hibes" default="all">
 
     <property name="configuration" value="debug" />
     <property name="framework.version" value="v2.0.50727" />
 	
+    <property name="devenv" 
+		value="C:\Program Files\Microsoft Visual Studio 9.0\Common7\IDE\devenv.exe" />
 	<property name="msbuild"
 		value="C:\WINDOWS\Microsoft.NET\Framework\v3.5\msbuild.exe" />
 
+    <property name="connectionString"
+        value="Server=.\SqlExpress;Database=EBS;Integrated Security=true;" />
+    <property name="testFolder"
+        value="c:\inetpub\wwwroot\hibes\" />
+
+    <if test="${file::exists('local.properties.xml')}">
+        <echo message="Loading local.properties.xml" />
+        <include buildfile="local.properties.xml" />
+    </if>
+    
     <target name="all"/>
 
 	<target name="cleanFolder">
@@ -26,11 +38,52 @@
         <call target="cleanFolder" />
 	</target>
 	
-	<target name="init">
+	<target name="init" depends="clean">
 		<mkdir dir="build" />
 	</target>
 
 	<target name="compile" depends="init">
+        <exec program="${msbuild}"
+              commandline="hibes.sln"/>
 	</target>
-	
+
+    <target name="getBuildProducts" depends="compile">
+        <copy todir="build">
+            <fileset basedir="src\Uncas.EBS.UI">
+                <include name="**\*.*" />
+                <exclude name="bin\*.xml" />
+                <exclude name="obj\**\*.*" />
+                <exclude name="Uncas.EBS.UI.*" />
+                <exclude name="**\*.cs" />
+                <exclude name="**\*.pdb" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="publishToTest" depends="getBuildProducts">
+        <property name="websiteFolder" value="${testFolder}" />
+        <property name="target" value="Web.connectionStrings.config" />
+        <call target="convert.template" />
+        <property name="target" value="Web.appSettings.config" />
+        <call target="convert.template" />
+        <copy todir="${testFolder}">
+            <fileset basedir="build">
+                <include name="**\*.*" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="convert.template">
+        <copy file="config\${target}.template" 
+            tofile="build\${target}" 
+            overwrite="true">
+            <filterchain>
+                <replacetokens>
+                    <token key="connectionString" value="${connectionString}" />
+                    <token key="websiteFolder" value="${websiteFolder}" />
+                </replacetokens>
+            </filterchain>
+        </copy>
+    </target>
+    
 </project>
