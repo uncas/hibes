@@ -8,11 +8,18 @@
 		value="C:\Program Files\Microsoft Visual Studio 9.0\Common7\IDE\devenv.exe" />
 	<property name="msbuild"
 		value="C:\WINDOWS\Microsoft.NET\Framework\v3.5\msbuild.exe" />
+	<property name="sqlcmd" 
+		value="C:\Program Files\Microsoft SQL Server\90\Tools\Binn\SqlCmd.exe" />
 
+    <property name="sqlServer" value=".\SqlExpress" />
+    <property name="database" value="hibes_test" />
     <property name="connectionString"
-        value="Server=.\SqlExpress;Database=EBS;Integrated Security=true;" />
+        value="Server=${sqlServer};Database=EBS;Integrated Security=true;" />
     <property name="testFolder"
         value="c:\inetpub\wwwroot\hibes\" />
+	<property name="sqlcmdCredentials"
+		value="-S {sqlServer} -E" />
+    <property name="websiteFolder" value="${testFolder}" />
 
     <if test="${file::exists('local.properties.xml')}">
         <echo message="Loading local.properties.xml" />
@@ -83,9 +90,19 @@
                 <replacetokens>
                     <token key="connectionString" value="${connectionString}" />
                     <token key="websiteFolder" value="${websiteFolder}" />
+                    <token key="database" value="${database}" />
                 </replacetokens>
             </filterchain>
         </copy>
     </target>
-    
+
+    <target name="setupDatabase" depends="init">
+        <property name="target" value="database.sql" />
+        <call target="convert.template" />
+		<exec program="${sqlcmd}"
+			commandline="${sqlcmdCredentials} -d master -i build\database.sql" />
+		<exec program="${sqlcmd}"
+			commandline="${sqlcmdCredentials} -d ${database} -i sql\schema.sql" />
+    </target>
+
 </project>
