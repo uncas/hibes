@@ -24,76 +24,106 @@
                     </div>
                 </div>
             </div>
+            <h3>
+                <%= Resources.Phrases.Date %></h3>
             <div class="parts">
                 <div class="part">
-                    <div id="divSummary">
-                        <asp:FormView ID="fvSummary" runat="server" DataSourceID="odsSummary">
-                            <ItemTemplate>
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th align="right">
-                                                <%= Resources.Phrases.Average %>
-                                            </th>
-                                            <th align="right">
-                                                <%= Resources.Phrases.StandardDeviation %>
-                                            </th>
-                                            <th align="right">
-                                                <%= Resources.Phrases.Issues %>
-                                            </th>
-                                            <th align="right">
-                                                <%= Resources.Phrases.Tasks %>
-                                            </th>
-                                        </tr>
-                                        <tr>
-                                            <td align="right">
-                                                <asp:Label ID="lblAverage" runat="server" Text='<%# Eval("Average", "{0:N1}") %>'></asp:Label>
-                                            </td>
-                                            <td align="right">
-                                                <asp:Label ID="lblDeviation" runat="server" Text='<%# Bind("StandardDeviation", "{0:N1}") %>'></asp:Label>
-                                            </td>
-                                            <td align="right">
-                                                <asp:Label ID="lblIssues" runat="server" Text='<%# Bind("NumberOfOpenIssues") %>'></asp:Label>
-                                            </td>
-                                            <td align="right">
-                                                <asp:Label ID="lblTasks" runat="server" Text='<%# Bind("NumberOfOpenTasks") %>'></asp:Label>
-                                            </td>
-                                        </tr>
-                                    </thead>
-                                </table>
-                            </ItemTemplate>
-                        </asp:FormView>
-                        <asp:ObjectDataSource ID="odsSummary" runat="server" TypeName="Uncas.EBS.UI.AppRepository.AppProjectRepository"
-                            SelectMethod="GetProjectEstimate">
-                            <SelectParameters>
-                                <asp:ControlParameter ControlID="psProjects" Name="projectId" PropertyName="SelectedValue"
-                                    Type="Int32" />
-                                <asp:ControlParameter ControlID="nbMaxPriority" Name="maxPriority" PropertyName="Text"
-                                    Type="Int32" />
-                            </SelectParameters>
-                        </asp:ObjectDataSource>
-                    </div>
-                    <div id="divDistribution">
-                        <asp:GridView ID="gvProbabilities" runat="server" DataSourceID="odsProbabilities"
-                            AutoGenerateColumns="false">
-                            <RowStyle HorizontalAlign="Right" />
-                            <Columns>
-                                <uncas:BoundFieldResource HeaderResourceName="From" DataField="Lower" />
-                                <uncas:BoundFieldResource HeaderResourceName="To" DataField="Upper" />
-                                <uncas:BoundFieldResource HeaderResourceName="Probability" DataField="Probability"
-                                    DataFormatString="{0:P0}" HtmlEncode="false" />
-                            </Columns>
-                        </asp:GridView>
-                        <asp:ObjectDataSource ID="odsProbabilities" runat="server" TypeName="Uncas.EBS.UI.AppRepository.AppProjectRepository"
-                            SelectMethod="GetIntervalProbabilities">
-                            <SelectParameters>
-                                <asp:ControlParameter ControlID="psProjects" Name="projectId" PropertyName="SelectedValue"
-                                    Type="Int32" />
-                                <asp:ControlParameter ControlID="nbMaxPriority" Name="maxPriority" PropertyName="Text"
-                                    Type="Int32" />
-                            </SelectParameters>
-                        </asp:ObjectDataSource>
-                    </div>
+                    <asp:ObjectDataSource ID="odsSelectedCompletionDateConfidences" runat="server" TypeName="Uncas.EBS.UI.AppRepository.AppProjectRepository"
+                        SelectMethod="GetSelectedCompletionDateConfidences">
+                        <SelectParameters>
+                            <asp:ControlParameter ControlID="psProjects" Name="projectId" PropertyName="SelectedValue"
+                                Type="Int32" />
+                            <asp:ControlParameter ControlID="nbMaxPriority" Name="maxPriority" PropertyName="Text"
+                                Type="Int32" />
+                        </SelectParameters>
+                    </asp:ObjectDataSource>
+                    <asp:GridView ID="gvSelectedCompletionDates" runat="server" DataSourceID="odsSelectedCompletionDateConfidences"
+                        AutoGenerateColumns="false">
+                        <Columns>
+                            <uncas:BoundFieldResource HeaderResourceName="End" DataField="Date" DataFormatString="{0:d}">
+                            </uncas:BoundFieldResource>
+                            <uncas:BoundFieldResource HeaderResourceName="Probability" DataField="Probability"
+                                DataFormatString="{0:P0}" ItemStyle-HorizontalAlign="Right" HeaderStyle-HorizontalAlign="Right">
+                            </uncas:BoundFieldResource>
+                        </Columns>
+                    </asp:GridView>
+                </div>
+                <div class="part">
+                    <asp:ObjectDataSource ID="odsCompletionDateConfidences" runat="server" TypeName="Uncas.EBS.UI.AppRepository.AppProjectRepository"
+                        SelectMethod="GetCompletionDateConfidences">
+                        <SelectParameters>
+                            <asp:ControlParameter ControlID="psProjects" Name="projectId" PropertyName="SelectedValue"
+                                Type="Int32" />
+                            <asp:ControlParameter ControlID="nbMaxPriority" Name="maxPriority" PropertyName="Text"
+                                Type="Int32" />
+                        </SelectParameters>
+                    </asp:ObjectDataSource>
+                    <asp:Chart ID="chartCompletionDateConfidences" runat="server" DataSourceID="odsCompletionDateConfidences">
+                        <Series>
+                            <asp:Series Name="seriesConfidence" XValueMember="Date" YValueMembers="Probability"
+                                ChartType="Line" Color="#339999">
+                            </asp:Series>
+                        </Series>
+                        <ChartAreas>
+                            <asp:ChartArea Name="ChartArea1">
+                                <AxisY Minimum="0" Maximum="1">
+                                </AxisY>
+                            </asp:ChartArea>
+                        </ChartAreas>
+                    </asp:Chart>
+                </div>
+            </div>
+            <h3>
+                <%= Resources.Phrases.Days %></h3>
+            <div class="parts" id="divSummary">
+                <div class="part">
+                    <asp:ObjectDataSource ID="odsSummary" runat="server" TypeName="Uncas.EBS.UI.AppRepository.AppProjectRepository"
+                        SelectMethod="GetProjectEstimate">
+                        <SelectParameters>
+                            <asp:ControlParameter ControlID="psProjects" Name="projectId" PropertyName="SelectedValue"
+                                Type="Int32" />
+                            <asp:ControlParameter ControlID="nbMaxPriority" Name="maxPriority" PropertyName="Text"
+                                Type="Int32" />
+                        </SelectParameters>
+                    </asp:ObjectDataSource>
+                    <asp:GridView ID="gvSummary" runat="server" DataSourceID="odsSummary" AutoGenerateColumns="false">
+                        <HeaderStyle HorizontalAlign="Right" />
+                        <RowStyle HorizontalAlign="Right" />
+                        <Columns>
+                            <uncas:BoundFieldResource HeaderResourceName="Average" DataField="Average" DataFormatString="{0:N0}">
+                            </uncas:BoundFieldResource>
+                            <uncas:BoundFieldResource HeaderResourceName="StandardDeviation" DataField="StandardDeviation"
+                                DataFormatString="&plusmn; {0:N0}">
+                            </uncas:BoundFieldResource>
+                            <uncas:BoundFieldResource HeaderResourceName="Issues" DataField="NumberOfOpenIssues">
+                            </uncas:BoundFieldResource>
+                            <uncas:BoundFieldResource HeaderResourceName="Tasks" DataField="NumberOfOpenTasks">
+                            </uncas:BoundFieldResource>
+                        </Columns>
+                    </asp:GridView>
+                </div>
+            </div>
+            <div class="parts">
+                <asp:ObjectDataSource ID="odsProbabilities" runat="server" TypeName="Uncas.EBS.UI.AppRepository.AppProjectRepository"
+                    SelectMethod="GetIntervalProbabilities">
+                    <SelectParameters>
+                        <asp:ControlParameter ControlID="psProjects" Name="projectId" PropertyName="SelectedValue"
+                            Type="Int32" />
+                        <asp:ControlParameter ControlID="nbMaxPriority" Name="maxPriority" PropertyName="Text"
+                            Type="Int32" />
+                    </SelectParameters>
+                </asp:ObjectDataSource>
+                <div class="part" id="divDistribution">
+                    <asp:GridView ID="gvProbabilities" runat="server" DataSourceID="odsProbabilities"
+                        AutoGenerateColumns="false">
+                        <RowStyle HorizontalAlign="Right" />
+                        <Columns>
+                            <uncas:BoundFieldResource HeaderResourceName="From" DataField="Lower" />
+                            <uncas:BoundFieldResource HeaderResourceName="To" DataField="Upper" />
+                            <uncas:BoundFieldResource HeaderResourceName="Probability" DataField="Probability"
+                                DataFormatString="{0:P0}" HtmlEncode="false" />
+                        </Columns>
+                    </asp:GridView>
                 </div>
                 <div class="part">
                     <asp:Chart ID="chartProbabilities" runat="server" DataSourceID="odsProbabilities">
@@ -110,9 +140,13 @@
                         </ChartAreas>
                     </asp:Chart>
                 </div>
-                <div class="part">
-                    <asp:ObjectDataSource ID="odsCompletionDateConfidences" runat="server" TypeName="Uncas.EBS.UI.AppRepository.AppProjectRepository"
-                        SelectMethod="GetCompletionDateConfidences">
+            </div>
+            <h3>
+                <%= Resources.Phrases.Issues %></h3>
+            <div class="parts">
+                <div id="divIssues" class="part">
+                    <asp:ObjectDataSource ID="odsIssues" runat="server" TypeName="Uncas.EBS.UI.AppRepository.AppProjectRepository"
+                        SelectMethod="GetIssueEstimates">
                         <SelectParameters>
                             <asp:ControlParameter ControlID="psProjects" Name="projectId" PropertyName="SelectedValue"
                                 Type="Int32" />
@@ -120,71 +154,19 @@
                                 Type="Int32" />
                         </SelectParameters>
                     </asp:ObjectDataSource>
-                    <asp:Chart ID="chartCompletionDateConfidences" runat="server" DataSourceID="odsCompletionDateConfidences">
-                        <Series>
-                            <asp:Series Name="Series1" XValueMember="Date" YValueMembers="Probability" ChartType="Line"
-                                Color="#339999">
-                            </asp:Series>
-                        </Series>
-                        <ChartAreas>
-                            <asp:ChartArea Name="ChartArea1">
-                                <AxisY Minimum="0" Maximum="100">
-                                </AxisY>
-                            </asp:ChartArea>
-                        </ChartAreas>
-                    </asp:Chart>
-                    <asp:Repeater ID="rptrCompletionDate" runat="server" DataSourceID="odsCompletionDateConfidences">
-                        <HeaderTemplate>
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>
-                                            <%= Resources.Phrases.End %>
-                                        </th>
-                                        <th align="right">
-                                            <%= Resources.Phrases.Probability %>
-                                        </th>
-                                    </tr>
-                                </thead>
-                        </HeaderTemplate>
-                        <ItemTemplate>
-                            <tr runat="server" visible='<%# (double)Eval("Probability") == 5d || (double)Eval("Probability") == 50d || (double)Eval("Probability") == 95d %>'>
-                                <td>
-                                    <asp:Label ID="lblDate" runat="server"> <%# Eval("Date", "{0:d}") %></asp:Label>
-                                </td>
-                                <td align="right">
-                                    <asp:Label ID="lblPercentage" runat="server"> <%# Eval("Probability") %></asp:Label>%
-                                </td>
-                            </tr>
-                        </ItemTemplate>
-                        <FooterTemplate>
-                            </table>
-                        </FooterTemplate>
-                    </asp:Repeater>
+                    <asp:GridView ID="gvIssues" runat="server" DataSourceID="odsIssues" AutoGenerateColumns="false"
+                        AllowSorting="false">
+                        <Columns>
+                            <uncas:BoundFieldResource HeaderResourceName="Project" DataField="ProjectName" />
+                            <uncas:BoundFieldResource HeaderResourceName="Priority" DataField="Priority" ItemStyle-HorizontalAlign="Right"
+                                HeaderStyle-HorizontalAlign="Right" />
+                            <uncas:HyperLinkFieldResource HeaderResourceName="Issue" DataNavigateUrlFields="IssueId"
+                                DataNavigateUrlFormatString="Tasks.aspx?Issue={0}" DataTextField="IssueTitle" />
+                            <uncas:BoundFieldResource HeaderResourceName="Average" DataField="Average" DataFormatString="{0:N1}"
+                                ItemStyle-HorizontalAlign="Right" HeaderStyle-HorizontalAlign="Right" />
+                        </Columns>
+                    </asp:GridView>
                 </div>
-            </div>
-            <div id="divIssues">
-                <asp:GridView ID="gvIssues" runat="server" DataSourceID="odsIssues" AutoGenerateColumns="false"
-                    AllowSorting="false">
-                    <Columns>
-                        <uncas:BoundFieldResource HeaderResourceName="Project" DataField="ProjectName" />
-                        <uncas:BoundFieldResource HeaderResourceName="Priority" DataField="Priority" ItemStyle-HorizontalAlign="Right"
-                            HeaderStyle-HorizontalAlign="Right" />
-                        <uncas:HyperLinkFieldResource HeaderResourceName="Issue" DataNavigateUrlFields="IssueId"
-                            DataNavigateUrlFormatString="Tasks.aspx?Issue={0}" DataTextField="IssueTitle" />
-                        <uncas:BoundFieldResource HeaderResourceName="Average" DataField="Average" DataFormatString="{0:N1}"
-                            ItemStyle-HorizontalAlign="Right" HeaderStyle-HorizontalAlign="Right" />
-                    </Columns>
-                </asp:GridView>
-                <asp:ObjectDataSource ID="odsIssues" runat="server" TypeName="Uncas.EBS.UI.AppRepository.AppProjectRepository"
-                    SelectMethod="GetIssueEstimates">
-                    <SelectParameters>
-                        <asp:ControlParameter ControlID="psProjects" Name="projectId" PropertyName="SelectedValue"
-                            Type="Int32" />
-                        <asp:ControlParameter ControlID="nbMaxPriority" Name="maxPriority" PropertyName="Text"
-                            Type="Int32" />
-                    </SelectParameters>
-                </asp:ObjectDataSource>
             </div>
         </ContentTemplate>
     </asp:UpdatePanel>

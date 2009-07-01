@@ -246,4 +246,10 @@
   <data name="NoTasks" xml:space="preserve">
     <value>Ingen opgaver med de valgte kriterier.</value>
   </data>
+  <data name="Date" xml:space="preserve">
+    <value>Dato</value>
+  </data>
+  <data name="Days" xml:space="preserve">
+    <value>Dage</value>
+  </data>
 </root>

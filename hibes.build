@@ -44,7 +44,9 @@
 
 	<target name="compile" depends="init">
         <exec program="${msbuild}"
-              commandline="hibes.sln"/>
+              commandline="hibes.sln 
+                /p:Debug=false 
+                /p:Configuration=Release"/>
 	</target>
 
     <target name="getBuildProducts" depends="compile">

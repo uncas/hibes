@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Web;
+using System.Web.Caching;
 using Uncas.EBS.Domain.Model;
 using Uncas.EBS.Domain.Repository;
 using Uncas.EBS.Domain.Simulation;
@@ -10,69 +12,98 @@ namespace Uncas.EBS.UI.AppRepository
     /// <summary>
     /// Project repository - layer for the web application.
     /// </summary>
-    public class AppProjectRepository
+    public static class AppProjectRepository
     {
         private const int NumberOfSimulations = 1000;
         private const int MaxNumberOfHistoricalTasks = 50;
 
-        private IProjectRepository _projectRepo
+        private static IProjectRepository _projectRepo
             = App.Repositories.ProjectRepository;
 
-        public IList<Project> GetProjects()
+        private static TraceContext Trace = HttpContext.Current.Trace;
+
+        public static IList<Project> GetProjects()
         {
-            return _projectRepo.GetProjects();
+            Trace.Write("GetProjects-Begin");
+            var result = _projectRepo.GetProjects(); ;
+            Trace.Write("GetProjects-End");
+            return result;
         }
 
-        private int? _currentProjectForEstimate = null;
-        private int? _currentMaxPriority = null;
-
-        private ProjectEvaluation _currentEvaluation = null;
-
-        private ProjectEvaluation GetProjEval(int? projectId, int? maxPriority)
+        private static ProjectEvaluation GetProjEval(int? projectId, int? maxPriority)
         {
-            if (_currentEvaluation == null
-                || projectId != _currentProjectForEstimate
-                || maxPriority != _currentMaxPriority)
+            Trace.Write("GetProjEval-Begin");
+            string cacheKey = string.Format("ProjectEvaluation-{0}-{1}"
+                , projectId, maxPriority);
+            Cache cache = HttpContext.Current.Cache;
+            ProjectEvaluation projEval = (ProjectEvaluation)cache[cacheKey];
+            if (projEval == null)
             {
-                _currentEvaluation = _projectRepo.GetProjectEvaluation
+                projEval = _projectRepo.GetProjectEvaluation
                     (projectId
                     , maxPriority
                     , NumberOfSimulations
                     , MaxNumberOfHistoricalTasks);
-                _currentMaxPriority = maxPriority;
-                _currentProjectForEstimate = projectId;
+                cache.Add(cacheKey, projEval, null
+                    , DateTime.Now.AddSeconds(30d)
+                    , TimeSpan.Zero
+                    , CacheItemPriority.Normal
+                    , null);
             }
-            return _currentEvaluation;
+            Trace.Write("GetProjEval-End");
+            return projEval;
         }
 
-        public IList<ProjectEvaluation> GetProjectEstimate
+        public static IList<ProjectEvaluation> GetProjectEstimate
             (int? projectId, int? maxPriority)
         {
+            Trace.Write("GetProjectEstimate-Begin");
             var result = new List<ProjectEvaluation>();
             result.Add(GetProjEval(projectId, maxPriority));
+            Trace.Write("GetProjectEstimate-End");
             return result;
         }
 
-        public IList<IntervalProbability> GetIntervalProbabilities
+        public static IList<IntervalProbability> GetIntervalProbabilities
             (int? projectId, int? maxPriority)
         {
-            return GetProjEval(projectId, maxPriority)
+            Trace.Write("GetIntervalProbabilities-Begin");
+            var result = GetProjEval(projectId, maxPriority)
                 .Statistics.Probabilities;
+            Trace.Write("GetIntervalProbabilities-End");
+            return result;
         }
 
-        public IEnumerable<IssueEvaluation> GetIssueEstimates
+        public static IEnumerable<IssueEvaluation> GetIssueEstimates
             (int? projectId, int? maxPriority)
         {
-            return GetProjEval(projectId, maxPriority)
+            Trace.Write("GetIssueEstimates-Begin");
+            var result = GetProjEval(projectId, maxPriority)
                 .GetIssueEvaluations();
+            Trace.Write("GetIssueEstimates-End");
+            return result;
         }
 
-        public IEnumerable<CompletionDateConfidence>
+        public static IEnumerable<CompletionDateConfidence>
             GetCompletionDateConfidences
             (int? projectId, int? maxPriority)
         {
+            Trace.Write("GetCompletionDateConfidences-Begin");
             var projectEvaluation = GetProjEval(projectId, maxPriority);
-            return projectEvaluation.GetCompletionDateConfidences();
+            var result = projectEvaluation.GetCompletionDateConfidences();
+            Trace.Write("GetCompletionDateConfidences-End");
+            return result;
+        }
+
+        public static IEnumerable<CompletionDateConfidence>
+            GetSelectedCompletionDateConfidences
+            (int? projectId, int? maxPriority)
+        {
+            Trace.Write("GetSelectedCompletionDateConfidences-Begin");
+            var projectEvaluation = GetProjEval(projectId, maxPriority);
+            var result = projectEvaluation.GetSelectedCompletionDateConfidences();
+            Trace.Write("GetSelectedCompletionDateConfidences-End");
+            return result;
         }
     }
 }

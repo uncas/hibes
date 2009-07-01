@@ -44,7 +44,7 @@ namespace Uncas.EBS.Domain.ViewModel
                 int min = (int)Math.Ceiling(Min);
                 int max = (int)Math.Ceiling(Max);
                 int intervalWidth = 1;
-                int maxIntervals = 7;
+                int maxIntervals = 11;
                 if (max - min > maxIntervals)
                 {
                     intervalWidth = (int)Math.Ceiling

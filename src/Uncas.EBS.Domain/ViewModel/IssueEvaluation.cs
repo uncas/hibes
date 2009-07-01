@@ -83,14 +83,15 @@ namespace Uncas.EBS.Domain.ViewModel
         }
 
         /// <summary>
-        /// Gets the average.
+        /// Gets the average days.
         /// </summary>
-        /// <value>The average.</value>
+        /// <value>The average days.</value>
         public double Average
         {
             get
             {
-                return this._sum / this._count;
+                return this._sum / this._count 
+                    / ProjectEvaluation.NumberOfHoursPerDay;
             }
         }
 

@@ -10,6 +10,11 @@ namespace Uncas.EBS.Domain.ViewModel
     /// </summary>
     public class ProjectEvaluation
     {
+        /// <summary>
+        /// The number of hours per day.
+        /// </summary>
+        public const double NumberOfHoursPerDay = 7.5d;
+
         private IList<double> _evaluations = new List<double>();
 
         private IDictionary<Issue, IssueEvaluation> _issueEvaluations
@@ -24,7 +29,8 @@ namespace Uncas.EBS.Domain.ViewModel
             get
             {
                 return new Statistic<double>(_evaluations
-                    , (double evaluation) => evaluation);
+                    , (double evaluation)
+                    => evaluation / NumberOfHoursPerDay);
             }
         }
 
@@ -33,6 +39,20 @@ namespace Uncas.EBS.Domain.ViewModel
         /// </summary>
         /// <value>The person offs.</value>
         public IList<PersonOff> PersonOffs { get; set; }
+
+        /// <summary>
+        /// Gets the selected completion date confidences.
+        /// </summary>
+        /// <returns></returns>
+        public IList<CompletionDateConfidence>
+            GetSelectedCompletionDateConfidences()
+        {
+            return GetCompletionDateConfidences()
+                .Where(cdc => cdc.Probability == 0.05d
+                    || cdc.Probability == 0.5d
+                    || cdc.Probability == 0.95d)
+                .ToList();
+        }
 
         /// <summary>
         /// Gets the completion date confidences.
@@ -52,7 +72,6 @@ namespace Uncas.EBS.Domain.ViewModel
                     .Skip(countForPercentage - 1).FirstOrDefault();
 
                 // See how many days ahead this amounts to:
-                double numberOfHoursPerDay = 7.5d;
                 // Run forward one day at a time, beginning tomorrow
                 // and sum the number of hours.
                 // When the sum equals hoursAtThisPercentage
@@ -66,13 +85,13 @@ namespace Uncas.EBS.Domain.ViewModel
                         && date.DayOfWeek != DayOfWeek.Sunday
                         && !this.PersonOffs.IsPersonOff(date))
                     {
-                        sumOfHours += numberOfHoursPerDay;
+                        sumOfHours += NumberOfHoursPerDay;
                     }
                 }
 
                 result.Add(new CompletionDateConfidence
                 {
-                    Probability = percentage,
+                    Probability = percentage / 100d,
                     Date = date
                 });
             }

@@ -66,7 +66,7 @@ namespace Uncas.EBS.UI.Controls
             else if (sender is DateBox)
             {
                 DateBox box = sender as DateBox;
-                // TODO: Handle insert mode
+                // TODO: NOT NEEDED: Handle insert mode.
                 // If in insert mode, no text should appear
                 // if (!this.IsInsertMode)
                 {

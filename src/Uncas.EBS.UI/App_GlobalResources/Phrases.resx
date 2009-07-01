@@ -246,4 +246,10 @@
   <data name="NoTasks" xml:space="preserve">
     <value>No tasks with the chosen criteria.</value>
   </data>
+  <data name="Date" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="Days" xml:space="preserve">
+    <value>Days</value>
+  </data>
 </root>

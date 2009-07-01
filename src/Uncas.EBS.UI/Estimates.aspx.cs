@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Web.UI.WebControls;
 
 namespace Uncas.EBS.UI
 {
@@ -15,6 +16,10 @@ namespace Uncas.EBS.UI
             chartArea.AxisY.Title = Resources.Phrases.Probability;
 
             gvIssues.EmptyDataText = Resources.Phrases.NoIssues;
+
+            Unit widthOfCharts = Unit.Pixel(400);
+            chartCompletionDateConfidences.Width = widthOfCharts;
+            chartProbabilities.Width = widthOfCharts;
         }
     }
 }

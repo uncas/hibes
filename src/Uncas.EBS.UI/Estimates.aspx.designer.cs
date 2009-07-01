@@ -41,49 +41,22 @@ namespace Uncas.EBS.UI {
         protected global::Uncas.EBS.UI.Controls.NumberBox nbMaxPriority;
         
         /// <summary>
-        /// fvSummary control.
+        /// odsSelectedCompletionDateConfidences control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.FormView fvSummary;
+        protected global::System.Web.UI.WebControls.ObjectDataSource odsSelectedCompletionDateConfidences;
         
         /// <summary>
-        /// odsSummary control.
+        /// gvSelectedCompletionDates control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ObjectDataSource odsSummary;
-        
-        /// <summary>
-        /// gvProbabilities control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gvProbabilities;
-        
-        /// <summary>
-        /// odsProbabilities control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ObjectDataSource odsProbabilities;
-        
-        /// <summary>
-        /// chartProbabilities control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.DataVisualization.Charting.Chart chartProbabilities;
+        protected global::System.Web.UI.WebControls.GridView gvSelectedCompletionDates;
         
         /// <summary>
         /// odsCompletionDateConfidences control.
@@ -104,22 +77,49 @@ namespace Uncas.EBS.UI {
         protected global::System.Web.UI.DataVisualization.Charting.Chart chartCompletionDateConfidences;
         
         /// <summary>
-        /// rptrCompletionDate control.
+        /// odsSummary control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptrCompletionDate;
+        protected global::System.Web.UI.WebControls.ObjectDataSource odsSummary;
         
         /// <summary>
-        /// gvIssues control.
+        /// gvSummary control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gvIssues;
+        protected global::System.Web.UI.WebControls.GridView gvSummary;
+        
+        /// <summary>
+        /// odsProbabilities control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ObjectDataSource odsProbabilities;
+        
+        /// <summary>
+        /// gvProbabilities control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView gvProbabilities;
+        
+        /// <summary>
+        /// chartProbabilities control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.DataVisualization.Charting.Chart chartProbabilities;
         
         /// <summary>
         /// odsIssues control.
@@ -129,5 +129,14 @@ namespace Uncas.EBS.UI {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ObjectDataSource odsIssues;
+        
+        /// <summary>
+        /// gvIssues control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView gvIssues;
     }
 }
