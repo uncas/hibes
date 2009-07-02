@@ -19,7 +19,7 @@ namespace Uncas.EBS.UI
         {
             if (e.Exception != null)
             {
-                lblInfo.Text = "Sletning mislykkedes. Husk at slette sagens opgaver enkeltvis før sagen slettes.";
+                lblInfo.Text = Resources.Phrases.FailedIssueDeletion;
                 e.ExceptionHandled = true;
             }
         }

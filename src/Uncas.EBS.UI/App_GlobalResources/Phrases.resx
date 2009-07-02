@@ -252,4 +252,7 @@
   <data name="Days" xml:space="preserve">
     <value>Days</value>
   </data>
+  <data name="FailedIssueDeletion" xml:space="preserve">
+    <value>Deletion of issue failed. Please delete all tasks for the issue first.</value>
+  </data>
 </root>

@@ -42,7 +42,7 @@ namespace Uncas.EBS.UI
                 else
                 {
                     // If no such cookie:
-                    return "en";
+                    return "da-DK";
                 }
             }
             set

@@ -28,10 +28,20 @@
                 <li><a href="PersonSetup.aspx">
                     <%= Resources.Phrases.Setup %></a></li>
             </ul>
-            <ul id="languages">
-                <li><a href="Language.aspx?Language=en">English</a></li>
-                <li><a href="Language.aspx?Language=da">dansk</a></li>
-            </ul>
+            <asp:Repeater ID="rptrLanguages" runat="server" DataSourceID="odsLanguages">
+                <HeaderTemplate>
+                    <ul id="languages">
+                </HeaderTemplate>
+                <ItemTemplate>
+                    <li><a href="Language.aspx?Language=<%# Eval("LanguageCode") %>">
+                        <%# Eval("LanguageName") %></a></li>
+                </ItemTemplate>
+                <FooterTemplate>
+                    </ul>
+                </FooterTemplate>
+            </asp:Repeater>
+            <asp:ObjectDataSource ID="odsLanguages" runat="server" TypeName="Uncas.EBS.UI.AppRepository.AppLanguageRepository"
+                SelectMethod="GetLanguages"></asp:ObjectDataSource>
         </div>
         <div id="content">
             <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">

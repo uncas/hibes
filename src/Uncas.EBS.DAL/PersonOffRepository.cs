@@ -14,7 +14,7 @@ namespace Uncas.EBS.DAL
         {
             return db.PersonOffs
                 .Where(po => po.ToDate.Date >= DateTime.Now.Date)
-                .OrderByDescending(po => po.ToDate)
+                .OrderBy(po => po.ToDate)
                 .Select(po => Model.PersonOff.ReconstructPersonOff
                     (po.PersonOffId, po.FromDate, po.ToDate))
                 .ToList();

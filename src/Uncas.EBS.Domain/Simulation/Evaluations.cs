@@ -103,22 +103,28 @@ namespace Uncas.EBS.Domain.Simulation
 
             // Gets a random historical task:
             double speed = 1d;
-            if (this.HistoricalTasks.Count > 0)
+
+            // We always generate at least minRandomCount random numbers:
+            int minRandomCount = 2;
+            // If we have less than minMaxIndex historical tasks
+            // we generate some additional random numbers in between:
+            int minMaxIndex = 10;
+            // A random index to apply:
+            int maxIndex
+                = Math.Max(this.HistoricalTasks.Count, minMaxIndex)
+                + minRandomCount;
+            int randomIndex = _rnd.Next(maxIndex + 1);
+            if (randomIndex < this.HistoricalTasks.Count)
             {
-                int randomIndex = _rnd.Next(this.HistoricalTasks.Count());
                 var randomHistoricalTask = this.HistoricalTasks[randomIndex];
 
                 // Gets the speed of the random historical task:
-                // TODO: FEATURE: Consider what to do when historical closed task has null speed.
-                speed = randomHistoricalTask.Speed ?? 1d;
+                speed = randomHistoricalTask.Speed
+                    ?? GetRandomSpeed();
             }
             else
             {
-                // Sets the speed to a random number:
-                double minRandomSpeed = 0.5d;
-                double maxRandomSpeed = 1.5d;
-                speed = minRandomSpeed
-                    + (maxRandomSpeed - minRandomSpeed) * _rnd.NextDouble();
+                speed = GetRandomSpeed();
             }
 
             // Calculates a statistical remaining time by:
@@ -126,10 +132,20 @@ namespace Uncas.EBS.Domain.Simulation
             // Gets the current tasks's estimated remaining time:
             var remaining = task.Remaining;
 
-            //      Divides by the randomly picked historical speed
+            // Divides by the randomly picked historical speed:
             double statisticalRemainingForTask = remaining / speed;
 
             return statisticalRemainingForTask;
+        }
+
+        private double GetRandomSpeed()
+        {
+            // Sets the speed to a random number:
+            double minRandomSpeed = 0.5d;
+            double maxRandomSpeed = 2d;
+            double speed = minRandomSpeed
+                + (maxRandomSpeed - minRandomSpeed) * _rnd.NextDouble();
+            return speed;
         }
     }
 }

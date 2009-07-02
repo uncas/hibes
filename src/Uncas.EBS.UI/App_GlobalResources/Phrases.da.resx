@@ -136,7 +136,7 @@
     <value>Oprettet</value>
   </data>
   <data name="CreateNewIssue" xml:space="preserve">
-    <value>Opret ny sag</value>
+    <value>Opret ny opgave</value>
   </data>
   <data name="Delete" xml:space="preserve">
     <value>Slet</value>
@@ -157,10 +157,10 @@
     <value>Indsæt</value>
   </data>
   <data name="Issue" xml:space="preserve">
-    <value>Sag</value>
+    <value>Opgave</value>
   </data>
   <data name="Issues" xml:space="preserve">
-    <value>Sager</value>
+    <value>Opgaver</value>
   </data>
   <data name="New" xml:space="preserve">
     <value>Opret ny</value>
@@ -190,7 +190,7 @@
     <value>Status</value>
   </data>
   <data name="Tasks" xml:space="preserve">
-    <value>Opgaver</value>
+    <value>Gøremål</value>
   </data>
   <data name="Update" xml:space="preserve">
     <value>Opdatér</value>
@@ -199,7 +199,7 @@
     <value>Start</value>
   </data>
   <data name="CreateNewTask" xml:space="preserve">
-    <value>Opret ny opgave</value>
+    <value>Opret nyt gøremål</value>
   </data>
   <data name="Current" xml:space="preserve">
     <value>Nuværende</value>
@@ -214,7 +214,7 @@
     <value>Oprindelig</value>
   </data>
   <data name="Task" xml:space="preserve">
-    <value>Opgave</value>
+    <value>Gøremål</value>
   </data>
   <data name="Average" xml:space="preserve">
     <value>Gennemsnit</value>
@@ -241,15 +241,18 @@
     <value>Indtast fraværsdage</value>
   </data>
   <data name="NoIssues" xml:space="preserve">
-    <value>Ingen sager med de valgte kriterier.</value>
+    <value>Ingen opgaver med de valgte kriterier.</value>
   </data>
   <data name="NoTasks" xml:space="preserve">
-    <value>Ingen opgaver med de valgte kriterier.</value>
+    <value>Ingen gøremål med de valgte kriterier.</value>
   </data>
   <data name="Date" xml:space="preserve">
     <value>Dato</value>
   </data>
   <data name="Days" xml:space="preserve">
     <value>Dage</value>
+  </data>
+  <data name="FailedIssueDeletion" xml:space="preserve">
+    <value>Sletning mislykkedes. Slet venligst alle opgavens gøremål før opgaven slettes.</value>
   </data>
 </root>

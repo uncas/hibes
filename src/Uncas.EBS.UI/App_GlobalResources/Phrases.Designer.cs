@@ -223,6 +223,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Deletion of issue failed. Please delete all tasks for the issue first..
+        /// </summary>
+        internal static string FailedIssueDeletion {
+            get {
+                return ResourceManager.GetString("FailedIssueDeletion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to From.
         /// </summary>
         internal static string From {

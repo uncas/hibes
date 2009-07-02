@@ -93,7 +93,7 @@
                             <uncas:BoundFieldResource HeaderResourceName="Average" DataField="Average" DataFormatString="{0:N0}">
                             </uncas:BoundFieldResource>
                             <uncas:BoundFieldResource HeaderResourceName="StandardDeviation" DataField="StandardDeviation"
-                                DataFormatString="&plusmn; {0:N0}">
+                                DataFormatString="&plusmn; {0:N1}">
                             </uncas:BoundFieldResource>
                             <uncas:BoundFieldResource HeaderResourceName="Issues" DataField="NumberOfOpenIssues">
                             </uncas:BoundFieldResource>
