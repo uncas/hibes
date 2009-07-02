@@ -58,16 +58,48 @@
                                 Type="Int32" />
                         </SelectParameters>
                     </asp:ObjectDataSource>
-                    <asp:Chart ID="chartCompletionDateConfidences" runat="server" DataSourceID="odsCompletionDateConfidences">
+                    <asp:Chart ID="chartCompletionDateConfidences" runat="server" DataSourceID="odsCompletionDateConfidences"
+                        ImageType="Png" BackColor="#D3DFF0" Palette="BrightPastel" BorderDashStyle="Solid"
+                        BackSecondaryColor="White" BackGradientStyle="Center" BorderWidth="2" BorderColor="26, 59, 105">
                         <Series>
                             <asp:Series Name="seriesConfidence" XValueMember="Date" YValueMembers="Probability"
-                                ChartType="Line" Color="#339999">
+                                ChartType="Line" Color="#339999" BorderColor="180, 26, 59, 105" YValueType="Double">
                             </asp:Series>
                         </Series>
                         <ChartAreas>
-                            <asp:ChartArea Name="ChartArea1">
-                                <AxisY Minimum="0" Maximum="1">
+                            <asp:ChartArea Name="ChartArea1" BorderColor="64, 64, 64, 64" BorderDashStyle="Solid"
+                                BackSecondaryColor="White" BackColor="64, 165, 191, 228" ShadowColor="Transparent">
+                                <Area3DStyle Rotation="5" Perspective="5" Enable3D="True" LightStyle="Realistic"
+                                    Inclination="10" PointDepth="300" IsRightAngleAxes="False" WallWidth="0" IsClustered="False" />
+                                <AxisY LineColor="64, 64, 64, 64" Minimum="0" Maximum="1">
+                                    <LabelStyle />
+                                    <MajorGrid LineColor="64, 64, 64, 64" />
                                 </AxisY>
+                                <AxisX LineColor="64, 64, 64, 64">
+                                    <LabelStyle />
+                                    <MajorGrid LineColor="64, 64, 64, 64" />
+                                </AxisX>
+                            </asp:ChartArea>
+                        </ChartAreas>
+                    </asp:Chart>
+                    <asp:Chart ID="chartDateRanges" runat="server" Visible="false">
+                        <Series>
+                            <asp:Series Name="Tasks" ChartType="RangeBar" YValuesPerPoint="3">
+                            </asp:Series>
+                        </Series>
+                        <ChartAreas>
+                            <asp:ChartArea Name="ChartArea1" BorderColor="64, 64, 64, 64" BorderDashStyle="Solid"
+                                BackSecondaryColor="White" BackColor="OldLace" ShadowColor="Transparent">
+                                <Area3DStyle Rotation="10" Perspective="10" Inclination="15" IsRightAngleAxes="False"
+                                    WallWidth="0" />
+                                <AxisY LineColor="64, 64, 64, 64" IsStartedFromZero="False">
+                                    <LabelStyle Font="Trebuchet MS, 8.25pt, style=Bold" />
+                                    <MajorGrid LineColor="64, 64, 64, 64" />
+                                </AxisY>
+                                <AxisX LineColor="64, 64, 64, 64">
+                                    <LabelStyle Font="Trebuchet MS, 8.25pt, style=Bold" IsEndLabelVisible="False" />
+                                    <MajorGrid LineColor="64, 64, 64, 64" />
+                                </AxisX>
                             </asp:ChartArea>
                         </ChartAreas>
                     </asp:Chart>

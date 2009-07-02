@@ -76,7 +76,7 @@ namespace Uncas.EBS.Domain.ViewModel
                 // and sum the number of hours.
                 // When the sum equals hoursAtThisPercentage
                 // we take the day as the completion date:
-                DateTime date = DateTime.Now;
+                DateTime date = DateTime.Now.Date;
                 double sumOfHours = 0d;
                 while (sumOfHours <= hoursAtThisPercentage)
                 {

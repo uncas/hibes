@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Web.UI.WebControls;
 
 namespace Uncas.EBS.UI
@@ -20,6 +21,22 @@ namespace Uncas.EBS.UI
             Unit widthOfCharts = Unit.Pixel(400);
             chartCompletionDateConfidences.Width = widthOfCharts;
             chartProbabilities.Width = widthOfCharts;
+        }
+
+        private void ShowDateRanges()
+        {
+            // UNDONE: ShowDateRanges not implemented;
+
+            // HACK: Needs to input correct parameters:
+            var result = AppRepository.AppProjectRepository
+                .GetSelectedCompletionDateConfidences(null, null);
+            chartDateRanges.Series["Tasks"].Points.AddXY
+                (1
+                , result.FirstOrDefault().Date
+                , result.Skip(1).FirstOrDefault().Date
+                , result.Skip(2).FirstOrDefault().Date);
+
+            throw new NotImplementedException();
         }
     }
 }
