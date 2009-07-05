@@ -10,7 +10,8 @@ namespace Uncas.EBS.UI.Controls
             string allProjectsText = string.Format("- {0} -"
                 , Resources.Phrases.AllProjects);
             this.Items.Add(new ListItem(allProjectsText, ""));
-            foreach (var project in AppProjectRepository.GetProjects())
+            AppProjectRepository projRepo = new AppProjectRepository();
+            foreach (var project in projRepo.GetProjects())
             {
                 this.Items.Add(new ListItem(project.ProjectName
                     , project.ProjectId.ToString()));

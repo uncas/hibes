@@ -12,17 +12,17 @@ namespace Uncas.EBS.UI.AppRepository
     /// <summary>
     /// Project repository - layer for the web application.
     /// </summary>
-    public static class AppProjectRepository
+    public class AppProjectRepository
     {
         private const int NumberOfSimulations = 1000;
         private const int MaxNumberOfHistoricalTasks = 50;
 
-        private static IProjectRepository _projectRepo
+        private IProjectRepository _projectRepo
             = App.Repositories.ProjectRepository;
 
-        private static TraceContext Trace = HttpContext.Current.Trace;
+        private TraceContext Trace = HttpContext.Current.Trace;
 
-        public static IList<Project> GetProjects()
+        public IList<Project> GetProjects()
         {
             Trace.Write("GetProjects-Begin");
             var result = _projectRepo.GetProjects(); ;
@@ -30,7 +30,7 @@ namespace Uncas.EBS.UI.AppRepository
             return result;
         }
 
-        private static ProjectEvaluation GetProjEval(int? projectId, int? maxPriority)
+        private ProjectEvaluation GetProjEval(int? projectId, int? maxPriority)
         {
             Trace.Write("GetProjEval-Begin");
             string cacheKey = string.Format("ProjectEvaluation-{0}-{1}"
@@ -54,7 +54,7 @@ namespace Uncas.EBS.UI.AppRepository
             return projEval;
         }
 
-        public static IList<ProjectEvaluation> GetProjectEstimate
+        public IList<ProjectEvaluation> GetProjectEstimate
             (int? projectId, int? maxPriority)
         {
             Trace.Write("GetProjectEstimate-Begin");
@@ -64,7 +64,7 @@ namespace Uncas.EBS.UI.AppRepository
             return result;
         }
 
-        public static IList<IntervalProbability> GetIntervalProbabilities
+        public IList<IntervalProbability> GetIntervalProbabilities
             (int? projectId, int? maxPriority)
         {
             Trace.Write("GetIntervalProbabilities-Begin");
@@ -74,7 +74,7 @@ namespace Uncas.EBS.UI.AppRepository
             return result;
         }
 
-        public static IEnumerable<IssueEvaluation> GetIssueEstimates
+        public IEnumerable<IssueEvaluation> GetIssueEstimates
             (int? projectId, int? maxPriority)
         {
             Trace.Write("GetIssueEstimates-Begin");
@@ -84,7 +84,7 @@ namespace Uncas.EBS.UI.AppRepository
             return result;
         }
 
-        public static IEnumerable<CompletionDateConfidence>
+        public IEnumerable<CompletionDateConfidence>
             GetCompletionDateConfidences
             (int? projectId, int? maxPriority)
         {
@@ -95,7 +95,7 @@ namespace Uncas.EBS.UI.AppRepository
             return result;
         }
 
-        public static IEnumerable<CompletionDateConfidence>
+        public IEnumerable<CompletionDateConfidence>
             GetSelectedCompletionDateConfidences
             (int? projectId, int? maxPriority)
         {

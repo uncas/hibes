@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Uncas.EBS.Domain.Model;
-using System;
 
 namespace Uncas.EBS.Domain.ViewModel
 {
@@ -99,14 +99,22 @@ namespace Uncas.EBS.Domain.ViewModel
         }
 
         /// <summary>
-        /// Gets the average.
+        /// Gets the average number of days.
         /// </summary>
         /// <value>The average.</value>
-        public double Average
+        public double? Average
         {
             get
             {
-                return this.Statistics.Average;
+                if (this.NumberOfOpenTasks > 0)
+                {
+                    return this.Statistics.Average;
+                }
+                else
+                {
+                    // If there are no open tasks, the average is ill-defined:
+                    return null;
+                }
             }
         }
 
@@ -119,6 +127,35 @@ namespace Uncas.EBS.Domain.ViewModel
             get
             {
                 return this.Statistics.StandardDeviation;
+            }
+        }
+
+        /// <summary>
+        /// Gets the elapsed days.
+        /// </summary>
+        /// <value>The elapsed.</value>
+        public double? Elapsed
+        {
+            get
+            {
+                return this._issueEvaluations
+                    .Select(i => i.Value)
+                    .Sum(i => i.Elapsed)
+                    / NumberOfHoursPerDay;
+            }
+        }
+
+        /// <summary>
+        /// Gets the progress.
+        /// </summary>
+        /// <value>The progress.</value>
+        public double? Progress
+        {
+            get
+            {
+                return this.Elapsed
+                    / (this.Elapsed
+                    + this.Average);
             }
         }
 
@@ -160,9 +197,11 @@ namespace Uncas.EBS.Domain.ViewModel
         /// </summary>
         /// <param name="issue">The issue.</param>
         /// <param name="numberOfOpenTasksForThisIssue">The number of open tasks for this issue.</param>
+        /// <param name="elapsed">The number of elapsed hours.</param>
         /// <param name="evaluation">The evaluation.</param>
         public void AddIssueEvaluation(Issue issue
             , int numberOfOpenTasksForThisIssue
+            , double? elapsed
             , double evaluation)
         {
             if (_issueEvaluations.ContainsKey(issue))
@@ -174,6 +213,7 @@ namespace Uncas.EBS.Domain.ViewModel
                 _issueEvaluations.Add(issue
                     , new IssueEvaluation(issue
                         , numberOfOpenTasksForThisIssue
+                        , elapsed
                         , evaluation
                         ));
             }

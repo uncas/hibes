@@ -10,7 +10,8 @@ namespace Uncas.EBS.Tests.ViewModelTests
         [Test]
         public void IssueEvaluationTest()
         {
-            IssueEvaluation iEval = new IssueEvaluation(new Issue(), 2, 1d);
+            IssueEvaluation iEval = new IssueEvaluation
+                (new Issue(), 2, 1d, 1d);
 
             iEval.AddEvaluation(2d);
             Assert.AreEqual(1.5d, iEval.Average);
@@ -36,10 +37,10 @@ namespace Uncas.EBS.Tests.ViewModelTests
 
             Issue issue1 = new Issue();
             Issue issue2 = new Issue();
-            pEval.AddIssueEvaluation(issue1, 2, 1d);
-            pEval.AddIssueEvaluation(issue1, 3, 2d);
-            pEval.AddIssueEvaluation(issue2, 4, 1d);
-            pEval.AddIssueEvaluation(issue2, 5, 3d);
+            pEval.AddIssueEvaluation(issue1, 2, 0.5d, 1d);
+            pEval.AddIssueEvaluation(issue1, 3, 0.5d, 2d);
+            pEval.AddIssueEvaluation(issue2, 4, 0.5d, 1d);
+            pEval.AddIssueEvaluation(issue2, 5, 0.5d, 3d);
             var ie = pEval.GetIssueEvaluations();
             Assert.AreEqual(1.5d, ie[0].Average);
             Assert.AreEqual(2d, ie[1].Average);

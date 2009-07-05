@@ -12,14 +12,17 @@ namespace Uncas.EBS.Domain.ViewModel
         /// </summary>
         /// <param name="issue">The issue.</param>
         /// <param name="numberOfOpenTasks">The number of open tasks.</param>
+        /// <param name="elapsed">The number of elapsed hours.</param>
         /// <param name="evaluation">The evaluation.</param>
         public IssueEvaluation(Issue issue
             , int numberOfOpenTasks
+            , double? elapsed
             , double evaluation)
         {
             this.Issue = issue;
-            this.AddEvaluation(evaluation);
             this.NumberOfOpenTasks = numberOfOpenTasks;
+            this.Elapsed = elapsed;
+            this.AddEvaluation(evaluation);
         }
 
         /// <summary>
@@ -86,12 +89,47 @@ namespace Uncas.EBS.Domain.ViewModel
         /// Gets the average days.
         /// </summary>
         /// <value>The average days.</value>
-        public double Average
+        public double? Average
         {
             get
             {
-                return this._sum / this._count 
-                    / ProjectEvaluation.NumberOfHoursPerDay;
+                if (this.NumberOfOpenTasks > 0)
+                {
+                    return this._sum / this._count
+                        / ProjectEvaluation.NumberOfHoursPerDay;
+                }
+                else
+                {
+                    // If there are no tasks, the average is not well-defined:
+                    return null;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the elapsed hours.
+        /// </summary>
+        /// <value>The elapsed hours.</value>
+        public double? Elapsed { get; private set; }
+
+        /// <summary>
+        /// Gets the progress (elapsed divided by estimated total).
+        /// </summary>
+        /// <value>The progress.</value>
+        public double? Progress
+        {
+            get
+            {
+                if (this.Average.HasValue)
+                {
+                    return this.Elapsed
+                        / (this.Elapsed
+                        + this.Average * ProjectEvaluation.NumberOfHoursPerDay);
+                }
+                else
+                {
+                    return null;
+                }
             }
         }
 

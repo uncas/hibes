@@ -8,8 +8,7 @@ namespace Uncas.EBS.UI.AppRepository
         {
             var languages = new List<Language>();
             languages.Add(new Language("da-DK", "dansk"));
-            languages.Add(new Language("en-US", "English (US)"));
-            languages.Add(new Language("en-GB", "English (GB)"));
+            languages.Add(new Language("en-US", "English"));
             return languages;
         }
     }

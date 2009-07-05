@@ -58,27 +58,16 @@
                                 Type="Int32" />
                         </SelectParameters>
                     </asp:ObjectDataSource>
-                    <asp:Chart ID="chartCompletionDateConfidences" runat="server" DataSourceID="odsCompletionDateConfidences"
-                        ImageType="Png" BackColor="#D3DFF0" Palette="BrightPastel" BorderDashStyle="Solid"
-                        BackSecondaryColor="White" BackGradientStyle="Center" BorderWidth="2" BorderColor="26, 59, 105">
+                    <asp:Chart ID="chartCompletionDateConfidences" runat="server" DataSourceID="odsCompletionDateConfidences">
                         <Series>
                             <asp:Series Name="seriesConfidence" XValueMember="Date" YValueMembers="Probability"
-                                ChartType="Line" Color="#339999" BorderColor="180, 26, 59, 105" YValueType="Double">
+                                ChartType="Line" YValueType="Double">
                             </asp:Series>
                         </Series>
                         <ChartAreas>
-                            <asp:ChartArea Name="ChartArea1" BorderColor="64, 64, 64, 64" BorderDashStyle="Solid"
-                                BackSecondaryColor="White" BackColor="64, 165, 191, 228" ShadowColor="Transparent">
-                                <Area3DStyle Rotation="5" Perspective="5" Enable3D="True" LightStyle="Realistic"
-                                    Inclination="10" PointDepth="300" IsRightAngleAxes="False" WallWidth="0" IsClustered="False" />
-                                <AxisY LineColor="64, 64, 64, 64" Minimum="0" Maximum="1">
-                                    <LabelStyle />
-                                    <MajorGrid LineColor="64, 64, 64, 64" />
+                            <asp:ChartArea Name="ChartArea1">
+                                <AxisY Minimum="0" Maximum="1">
                                 </AxisY>
-                                <AxisX LineColor="64, 64, 64, 64">
-                                    <LabelStyle />
-                                    <MajorGrid LineColor="64, 64, 64, 64" />
-                                </AxisX>
                             </asp:ChartArea>
                         </ChartAreas>
                     </asp:Chart>
@@ -88,18 +77,9 @@
                             </asp:Series>
                         </Series>
                         <ChartAreas>
-                            <asp:ChartArea Name="ChartArea1" BorderColor="64, 64, 64, 64" BorderDashStyle="Solid"
-                                BackSecondaryColor="White" BackColor="OldLace" ShadowColor="Transparent">
-                                <Area3DStyle Rotation="10" Perspective="10" Inclination="15" IsRightAngleAxes="False"
-                                    WallWidth="0" />
-                                <AxisY LineColor="64, 64, 64, 64" IsStartedFromZero="False">
-                                    <LabelStyle Font="Trebuchet MS, 8.25pt, style=Bold" />
-                                    <MajorGrid LineColor="64, 64, 64, 64" />
+                            <asp:ChartArea Name="ChartArea1">
+                                <AxisY IsStartedFromZero="False">
                                 </AxisY>
-                                <AxisX LineColor="64, 64, 64, 64">
-                                    <LabelStyle Font="Trebuchet MS, 8.25pt, style=Bold" IsEndLabelVisible="False" />
-                                    <MajorGrid LineColor="64, 64, 64, 64" />
-                                </AxisX>
                             </asp:ChartArea>
                         </ChartAreas>
                     </asp:Chart>
@@ -122,15 +102,13 @@
                         <HeaderStyle HorizontalAlign="Right" />
                         <RowStyle HorizontalAlign="Right" />
                         <Columns>
-                            <uncas:BoundFieldResource HeaderResourceName="Average" DataField="Average" DataFormatString="{0:N0}">
-                            </uncas:BoundFieldResource>
+                            <uncas:BoundFieldResource HeaderResourceName="Average" DataField="Average" DataFormatString="{0:N0}" />
                             <uncas:BoundFieldResource HeaderResourceName="StandardDeviation" DataField="StandardDeviation"
-                                DataFormatString="&plusmn; {0:N1}">
-                            </uncas:BoundFieldResource>
-                            <uncas:BoundFieldResource HeaderResourceName="Issues" DataField="NumberOfOpenIssues">
-                            </uncas:BoundFieldResource>
-                            <uncas:BoundFieldResource HeaderResourceName="Tasks" DataField="NumberOfOpenTasks">
-                            </uncas:BoundFieldResource>
+                                DataFormatString="&plusmn; {0:N1}" />
+                            <uncas:BoundFieldResource HeaderResourceName="Elapsed" DataField="Elapsed" DataFormatString="{0:N0}" />
+                            <uncas:BoundFieldResource HeaderResourceName="Progress" DataField="Progress" DataFormatString="{0:P0}" />
+                            <uncas:BoundFieldResource HeaderResourceName="Issues" DataField="NumberOfOpenIssues" />
+                            <uncas:BoundFieldResource HeaderResourceName="Tasks" DataField="NumberOfOpenTasks" />
                         </Columns>
                     </asp:GridView>
                 </div>
@@ -160,8 +138,7 @@
                 <div class="part">
                     <asp:Chart ID="chartProbabilities" runat="server" DataSourceID="odsProbabilities">
                         <Series>
-                            <asp:Series Name="Series1" XValueMember="Lower" YValueMembers="Probability" ChartType="Column"
-                                Color="#339999">
+                            <asp:Series Name="Series1" XValueMember="Lower" YValueMembers="Probability" ChartType="Column">
                             </asp:Series>
                         </Series>
                         <ChartAreas>
@@ -195,6 +172,8 @@
                             <uncas:HyperLinkFieldResource HeaderResourceName="Issue" DataNavigateUrlFields="IssueId"
                                 DataNavigateUrlFormatString="Tasks.aspx?Issue={0}" DataTextField="IssueTitle" />
                             <uncas:BoundFieldResource HeaderResourceName="Average" DataField="Average" DataFormatString="{0:N1}"
+                                ItemStyle-HorizontalAlign="Right" HeaderStyle-HorizontalAlign="Right" />
+                            <uncas:BoundFieldResource HeaderResourceName="Progress" DataField="Progress" DataFormatString="{0:P0}"
                                 ItemStyle-HorizontalAlign="Right" HeaderStyle-HorizontalAlign="Right" />
                         </Columns>
                     </asp:GridView>

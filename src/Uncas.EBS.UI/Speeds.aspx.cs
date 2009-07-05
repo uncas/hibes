@@ -1,4 +1,5 @@
 ﻿using System;
+using Uncas.EBS.UI.Helpers;
 
 namespace Uncas.EBS.UI
 {
@@ -9,6 +10,8 @@ namespace Uncas.EBS.UI
             var chartArea = chartClosedTasks.ChartAreas[0];
             chartArea.AxisY.Title = Resources.Phrases.Original;
             chartArea.AxisX.Title = Resources.Phrases.Elapsed;
+
+            StyleHelpers.SetChartStyles(chartClosedTasks);
         }
     }
 }

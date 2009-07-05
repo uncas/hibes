@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Uncas.EBS.Domain.Model;
 using Uncas.EBS.Domain.ViewModel;
+using System.Diagnostics;
 
 namespace Uncas.EBS.Domain.Simulation
 {
@@ -64,6 +65,7 @@ namespace Uncas.EBS.Domain.Simulation
                     = GetIssueSimulation(issueView);
                 evaluation.AddIssueEvaluation(issueView.Issue
                     , issueView.Tasks.Count
+                    , issueView.Issue.Elapsed
                     , issueDuration
                     );
                 statisticalRemainingForProject += issueDuration;
@@ -140,11 +142,24 @@ namespace Uncas.EBS.Domain.Simulation
 
         private double GetRandomSpeed()
         {
+            // TODO: FEATURE: Consider exponentially distributed.
+
             // Sets the speed to a random number:
-            double minRandomSpeed = 0.5d;
-            double maxRandomSpeed = 2d;
-            double speed = minRandomSpeed
-                + (maxRandomSpeed - minRandomSpeed) * _rnd.NextDouble();
+            const double averageSpeed = 1d;
+            const double deltaSpeed = 0.8d;
+
+            // A random number between -1 and +1:
+            double randomBase = (2d * _rnd.NextDouble() - 1d);
+
+            // A power that should be an odd number (1,3,5,etc.)
+            const double power = 3d;
+
+            // Random speed between 
+            //      averageSpeed - deltaSpeed 
+            // and 
+            //      averageSpeed + deltaSpeed:
+            double speed = averageSpeed
+                + deltaSpeed * Math.Pow(randomBase, power);
             return speed;
         }
     }

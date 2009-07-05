@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Web.UI.WebControls;
+using Uncas.EBS.UI.Helpers;
 
 namespace Uncas.EBS.UI
 {
@@ -21,6 +22,10 @@ namespace Uncas.EBS.UI
             Unit widthOfCharts = Unit.Pixel(400);
             chartCompletionDateConfidences.Width = widthOfCharts;
             chartProbabilities.Width = widthOfCharts;
+
+            StyleHelpers.SetChartStyles(chartCompletionDateConfidences);
+            StyleHelpers.SetChartStyles(chartDateRanges);
+            StyleHelpers.SetChartStyles(chartProbabilities);
         }
 
         private void ShowDateRanges()
@@ -28,7 +33,8 @@ namespace Uncas.EBS.UI
             // UNDONE: ShowDateRanges not implemented;
 
             // HACK: Needs to input correct parameters:
-            var result = AppRepository.AppProjectRepository
+            var projRepo = new AppRepository.AppProjectRepository();
+            var result = projRepo
                 .GetSelectedCompletionDateConfidences(null, null);
             chartDateRanges.Series["Tasks"].Points.AddXY
                 (1
