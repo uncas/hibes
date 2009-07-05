@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace Uncas.EBS.UI.AppRepository
+namespace Uncas.EBS.UI.Controllers
 {
-    public class AppLanguageRepository
+    public class LanguageController
     {
         public IList<Language> GetLanguages()
         {

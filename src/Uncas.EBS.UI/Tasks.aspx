@@ -67,7 +67,7 @@
                         </asp:TemplateField>
                     </Columns>
                 </asp:GridView>
-                <asp:ObjectDataSource ID="odsIssue" runat="server" TypeName="Uncas.EBS.UI.AppRepository.AppIssueRepository"
+                <asp:ObjectDataSource ID="odsIssue" runat="server" TypeName="Uncas.EBS.UI.Controllers.IssueController"
                     SelectMethod="GetIssue" UpdateMethod="UpdateIssue" OldValuesParameterFormatString="Original_{0}">
                     <SelectParameters>
                         <asp:QueryStringParameter Name="IssueId" QueryStringField="Issue" Type="Int32" />
@@ -209,7 +209,7 @@
                         </asp:TemplateField>
                     </Columns>
                 </asp:GridView>
-                <asp:ObjectDataSource ID="odsTasks" runat="server" TypeName="Uncas.EBS.UI.AppRepository.AppTaskRepository"
+                <asp:ObjectDataSource ID="odsTasks" runat="server" TypeName="Uncas.EBS.UI.Controllers.TaskController"
                     SelectMethod="GetTasks" UpdateMethod="UpdateTask" DeleteMethod="DeleteTask" InsertMethod="InsertTask"
                     OldValuesParameterFormatString="Original_{0}">
                     <SelectParameters>

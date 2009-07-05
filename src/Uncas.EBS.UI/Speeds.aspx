@@ -29,6 +29,6 @@
     </asp:Chart>
     <asp:GridView ID="gvClosedTasks" runat="server" DataSourceID="odsClosedTasks" Visible="false">
     </asp:GridView>
-    <asp:ObjectDataSource ID="odsClosedTasks" runat="server" TypeName="Uncas.EBS.UI.AppRepository.AppTaskRepository"
+    <asp:ObjectDataSource ID="odsClosedTasks" runat="server" TypeName="Uncas.EBS.UI.Controllers.TaskController"
         SelectMethod="GetClosedTasks"></asp:ObjectDataSource>
 </asp:Content>

@@ -139,7 +139,7 @@
                         </asp:TemplateField>
                     </Columns>
                 </asp:GridView>
-                <asp:ObjectDataSource ID="odsIssues" runat="server" TypeName="Uncas.EBS.UI.AppRepository.AppIssueRepository"
+                <asp:ObjectDataSource ID="odsIssues" runat="server" TypeName="Uncas.EBS.UI.Controllers.IssueController"
                     SelectMethod="GetIssues" UpdateMethod="UpdateIssue" InsertMethod="InsertIssue"
                     DeleteMethod="DeleteIssue" OldValuesParameterFormatString="Original_{0}">
                     <SelectParameters>

@@ -33,7 +33,7 @@ namespace Uncas.EBS.UI
             // UNDONE: ShowDateRanges not implemented;
 
             // HACK: Needs to input correct parameters:
-            var projRepo = new AppRepository.AppProjectRepository();
+            var projRepo = new Controllers.ProjectController();
             var result = projRepo
                 .GetSelectedCompletionDateConfidences(null, null);
             chartDateRanges.Series["Tasks"].Points.AddXY

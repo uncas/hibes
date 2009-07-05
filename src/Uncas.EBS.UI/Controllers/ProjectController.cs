@@ -7,12 +7,12 @@ using Uncas.EBS.Domain.Repository;
 using Uncas.EBS.Domain.Simulation;
 using Uncas.EBS.Domain.ViewModel;
 
-namespace Uncas.EBS.UI.AppRepository
+namespace Uncas.EBS.UI.Controllers
 {
     /// <summary>
     /// Project repository - layer for the web application.
     /// </summary>
-    public class AppProjectRepository
+    public class ProjectController
     {
         private const int NumberOfSimulations = 1000;
         private const int MaxNumberOfHistoricalTasks = 50;

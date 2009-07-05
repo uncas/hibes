@@ -65,7 +65,7 @@
                     </asp:TemplateField>
                 </Columns>
             </asp:GridView>
-            <asp:ObjectDataSource ID="odsPersonOffs" runat="server" TypeName="Uncas.EBS.UI.AppRepository.AppPersonOffRepository"
+            <asp:ObjectDataSource ID="odsPersonOffs" runat="server" TypeName="Uncas.EBS.UI.Controllers.PersonOffController"
                 SelectMethod="GetPersonOffs" UpdateMethod="UpdatePersonOff" InsertMethod="InsertPersonOff"
                 DeleteMethod="DeletePersonOff" OldValuesParameterFormatString="Original_{0}">
                 <InsertParameters>

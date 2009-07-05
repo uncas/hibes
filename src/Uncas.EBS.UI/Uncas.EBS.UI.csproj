@@ -62,11 +62,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.cs" />
-    <Compile Include="AppRepository\AppIssueRepository.cs" />
-    <Compile Include="AppRepository\AppLanguageRepository.cs" />
-    <Compile Include="AppRepository\AppPersonOffRepository.cs" />
-    <Compile Include="AppRepository\AppProjectRepository.cs" />
-    <Compile Include="AppRepository\AppTaskRepository.cs" />
+    <Compile Include="Controllers\IssueController.cs" />
+    <Compile Include="Controllers\LanguageController.cs" />
+    <Compile Include="Controllers\PersonOffController.cs" />
+    <Compile Include="Controllers\ProjectController.cs" />
+    <Compile Include="Controllers\TaskController.cs" />
     <Compile Include="App_GlobalResources\Phrases.da.designer.cs">
       <DependentUpon>Phrases.da.resx</DependentUpon>
       <AutoGen>True</AutoGen>

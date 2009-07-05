@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using Uncas.EBS.Domain.Model;
 using Uncas.EBS.Domain.Repository;
 
-namespace Uncas.EBS.UI.AppRepository
+namespace Uncas.EBS.UI.Controllers
 {
     /// <summary>
     /// Task repository - layer for the web application.
     /// </summary>
-    public class AppTaskRepository
+    public class TaskController
     {
         private IIssueRepository _issueRepo
             = App.Repositories.IssueRepository;

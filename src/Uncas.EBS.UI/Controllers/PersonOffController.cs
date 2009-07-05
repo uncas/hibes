@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using Uncas.EBS.Domain.Model;
 using Uncas.EBS.Domain.Repository;
 
-namespace Uncas.EBS.UI.AppRepository
+namespace Uncas.EBS.UI.Controllers
 {
-    public class AppPersonOffRepository
+    public class PersonOffController
     {
         private IPersonOffRepository _personOffRepo =
             App.Repositories.PersonOffRepository;

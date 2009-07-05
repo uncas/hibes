@@ -28,7 +28,7 @@
                 <%= Resources.Phrases.Date %></h3>
             <div class="parts">
                 <div class="part">
-                    <asp:ObjectDataSource ID="odsSelectedCompletionDateConfidences" runat="server" TypeName="Uncas.EBS.UI.AppRepository.AppProjectRepository"
+                    <asp:ObjectDataSource ID="odsSelectedCompletionDateConfidences" runat="server" TypeName="Uncas.EBS.UI.Controllers.ProjectController"
                         SelectMethod="GetSelectedCompletionDateConfidences">
                         <SelectParameters>
                             <asp:ControlParameter ControlID="psProjects" Name="projectId" PropertyName="SelectedValue"
@@ -49,7 +49,7 @@
                     </asp:GridView>
                 </div>
                 <div class="part">
-                    <asp:ObjectDataSource ID="odsCompletionDateConfidences" runat="server" TypeName="Uncas.EBS.UI.AppRepository.AppProjectRepository"
+                    <asp:ObjectDataSource ID="odsCompletionDateConfidences" runat="server" TypeName="Uncas.EBS.UI.Controllers.ProjectController"
                         SelectMethod="GetCompletionDateConfidences">
                         <SelectParameters>
                             <asp:ControlParameter ControlID="psProjects" Name="projectId" PropertyName="SelectedValue"
@@ -89,7 +89,7 @@
                 <%= Resources.Phrases.Days %></h3>
             <div class="parts" id="divSummary">
                 <div class="part">
-                    <asp:ObjectDataSource ID="odsSummary" runat="server" TypeName="Uncas.EBS.UI.AppRepository.AppProjectRepository"
+                    <asp:ObjectDataSource ID="odsSummary" runat="server" TypeName="Uncas.EBS.UI.Controllers.ProjectController"
                         SelectMethod="GetProjectEstimate">
                         <SelectParameters>
                             <asp:ControlParameter ControlID="psProjects" Name="projectId" PropertyName="SelectedValue"
@@ -114,7 +114,7 @@
                 </div>
             </div>
             <div class="parts">
-                <asp:ObjectDataSource ID="odsProbabilities" runat="server" TypeName="Uncas.EBS.UI.AppRepository.AppProjectRepository"
+                <asp:ObjectDataSource ID="odsProbabilities" runat="server" TypeName="Uncas.EBS.UI.Controllers.ProjectController"
                     SelectMethod="GetIntervalProbabilities">
                     <SelectParameters>
                         <asp:ControlParameter ControlID="psProjects" Name="projectId" PropertyName="SelectedValue"
@@ -154,7 +154,7 @@
                 <%= Resources.Phrases.Issues %></h3>
             <div class="parts">
                 <div id="divIssues" class="part">
-                    <asp:ObjectDataSource ID="odsIssues" runat="server" TypeName="Uncas.EBS.UI.AppRepository.AppProjectRepository"
+                    <asp:ObjectDataSource ID="odsIssues" runat="server" TypeName="Uncas.EBS.UI.Controllers.ProjectController"
                         SelectMethod="GetIssueEstimates">
                         <SelectParameters>
                             <asp:ControlParameter ControlID="psProjects" Name="projectId" PropertyName="SelectedValue"

@@ -40,7 +40,7 @@
                     </ul>
                 </FooterTemplate>
             </asp:Repeater>
-            <asp:ObjectDataSource ID="odsLanguages" runat="server" TypeName="Uncas.EBS.UI.AppRepository.AppLanguageRepository"
+            <asp:ObjectDataSource ID="odsLanguages" runat="server" TypeName="Uncas.EBS.UI.Controllers.LanguageController"
                 SelectMethod="GetLanguages"></asp:ObjectDataSource>
         </div>
         <div id="content">

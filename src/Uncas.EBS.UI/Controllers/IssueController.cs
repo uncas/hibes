@@ -3,12 +3,12 @@ using Uncas.EBS.Domain.Model;
 using Uncas.EBS.Domain.Repository;
 using Uncas.EBS.Domain.ViewModel;
 
-namespace Uncas.EBS.UI.AppRepository
+namespace Uncas.EBS.UI.Controllers
 {
     /// <summary>
     /// Issue repository - layer for the web application.
     /// </summary>
-    public class AppIssueRepository
+    public class IssueController
     {
         private IIssueRepository _parent
             = App.Repositories.IssueRepository;

@@ -1,5 +1,5 @@
 ﻿using System.Web.UI.WebControls;
-using Uncas.EBS.UI.AppRepository;
+using Uncas.EBS.UI.Controllers;
 
 namespace Uncas.EBS.UI.Controls
 {
@@ -10,7 +10,7 @@ namespace Uncas.EBS.UI.Controls
             string allProjectsText = string.Format("- {0} -"
                 , Resources.Phrases.AllProjects);
             this.Items.Add(new ListItem(allProjectsText, ""));
-            AppProjectRepository projRepo = new AppProjectRepository();
+            ProjectController projRepo = new ProjectController();
             foreach (var project in projRepo.GetProjects())
             {
                 this.Items.Add(new ListItem(project.ProjectName

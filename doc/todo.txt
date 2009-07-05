@@ -1,40 +1,40 @@
-Usability:
-- Layout of estimation page!
-- Wider text boxes
-- Issue list: button to move priority up/down
-- Validation
-- Handle project selection differently
-- About page
-- Datebox
-- Web.config: set default culture (en=English or da=dansk)
-
-Features:
-- Reporting:
-    On estimate page:
-        Include elapsed
-        Include progress percentage
-            50% ship date per priority
-            Evolution of 5%/50%/95% ship date distribution over time
-        Requires multiple developers:
-            Distribution of possible ship dates for each developer
-            Database:
-                + Person
-                    PersonId
-                    PersonName
-                    DaysPerWeek
-                    HoursPerDay
-                PersonOff
-                    + RefPersonId
-                Task
-                    + RefPersonId
-    On history page:
-        Speed average + standard deviation
+Features
+--------
 - Possibility to change project name
-- When task is closed: require elapsed = current estimate
-- When issue is closed: require all tasks closed
-- Time units?
-- Import data from csv file
+- Handle multiple persons
+    - Person choice on task.
+    - When estimating task: Use random speed for person in question.
+    - Total estimate: One simulation with all tasks.
+    - Per person estimate: Simulation with tasks per person.
+    - Database (start by introducing it in the Model first,
+                then extend it to the DAL):
+        + Person
+            PersonId
+            PersonName
+            DaysPerWeek
+            HoursPerDay
+        PersonOff
+            + RefPersonId
+        Task
+            + RefPersonId
+- On estimate page:
+    Include days remaining: Total/per person
+    Include progress percentage
+        50% ship date per priority
+        Evolution of 5%/50%/95% ship date distribution over time
+    For multiple persons:
+        Distribution of possible ship dates for each person
+        Confidence intervals per person
 - Export to pdf / word file
+
+Table:
+       Average  St. dev.  5%  50%  95%  Days 50%
+Total
+N.N.
+M.M.
+P.P.
+
+
 
 Design:
 - Design: gridview, charts
@@ -44,5 +44,65 @@ Setup/administration:
 - Schema -> Schema-001.sql or some kind of version check
     SchemaVersions
 
-Rejected:
+
+Usability
+---------
+- Layout of estimation page!
+- Wider text boxes
+- Issue list: button to move priority up/down
+- Validation
+- Handle project selection differently
+- About page
+- Datebox
+- Web.config: set default culture (en=English or da=dansk)
+
+
+Refactor
+--------
+- Create Application layer:
+    - ApplicationServices
+    - Estimation
+
+
+Random number
+-------------
+1) How to generate a random number that is normal distributed?
+
+2) How to generate a random number between y0-dy and y0+dy 
+that has highest probability to be close to y0?
+
+Possible solution:
+a) Generate a random number x with even chances between -1 and +1.
+b) Calculate the number y = f(x) = y0 + dy * x^(2n+1)
+    where n=1,2,...
+Background:
+For the random number x we have the even probability distribution like:
+    1 = integral_{-1}^{+1} dx P(x), where P(x) = ½
+For the number y the corresponding distribution will be:
+    1 = integral_{y0-dy}^{y0+dy} dy Q(y)
+Using the relation between x and y we get that
+    Q(y) = [dy/(y-y0)]^[2n/(2n+1)] / [2(2n+1)dy]
+Alternative formulation:
+a) Generate a random number z with even chances between 0 and 1:
+b) Calculate the number y = g(z) = y0 + dy * (2z-1)^(2n+1)
+
+Solution from wikipedia:
+a) Generate two uniformly distributed random numbers U and V between 0 and 1:
+b) Calculate a normally distributed random number by
+    X = sqrt(-2 ln U) cos(2 pi V)
+or
+    Y = sqrt(-2 ln U) sin(2 pi V)
+
+
+
+
+Rejected / waiting:
 - Project version
+- Issue: Field that determines if the estimate is complete.
+- Time units?
+- Import data from csv file
+- On history page:
+    - Speed average + standard deviation
+    - List of recent closed tasks that are the basis for the average speeds.
+- When task is closed: require elapsed = current estimate
+- When issue is closed: require all tasks closed
