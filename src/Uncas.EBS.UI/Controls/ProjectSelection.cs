@@ -20,5 +20,18 @@ namespace Uncas.EBS.UI.Controls
             this.DataTextField = "ProjectName";
             this.DataValueField = "ProjectId";
         }
+
+        public int? ProjectId
+        {
+            get
+            {
+                int? projectId = null;
+                if (!string.IsNullOrEmpty(this.SelectedValue))
+                {
+                    projectId = int.Parse(this.SelectedValue);
+                }
+                return projectId;
+            }
+        }
     }
 }

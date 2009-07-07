@@ -107,10 +107,10 @@
                                     <th>
                                         <%= Resources.Phrases.Elapsed %>
                                     </th>
-                                    <th>
+                                    <th style="display: none;">
                                         <%= Resources.Phrases.Begin %>
                                     </th>
-                                    <th>
+                                    <th style="display: none;">
                                         <%= Resources.Phrases.End %>
                                     </th>
                                     <th>
@@ -134,11 +134,11 @@
                                 <td>
                                     <asp:TextBox ID="tbCurrent" runat="server" Text='<%# Bind("Elapsed") %>'></asp:TextBox>
                                 </td>
-                                <td>
+                                <td style="display: none;">
                                     <uncas:DateBox ID="dbStart" runat="server" DateObject='<%# Bind("StartDate") %>'>
                                     </uncas:DateBox>
                                 </td>
-                                <td>
+                                <td style="display: none;">
                                     <uncas:DateBox ID="dbEnd" runat="server" DateObject='<%# Bind("EndDate") %>'>
                                     </uncas:DateBox>
                                 </td>
@@ -191,9 +191,9 @@
                             HtmlEncode="false" DataFormatString="{0:N1}" ItemStyle-HorizontalAlign="Right" />
                         <uncas:BoundFieldResource HeaderResourceName="Elapsed" DataField="Elapsed" HtmlEncode="false"
                             DataFormatString="{0:N1}" ItemStyle-HorizontalAlign="Right" />
-                        <uncas:DateField HeaderResourceName="Begin" DataField="StartDate">
+                        <uncas:DateField HeaderResourceName="Begin" DataField="StartDate" Visible="false">
                         </uncas:DateField>
-                        <uncas:DateField HeaderResourceName="End" DataField="EndDate">
+                        <uncas:DateField HeaderResourceName="End" DataField="EndDate" Visible="false">
                         </uncas:DateField>
                         <uncas:BoundFieldResource HeaderResourceName="Created" DataField="CreatedDate" HtmlEncode="false"
                             DataFormatString="{0:d}" ReadOnly="true" />

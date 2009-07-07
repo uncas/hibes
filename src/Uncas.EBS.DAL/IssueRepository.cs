@@ -96,13 +96,8 @@ namespace Uncas.EBS.DAL
 
         public void DeleteIssue(int issueId)
         {
-            Issue issue = db.Issues
-                .Where(i => i.IssueId == issueId)
-                .SingleOrDefault();
-            if (issue == null)
-            {
-                throw new RepositoryException("Found no such issue to delete.");
-            }
+            Issue issue = ReadIssue(issueId
+                , "Found no such issue to delete.");
             if (db.Tasks.Where(t => t.RefIssueId == issueId).Count() > 0)
             {
                 throw new RepositoryException("Issue cannot be deleted when there are still tasks attached.");
@@ -116,6 +111,58 @@ namespace Uncas.EBS.DAL
             {
                 throw new RepositoryException(ex);
             }
+        }
+
+        private Issue ReadIssue(int issueId, string message)
+        {
+            Issue issue = db.Issues
+                .Where(i => i.IssueId == issueId)
+                .SingleOrDefault();
+            if (issue == null)
+            {
+                throw new RepositoryException(message);
+            }
+            return issue;
+        }
+
+        public bool AddOneToPriority(int issueId)
+        {
+            ChangePriority(issueId, 1);
+
+            return true;
+        }
+
+        private void ChangePriority(int issueId, int priorityChange)
+        {
+            Issue issue = ReadIssue(issueId
+                , "Found no such issue to change priority.");
+            issue.Priority += priorityChange;
+            base.SubmitChanges();
+        }
+
+        public bool SubtractOneFromPriority(int issueId)
+        {
+            ChangePriority(issueId, -1);
+            return true;
+        }
+
+        public bool PrioritizeAllOpenIssues(int? projectId)
+        {
+            int priority = 1;
+            var issues = db.Issues.Where(i => i.RefStatusId == 1);
+            if (projectId.HasValue)
+            {
+                issues = issues.Where(i => i.RefProjectId == projectId.Value);
+            }
+            issues = issues
+                .OrderBy(i => i.Title)
+                .OrderBy(i => i.Priority);
+            foreach (Issue issue in issues)
+            {
+                issue.Priority = priority++;
+            }
+            base.SubmitChanges();
+            return true;
         }
 
         #endregion

@@ -43,5 +43,19 @@ namespace Uncas.EBS.Domain.Repository
         /// </summary>
         /// <param name="issueId">The issue id.</param>
         void DeleteIssue(int issueId);
+
+        /// <summary>
+        /// Adds one to the priority.
+        /// </summary>
+        /// <param name="issueId">The issue id.</param>
+        bool AddOneToPriority(int issueId);
+
+        /// <summary>
+        /// Subtracts one from the priority.
+        /// </summary>
+        /// <param name="issueId">The issue id.</param>
+        bool SubtractOneFromPriority(int issueId);
+
+        bool PrioritizeAllOpenIssues(int? projectId);
     }
 }

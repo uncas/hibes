@@ -57,7 +57,9 @@ namespace Uncas.EBS.Domain.ViewModel
         {
             get
             {
-                if (this.Elapsed.HasValue)
+                if (this.Total.HasValue
+                    && this.Elapsed.HasValue
+                    && this.Total.Value != 0d)
                 {
                     return this.Elapsed.Value
                         / this.Total.Value;

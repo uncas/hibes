@@ -255,4 +255,7 @@
   <data name="FailedIssueDeletion" xml:space="preserve">
     <value>Sletning mislykkedes. Slet venligst alle opgavens gøremål før opgaven slettes.</value>
   </data>
+  <data name="PrioritizeOpenIssues" xml:space="preserve">
+    <value>Fordel prioriteten af åbne opgaver jævnt</value>
+  </data>
 </root>

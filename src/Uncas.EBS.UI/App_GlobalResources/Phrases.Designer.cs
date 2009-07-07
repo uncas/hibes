@@ -340,6 +340,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Distribute the priorities of open issues evenly.
+        /// </summary>
+        internal static string PrioritizeOpenIssues {
+            get {
+                return ResourceManager.GetString("PrioritizeOpenIssues", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Priority.
         /// </summary>
         internal static string Priority {

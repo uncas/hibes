@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Web.UI.WebControls;
+using Uncas.EBS.UI.Controllers;
 
 namespace Uncas.EBS.UI
 {
@@ -6,7 +8,11 @@ namespace Uncas.EBS.UI
     {
         protected void Page_Init(object sender, EventArgs e)
         {
-            odsIssues.Deleted += new System.Web.UI.WebControls.ObjectDataSourceStatusEventHandler(odsIssues_Deleted);
+            gvIssues.RowCommand
+                += new GridViewCommandEventHandler(gvIssues_RowCommand);
+            odsIssues.Deleted
+                += new ObjectDataSourceStatusEventHandler(odsIssues_Deleted);
+            lbPrioritizeAllOpenIssues.Click += new EventHandler(lbPrioritizeAllOpenIssues_Click);
         }
 
         protected void Page_Load(object sender, EventArgs e)
@@ -15,13 +21,58 @@ namespace Uncas.EBS.UI
             gvIssues.EmptyDataText = Resources.Phrases.NoIssues;
         }
 
-        void odsIssues_Deleted(object sender, System.Web.UI.WebControls.ObjectDataSourceStatusEventArgs e)
+        private IssueController _issueController
+            = new IssueController();
+
+        void gvIssues_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            switch (e.CommandName)
+            {
+                case "AddOneToPriority":
+                    {
+                        Func<int, bool> func =
+                            (int _issueId)
+                                => _issueController.AddOneToPriority(_issueId);
+                        ModifyIssue(e, func);
+                        break;
+                    }
+                case "SubtractOneFromPriority":
+                    {
+                        Func<int, bool> func =
+                            (int _issueId)
+                                => _issueController.SubtractOneFromPriority(_issueId);
+                        ModifyIssue(e, func);
+                        break;
+                    }
+                default:
+                    {
+                        break;
+                    }
+            }
+        }
+
+        private void ModifyIssue(GridViewCommandEventArgs e
+            , Func<int, bool> func)
+        {
+            int issueId = int.Parse(e.CommandArgument.ToString());
+            func(issueId);
+            gvIssues.DataBind();
+        }
+
+        void odsIssues_Deleted(object sender
+            , ObjectDataSourceStatusEventArgs e)
         {
             if (e.Exception != null)
             {
                 lblInfo.Text = Resources.Phrases.FailedIssueDeletion;
                 e.ExceptionHandled = true;
             }
+        }
+
+        void lbPrioritizeAllOpenIssues_Click(object sender, EventArgs e)
+        {
+            _issueController.PrioritizeAllOpenIssues(psProjects.ProjectId);
+            gvIssues.DataBind();
         }
     }
 }

@@ -113,3 +113,15 @@ th
 	float: left;
 	padding: 0.5em;
 }
+
+.plusMinusButton
+{
+	background-color: #CCCCCC;
+	padding: 0.1em;
+	text-decoration: none;
+}
+
+.plusMinusButton:hover
+{
+	background-color: #DDDDDD;
+}

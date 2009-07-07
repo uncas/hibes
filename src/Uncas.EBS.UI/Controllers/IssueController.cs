@@ -10,18 +10,39 @@ namespace Uncas.EBS.UI.Controllers
     /// </summary>
     public class IssueController
     {
-        private IIssueRepository _parent
-            = App.Repositories.IssueRepository;
+        #region Constructors with dependency injection
+
+        public IssueController()
+            : this(App.Repositories)
+        {
+        }
+
+        public IssueController(IRepositoryFactory repositories)
+        {
+            this._repositories = repositories;
+        }
+
+        private IRepositoryFactory _repositories;
+
+        private IIssueRepository _issueRepository
+        {
+            get
+            {
+                return _repositories.IssueRepository;
+            }
+        }
+
+        #endregion
 
         public Issue GetIssue(int issueId)
         {
-            var issueView = _parent.GetIssueView(issueId, Status.Closed);
+            var issueView = _issueRepository.GetIssueView(issueId, Status.Closed);
             return issueView.Issue;
         }
 
         public IList<IssueDetails> GetIssues(int? projectId, Status status)
         {
-            return _parent.GetIssues(projectId, status);
+            return _issueRepository.GetIssues(projectId, status);
         }
 
         public void InsertIssue(string projectName
@@ -36,7 +57,7 @@ namespace Uncas.EBS.UI.Controllers
                 Status = status,
                 Priority = priority
             };
-            _parent.InsertIssue(issue);
+            _issueRepository.InsertIssue(issue);
         }
 
         public void UpdateIssue(int Original_IssueId
@@ -51,12 +72,27 @@ namespace Uncas.EBS.UI.Controllers
                 Status = status,
                 Priority = priority
             };
-            _parent.UpdateIssue(issue);
+            _issueRepository.UpdateIssue(issue);
         }
 
         public void DeleteIssue(int Original_IssueId)
         {
-            _parent.DeleteIssue(Original_IssueId);
+            _issueRepository.DeleteIssue(Original_IssueId);
+        }
+
+        public bool AddOneToPriority(int Original_IssueId)
+        {
+            return _issueRepository.AddOneToPriority(Original_IssueId);
+        }
+
+        public bool SubtractOneFromPriority(int Original_IssueId)
+        {
+            return _issueRepository.SubtractOneFromPriority(Original_IssueId);
+        }
+
+        public bool PrioritizeAllOpenIssues(int? projectId)
+        {
+            return _issueRepository.PrioritizeAllOpenIssues(projectId);
         }
     }
 }

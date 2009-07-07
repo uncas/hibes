@@ -93,6 +93,14 @@
                             </ItemTemplate>
                         </asp:TemplateField>
                         <asp:TemplateField>
+                            <ItemTemplate>
+                                <asp:LinkButton ID="lbSubtractOneFromPriority" runat="server" CommandName="SubtractOneFromPriority"
+                                    CommandArgument='<%# Eval("IssueId") %>' CssClass="plusMinusButton">-</asp:LinkButton>
+                                <asp:LinkButton ID="lbAddOneToPriority" runat="server" CommandName="AddOneToPriority"
+                                    CommandArgument='<%# Eval("IssueId") %>' CssClass="plusMinusButton">+</asp:LinkButton>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField>
                             <HeaderTemplate>
                                 <%= Resources.Phrases.Issue %>
                             </HeaderTemplate>
@@ -156,6 +164,7 @@
                     </UpdateParameters>
                 </asp:ObjectDataSource>
             </div>
+            <asp:LinkButton ID="lbPrioritizeAllOpenIssues" runat="server"><%= Resources.Phrases.PrioritizeOpenIssues %></asp:LinkButton>
         </ContentTemplate>
     </asp:UpdatePanel>
 </asp:Content>

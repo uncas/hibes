@@ -255,4 +255,7 @@
   <data name="FailedIssueDeletion" xml:space="preserve">
     <value>Deletion of issue failed. Please delete all tasks for the issue first.</value>
   </data>
+  <data name="PrioritizeOpenIssues" xml:space="preserve">
+    <value>Distribute the priorities of open issues evenly</value>
+  </data>
 </root>
