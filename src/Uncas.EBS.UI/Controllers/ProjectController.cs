@@ -20,22 +20,17 @@ namespace Uncas.EBS.UI.Controllers
         private IProjectRepository _projectRepo
             = App.Repositories.ProjectRepository;
 
-        private TraceContext Trace = HttpContext.Current.Trace;
-
         public IList<Project> GetProjects()
         {
-            Trace.Write("GetProjects-Begin");
             var result = _projectRepo.GetProjects(); ;
-            Trace.Write("GetProjects-End");
             return result;
         }
 
         private ProjectEvaluation GetProjEval(int? projectId, int? maxPriority)
         {
-            Trace.Write("GetProjEval-Begin");
             string cacheKey = string.Format("ProjectEvaluation-{0}-{1}"
                 , projectId, maxPriority);
-            Cache cache = HttpContext.Current.Cache;
+            Cache cache = HttpRuntime.Cache;
             ProjectEvaluation projEval = (ProjectEvaluation)cache[cacheKey];
             if (projEval == null)
             {
@@ -50,37 +45,30 @@ namespace Uncas.EBS.UI.Controllers
                     , CacheItemPriority.Normal
                     , null);
             }
-            Trace.Write("GetProjEval-End");
             return projEval;
         }
 
         public IList<ProjectEvaluation> GetProjectEstimate
             (int? projectId, int? maxPriority)
         {
-            Trace.Write("GetProjectEstimate-Begin");
             var result = new List<ProjectEvaluation>();
             result.Add(GetProjEval(projectId, maxPriority));
-            Trace.Write("GetProjectEstimate-End");
             return result;
         }
 
         public IList<IntervalProbability> GetIntervalProbabilities
             (int? projectId, int? maxPriority)
         {
-            Trace.Write("GetIntervalProbabilities-Begin");
             var result = GetProjEval(projectId, maxPriority)
                 .Statistics.Probabilities;
-            Trace.Write("GetIntervalProbabilities-End");
             return result;
         }
 
         public IEnumerable<IssueEvaluation> GetIssueEstimates
             (int? projectId, int? maxPriority)
         {
-            Trace.Write("GetIssueEstimates-Begin");
             var result = GetProjEval(projectId, maxPriority)
                 .GetIssueEvaluations();
-            Trace.Write("GetIssueEstimates-End");
             return result;
         }
 
@@ -88,10 +76,8 @@ namespace Uncas.EBS.UI.Controllers
             GetCompletionDateConfidences
             (int? projectId, int? maxPriority)
         {
-            Trace.Write("GetCompletionDateConfidences-Begin");
             var projectEvaluation = GetProjEval(projectId, maxPriority);
             var result = projectEvaluation.GetCompletionDateConfidences();
-            Trace.Write("GetCompletionDateConfidences-End");
             return result;
         }
 
@@ -99,10 +85,8 @@ namespace Uncas.EBS.UI.Controllers
             GetSelectedCompletionDateConfidences
             (int? projectId, int? maxPriority)
         {
-            Trace.Write("GetSelectedCompletionDateConfidences-Begin");
             var projectEvaluation = GetProjEval(projectId, maxPriority);
             var result = projectEvaluation.GetSelectedCompletionDateConfidences();
-            Trace.Write("GetSelectedCompletionDateConfidences-End");
             return result;
         }
     }

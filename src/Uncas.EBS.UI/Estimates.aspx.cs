@@ -7,6 +7,11 @@ namespace Uncas.EBS.UI
 {
     public partial class Estimates : BasePage
     {
+        protected void Page_Init(object sender, EventArgs e)
+        {
+            lbDownloadLatex.Click += new EventHandler(lbDownloadLatex_Click);
+        }
+
         protected void Page_Load(object sender, EventArgs e)
         {
             var chartArea = chartProbabilities.ChartAreas[0];
@@ -43,6 +48,33 @@ namespace Uncas.EBS.UI
                 , result.Skip(2).FirstOrDefault().Date);
 
             throw new NotImplementedException();
+        }
+
+        private int? SelectedProjectId
+        {
+            get
+            {
+                return psProjects.ProjectId;
+            }
+        }
+
+        private int? SelectedMaxPriority
+        {
+            get
+            {
+                return nbMaxPriority.Number;
+            }
+        }
+
+        void lbDownloadLatex_Click(object sender, EventArgs e)
+        {
+            LatexHelpers lh = new LatexHelpers();
+            Response.Clear();
+            Response.ContentType = "text/plain";
+            Response.Write(lh.LatexFromCompletionDates
+                (SelectedProjectId, SelectedMaxPriority));
+            Response.Flush();
+            Response.End();
         }
     }
 }

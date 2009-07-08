@@ -181,4 +181,5 @@
             </div>
         </ContentTemplate>
     </asp:UpdatePanel>
+    <asp:LinkButton ID="lbDownloadLatex" runat="server">Hent LaTeX</asp:LinkButton>
 </asp:Content>
