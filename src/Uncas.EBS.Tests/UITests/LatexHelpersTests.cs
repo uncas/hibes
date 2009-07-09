@@ -1,8 +1,7 @@
-﻿using System;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
 using NUnit.Framework;
 using Uncas.EBS.UI.Helpers;
-using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace Uncas.EBS.Tests.UITests
 {
@@ -10,14 +9,6 @@ namespace Uncas.EBS.Tests.UITests
     public class LatexHelpersTests
     {
         LatexHelpers _latexHelpers = new LatexHelpers();
-
-        [Test]
-        public void LatexFromCompletionDates()
-        {
-            string result = _latexHelpers.GetLatexFromEstimate
-                (null, null);
-            Trace.Write(result);
-        }
 
         [Test]
         public void GetLatexTable()

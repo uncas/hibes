@@ -227,5 +227,25 @@ namespace Uncas.EBS.Domain.ViewModel
         {
             return _issueEvaluations.Select(i => i.Value).ToList();
         }
+
+        /// <summary>
+        /// Gets the days remaining.
+        /// </summary>
+        /// <value>The days remaining.</value>
+        public int DaysRemaining
+        {
+            get
+            {
+                DateTime mediumCompletionDate =
+                    GetCompletionDateConfidences()
+                    .Where(cdc => cdc.Probability == 0.5d)
+                    .FirstOrDefault()
+                    .Date;
+                return (int)Math.Ceiling
+                    (mediumCompletionDate
+                    .Subtract(DateTime.Now)
+                    .TotalDays);
+            }
+        }
     }
 }

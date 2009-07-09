@@ -5,7 +5,7 @@ using NUnit.Framework;
 using Uncas.EBS.Domain.Model;
 using Uncas.EBS.Domain.Repository;
 
-namespace Uncas.EBS.Tests.RepositoryTests
+namespace Uncas.EBS.IntegrationTests.RepositoryTests
 {
     [TestFixture]
     public class ProjectRepositoryTests
@@ -19,10 +19,14 @@ namespace Uncas.EBS.Tests.RepositoryTests
         [Test]
         public void GetProjects()
         {
+            int projectId = _projRepo
+                .GetProjects().FirstOrDefault()
+                .ProjectId;
+
             // Setting up:
             Issue issue = new Issue
             {
-                ProjectName = "ProjectRepositoryTests",
+                RefProjectId = projectId,
                 Title = "GetProjects"
             };
             _issueRepo.InsertIssue(issue);

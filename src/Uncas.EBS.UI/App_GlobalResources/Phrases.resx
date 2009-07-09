@@ -273,4 +273,10 @@
   <data name="InProgress" xml:space="preserve">
     <value>In progress</value>
   </data>
+  <data name="CreateNewProject" xml:space="preserve">
+    <value>Create new project</value>
+  </data>
+  <data name="FailedProjectDeletion" xml:space="preserve">
+    <value>Deletion of project failed. Please delete all issues for the project first.</value>
+  </data>
 </root>

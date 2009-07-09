@@ -1,7 +1,6 @@
 Features
 --------
-- Possibility to change project name
-- Handle multiple persons
+- Handle multiple persons:
     - Person choice on task.
     - When estimating task: Use random speed for person in question.
     - Total estimate: One simulation with all tasks.
@@ -17,29 +16,35 @@ Features
             + RefPersonId
         Task
             + RefPersonId
-- On estimate page:
-    Include days remaining: Total/per person
-    Include progress percentage
-        50% ship date per priority
-        Evolution of 5%/50%/95% ship date distribution over time
-    For multiple persons:
+    - On estimate page:
         Distribution of possible ship dates for each person
         Confidence intervals per person
-- Export to pdf / word file
+        Include days remaining: Total/per person
+- Time registration:
+    TimePost
+        TimePostId
+        RefTaskId
+        Date
+        Description
+        ElapsedHours
+    Every time this table is updated, 
+    the corresponding task is updated with elapsed hours.
 
-Table:
-       Average  St. dev.  5%  50%  95%  Days 50%
-Total
-N.N.
-M.M.
-P.P.
+
+Testing
+-------
+- Create new test project for integration tests and leave unit tests in the old one.
+- Use mock repository classes for unit testing.
 
 
-
-Design:
+Design
+------
 - Design: gridview, charts
+- whitespace, color
 
-Setup/administration:
+
+Setup/administration
+--------------------
 - Comments and documentation
 - Schema -> Schema-001.sql or some kind of version check
     SchemaVersions
@@ -47,11 +52,8 @@ Setup/administration:
 
 Usability
 ---------
-- Layout of estimation page!
 - Wider text boxes
-- Issue list: button to move priority up/down
 - Validation
-- Handle project selection differently
 - About page
 - Datebox
 - Web.config: set default culture (en=English or da=dansk)
@@ -94,11 +96,10 @@ or
     Y = sqrt(-2 ln U) sin(2 pi V)
 
 
-
-
-Rejected / waiting:
+Rejected / waiting
+------------------
 - Project version
-- Issue: Field that determines if the estimate is complete.
+- Issue: Field that tells if the estimate is complete.
 - Time units?
 - Import data from csv file
 - On history page:
@@ -106,3 +107,8 @@ Rejected / waiting:
     - List of recent closed tasks that are the basis for the average speeds.
 - When task is closed: require elapsed = current estimate
 - When issue is closed: require all tasks closed
+- Task list: +- buttons to move up/down in sequence
+- On estimate page:
+    Include progress percentage
+        50% ship date per priority (5, 10, 15, ...)
+        Evolution of 5%/50%/95% ship date distribution over time

@@ -1,11 +1,11 @@
 ﻿using Uncas.EBS.DAL;
 using Uncas.EBS.Domain.Repository;
 
-namespace Uncas.EBS.Tests
+namespace Uncas.EBS.IntegrationTests
 {
     class TestApp
     {
-        internal static IRepositoryFactory Repositories 
+        internal static IRepositoryFactory Repositories
             = new RepositoryFactory();
     }
 }

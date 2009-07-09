@@ -87,7 +87,7 @@ namespace Uncas.EBS.UI
 
         void lbPrioritizeAllOpenIssues_Click(object sender, EventArgs e)
         {
-            _issueController.PrioritizeAllOpenIssues(psProjects.ProjectId);
+            _issueController.PrioritizeAllOpenIssues(pfProjects.ProjectId);
             gvIssues.DataBind();
         }
     }

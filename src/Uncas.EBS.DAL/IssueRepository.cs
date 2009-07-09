@@ -220,16 +220,14 @@ namespace Uncas.EBS.DAL
             };
         }
 
-        private Issue GetDbIssueFromModelIssue(Model.Issue issue)
+        private Issue GetDbIssueFromModelIssue
+            (Model.Issue issue)
         {
-            ProjectRepository projRepo = new ProjectRepository();
-            Project project = projRepo.GetProjectByName(issue.ProjectName);
-            int projectId = project.ProjectId;
             var dbIssue = new Issue
                 {
                     CreatedDate = issue.CreatedDate,
                     Priority = issue.Priority,
-                    RefProjectId = projectId,
+                    RefProjectId = issue.RefProjectId,
                     RefStatusId = (int)issue.Status,
                     Title = issue.Title,
                 };

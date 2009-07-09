@@ -45,14 +45,14 @@ namespace Uncas.EBS.UI.Controllers
             return _issueRepository.GetIssues(projectId, status);
         }
 
-        public void InsertIssue(string projectName
+        public void InsertIssue(int refProjectId
             , string title
             , Status status
             , int priority)
         {
             Issue issue = new Issue
             {
-                ProjectName = projectName,
+                RefProjectId = refProjectId,
                 Title = title,
                 Status = status,
                 Priority = priority

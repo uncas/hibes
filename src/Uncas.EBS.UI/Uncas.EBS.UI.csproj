@@ -89,6 +89,7 @@
     <Compile Include="Controls\ColorCodes.ascx.designer.cs">
       <DependentUpon>ColorCodes.ascx</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ProjectFilter.cs" />
     <Compile Include="Controls\DateBox.cs" />
     <Compile Include="Controls\DateField.cs" />
     <Compile Include="Controls\HyperLinkFieldResource.cs" />
@@ -145,7 +146,21 @@
     <Compile Include="PersonSetup.aspx.designer.cs">
       <DependentUpon>PersonSetup.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Projects.aspx.cs">
+      <DependentUpon>Projects.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Projects.aspx.designer.cs">
+      <DependentUpon>Projects.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Setup.aspx.cs">
+      <DependentUpon>Setup.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Setup.aspx.designer.cs">
+      <DependentUpon>Setup.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Speeds.aspx.cs">
       <DependentUpon>Speeds.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -199,6 +214,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Controls\ColorCodes.ascx" />
+    <Content Include="Projects.aspx" />
+    <Content Include="Setup.aspx" />
     <Content Include="Web.appSettings.config" />
   </ItemGroup>
   <ItemGroup>

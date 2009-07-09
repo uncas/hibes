@@ -28,5 +28,28 @@ namespace Uncas.EBS.Domain.Repository
             , int? maxPriority
             , int numberOfSimulations
             , int maxNumberOfHistoricalData);
+
+        /// <summary>
+        /// Inserts the project.
+        /// </summary>
+        /// <param name="projectName">Name of the project.</param>
+        void InsertProject
+            (string projectName);
+
+        /// <summary>
+        /// Deletes the project.
+        /// </summary>
+        /// <param name="projectId">The project id.</param>
+        void DeleteProject
+            (int projectId);
+
+        /// <summary>
+        /// Updates the project.
+        /// </summary>
+        /// <param name="projectName">Name of the project.</param>
+        /// <param name="projectId">The project id.</param>
+        void UpdateProject
+            (string projectName, int projectId);
+
     }
 }

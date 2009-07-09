@@ -16,8 +16,8 @@
                     <div class="part">
                         <div class="options">
                             <div class="option">
-                                <uncas:ProjectSelection ID="psProjects" runat="server">
-                                </uncas:ProjectSelection>
+                                <uncas:ProjectFilter ID="psProjects" runat="server">
+                                </uncas:ProjectFilter>
                             </div>
                             <div class="option">
                                 <uncas:ResourceLabel ID="rlMaxPriority" runat="server" ResourceName="MaxPriority"></uncas:ResourceLabel>
@@ -113,6 +113,7 @@
                                 <uncas:BoundFieldResource HeaderResourceName="Progress" DataField="Progress" DataFormatString="{0:P0}" />
                                 <uncas:BoundFieldResource HeaderResourceName="Issues" DataField="NumberOfOpenIssues" />
                                 <uncas:BoundFieldResource HeaderResourceName="Tasks" DataField="NumberOfOpenTasks" />
+                                <uncas:BoundFieldResource HeaderResourceName="Days" DataField="DaysRemaining" />
                             </Columns>
                         </asp:GridView>
                     </div>

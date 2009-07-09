@@ -33,6 +33,12 @@ namespace Uncas.EBS.Domain.Model
         public DateTime CreatedDate { get; set; }
 
         /// <summary>
+        /// Gets or sets the project id.
+        /// </summary>
+        /// <value>The project id.</value>
+        public int RefProjectId { get; set; }
+
+        /// <summary>
         /// Gets or sets the name of the project.
         /// </summary>
         /// <value>The name of the project.</value>

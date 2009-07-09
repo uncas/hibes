@@ -89,5 +89,20 @@ namespace Uncas.EBS.UI.Controllers
             var result = projectEvaluation.GetSelectedCompletionDateConfidences();
             return result;
         }
+
+        public void InsertProject(string projectName)
+        {
+            _projectRepo.InsertProject(projectName);
+        }
+
+        public void DeleteProject(int Original_ProjectId)
+        {
+            _projectRepo.DeleteProject(Original_ProjectId);
+        }
+
+        public void UpdateProject(string projectName, int Original_ProjectId)
+        {
+            _projectRepo.UpdateProject(projectName, Original_ProjectId);
+        }
     }
 }

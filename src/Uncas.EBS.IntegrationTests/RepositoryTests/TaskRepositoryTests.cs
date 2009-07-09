@@ -3,7 +3,7 @@ using NUnit.Framework;
 using Uncas.EBS.Domain.Model;
 using Uncas.EBS.Domain.Repository;
 
-namespace Uncas.EBS.Tests.RepositoryTests
+namespace Uncas.EBS.IntegrationTests.RepositoryTests
 {
     [TestFixture]
     public class TaskRepositoryTests
@@ -14,13 +14,20 @@ namespace Uncas.EBS.Tests.RepositoryTests
         private IIssueRepository _issueRepo
             = TestApp.Repositories.IssueRepository;
 
+        private IProjectRepository _projectRepo
+            = TestApp.Repositories.ProjectRepository;
+
         [Test]
         public void InsertTask()
         {
+            int projectId = _projectRepo
+                .GetProjects().FirstOrDefault()
+                .ProjectId;
+
             // Setting up:
             Issue issue = new Issue
             {
-                ProjectName = "xxx",
+                RefProjectId = projectId,
                 Title = "Abc",
             };
             _issueRepo.InsertIssue(issue);
@@ -143,10 +150,14 @@ namespace Uncas.EBS.Tests.RepositoryTests
         [Test]
         public void DeleteTask()
         {
+            int projectId = _projectRepo
+                .GetProjects().FirstOrDefault()
+                .ProjectId;
+
             // Setting up:
             Issue issue = new Issue
             {
-                ProjectName = "xxx",
+                RefProjectId = projectId,
                 Title = "Abc",
             };
             _issueRepo.InsertIssue(issue);

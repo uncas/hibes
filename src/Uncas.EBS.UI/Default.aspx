@@ -6,7 +6,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <asp:UpdatePanel ID="up1" runat="server">
         <ContentTemplate>
-            <asp:Label ID="lblInfo" runat="server" ForeColor="Red"></asp:Label>
+            <asp:Label ID="lblInfo" runat="server" CssClass="error"></asp:Label>
             <div class="parts">
                 <div class="part">
                     <h2>
@@ -15,8 +15,8 @@
                 <div class="part">
                     <div class="options">
                         <div class="option">
-                            <uncas:ProjectSelection ID="psProjects" runat="server">
-                            </uncas:ProjectSelection>
+                            <uncas:ProjectFilter ID="pfProjects" runat="server">
+                            </uncas:ProjectFilter>
                         </div>
                         <div class="option">
                             <uncas:StatusOptions ID="soStatus" runat="server">
@@ -55,7 +55,7 @@
                             </thead>
                             <tr>
                                 <td>
-                                    <asp:TextBox ID="tbProjectName" runat="server" Text='<%# Bind("ProjectName") %>'></asp:TextBox>
+                                    <uncas:ProjectSelection ID="psProject" runat="server" SelectedValue='<%# Bind("RefProjectId") %>' />
                                 </td>
                                 <td>
                                     <uncas:NumberBox ID="nbPriority" runat="server" Text='<%# Bind("Priority") %>' />
@@ -151,7 +151,7 @@
                     SelectMethod="GetIssues" UpdateMethod="UpdateIssue" InsertMethod="InsertIssue"
                     DeleteMethod="DeleteIssue" OldValuesParameterFormatString="Original_{0}">
                     <SelectParameters>
-                        <asp:ControlParameter ControlID="psProjects" Name="projectId" PropertyName="SelectedValue"
+                        <asp:ControlParameter ControlID="pfProjects" Name="projectId" PropertyName="SelectedValue"
                             Type="Int32" />
                         <asp:ControlParameter ControlID="soStatus" Name="status" PropertyName="SelectedValue"
                             Type="Object" />

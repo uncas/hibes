@@ -17,7 +17,7 @@ namespace Uncas.EBS.DAL
         {
             var result = db.Projects
                 // Only shows projects with issues:
-                .Where(p => p.Issues.Count > 0)
+                //.Where(p => p.Issues.Count > 0)
                 .Select
                 (p => new Model.Project
                     {
@@ -81,14 +81,37 @@ namespace Uncas.EBS.DAL
                 .SingleOrDefault();
         }
 
-        private void InsertProject(string projectName)
+        public void InsertProject(string projectName)
         {
+            if (string.IsNullOrEmpty(projectName))
+            {
+                throw new RepositoryException("Project name required");
+            }
+
             Project project = new Project
             {
                 ProjectName = projectName,
                 CreatedDate = DateTime.Now
             };
             db.Projects.InsertOnSubmit(project);
+            base.SubmitChanges();
+        }
+
+        public void DeleteProject(int projectId)
+        {
+            var project = db.Projects
+                .Where(p => p.ProjectId == projectId)
+                .SingleOrDefault();
+            db.Projects.DeleteOnSubmit(project);
+            base.SubmitChanges();
+        }
+
+        public void UpdateProject(string projectName, int projectId)
+        {
+            var project = db.Projects
+                .Where(p => p.ProjectId == projectId)
+                .SingleOrDefault();
+            project.ProjectName = projectName;
             base.SubmitChanges();
         }
     }

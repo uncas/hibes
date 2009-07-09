@@ -11,7 +11,7 @@
 namespace Uncas.EBS.UI {
     
     
-    public partial class Default {
+    public partial class Projects {
         
         /// <summary>
         /// up1 control.
@@ -32,66 +32,30 @@ namespace Uncas.EBS.UI {
         protected global::System.Web.UI.WebControls.Label lblInfo;
         
         /// <summary>
-        /// pfProjects control.
+        /// fvNewProject control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Uncas.EBS.UI.Controls.ProjectFilter pfProjects;
+        protected global::System.Web.UI.WebControls.FormView fvNewProject;
         
         /// <summary>
-        /// soStatus control.
+        /// gvProjects control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Uncas.EBS.UI.Controls.StatusOptions soStatus;
+        protected global::System.Web.UI.WebControls.GridView gvProjects;
         
         /// <summary>
-        /// fvNewIssue control.
+        /// odsProjects control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.FormView fvNewIssue;
-        
-        /// <summary>
-        /// gvIssues control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gvIssues;
-        
-        /// <summary>
-        /// odsIssues control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ObjectDataSource odsIssues;
-        
-        /// <summary>
-        /// cc control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Uncas.EBS.UI.Controls.ColorCodes cc;
-        
-        /// <summary>
-        /// lbPrioritizeAllOpenIssues control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton lbPrioritizeAllOpenIssues;
+        protected global::System.Web.UI.WebControls.ObjectDataSource odsProjects;
     }
 }

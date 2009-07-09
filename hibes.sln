@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uncas.EBS.DAL", "src\Uncas.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uncas.EBS.Tests", "src\Uncas.EBS.Tests\Uncas.EBS.Tests.csproj", "{40AECC36-94C1-4EE1-83D9-E7AFBFB868E2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uncas.EBS.IntegrationTests", "src\Uncas.EBS.IntegrationTests\Uncas.EBS.IntegrationTests.csproj", "{B7FA4055-C329-4691-90C6-166EDC3C5A24}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{AA05878D-1B04-4DAA-950B-4692C3C6D584}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,8 +35,16 @@ Global
 		{40AECC36-94C1-4EE1-83D9-E7AFBFB868E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{40AECC36-94C1-4EE1-83D9-E7AFBFB868E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{40AECC36-94C1-4EE1-83D9-E7AFBFB868E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B7FA4055-C329-4691-90C6-166EDC3C5A24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7FA4055-C329-4691-90C6-166EDC3C5A24}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7FA4055-C329-4691-90C6-166EDC3C5A24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7FA4055-C329-4691-90C6-166EDC3C5A24}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B7FA4055-C329-4691-90C6-166EDC3C5A24} = {AA05878D-1B04-4DAA-950B-4692C3C6D584}
+		{40AECC36-94C1-4EE1-83D9-E7AFBFB868E2} = {AA05878D-1B04-4DAA-950B-4692C3C6D584}
 	EndGlobalSection
 EndGlobal

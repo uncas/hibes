@@ -56,6 +56,11 @@ namespace Uncas.EBS.Domain.Repository
         /// <param name="issueId">The issue id.</param>
         bool SubtractOneFromPriority(int issueId);
 
+        /// <summary>
+        /// Prioritizes all open issues.
+        /// </summary>
+        /// <param name="projectId">The project id.</param>
+        /// <returns></returns>
         bool PrioritizeAllOpenIssues(int? projectId);
     }
 }

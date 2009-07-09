@@ -163,3 +163,9 @@ ul a:hover
 {
 	background-color: #99FF99;
 }
+
+.error
+{
+	background-color: inherit;
+	color: red;
+}

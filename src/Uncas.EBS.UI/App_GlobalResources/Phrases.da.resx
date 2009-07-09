@@ -273,4 +273,10 @@
   <data name="InProgress" xml:space="preserve">
     <value>I gang</value>
   </data>
+  <data name="CreateNewProject" xml:space="preserve">
+    <value>Opret nyt projekt</value>
+  </data>
+  <data name="FailedProjectDeletion" xml:space="preserve">
+    <value>Sletning mislykkedes. Slet venligst alle projektets opgaver før projektet slettes.</value>
+  </data>
 </root>

@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{40AECC36-94C1-4EE1-83D9-E7AFBFB868E2}</ProjectGuid>
+    <ProjectGuid>{B7FA4055-C329-4691-90C6-166EDC3C5A24}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Uncas.EBS.Tests</RootNamespace>
-    <AssemblyName>Uncas.EBS.Tests</AssemblyName>
+    <RootNamespace>Uncas.EBS.IntegrationTests</RootNamespace>
+    <AssemblyName>Uncas.EBS.IntegrationTests</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -47,10 +47,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SimulationTests\EvaluationsTests.cs" />
+    <Compile Include="RepositoryTests\IssueRepositoryTests.cs" />
+    <Compile Include="RepositoryTests\ProjectRepositoryTests.cs" />
+    <Compile Include="RepositoryTests\TaskRepositoryTests.cs" />
     <Compile Include="TestApp.cs" />
-    <Compile Include="UITests\LatexHelpersTests.cs" />
-    <Compile Include="ViewModelTests\EvaluationTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Uncas.EBS.DAL\Uncas.EBS.DAL.csproj">

@@ -142,6 +142,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Create new project.
+        /// </summary>
+        internal static string CreateNewProject {
+            get {
+                return ResourceManager.GetString("CreateNewProject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create new task.
         /// </summary>
         internal static string CreateNewTask {
@@ -228,6 +237,15 @@ namespace Resources {
         internal static string FailedIssueDeletion {
             get {
                 return ResourceManager.GetString("FailedIssueDeletion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deletion of project failed. Please delete all issues for the project first..
+        /// </summary>
+        internal static string FailedProjectDeletion {
+            get {
+                return ResourceManager.GetString("FailedProjectDeletion", resourceCulture);
             }
         }
         

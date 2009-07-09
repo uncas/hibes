@@ -5,7 +5,7 @@ using NUnit.Framework;
 using Uncas.EBS.Domain.Model;
 using Uncas.EBS.Domain.Repository;
 
-namespace Uncas.EBS.Tests.RepositoryTests
+namespace Uncas.EBS.IntegrationTests.RepositoryTests
 {
     [TestFixture]
     public class IssueRepositoryTests
@@ -26,10 +26,14 @@ namespace Uncas.EBS.Tests.RepositoryTests
         [Test]
         public void GetIssues_All()
         {
+            int projectId = _projectRepo
+                .GetProjects().FirstOrDefault()
+                .ProjectId;
+
             // Setting up:
             Issue issueClosed = new Issue
             {
-                ProjectName = "TestProject2",
+                RefProjectId = projectId,
                 Priority = _rnd.Next(100),
                 Status = Status.Closed,
                 Title = "TestIssue",
@@ -37,7 +41,7 @@ namespace Uncas.EBS.Tests.RepositoryTests
             _issueRepo.InsertIssue(issueClosed);
             Issue issueOpen = new Issue
             {
-                ProjectName = "TestProject2",
+                RefProjectId = projectId,
                 Priority = _rnd.Next(100),
                 Status = Status.Open,
                 Title = "TestIssue",
@@ -82,10 +86,14 @@ namespace Uncas.EBS.Tests.RepositoryTests
         [Test]
         public void GetIssueView()
         {
+            int projectId = _projectRepo
+                .GetProjects().FirstOrDefault()
+                .ProjectId;
+
             // Setting up:
             Issue issue = new Issue
             {
-                ProjectName = "IssueRepositoryTests",
+                RefProjectId = projectId,
                 Title = "GetIssueView"
             };
             _issueRepo.InsertIssue(issue);
@@ -141,10 +149,14 @@ namespace Uncas.EBS.Tests.RepositoryTests
         [Test]
         public void InsertIssueTest()
         {
+            int projectId = _projectRepo
+                .GetProjects().FirstOrDefault()
+                .ProjectId;
+
             // Setting up:
             Issue issue = new Issue
             {
-                ProjectName = "TestProject2",
+                RefProjectId = projectId,
                 Priority = _rnd.Next(100),
                 Status = Status.Closed,
                 Title = "TestIssue",
@@ -197,12 +209,16 @@ namespace Uncas.EBS.Tests.RepositoryTests
         //[ExpectedException(typeof(RepositoryException))]
         public void InsertIssueTest_MissingTitle_Retry()
         {
+            int projectId = _projectRepo
+                .GetProjects().FirstOrDefault()
+                .ProjectId;
+
             // Setting up:
             Issue issue = new Issue
             {
                 Priority = _rnd.Next(100),
                 Status = Status.Closed,
-                ProjectName = "TestProject3",
+                RefProjectId = projectId
             };
 
             // Testing:
@@ -224,6 +240,10 @@ namespace Uncas.EBS.Tests.RepositoryTests
         [Test]
         public void UpdateIssue()
         {
+            int projectId = _projectRepo
+                .GetProjects().FirstOrDefault()
+                .ProjectId;
+
             // Setting up:
             int oldPriority = _rnd.Next(100);
             string oldTitle = "OriginalTitle";
@@ -231,7 +251,7 @@ namespace Uncas.EBS.Tests.RepositoryTests
             Issue issue = new Issue
             {
                 Priority = oldPriority,
-                ProjectName = "TestProject3",
+                RefProjectId = projectId,
                 Status = oldStatus,
                 Title = oldTitle
             };
@@ -260,11 +280,14 @@ namespace Uncas.EBS.Tests.RepositoryTests
         [Test]
         public void DeleteIssue()
         {
+            int projectId = _projectRepo
+                .GetProjects().FirstOrDefault()
+                .ProjectId;
             // Setting up:
             Issue issue = new Issue
             {
                 Priority = _rnd.Next(100),
-                ProjectName = "TestProject3",
+                RefProjectId = projectId,
                 Status = Status.Closed,
                 Title = "asd"
             };

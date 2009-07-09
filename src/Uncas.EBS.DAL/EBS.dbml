@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Database Name="EBS" Class="EBSDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="AppSettings" ConnectionString="Data Source=.\sqlexpress;Initial Catalog=EBS;Integrated Security=True" SettingsObjectName="Uncas.EBS.DAL.Properties.Settings" SettingsPropertyName="EBSConnectionString" Provider="System.Data.SqlClient" />
+  <Connection Mode="AppSettings" ConnectionString="Data Source=.\sqlexpress;Initial Catalog=hibes-dev;Integrated Security=True" SettingsObjectName="Uncas.EBS.DAL.Properties.Settings" SettingsPropertyName="EBSConnectionString" Provider="System.Data.SqlClient" />
   <Table Name="dbo.Issue" Member="Issues">
     <Type Name="Issue">
       <Column Name="IssueId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />

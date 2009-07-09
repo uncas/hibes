@@ -25,7 +25,7 @@
                     <%= Resources.Phrases.Estimates %></a></li>
                 <li><a href="Speeds.aspx">
                     <%= Resources.Phrases.History %></a></li>
-                <li><a href="PersonSetup.aspx">
+                <li><a href="Setup.aspx">
                     <%= Resources.Phrases.Setup %></a></li>
             </ul>
             <asp:Repeater ID="rptrLanguages" runat="server" DataSourceID="odsLanguages">

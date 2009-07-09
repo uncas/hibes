@@ -41,9 +41,11 @@
         <call target="cleanFolder" />
         <property name="folderToClean" value="Domain" />
         <call target="cleanFolder" />
-        <property name="folderToClean" value="Tests" />
-        <call target="cleanFolder" />
         <property name="folderToClean" value="UI" />
+        <call target="cleanFolder" />
+        <property name="folderToClean" value="IntegrationTests" />
+        <call target="cleanFolder" />
+        <property name="folderToClean" value="Tests" />
         <call target="cleanFolder" />
 	</target>
 	
