@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Web.UI.WebControls;
 using Uncas.EBS.UI.Controllers;
+using Uncas.EBS.Domain.Model;
+using Uncas.EBS.Domain.ViewModel;
+using Uncas.EBS.UI.Helpers;
 
 namespace Uncas.EBS.UI
 {
@@ -8,11 +11,14 @@ namespace Uncas.EBS.UI
     {
         protected void Page_Init(object sender, EventArgs e)
         {
+            gvIssues.RowDataBound
+                += new GridViewRowEventHandler(gvIssues_RowDataBound);
             gvIssues.RowCommand
                 += new GridViewCommandEventHandler(gvIssues_RowCommand);
             odsIssues.Deleted
                 += new ObjectDataSourceStatusEventHandler(odsIssues_Deleted);
-            lbPrioritizeAllOpenIssues.Click += new EventHandler(lbPrioritizeAllOpenIssues_Click);
+            lbPrioritizeAllOpenIssues.Click
+                += new EventHandler(lbPrioritizeAllOpenIssues_Click);
         }
 
         protected void Page_Load(object sender, EventArgs e)
@@ -23,6 +29,16 @@ namespace Uncas.EBS.UI
 
         private IssueController _issueController
             = new IssueController();
+
+        void gvIssues_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                var issueDetails = (IssueDetails)e.Row.DataItem;
+                double? fractionElapsed = issueDetails.FractionElapsed;
+                StyleHelpers.SetIssueRowStyle(e.Row, fractionElapsed);
+            }
+        }
 
         void gvIssues_RowCommand(object sender, GridViewCommandEventArgs e)
         {

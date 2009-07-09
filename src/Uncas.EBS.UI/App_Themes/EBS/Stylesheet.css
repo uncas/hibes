@@ -40,6 +40,34 @@ th
 	text-align: left;
 }
 
+ul
+{
+	margin: 0;
+	padding: 0;
+}
+
+ul li
+{
+	list-style: none;
+	display: inline;
+	margin: 0.3em;
+}
+
+ul a
+{
+	background-color: #DDDDFF;
+	color: inherit;
+	padding: 0.1em 0.2em;
+	text-decoration: none;
+}
+
+ul a:hover
+{
+	background-color: #CCCCFF;
+	color: inherit;
+}
+
+
 /* Master layout */
 
 #page
@@ -67,7 +95,7 @@ th
 #header ul li
 {
 	display: inline;
-	margin: 0 0.1em;
+	margin: 0.3 0.1em;
 }
 
 #header ul a
@@ -124,4 +152,14 @@ th
 .plusMinusButton:hover
 {
 	background-color: #DDDDDD;
+}
+
+.noTasks
+{
+	background-color: #FF9999;
+}
+
+.inProgress
+{
+	background-color: #99FF99;
 }

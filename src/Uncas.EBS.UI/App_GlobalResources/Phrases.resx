@@ -241,10 +241,10 @@
     <value>Enter days off</value>
   </data>
   <data name="NoIssues" xml:space="preserve">
-    <value>No issues with the chosen criteria.</value>
+    <value>No issues with the chosen criteria</value>
   </data>
   <data name="NoTasks" xml:space="preserve">
-    <value>No tasks with the chosen criteria.</value>
+    <value>No tasks</value>
   </data>
   <data name="Date" xml:space="preserve">
     <value>Date</value>
@@ -263,5 +263,14 @@
   </data>
   <data name="GetInWord" xml:space="preserve">
     <value>Download this in Word format</value>
+  </data>
+  <data name="GetInExcel" xml:space="preserve">
+    <value>Download this in Excel format</value>
+  </data>
+  <data name="NotStarted" xml:space="preserve">
+    <value>Not started yet</value>
+  </data>
+  <data name="InProgress" xml:space="preserve">
+    <value>In progress</value>
   </data>
 </root>

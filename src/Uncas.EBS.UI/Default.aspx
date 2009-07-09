@@ -163,6 +163,7 @@
                         <asp:Parameter Name="Priority" Type="Int32" />
                     </UpdateParameters>
                 </asp:ObjectDataSource>
+                <uncas:ColorCodes ID="cc" runat="server" />
             </div>
             <asp:LinkButton ID="lbPrioritizeAllOpenIssues" runat="server"><%= Resources.Phrases.PrioritizeOpenIssues %></asp:LinkButton>
         </ContentTemplate>

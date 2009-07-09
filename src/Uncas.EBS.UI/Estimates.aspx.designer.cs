@@ -203,6 +203,15 @@ namespace Uncas.EBS.UI {
         protected global::System.Web.UI.WebControls.GridView gvIssues;
         
         /// <summary>
+        /// cc control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Uncas.EBS.UI.Controls.ColorCodes cc;
+        
+        /// <summary>
         /// lbDownloadLatex control.
         /// </summary>
         /// <remarks>
@@ -219,5 +228,14 @@ namespace Uncas.EBS.UI {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lbDownloadWord;
+        
+        /// <summary>
+        /// lbDownloadExcel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton lbDownloadExcel;
     }
 }

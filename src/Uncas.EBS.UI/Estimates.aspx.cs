@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using Uncas.EBS.Domain.ViewModel;
 using Uncas.EBS.UI.Helpers;
 
 namespace Uncas.EBS.UI
@@ -12,6 +13,8 @@ namespace Uncas.EBS.UI
         {
             lbDownloadLatex.Click += new EventHandler(lbDownloadLatex_Click);
             lbDownloadWord.Click += new EventHandler(lbDownloadWord_Click);
+            lbDownloadExcel.Click += new EventHandler(lbDownloadExcel_Click);
+            gvIssues.RowDataBound += new GridViewRowEventHandler(gvIssues_RowDataBound);
         }
 
         protected void Page_Load(object sender, EventArgs e)
@@ -33,6 +36,16 @@ namespace Uncas.EBS.UI
             StyleHelpers.SetChartStyles(chartCompletionDateConfidences);
             StyleHelpers.SetChartStyles(chartDateRanges);
             StyleHelpers.SetChartStyles(chartProbabilities);
+        }
+
+        void gvIssues_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                var issueDetails = (IssueEvaluation)e.Row.DataItem;
+                double? fractionElapsed = issueDetails.Progress;
+                StyleHelpers.SetIssueRowStyle(e.Row, fractionElapsed);
+            }
         }
 
         private void ShowDateRanges()
@@ -77,10 +90,16 @@ namespace Uncas.EBS.UI
                 , Response);
         }
 
+        OfficeHelpers _officeHelpers = new OfficeHelpers();
+
         void lbDownloadWord_Click(object sender, EventArgs e)
         {
-            OfficeHelpers officeHelpers = new OfficeHelpers();
-            officeHelpers.DownloadWord(ph1, "estimates", Response);
+            _officeHelpers.DownloadWord(ph1, "estimates", Response);
+        }
+
+        void lbDownloadExcel_Click(object sender, EventArgs e)
+        {
+            _officeHelpers.DownloadExcel(ph1, "estimates", Response);
         }
 
         public override void VerifyRenderingInServerForm(Control control)

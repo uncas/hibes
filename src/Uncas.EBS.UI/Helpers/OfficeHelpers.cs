@@ -12,12 +12,44 @@ namespace Uncas.EBS.UI.Helpers
             , string fileName
             , HttpResponse response)
         {
+            string fileExtension = ".doc";
+            string contentType = "application/msword";
+            DownloadToProgram
+                (control
+                , fileName
+                , response
+                , fileExtension
+                , contentType);
+        }
+
+        public void DownloadExcel(Control control
+            , string fileName
+            , HttpResponse response)
+        {
+            string fileExtension = ".xls";
+            string contentType = "application/vnd.ms-excel";
+            DownloadToProgram
+                (control
+                , fileName
+                , response
+                , fileExtension
+                , contentType);
+        }
+
+        private void DownloadToProgram
+            (Control control
+            , string fileName
+            , HttpResponse response
+            , string fileExtension
+            , string contentType)
+        {
             response.Clear();
 
             response.AddHeader
                 ("Content-Disposition"
-                , string.Format("attachment;filename={0}.doc", fileName));
-            response.ContentType = "application/msword";
+                , string.Format("attachment;filename={0}{1}"
+                , fileName, fileExtension));
+            response.ContentType = contentType;
 
             using (StringWriter sw = new StringWriter())
             {

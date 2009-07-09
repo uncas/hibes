@@ -77,6 +77,15 @@ namespace Uncas.EBS.UI {
         protected global::System.Web.UI.WebControls.ObjectDataSource odsIssues;
         
         /// <summary>
+        /// cc control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Uncas.EBS.UI.Controls.ColorCodes cc;
+        
+        /// <summary>
         /// lbPrioritizeAllOpenIssues control.
         /// </summary>
         /// <remarks>

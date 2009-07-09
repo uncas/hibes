@@ -187,6 +187,16 @@
             </asp:PlaceHolder>
         </ContentTemplate>
     </asp:UpdatePanel>
-    <asp:LinkButton ID="lbDownloadLatex" runat="server"><%= Resources.Phrases.GetInLatex %></asp:LinkButton>
-    <asp:LinkButton ID="lbDownloadWord" runat="server"><%= Resources.Phrases.GetInWord %></asp:LinkButton>
+    <uncas:ColorCodes ID="cc" runat="server" />
+    <ul>
+        <li>
+            <asp:LinkButton ID="lbDownloadLatex" runat="server"><%= Resources.Phrases.GetInLatex %></asp:LinkButton>
+        </li>
+        <li>
+            <asp:LinkButton ID="lbDownloadWord" runat="server"><%= Resources.Phrases.GetInWord %></asp:LinkButton>
+        </li>
+        <li>
+            <asp:LinkButton ID="lbDownloadExcel" runat="server"><%= Resources.Phrases.GetInExcel %></asp:LinkButton>
+        </li>
+    </ul>
 </asp:Content>

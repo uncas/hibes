@@ -82,6 +82,13 @@
     </Compile>
     <Compile Include="Controls\BoundFieldResource.cs" />
     <Compile Include="Controls\CancelButton.cs" />
+    <Compile Include="Controls\ColorCodes.ascx.cs">
+      <DependentUpon>ColorCodes.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Controls\ColorCodes.ascx.designer.cs">
+      <DependentUpon>ColorCodes.ascx</DependentUpon>
+    </Compile>
     <Compile Include="Controls\DateBox.cs" />
     <Compile Include="Controls\DateField.cs" />
     <Compile Include="Controls\HyperLinkFieldResource.cs" />
@@ -191,6 +198,7 @@
     <Content Include="Web.connectionStrings.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Controls\ColorCodes.ascx" />
     <Content Include="Web.appSettings.config" />
   </ItemGroup>
   <ItemGroup>

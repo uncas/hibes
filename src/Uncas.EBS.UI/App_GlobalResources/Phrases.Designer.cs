@@ -241,6 +241,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Download this in Excel format.
+        /// </summary>
+        internal static string GetInExcel {
+            get {
+                return ResourceManager.GetString("GetInExcel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Download this in LaTeX format.
         /// </summary>
         internal static string GetInLatex {
@@ -264,6 +273,15 @@ namespace Resources {
         internal static string History {
             get {
                 return ResourceManager.GetString("History", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to In progress.
+        /// </summary>
+        internal static string InProgress {
+            get {
+                return ResourceManager.GetString("InProgress", resourceCulture);
             }
         }
         
@@ -313,7 +331,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No issues with the chosen criteria..
+        ///   Looks up a localized string similar to No issues with the chosen criteria.
         /// </summary>
         internal static string NoIssues {
             get {
@@ -322,11 +340,20 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No tasks with the chosen criteria..
+        ///   Looks up a localized string similar to No tasks.
         /// </summary>
         internal static string NoTasks {
             get {
                 return ResourceManager.GetString("NoTasks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not started yet.
+        /// </summary>
+        internal static string NotStarted {
+            get {
+                return ResourceManager.GetString("NotStarted", resourceCulture);
             }
         }
         

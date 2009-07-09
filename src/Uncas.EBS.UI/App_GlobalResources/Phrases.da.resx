@@ -241,10 +241,10 @@
     <value>Indtast fraværsdage</value>
   </data>
   <data name="NoIssues" xml:space="preserve">
-    <value>Ingen opgaver med de valgte kriterier.</value>
+    <value>Ingen opgaver med de valgte kriterier</value>
   </data>
   <data name="NoTasks" xml:space="preserve">
-    <value>Ingen gøremål med de valgte kriterier.</value>
+    <value>Ingen gøremål</value>
   </data>
   <data name="Date" xml:space="preserve">
     <value>Dato</value>
@@ -263,5 +263,14 @@
   </data>
   <data name="GetInWord" xml:space="preserve">
     <value>Hent dette i Word-format</value>
+  </data>
+  <data name="GetInExcel" xml:space="preserve">
+    <value>Hent dette i Excel-format</value>
+  </data>
+  <data name="NotStarted" xml:space="preserve">
+    <value>Ikke startet endnu</value>
+  </data>
+  <data name="InProgress" xml:space="preserve">
+    <value>I gang</value>
   </data>
 </root>

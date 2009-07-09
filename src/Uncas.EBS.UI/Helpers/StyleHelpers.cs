@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using System.Web.UI.DataVisualization.Charting;
+using System.Web.UI.WebControls;
 
 namespace Uncas.EBS.UI.Helpers
 {
@@ -45,6 +46,25 @@ namespace Uncas.EBS.UI.Helpers
             var axisX = chartArea.AxisX;
             axisX.LineColor = lineColor;
             axisX.MajorGrid.LineColor = lineColor;
+        }
+
+        internal static void SetIssueRowStyle(GridViewRow row
+            , double? fractionElapsed)
+        {
+            if (!fractionElapsed.HasValue)
+            {
+                row.CssClass = "noTasks";
+            }
+            else if (fractionElapsed.HasValue
+                && fractionElapsed.Value == 0d)
+            {
+                row.CssClass = "notStarted";
+            }
+            else if (fractionElapsed.HasValue
+                && fractionElapsed.Value > 0d)
+            {
+                row.CssClass = "inProgress";
+            }
         }
     }
 }
