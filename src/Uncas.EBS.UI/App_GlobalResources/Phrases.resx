@@ -258,4 +258,10 @@
   <data name="PrioritizeOpenIssues" xml:space="preserve">
     <value>Distribute the priorities of open issues evenly</value>
   </data>
+  <data name="GetInLatex" xml:space="preserve">
+    <value>Download this in LaTeX format</value>
+  </data>
+  <data name="GetInWord" xml:space="preserve">
+    <value>Download this in Word format</value>
+  </data>
 </root>

@@ -23,6 +23,24 @@ namespace Uncas.EBS.UI {
         protected global::System.Web.UI.UpdatePanel up1;
         
         /// <summary>
+        /// ph1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.PlaceHolder ph1;
+        
+        /// <summary>
+        /// rlTitle control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Uncas.EBS.UI.Controls.ResourceLabel rlTitle;
+        
+        /// <summary>
         /// psProjects control.
         /// </summary>
         /// <remarks>
@@ -32,6 +50,15 @@ namespace Uncas.EBS.UI {
         protected global::Uncas.EBS.UI.Controls.ProjectSelection psProjects;
         
         /// <summary>
+        /// rlMaxPriority control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Uncas.EBS.UI.Controls.ResourceLabel rlMaxPriority;
+        
+        /// <summary>
         /// nbMaxPriority control.
         /// </summary>
         /// <remarks>
@@ -39,6 +66,15 @@ namespace Uncas.EBS.UI {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Uncas.EBS.UI.Controls.NumberBox nbMaxPriority;
+        
+        /// <summary>
+        /// rlDate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Uncas.EBS.UI.Controls.ResourceLabel rlDate;
         
         /// <summary>
         /// odsSelectedCompletionDateConfidences control.
@@ -86,6 +122,15 @@ namespace Uncas.EBS.UI {
         protected global::System.Web.UI.DataVisualization.Charting.Chart chartDateRanges;
         
         /// <summary>
+        /// rlDays control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Uncas.EBS.UI.Controls.ResourceLabel rlDays;
+        
+        /// <summary>
         /// odsSummary control.
         /// </summary>
         /// <remarks>
@@ -131,6 +176,15 @@ namespace Uncas.EBS.UI {
         protected global::System.Web.UI.DataVisualization.Charting.Chart chartProbabilities;
         
         /// <summary>
+        /// rlIssues control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Uncas.EBS.UI.Controls.ResourceLabel rlIssues;
+        
+        /// <summary>
         /// odsIssues control.
         /// </summary>
         /// <remarks>
@@ -156,5 +210,14 @@ namespace Uncas.EBS.UI {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lbDownloadLatex;
+        
+        /// <summary>
+        /// lbDownloadWord control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton lbDownloadWord;
     }
 }

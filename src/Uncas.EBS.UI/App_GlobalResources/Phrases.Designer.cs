@@ -241,6 +241,24 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Download this in LaTeX format.
+        /// </summary>
+        internal static string GetInLatex {
+            get {
+                return ResourceManager.GetString("GetInLatex", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Download this in Word format.
+        /// </summary>
+        internal static string GetInWord {
+            get {
+                return ResourceManager.GetString("GetInWord", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to History.
         /// </summary>
         internal static string History {

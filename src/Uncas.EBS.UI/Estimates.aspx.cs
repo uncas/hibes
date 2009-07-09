@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Web.UI;
 using System.Web.UI.WebControls;
 using Uncas.EBS.UI.Helpers;
 
@@ -10,6 +11,7 @@ namespace Uncas.EBS.UI
         protected void Page_Init(object sender, EventArgs e)
         {
             lbDownloadLatex.Click += new EventHandler(lbDownloadLatex_Click);
+            lbDownloadWord.Click += new EventHandler(lbDownloadWord_Click);
         }
 
         protected void Page_Load(object sender, EventArgs e)
@@ -68,13 +70,21 @@ namespace Uncas.EBS.UI
 
         void lbDownloadLatex_Click(object sender, EventArgs e)
         {
-            LatexHelpers lh = new LatexHelpers();
-            Response.Clear();
-            Response.ContentType = "text/plain";
-            Response.Write(lh.LatexFromCompletionDates
-                (SelectedProjectId, SelectedMaxPriority));
-            Response.Flush();
-            Response.End();
+            LatexHelpers latexHelpers = new LatexHelpers();
+            latexHelpers.DownloadLatexFromEstimate
+                (SelectedProjectId
+                , SelectedMaxPriority
+                , Response);
+        }
+
+        void lbDownloadWord_Click(object sender, EventArgs e)
+        {
+            OfficeHelpers officeHelpers = new OfficeHelpers();
+            officeHelpers.DownloadWord(ph1, "estimates", Response);
+        }
+
+        public override void VerifyRenderingInServerForm(Control control)
+        {
         }
     }
 }

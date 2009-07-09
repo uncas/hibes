@@ -258,4 +258,10 @@
   <data name="PrioritizeOpenIssues" xml:space="preserve">
     <value>Fordel prioriteten af åbne opgaver jævnt</value>
   </data>
+  <data name="GetInLatex" xml:space="preserve">
+    <value>Hent dette i LaTeX-format</value>
+  </data>
+  <data name="GetInWord" xml:space="preserve">
+    <value>Hent dette i Word-format</value>
+  </data>
 </root>
