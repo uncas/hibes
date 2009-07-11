@@ -265,5 +265,7 @@ namespace Uncas.EBS.Domain.Model
                 return this.CurrentEstimate - this.Elapsed;
             }
         }
+
+        // TODO: PERSON: There should be a Task.RefPersonId property.
     }
 }

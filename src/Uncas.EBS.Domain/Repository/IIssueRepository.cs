@@ -18,6 +18,15 @@ namespace Uncas.EBS.Domain.Repository
         IList<IssueDetails> GetIssues(int? projectId, Status status);
 
         /// <summary>
+        /// Gets the open issues and open tasks.
+        /// </summary>
+        /// <param name="projectId">The project id.</param>
+        /// <param name="maxPriority">The max priority.</param>
+        /// <returns></returns>
+        IList<IssueView> GetOpenIssuesAndOpenTasks
+            (int? projectId, int? maxPriority);
+
+        /// <summary>
         /// Gets the issue view.
         /// </summary>
         /// <param name="issueId">The issue id.</param>

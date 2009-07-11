@@ -117,6 +117,8 @@ namespace Uncas.EBS.Domain.Simulation
             int randomIndex = _rnd.Next(maxIndex + 1);
             if (randomIndex < this.HistoricalTasks.Count)
             {
+                // TODO: PERSON: Use random tasks for the person in question.
+
                 var randomHistoricalTask = this.HistoricalTasks[randomIndex];
 
                 // Gets the speed of the random historical task:

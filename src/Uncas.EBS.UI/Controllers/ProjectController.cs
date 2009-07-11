@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Web;
 using System.Web.Caching;
+using Uncas.EBS.ApplicationServices;
 using Uncas.EBS.Domain.Model;
 using Uncas.EBS.Domain.Repository;
 using Uncas.EBS.Domain.ViewModel;
@@ -9,7 +10,7 @@ using Uncas.EBS.Domain.ViewModel;
 namespace Uncas.EBS.UI.Controllers
 {
     /// <summary>
-    /// Project repository - layer for the web application.
+    /// Project controller for the web application.
     /// </summary>
     public class ProjectController
     {
@@ -18,6 +19,9 @@ namespace Uncas.EBS.UI.Controllers
 
         private IProjectRepository _projectRepo
             = App.Repositories.ProjectRepository;
+
+        private ProjectService _projectService
+            = new ProjectService(App.Repositories);
 
         public IList<Project> GetProjects()
         {
@@ -33,7 +37,7 @@ namespace Uncas.EBS.UI.Controllers
             ProjectEvaluation projEval = (ProjectEvaluation)cache[cacheKey];
             if (projEval == null)
             {
-                projEval = _projectRepo.GetProjectEvaluation
+                projEval = _projectService.GetProjectEvaluation
                     (projectId
                     , maxPriority
                     , NumberOfSimulations

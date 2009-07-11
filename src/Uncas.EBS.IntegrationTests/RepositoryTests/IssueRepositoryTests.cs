@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Linq;
 using NUnit.Framework;
+using Uncas.EBS.ApplicationServices;
 using Uncas.EBS.Domain.Model;
 using Uncas.EBS.Domain.Repository;
 
@@ -18,6 +19,9 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
 
         private IProjectRepository _projectRepo
             = TestApp.Repositories.ProjectRepository;
+
+        private ProjectService _projectService
+            = new ProjectService(TestApp.Repositories);
 
         private Random _rnd = new Random();
 
@@ -402,13 +406,13 @@ Indexes on all foreign keys:
         {
             TestFunc tf = () =>
             {
-                _projectRepo.GetProjectEvaluation
+                _projectService.GetProjectEvaluation
                     (null, null, numberOfSimulations
                     , maxNumberOfHistoricalData);
-                _projectRepo.GetProjectEvaluation
+                _projectService.GetProjectEvaluation
                     (null, null, numberOfSimulations
                     , maxNumberOfHistoricalData);
-                _projectRepo.GetProjectEvaluation
+                _projectService.GetProjectEvaluation
                     (null, null, numberOfSimulations
                     , maxNumberOfHistoricalData);
             };

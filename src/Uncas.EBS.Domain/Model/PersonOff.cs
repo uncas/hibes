@@ -71,6 +71,8 @@ namespace Uncas.EBS.Domain.Model
             return this.FromDate.Date <= date.Date
                 && date.Date <= this.ToDate.Date;
         }
+
+        // TODO: PERSON: There should be a PersonOff.RefPersonId property.
     }
 
     /// <summary>

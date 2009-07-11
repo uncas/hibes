@@ -44,12 +44,26 @@ namespace Uncas.EBS.DAL
 
         public IList<Model.Task> GetTasksByStatus(Model.Status status)
         {
-            var result = db.Tasks.Where(t => t.RefStatusId == 2);
+            var result = db.Tasks.AsQueryable<Task>();
             if (status != Model.Status.Any)
             {
                 result = result.Where(t => t.RefStatusId == (int)status);
             }
             return result.Select(t => GetModelTaskFromDbTask(t))
+                .ToList();
+        }
+
+        public IList<Model.Task> GetTasks(Model.Status status, int maxCount)
+        {
+            var result = db.Tasks.AsQueryable<Task>();
+            if (status != Model.Status.Any)
+            {
+                result = result
+                    .Where(t => t.RefStatusId == (int)status);
+            }
+            return result.OrderByDescending(t => t.EndDate)
+                .Take(maxCount)
+                .Select(t => GetModelTaskFromDbTask(t))
                 .ToList();
         }
 
@@ -117,7 +131,7 @@ namespace Uncas.EBS.DAL
         }
 
         private void UpdateValuesToDbTask(Task dbTask
-        , Model.Task task)
+            , Model.Task task)
         {
             dbTask.CurrentEstimateInHours
                 = (decimal)task.CurrentEstimate;

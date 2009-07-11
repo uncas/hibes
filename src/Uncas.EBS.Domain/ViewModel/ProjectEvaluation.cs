@@ -10,10 +10,11 @@ namespace Uncas.EBS.Domain.ViewModel
     /// </summary>
     public class ProjectEvaluation
     {
-        // TODO: REFACTOR: Hours per day should be on a person object:
+        // TODO: PERSON: Hours per day should be on a person object:
         /// <summary>
         /// The number of hours per day.
         /// </summary>
+        [Obsolete]
         public const double NumberOfHoursPerDay = 7.5d;
 
         private IList<double> _evaluations = new List<double>();
@@ -39,6 +40,7 @@ namespace Uncas.EBS.Domain.ViewModel
         /// Gets or sets the person offs.
         /// </summary>
         /// <value>The person offs.</value>
+        // TODO: PERSON: This should come from PersonView.PersonOffs:
         public IList<PersonOff> PersonOffs { get; set; }
 
         /// <summary>
@@ -82,6 +84,7 @@ namespace Uncas.EBS.Domain.ViewModel
                 while (sumOfHours <= hoursAtThisPercentage)
                 {
                     date = date.AddDays(1d);
+                    // TODO: PERSON: Compare to PersonOffs for corresponding person from PersonViews:
                     if (date.DayOfWeek != DayOfWeek.Saturday
                         && date.DayOfWeek != DayOfWeek.Sunday
                         && !this.PersonOffs.IsPersonOff(date))

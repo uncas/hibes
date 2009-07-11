@@ -240,7 +240,7 @@ namespace Uncas.EBS.DAL
             return dbIssue;
         }
 
-        internal IList<IssueView> GetOpenIssuesAndOpenTasks
+        public IList<IssueView> GetOpenIssuesAndOpenTasks
             (int? projectId, int? maxPriority)
         {
             var issues = db.Issues.Where(i => i.RefStatusId == 1)

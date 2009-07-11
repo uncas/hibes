@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Uncas.EBS.Domain.Repository;
-using Uncas.EBS.Domain.Simulation;
-using Uncas.EBS.Domain.ViewModel;
 using Model = Uncas.EBS.Domain.Model;
 
 namespace Uncas.EBS.DAL
@@ -24,40 +22,6 @@ namespace Uncas.EBS.DAL
                     })
                 .OrderBy(p => p.ProjectName);
             return result.ToList();
-        }
-
-        public ProjectEvaluation GetProjectEvaluation
-            (int? projectId
-            , int? maxPriority
-            , int numberOfSimulations
-            , int maxNumberOfHistoricalData)
-        {
-            // TODO: REFACTOR: Create app layer class.
-            // Since this doew more than query the repository.
-            IssueRepository issueRepo = new IssueRepository();
-            TaskRepository taskRepo = new TaskRepository();
-            PersonOffRepository personOffRepo = new PersonOffRepository();
-
-            IList<IssueView> issueViews
-                = issueRepo.GetOpenIssuesAndOpenTasks
-                (projectId, maxPriority);
-
-            var closedTasks
-                = db.Tasks
-                .Where(t => t.RefStatusId == 2)
-                .OrderByDescending(t => t.EndDate)
-                .Take(maxNumberOfHistoricalData)
-                .Select(t => taskRepo.GetModelTaskFromDbTask(t))
-                .ToList();
-
-            SimulationEngine evals = new SimulationEngine(closedTasks);
-            var projectEvaluation = evals.GetProjectEvaluation
-                (issueViews
-                , numberOfSimulations);
-
-            projectEvaluation.PersonOffs = personOffRepo.GetPersonOffs();
-
-            return projectEvaluation;
         }
 
         public void InsertProject(string projectName)

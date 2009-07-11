@@ -1,5 +1,5 @@
-﻿using Uncas.EBS.Domain.Model;
-using System;
+﻿using System;
+using Uncas.EBS.Domain.Model;
 
 namespace Uncas.EBS.Domain.ViewModel
 {
