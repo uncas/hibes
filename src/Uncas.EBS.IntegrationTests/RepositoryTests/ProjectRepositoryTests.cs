@@ -19,9 +19,9 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
         [Test]
         public void GetProjects()
         {
-            int projectId = _projRepo
-                .GetProjects().FirstOrDefault()
-                .ProjectId;
+            var project = _projRepo
+                .GetProjects().FirstOrDefault();
+            int projectId = project.ProjectId;
 
             // Setting up:
             Issue issue = new Issue
@@ -38,7 +38,7 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
             Assert.IsNotNull(projects);
             Assert.Greater(projects.Count, 0);
             Assert.IsTrue(projects
-                .Any(p => p.ProjectName.Equals(issue.ProjectName)));
+                .Any(p => p.ProjectName.Equals(project.ProjectName)));
         }
 
         [Test]
@@ -60,7 +60,7 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
             var projId = _projRepo.GetProjects()
                 .Min(p => p.ProjectId);
             var projectEstimate = _projRepo.GetProjectEvaluation
-                (projId, null, 100, 100);
+                (projId, null, 100, 20);
             Trace.WriteLine(projectEstimate);
             foreach (var ie in projectEstimate.GetIssueEvaluations())
             {
@@ -72,10 +72,10 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
         [Test]
         public void GetProjectEstimate_OneProjectAtATime()
         {
-            int maxNumberOfHistoricalData = 50;
+            int maxNumberOfHistoricalData = 20;
             RunSimulation(10, maxNumberOfHistoricalData);
             for (int numberOfSimulations = 100
-                ; numberOfSimulations <= 110 * 1000
+                ; numberOfSimulations <= 16 * 100
                 ; numberOfSimulations *= 2)
             {
                 long startTicks = DateTime.Now.Ticks;

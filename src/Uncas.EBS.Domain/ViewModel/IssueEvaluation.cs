@@ -1,4 +1,5 @@
 ﻿using Uncas.EBS.Domain.Model;
+using System;
 
 namespace Uncas.EBS.Domain.ViewModel
 {
@@ -19,6 +20,13 @@ namespace Uncas.EBS.Domain.ViewModel
             , double? elapsed
             , double evaluation)
         {
+            if (issue == null
+                || numberOfOpenTasks < 0
+                || elapsed < 0d
+                || evaluation < 0d)
+            {
+                throw new ArgumentException();
+            }
             this.Issue = issue;
             this.NumberOfOpenTasks = numberOfOpenTasks;
             this.Elapsed = elapsed;

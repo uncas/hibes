@@ -175,7 +175,7 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
 
         [Test]
         [ExpectedException(typeof(RepositoryException))]
-        public void InsertIssueTest_MissingProjectName()
+        public void InsertIssueTest_MissingProjectId()
         {
             // Setting up:
             Issue issue = new Issue

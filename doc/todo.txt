@@ -1,5 +1,9 @@
 Features
 --------
+- Choose format of latex output:
+    Rounding of numbers
+    Choose columns
+    Change texts
 - Handle multiple persons:
     - Person choice on task.
     - When estimating task: Use random speed for person in question.
@@ -29,11 +33,11 @@ Features
         ElapsedHours
     Every time this table is updated, 
     the corresponding task is updated with elapsed hours.
+- Custom reports
 
 
 Testing
 -------
-- Create new test project for integration tests and leave unit tests in the old one.
 - Use mock repository classes for unit testing.
 
 

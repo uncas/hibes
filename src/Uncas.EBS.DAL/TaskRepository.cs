@@ -42,6 +42,17 @@ namespace Uncas.EBS.DAL
             base.SubmitChanges();
         }
 
+        public IList<Model.Task> GetTasksByStatus(Model.Status status)
+        {
+            var result = db.Tasks.Where(t => t.RefStatusId == 2);
+            if (status != Model.Status.Any)
+            {
+                result = result.Where(t => t.RefStatusId == (int)status);
+            }
+            return result.Select(t => GetModelTaskFromDbTask(t))
+                .ToList();
+        }
+
         #endregion
 
         private Task GetTask(int taskId)
@@ -117,21 +128,5 @@ namespace Uncas.EBS.DAL
             dbTask.StartDate = task.StartDate;
             dbTask.RefStatusId = (int)task.Status;
         }
-
-        #region ITaskRepository Members
-
-
-        public IList<Model.Task> GetTasksByStatus(Model.Status status)
-        {
-            var result = db.Tasks.Where(t => t.RefStatusId == 2);
-            if (status != Model.Status.Any)
-            {
-                result = result.Where(t => t.RefStatusId == (int)status);
-            }
-            return result.Select(t => GetModelTaskFromDbTask(t))
-                .ToList();
-        }
-
-        #endregion
     }
 }

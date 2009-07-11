@@ -50,10 +50,12 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
         [ExpectedException(typeof(RepositoryException))]
         public void InsertTask_EmptyDescription()
         {
+            var project = _projectRepo.GetProjects().FirstOrDefault();
+
             // Setting up:
             Issue issue = new Issue
             {
-                ProjectName = "xxx",
+                RefProjectId = project.ProjectId,
                 Title = "Abc",
             };
             _issueRepo.InsertIssue(issue);
@@ -73,12 +75,14 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
         }
 
         [Test]
-        public void UpdateTask()
+        public void UpdateTask_ChangedDescription_ChangedOK()
         {
+            var project = _projectRepo.GetProjects().FirstOrDefault();
+
             // Setting up:
             Issue issue = new Issue
             {
-                ProjectName = "xxx",
+                RefProjectId = project.ProjectId,
                 Title = "Abc",
             };
             _issueRepo.InsertIssue(issue);
@@ -106,10 +110,12 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
         [Test]
         public void UpdateTask_NullIssue()
         {
+            var project = _projectRepo.GetProjects().FirstOrDefault();
+
             // Setting up:
             Issue issue = new Issue
             {
-                ProjectName = "xxx",
+                RefProjectId = project.ProjectId,
                 Title = "Abc",
             };
             _issueRepo.InsertIssue(issue);
@@ -133,7 +139,6 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
                 Description = task.Description,
                 CurrentEstimate = task.CurrentEstimate,
                 OriginalEstimate = task.OriginalEstimate,
-                // No need to change this: RefIssueId
             };
 
             // Testing:

@@ -37,14 +37,22 @@
 
 	<target name="clean">
 		<delete dir="build" />
+
         <property name="folderToClean" value="DAL" />
         <call target="cleanFolder" />
+
         <property name="folderToClean" value="Domain" />
         <call target="cleanFolder" />
+
+        <property name="folderToClean" value="FakeRepository" />
+        <call target="cleanFolder" />
+
         <property name="folderToClean" value="UI" />
         <call target="cleanFolder" />
+
         <property name="folderToClean" value="IntegrationTests" />
         <call target="cleanFolder" />
+
         <property name="folderToClean" value="Tests" />
         <call target="cleanFolder" />
 	</target>

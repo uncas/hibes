@@ -16,8 +16,15 @@ ClickToClean.bat:
     Removes build products.
 
 
+
 Requirements on the development machine:
+
     .NET 3.5 SP1
+
     ASP.NET Charting control (http://weblogs.asp.net/scottgu/archive/2008/11/24/new-asp-net-charting-control-lt-asp-chart-runat-quot-server-quot-gt.aspx)
-    NUnit (to run the tests)
-    NAnt (to run the batch files)
+
+    NUnit (to run unit and integration tests)
+
+    NMock2 (to run tests with fake objects)
+
+    NAnt (to run build and deploy scripts)

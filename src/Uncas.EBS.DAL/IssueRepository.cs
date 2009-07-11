@@ -64,6 +64,10 @@ namespace Uncas.EBS.DAL
             {
                 throw new RepositoryException("Issue must have a title.");
             }
+            if (issue.RefProjectId == 0)
+            {
+                throw new RepositoryException("Project Id must be larger than zero.");
+            }
             // Saves the changes:
             try
             {

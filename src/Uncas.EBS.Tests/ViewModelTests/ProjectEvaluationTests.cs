@@ -5,21 +5,8 @@ using Uncas.EBS.Domain.ViewModel;
 namespace Uncas.EBS.Tests.ViewModelTests
 {
     [TestFixture]
-    public class EvaluationTests
+    public class ProjectEvaluationTests
     {
-        [Test]
-        public void IssueEvaluationTest()
-        {
-            IssueEvaluation iEval = new IssueEvaluation
-                (new Issue(), 2, 1d, 1d);
-
-            iEval.AddEvaluation(2d);
-            Assert.Less(0d, iEval.Average);
-
-            iEval.AddEvaluation(3d);
-            Assert.Less(0d, iEval.Average);
-        }
-
         [Test]
         public void ProjectEvaluationTest()
         {
