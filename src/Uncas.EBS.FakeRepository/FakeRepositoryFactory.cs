@@ -32,7 +32,17 @@ namespace Uncas.EBS.FakeRepository
 
         public IProjectRepository ProjectRepository
         {
-            get { throw new NotImplementedException(); }
+            get
+            {
+                Mockery mocks = new Mockery();
+                
+                var projectRepository = mocks.NewMock<IProjectRepository>();
+
+                Expect.Once.On(projectRepository)
+                    .Method("GetProjectEvaluation");
+
+                return projectRepository;
+            }
         }
 
         public ITaskRepository TaskRepository

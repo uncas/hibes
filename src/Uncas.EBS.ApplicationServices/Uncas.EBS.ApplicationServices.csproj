@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{40AECC36-94C1-4EE1-83D9-E7AFBFB868E2}</ProjectGuid>
+    <ProjectGuid>{B8576674-7555-405B-96EE-3667A50EA1DE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Uncas.EBS.Tests</RootNamespace>
-    <AssemblyName>Uncas.EBS.Tests</AssemblyName>
+    <RootNamespace>Uncas.EBS.ApplicationServices</RootNamespace>
+    <AssemblyName>Uncas.EBS.ApplicationServices</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -31,7 +31,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="nunit.framework, Version=2.4.8.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -46,28 +45,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ProjectService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SimulationTests\SimulationEngineTests.cs" />
-    <Compile Include="UITests\LatexHelpersTests.cs" />
-    <Compile Include="ViewModelTests\IssueEvaluationTests.cs" />
-    <Compile Include="ViewModelTests\ProjectEvaluationTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Uncas.EBS.ApplicationServices\Uncas.EBS.ApplicationServices.csproj">
-      <Project>{B8576674-7555-405B-96EE-3667A50EA1DE}</Project>
-      <Name>Uncas.EBS.ApplicationServices</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Uncas.EBS.Domain\Uncas.EBS.Domain.csproj">
       <Project>{6BF0F142-F718-4BF9-A7F6-9B36D1C091B4}</Project>
       <Name>Uncas.EBS.Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Uncas.EBS.FakeRepository\Uncas.EBS.FakeRepository.csproj">
-      <Project>{94E26026-DD6B-41C9-AB59-04923F563FFC}</Project>
-      <Name>Uncas.EBS.FakeRepository</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Uncas.EBS.UI\Uncas.EBS.UI.csproj">
-      <Project>{1449B0B0-AE43-46B7-9C12-6951C196F1E9}</Project>
-      <Name>Uncas.EBS.UI</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

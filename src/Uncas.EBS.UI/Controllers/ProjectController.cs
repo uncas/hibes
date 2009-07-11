@@ -4,7 +4,6 @@ using System.Web;
 using System.Web.Caching;
 using Uncas.EBS.Domain.Model;
 using Uncas.EBS.Domain.Repository;
-using Uncas.EBS.Domain.Simulation;
 using Uncas.EBS.Domain.ViewModel;
 
 namespace Uncas.EBS.UI.Controllers

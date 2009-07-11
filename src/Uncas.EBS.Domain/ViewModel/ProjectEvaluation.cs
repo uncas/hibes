@@ -10,6 +10,7 @@ namespace Uncas.EBS.Domain.ViewModel
     /// </summary>
     public class ProjectEvaluation
     {
+        // TODO: REFACTOR: Hours per day should be on a person object:
         /// <summary>
         /// The number of hours per day.
         /// </summary>

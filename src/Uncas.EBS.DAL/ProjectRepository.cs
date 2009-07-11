@@ -16,8 +16,6 @@ namespace Uncas.EBS.DAL
         public IList<Model.Project> GetProjects()
         {
             var result = db.Projects
-                // Only shows projects with issues:
-                //.Where(p => p.Issues.Count > 0)
                 .Select
                 (p => new Model.Project
                     {
@@ -35,6 +33,7 @@ namespace Uncas.EBS.DAL
             , int maxNumberOfHistoricalData)
         {
             // TODO: REFACTOR: Create app layer class.
+            // Since this doew more than query the repository.
             IssueRepository issueRepo = new IssueRepository();
             TaskRepository taskRepo = new TaskRepository();
             PersonOffRepository personOffRepo = new PersonOffRepository();
@@ -51,7 +50,7 @@ namespace Uncas.EBS.DAL
                 .Select(t => taskRepo.GetModelTaskFromDbTask(t))
                 .ToList();
 
-            Evaluations evals = new Evaluations(closedTasks);
+            SimulationEngine evals = new SimulationEngine(closedTasks);
             var projectEvaluation = evals.GetProjectEvaluation
                 (issueViews
                 , numberOfSimulations);
@@ -59,26 +58,6 @@ namespace Uncas.EBS.DAL
             projectEvaluation.PersonOffs = personOffRepo.GetPersonOffs();
 
             return projectEvaluation;
-        }
-
-        #endregion
-
-        internal Project GetProjectByName(string projectName)
-        {
-            Project project = FindProjectByName(projectName);
-            if (project == null)
-            {
-                InsertProject(projectName);
-                project = FindProjectByName(projectName);
-            }
-            return project;
-        }
-
-        private Project FindProjectByName(string projectName)
-        {
-            return db.Projects
-                .Where(p => p.ProjectName.Equals(projectName))
-                .SingleOrDefault();
         }
 
         public void InsertProject(string projectName)
@@ -114,5 +93,29 @@ namespace Uncas.EBS.DAL
             project.ProjectName = projectName;
             base.SubmitChanges();
         }
+
+        #endregion
+
+        #region Internal or private members
+
+        internal Project GetProjectByName(string projectName)
+        {
+            Project project = FindProjectByName(projectName);
+            if (project == null)
+            {
+                InsertProject(projectName);
+                project = FindProjectByName(projectName);
+            }
+            return project;
+        }
+
+        private Project FindProjectByName(string projectName)
+        {
+            return db.Projects
+                .Where(p => p.ProjectName.Equals(projectName))
+                .SingleOrDefault();
+        }
+
+        #endregion
     }
 }

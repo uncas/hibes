@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApplicationServicesTests\ProjectServiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RepositoryTests\IssueRepositoryTests.cs" />
     <Compile Include="RepositoryTests\ProjectRepositoryTests.cs" />
@@ -53,6 +54,10 @@
     <Compile Include="TestApp.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Uncas.EBS.ApplicationServices\Uncas.EBS.ApplicationServices.csproj">
+      <Project>{B8576674-7555-405B-96EE-3667A50EA1DE}</Project>
+      <Name>Uncas.EBS.ApplicationServices</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Uncas.EBS.DAL\Uncas.EBS.DAL.csproj">
       <Project>{19212C86-A667-4FB9-A59A-36C928B3AE95}</Project>
       <Name>Uncas.EBS.DAL</Name>

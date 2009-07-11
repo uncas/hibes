@@ -38,6 +38,9 @@
 	<target name="clean">
 		<delete dir="build" />
 
+        <property name="folderToClean" value="ApplicationServices" />
+        <call target="cleanFolder" />
+
         <property name="folderToClean" value="DAL" />
         <call target="cleanFolder" />
 

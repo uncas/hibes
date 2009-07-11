@@ -4,7 +4,7 @@ using System;
 namespace Uncas.EBS.Domain.ViewModel
 {
     /// <summary>
-    /// Represents an evaluation / estimate of an issue.
+    /// Represents an evaluation of an issue.
     /// </summary>
     public class IssueEvaluation
     {

@@ -5,6 +5,9 @@ namespace Uncas.EBS.Domain.ViewModel
     /// <summary>
     /// Represents details about an issue.
     /// </summary>
+    /// <remarks>
+    /// Adds additional properties on top of an issue.
+    /// </remarks>
     public class IssueDetails : Issue
     {
         /// <summary>

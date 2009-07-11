@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Uncas.EBS.Domain.Simulation;
 
 namespace Uncas.EBS.Domain.ViewModel
 {
@@ -40,6 +39,7 @@ namespace Uncas.EBS.Domain.ViewModel
         {
             get
             {
+                // TODO: REFACTOR this getter:
                 // Always round up!
                 int min = (int)Math.Ceiling(Min);
                 int max = (int)Math.Ceiling(Max);

@@ -1,4 +1,4 @@
-﻿namespace Uncas.EBS.Domain.Simulation
+﻿namespace Uncas.EBS.Domain.ViewModel
 {
     /// <summary>
     /// Handles the probability to be in a given interval.

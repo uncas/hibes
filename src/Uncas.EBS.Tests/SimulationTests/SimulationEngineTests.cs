@@ -1,22 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using NUnit.Framework;
-using Uncas.EBS.Domain.Simulation;
 using Uncas.EBS.Domain.Model;
+using Uncas.EBS.Domain.Simulation;
 using Uncas.EBS.Domain.ViewModel;
 
 namespace Uncas.EBS.Tests.SimulationTests
 {
     [TestFixture]
-    public class EvaluationsTests
+    public class SimulationEngineTests
     {
         [Test]
-        public void GetEvaluationTest_OneCase()
+        public void GetProjectEvaluation_OneCase_OK()
         {
-            var historicalTasks = new List<Task>();
-            historicalTasks.Add(new Task
+            // Setting up:
+            var closedTasks = new List<Task>();
+            closedTasks.Add(new Task
             {
                 OriginalEstimate = 1d,
                 CurrentEstimate = 2d,
@@ -24,10 +22,8 @@ namespace Uncas.EBS.Tests.SimulationTests
                 Status = Status.Closed
             });
 
-            Evaluations evals = new Evaluations(historicalTasks);
-
-            var tasks = new List<Task>();
-            tasks.Add(new Task
+            var openTasks = new List<Task>();
+            openTasks.Add(new Task
             {
                 CurrentEstimate = 1d,
                 Elapsed = 0d,
@@ -38,11 +34,17 @@ namespace Uncas.EBS.Tests.SimulationTests
             issueViews.Add(new IssueView
             {
                 Issue = new IssueDetails(),
-                Tasks = tasks
+                Tasks = openTasks
             });
 
-            var result = evals.GetProjectEvaluation(issueViews, 100);
 
+            // Testing:
+            SimulationEngine simulationEngine
+                = new SimulationEngine(closedTasks);
+            var result = simulationEngine.GetProjectEvaluation(issueViews, 100);
+
+
+            // Checking results:
             Assert.Less(0d, result.Statistics.Average);
             var ie = result.GetIssueEvaluations();
             Assert.AreEqual(1, ie.Count);
@@ -50,17 +52,18 @@ namespace Uncas.EBS.Tests.SimulationTests
         }
 
         [Test]
-        public void GetEvaluationTest_TwoCases()
+        public void GetProjectEvaluation_TwoCases_OK()
         {
-            var historicalTasks = new List<Task>();
-            historicalTasks.Add(new Task
+            // Setting up:
+            var closedTasks = new List<Task>();
+            closedTasks.Add(new Task
             {
                 OriginalEstimate = 1d,
                 CurrentEstimate = 2d,
                 Elapsed = 2d,
                 Status = Status.Closed
             });
-            historicalTasks.Add(new Task
+            closedTasks.Add(new Task
             {
                 OriginalEstimate = 1d,
                 CurrentEstimate = 1.5d,
@@ -68,10 +71,8 @@ namespace Uncas.EBS.Tests.SimulationTests
                 Status = Status.Closed
             });
 
-            Evaluations evals = new Evaluations(historicalTasks);
-
-            var tasks = new List<Task>();
-            tasks.Add(new Task
+            var openTasks = new List<Task>();
+            openTasks.Add(new Task
             {
                 CurrentEstimate = 1d,
                 Elapsed = 0d,
@@ -82,10 +83,16 @@ namespace Uncas.EBS.Tests.SimulationTests
             issueViews.Add(new IssueView
             {
                 Issue = new IssueDetails(),
-                Tasks = tasks
+                Tasks = openTasks
             });
 
+
+            // Testing:
+            SimulationEngine evals = new SimulationEngine(closedTasks);
             var result = evals.GetProjectEvaluation(issueViews, 1000);
+
+
+            // Checking (a lot of things):
             var average = result.Statistics.Average;
             Assert.Greater(average, 0d);
             Assert.Less(average, 1.9d);

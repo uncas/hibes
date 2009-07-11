@@ -3,20 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using Uncas.EBS.Domain.Model;
 using Uncas.EBS.Domain.ViewModel;
-using System.Diagnostics;
 
 namespace Uncas.EBS.Domain.Simulation
 {
     /// <summary>
-    /// Represents a collection of evaluations.
+    /// Simulation engine that runs the simulations.
     /// </summary>
-    public class Evaluations
+    public class SimulationEngine
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Evaluations"/> class.
+        /// Initializes a new instance of the <see cref="SimulationEngine"/> class.
         /// </summary>
         /// <param name="historicalTasks">The historical tasks.</param>
-        public Evaluations(IList<Task> historicalTasks)
+        public SimulationEngine(IList<Task> historicalTasks)
         {
             this.HistoricalTasks = historicalTasks
                 .OrderByDescending(t => t.EndDate)

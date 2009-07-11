@@ -1,3 +1,45 @@
+Refactor
+--------
+- Create Application layer:
+    - ApplicationServices
+    - Estimation
+
+Now:
+IProjectRepository:
+    ProjectEvaluation GetProjectEvaluation
+            (int? projectId
+            , int? maxPriority
+            , int numberOfSimulations
+            , int maxNumberOfHistoricalData);
+    Inside the specific implementation of the IProjectRepository:
+        gets issues
+        gets tasks
+        gets person off info
+        calls simulation engine
+
+Desired:
+ProjectService
+    GetProjectEvaluation
+            (int? projectId
+            , int? maxPriority
+            , int numberOfSimulations
+            , int maxNumberOfHistoricalData);
+        Calls IssueRepo
+        Calls TaskRepo
+        Calls PersonOffRepo
+        Calls Simulation Engine
+        Returns result
+
+Refactoring steps:
+X- Create ProjectService class with dependency injection for IRepositoryFactory
+X- Create GetProjectEvaluation method
+X- Add test for GetProjectEvaluation method
+- Replace with:
+    - Call separate repositories in turn
+    - Call simulation engine
+
+
+
 Features
 --------
 - Choose format of latex output:
@@ -61,13 +103,6 @@ Usability
 - About page
 - Datebox
 - Web.config: set default culture (en=English or da=dansk)
-
-
-Refactor
---------
-- Create Application layer:
-    - ApplicationServices
-    - Estimation
 
 
 Random number

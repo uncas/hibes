@@ -61,8 +61,8 @@
     <Compile Include="Repository\IRepositoryFactory.cs" />
     <Compile Include="Repository\ITaskRepository.cs" />
     <Compile Include="Repository\RepositoryException.cs" />
-    <Compile Include="Simulation\IntervalProbability.cs" />
-    <Compile Include="Simulation\Evaluations.cs" />
+    <Compile Include="ViewModel\IntervalProbability.cs" />
+    <Compile Include="Simulation\SimulationEngine.cs" />
     <Compile Include="ViewModel\CompletionDateConfidence.cs" />
     <Compile Include="ViewModel\IssueDetails.cs" />
     <Compile Include="ViewModel\IssueEvaluation.cs" />
