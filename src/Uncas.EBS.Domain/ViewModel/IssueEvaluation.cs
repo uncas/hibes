@@ -104,7 +104,7 @@ namespace Uncas.EBS.Domain.ViewModel
                 if (this.NumberOfOpenTasks > 0)
                 {
                     return this._sum / this._count
-                        / ProjectEvaluation.NumberOfHoursPerDay;
+                        / ProjectEvaluation.StandardNumberOfHoursPerDay;
                 }
                 else
                 {
@@ -132,7 +132,8 @@ namespace Uncas.EBS.Domain.ViewModel
                 {
                     return this.Elapsed
                         / (this.Elapsed
-                        + this.Average * ProjectEvaluation.NumberOfHoursPerDay);
+                        + this.Average
+                        * ProjectEvaluation.StandardNumberOfHoursPerDay);
                 }
                 else
                 {

@@ -8,6 +8,9 @@ namespace Uncas.EBS.DAL
 {
     class PersonOffRepository : BaseRepository, IPersonOffRepository
     {
+        // HACK: PERSON: Manually setting person id to one:
+        private const int PersonId = 1;
+
         #region IPersonOffRepository Members
 
         public IList<Model.PersonOff> GetPersonOffs()
@@ -16,7 +19,7 @@ namespace Uncas.EBS.DAL
                 .Where(po => po.ToDate.Date >= DateTime.Now.Date)
                 .OrderBy(po => po.ToDate)
                 .Select(po => Model.PersonOff.ReconstructPersonOff
-                    (po.PersonOffId, po.FromDate, po.ToDate))
+                    (po.PersonOffId, po.FromDate, po.ToDate, PersonId))
                 .ToList();
         }
 

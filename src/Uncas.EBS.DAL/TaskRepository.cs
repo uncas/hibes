@@ -91,6 +91,7 @@ namespace Uncas.EBS.DAL
 
         internal Model.Task GetModelTaskFromDbTask(Task dbTask)
         {
+            // HACK: PERSON: Manually setting person id to 1:
             return Model.Task.ReconstructTask
                 (dbTask.TaskId
                 , dbTask.RefIssueId
@@ -103,6 +104,7 @@ namespace Uncas.EBS.DAL
                 , dbTask.StartDate
                 , dbTask.EndDate
                 , dbTask.CreatedDate
+                , 1
                 );
         }
 

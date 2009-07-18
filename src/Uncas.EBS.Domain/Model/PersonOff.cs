@@ -30,14 +30,18 @@ namespace Uncas.EBS.Domain.Model
         /// <param name="personOffId">The person off id.</param>
         /// <param name="from">From.</param>
         /// <param name="to">To.</param>
+        /// <param name="refPersonId">The ref person id.</param>
         /// <returns></returns>
         public static PersonOff ReconstructPersonOff
             (int personOffId
             , DateTime from
-            , DateTime to)
+            , DateTime to
+            , int refPersonId
+            )
         {
             var personOff = new PersonOff(from, to);
             personOff.PersonOffId = personOffId;
+            personOff.RefPersonId = refPersonId;
             return personOff;
         }
 

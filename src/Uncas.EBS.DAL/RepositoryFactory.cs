@@ -11,6 +11,11 @@ namespace Uncas.EBS.DAL
             get { return new IssueRepository(); }
         }
 
+        public IPersonRepository PersonRepository
+        {
+            get { return new PersonRepository(); }
+        }
+
         public IPersonOffRepository PersonOffRepository
         {
             get { return new PersonOffRepository(); }

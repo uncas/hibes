@@ -25,9 +25,11 @@ namespace Uncas.EBS.UI.Controllers
             , DateTime ToDate
             , int Original_PersonOffId)
         {
+            // HACK: PERSON: Manually setting person id to 1:
+
             _personOffRepo.UpdatePersonOff
                 (PersonOff.ReconstructPersonOff(Original_PersonOffId
-                , FromDate, ToDate));
+                , FromDate, ToDate, 1));
         }
 
         public void DeletePersonOff(int Original_PersonOffId)

@@ -28,6 +28,14 @@ namespace Uncas.EBS.ApplicationServices
             }
         }
 
+        private IPersonRepository PersonRepository
+        {
+            get
+            {
+                return _repositories.PersonRepository;
+            }
+        }
+
         private IPersonOffRepository PersonOffRepository
         {
             get
@@ -57,17 +65,16 @@ namespace Uncas.EBS.ApplicationServices
                 = TaskRepository.GetTasks
                 (Status.Closed
                 , maxNumberOfHistoricalData);
-            // TODO: PERSON: Read personViews instead:
-            var personOffs = PersonOffRepository.GetPersonOffs();
+            var personViews
+                = PersonRepository.GetPersonViews();
 
             // Runs the simulation:
             var simulationEngine = new SimulationEngine(closedTasks);
             var projectEvaluation
                 = simulationEngine.GetProjectEvaluation
-                (openIssuesAndOpenTasks
+                (personViews
+                , openIssuesAndOpenTasks
                 , numberOfSimulations);
-            // TODO: PERSON: This should come via PersonView.PersonOffs
-            projectEvaluation.PersonOffs = personOffs;
 
             return projectEvaluation;
         }

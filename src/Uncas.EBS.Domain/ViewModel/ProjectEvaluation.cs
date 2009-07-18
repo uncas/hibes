@@ -10,12 +10,10 @@ namespace Uncas.EBS.Domain.ViewModel
     /// </summary>
     public class ProjectEvaluation
     {
-        // TODO: PERSON: Hours per day should be on a person object:
         /// <summary>
-        /// The number of hours per day.
+        /// The standard number of hours per day.
         /// </summary>
-        [Obsolete]
-        public const double NumberOfHoursPerDay = 7.5d;
+        public const double StandardNumberOfHoursPerDay = 7.5d;
 
         private IList<double> _evaluations = new List<double>();
 
@@ -32,16 +30,38 @@ namespace Uncas.EBS.Domain.ViewModel
             {
                 return new Statistic<double>(_evaluations
                     , (double evaluation)
-                    => evaluation / NumberOfHoursPerDay);
+                    => evaluation / StandardNumberOfHoursPerDay);
             }
         }
 
         /// <summary>
-        /// Gets or sets the person offs.
+        /// Gets or sets the person views.
         /// </summary>
-        /// <value>The person offs.</value>
-        // TODO: PERSON: This should come from PersonView.PersonOffs:
-        public IList<PersonOff> PersonOffs { get; set; }
+        /// <value>The person views.</value>
+        public IList<PersonView> PersonViews { get; set; }
+
+        #region // TODO: PERSON: Put in new class: PersonEstimate.
+
+        // This is only relevant if there is a person given.
+        // It needs some properties of the ProjectEvaluation class.
+        // How to structure this?
+
+        // class ProjectEvaluation
+        // class PersonEstimate : ProjectEvaluation
+        // class PersonEstimate
+        // {
+        //     ProjectEvaluation ProjEval { get; set; }
+        // }
+
+        // HACK: PERSON: Simulating internals of new class:
+
+        private PersonView _personView
+        {
+            get
+            {
+                return this.PersonViews[0];
+            }
+        }
 
         /// <summary>
         /// Gets the selected completion date confidences.
@@ -64,10 +84,15 @@ namespace Uncas.EBS.Domain.ViewModel
         public IList<CompletionDateConfidence>
             GetCompletionDateConfidences()
         {
+            // TODO: PERSON:
+            // Depends on the following class members:
+            //      _evaluations
+            //      _personView -> already in 'class'
+
             var result = new List<CompletionDateConfidence>();
             IEnumerable<double> orderedEvaluations =
-                _evaluations.OrderBy(d => d);
-            int count = this.Statistics.Count;
+                this._evaluations.OrderBy(d => d);
+            int count = orderedEvaluations.Count();
             for (int percentage = 1; percentage <= 100; percentage++)
             {
                 int countForPercentage = (count * percentage) / 100;
@@ -84,12 +109,11 @@ namespace Uncas.EBS.Domain.ViewModel
                 while (sumOfHours <= hoursAtThisPercentage)
                 {
                     date = date.AddDays(1d);
-                    // TODO: PERSON: Compare to PersonOffs for corresponding person from PersonViews:
-                    if (date.DayOfWeek != DayOfWeek.Saturday
-                        && date.DayOfWeek != DayOfWeek.Sunday
-                        && !this.PersonOffs.IsPersonOff(date))
+                    if (this._personView.IsAtWork(date.DayOfWeek)
+                        && !this._personView.PersonOffs
+                            .IsPersonOff(date))
                     {
-                        sumOfHours += NumberOfHoursPerDay;
+                        sumOfHours += this._personView.HoursPerDay;
                     }
                 }
 
@@ -101,6 +125,8 @@ namespace Uncas.EBS.Domain.ViewModel
             }
             return result;
         }
+
+        #endregion
 
         /// <summary>
         /// Gets the average number of days.
@@ -145,7 +171,7 @@ namespace Uncas.EBS.Domain.ViewModel
                 return this._issueEvaluations
                     .Select(i => i.Value)
                     .Sum(i => i.Elapsed)
-                    / NumberOfHoursPerDay;
+                    / StandardNumberOfHoursPerDay;
             }
         }
 

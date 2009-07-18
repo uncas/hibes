@@ -12,6 +12,12 @@
         IIssueRepository IssueRepository { get; }
 
         /// <summary>
+        /// Gets the person repository.
+        /// </summary>
+        /// <value>The person repository.</value>
+        IPersonRepository PersonRepository { get; }
+
+        /// <summary>
         /// Gets the person off repository.
         /// </summary>
         /// <value>The person off repository.</value>

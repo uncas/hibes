@@ -29,14 +29,17 @@ namespace Uncas.EBS.Domain.Simulation
         /// <summary>
         /// Gets the project evaluation.
         /// </summary>
+        /// <param name="personViews">The person views.</param>
         /// <param name="issueViews">The issue views.</param>
         /// <param name="numberOfSimulations">The number of simulations.</param>
         /// <returns></returns>
         public ProjectEvaluation GetProjectEvaluation
-            (IList<IssueView> issueViews
+            (IList<PersonView> personViews
+            , IList<IssueView> issueViews
             , int numberOfSimulations)
         {
             ProjectEvaluation result = new ProjectEvaluation();
+            result.PersonViews = personViews;
             // For a list of issues:
             // Do a simulation N times:
             for (int simulationNumber = 1
@@ -110,16 +113,19 @@ namespace Uncas.EBS.Domain.Simulation
             // If we have less than minMaxIndex historical tasks
             // we generate some additional random numbers in between:
             int minMaxIndex = 10;
+            // Historical tasks for the person in question:
+            var historicalTasksForThisPerson = this.HistoricalTasks
+                .Where(t => t.RefPersonId == task.RefPersonId)
+                .ToList();
             // A random index to apply:
             int maxIndex
-                = Math.Max(this.HistoricalTasks.Count, minMaxIndex)
+                = Math.Max(historicalTasksForThisPerson.Count, minMaxIndex)
                 + minRandomCount;
             int randomIndex = _rnd.Next(maxIndex + 1);
             if (randomIndex < this.HistoricalTasks.Count)
             {
-                // TODO: PERSON: Use random tasks for the person in question.
-
-                var randomHistoricalTask = this.HistoricalTasks[randomIndex];
+                var randomHistoricalTask
+                    = historicalTasksForThisPerson[randomIndex];
 
                 // Gets the speed of the random historical task:
                 speed = randomHistoricalTask.Speed

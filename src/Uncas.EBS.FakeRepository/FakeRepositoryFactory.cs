@@ -35,7 +35,7 @@ namespace Uncas.EBS.FakeRepository
             get
             {
                 Mockery mocks = new Mockery();
-                
+
                 var projectRepository = mocks.NewMock<IProjectRepository>();
 
                 Expect.Once.On(projectRepository)
@@ -46,6 +46,16 @@ namespace Uncas.EBS.FakeRepository
         }
 
         public ITaskRepository TaskRepository
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        #endregion
+
+        #region IRepositoryFactory Members
+
+
+        public IPersonRepository PersonRepository
         {
             get { throw new NotImplementedException(); }
         }

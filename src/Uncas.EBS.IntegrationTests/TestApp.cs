@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using Uncas.EBS.Domain.Model;
 using Uncas.EBS.Domain.Repository;
+using System;
 
 namespace Uncas.EBS.IntegrationTests
 {
@@ -36,64 +37,104 @@ namespace Uncas.EBS.IntegrationTests
             SetUpDatabase();
         }
 
+        private Random _rnd = new Random();
+
+        private void AddIssue()
+        {
+            var project = _projectRepo.GetProjects().FirstOrDefault();
+
+            int priority = _rnd.Next(100);
+
+            Status status = GetStatus(priority);
+
+            Issue issue = new Issue
+            {
+                RefProjectId = project.ProjectId,
+                Title = "Issue " + priority,
+                Priority = priority,
+                Status = status
+            };
+
+            _issueRepo.InsertIssue(issue);
+
+            if (issue.IssueId.HasValue)
+            {
+                for (int taskIndex = 0
+                    ; taskIndex < 2 + _rnd.Next(3)
+                    ; taskIndex++)
+                {
+                    AddTask(issue.IssueId.Value, status);
+                }
+            }
+        }
+
+        private static Status GetStatus(int priority)
+        {
+            Status status
+                = priority % 2 == 0
+                ? Status.Open
+                : Status.Closed;
+            return status;
+        }
+
+        private void AddTask(int issueId, Status issueStatus)
+        {
+            double originalEstimate
+                = Math.Ceiling(_rnd.NextDouble() * 15d);
+
+            int sequence = _rnd.Next(50);
+
+            Status status = issueStatus == Status.Closed
+                ? Status.Closed
+                : GetStatus(sequence);
+
+            double elapsed = 0d;
+            if (status == Status.Closed)
+            {
+                double speed
+                    = 1d + 0.95d * (2d * _rnd.NextDouble() - 1d);
+                elapsed
+                    = originalEstimate / speed;
+            }
+            // Some open tasks are in progress:
+            else if (_rnd.Next(10) < 1)
+            {
+                elapsed = _rnd.NextDouble() * 20d;
+            }
+
+            double currentEstimate = elapsed;
+
+            if (status == Status.Open)
+            {
+                currentEstimate += _rnd.NextDouble() * 10d;
+            }
+
+            Task task = new Task
+            {
+                CurrentEstimate = currentEstimate,
+                Description = "Task " + sequence,
+                RefIssueId = issueId,
+                OriginalEstimate = originalEstimate,
+                Status = status,
+                Elapsed = elapsed,
+                Sequence = sequence
+            };
+
+            _taskRepo.InsertTask(task);
+        }
+
         private void SetUpDatabase()
         {
             Repositories.ProjectRepository.InsertProject("My project");
 
             var project = _projectRepo.GetProjects().FirstOrDefault();
 
-            Issue closedIssue = new Issue
+            for (int issueIndex = 0
+                ; issueIndex < 15
+                ; issueIndex++)
             {
-                RefProjectId = project.ProjectId,
-                Title = "Issue 1",
-                Priority = 1,
-                Status = Status.Closed
-            };
-
-            _issueRepo.InsertIssue(closedIssue);
-
-            Issue issueInProgress = new Issue
-            {
-                RefProjectId = project.ProjectId,
-                Title = "Issue 2",
-                Priority = 2,
-                Status = Status.Open
-            };
-
-            _issueRepo.InsertIssue(issueInProgress);
-
-            Task newTask = new Task
-            {
-                CurrentEstimate = 1d,
-                Description = "First task",
-                RefIssueId = issueInProgress.IssueId.Value,
-                OriginalEstimate = 1d,
-                Status = Status.Open
-            };
-
-            _taskRepo.InsertTask(newTask);
-
-            Task closedTask = new Task
-            {
-                CurrentEstimate = 1d,
-                Description = "Second task",
-                RefIssueId = issueInProgress.IssueId.Value,
-                OriginalEstimate = 2d,
-                Elapsed = 1d,
-                Status = Status.Closed
-            };
-
-            _taskRepo.InsertTask(closedTask);
-
-            Issue newIssue = new Issue
-            {
-                RefProjectId = project.ProjectId,
-                Title = "Issue 3",
-                Priority = 3,
-                Status = Status.Open
-            };
-
-            _issueRepo.InsertIssue(newIssue);
+                AddIssue();
+            }
         }
 
         private void TearDownDatabase()
