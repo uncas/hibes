@@ -5,6 +5,7 @@ using NUnit.Framework;
 using Uncas.EBS.ApplicationServices;
 using Uncas.EBS.Domain.Model;
 using Uncas.EBS.Domain.Repository;
+using Uncas.EBS.Tests;
 
 namespace Uncas.EBS.IntegrationTests.RepositoryTests
 {
@@ -353,8 +354,6 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
 
         #region Speed tests
 
-        private delegate void TestFunc();
-
         /*
 No indexes:
     GetIssues: 0,62
@@ -374,6 +373,7 @@ Indexes on all foreign keys:
     GetProjectEvaluation-10-10: 8,69
          */
 
+        [Test]
         public void RunAllSpeedTests()
         {
             GetIssues_Speed();
@@ -382,14 +382,19 @@ Indexes on all foreign keys:
             GetIssueView_Speed(Status.Closed);
             GetTasks_Speed();
             GetProjects_Speed();
-            GetProjectEvaluation_Speed(10, 10);
+            GetProjectEvaluation_Speed(5, 5);
         }
 
         public void GetIssueView_Speed(Status status)
         {
-            int issueId = _issueRepo.GetIssues
-                (null, status).First().IssueId.Value;
-            TestFunc tf = () =>
+            var issue = _issueRepo.GetIssues
+                (null, status).FirstOrDefault();
+            if (issue == null)
+            {
+                return;
+            }
+            int issueId = issue.IssueId.Value;
+            FuncToSpeedTest tf = () =>
             {
                 _issueRepo.GetIssueView(issueId, status);
                 _issueRepo.GetIssueView(issueId, status);
@@ -404,7 +409,7 @@ Indexes on all foreign keys:
             (int numberOfSimulations
             , int maxNumberOfHistoricalData)
         {
-            TestFunc tf = () =>
+            FuncToSpeedTest tf = () =>
             {
                 _projectService.GetProjectEvaluation
                     (null, null, numberOfSimulations
@@ -425,7 +430,7 @@ Indexes on all foreign keys:
         public void GetIssues_Speed()
         {
             int projectId = _projectRepo.GetProjects().First().ProjectId;
-            TestFunc tf = () =>
+            FuncToSpeedTest tf = () =>
             {
                 _issueRepo.GetIssues(null, Status.Any);
                 _issueRepo.GetIssues(null, Status.Closed);
@@ -436,7 +441,7 @@ Indexes on all foreign keys:
 
         public void GetTasks_Speed()
         {
-            TestFunc tf = () =>
+            FuncToSpeedTest tf = () =>
                 {
                     _taskRepo.GetTasksByStatus(Status.Any);
                     _taskRepo.GetTasksByStatus(Status.Closed);
@@ -447,7 +452,7 @@ Indexes on all foreign keys:
 
         public void GetProjects_Speed()
         {
-            TestFunc tf = () =>
+            FuncToSpeedTest tf = () =>
             {
                 _projectRepo.GetProjects();
                 _projectRepo.GetProjects();
@@ -456,19 +461,9 @@ Indexes on all foreign keys:
             TestSpeed("GetProjects", tf);
         }
 
-        private static void TestSpeed(string testTitle, TestFunc tf)
+        private static void TestSpeed(string testTitle, FuncToSpeedTest tf)
         {
-            tf();
-            long begin = DateTime.Now.Ticks;
-            for (int i = 0; i < 50; i++)
-            {
-                tf();
-            }
-            long end = DateTime.Now.Ticks;
-            string message = string.Format("{0}: {1:N2}"
-                , testTitle
-                , TimeSpan.FromTicks(end - begin).TotalSeconds);
-            Trace.WriteLine(message);
+            SpeedTester.RunSpeedTest(testTitle, tf, 5);
         }
 
         #endregion

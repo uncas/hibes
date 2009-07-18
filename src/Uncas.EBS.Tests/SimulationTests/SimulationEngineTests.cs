@@ -54,8 +54,28 @@ namespace Uncas.EBS.Tests.SimulationTests
         [Test]
         public void GetProjectEvaluation_TwoCases_OK()
         {
+            List<Task> closedTasks;
+            List<IssueView> issueViews;
+            PrepareIssuesAndTasks(out closedTasks, out issueViews);
+
+            // Testing:
+            SimulationEngine evals = new SimulationEngine(closedTasks);
+            var result = evals.GetProjectEvaluation(issueViews, 1000);
+
+            // Checking (a lot of things):
+            var average = result.Statistics.Average;
+            Assert.Greater(average, 0d);
+            Assert.Less(average, 1.9d);
+            var ie = result.GetIssueEvaluations();
+            Assert.AreEqual(1, ie.Count);
+            Assert.Greater(ie[0].Average, 0d);
+            Assert.Less(ie[0].Average, 1.9d);
+        }
+
+        private static void PrepareIssuesAndTasks(out List<Task> closedTasks, out List<IssueView> issueViews)
+        {
             // Setting up:
-            var closedTasks = new List<Task>();
+            closedTasks = new List<Task>();
             closedTasks.Add(new Task
             {
                 OriginalEstimate = 1d,
@@ -79,27 +99,33 @@ namespace Uncas.EBS.Tests.SimulationTests
                 Status = Status.Open
             });
 
-            var issueViews = new List<IssueView>();
+            issueViews = new List<IssueView>();
             issueViews.Add(new IssueView
             {
                 Issue = new IssueDetails(),
                 Tasks = openTasks
             });
+        }
 
+        [Test]
+        public void GetProjectEvalution_SpeedTest()
+        {
+            List<Task> closedTasks;
+            List<IssueView> issueViews;
+            PrepareIssuesAndTasks(out closedTasks, out issueViews);
 
             // Testing:
             SimulationEngine evals = new SimulationEngine(closedTasks);
-            var result = evals.GetProjectEvaluation(issueViews, 1000);
+            FuncToSpeedTest func =
+                () =>
+                {
+                    evals.GetProjectEvaluation(issueViews, 100);
+                };
 
-
-            // Checking (a lot of things):
-            var average = result.Statistics.Average;
-            Assert.Greater(average, 0d);
-            Assert.Less(average, 1.9d);
-            var ie = result.GetIssueEvaluations();
-            Assert.AreEqual(1, ie.Count);
-            Assert.Greater(ie[0].Average, 0d);
-            Assert.Less(ie[0].Average, 1.9d);
+            SpeedTester.RunSpeedTest
+                ("GetProjectEvaluation_SpeedTest"
+                , func
+                , 100);
         }
     }
 }

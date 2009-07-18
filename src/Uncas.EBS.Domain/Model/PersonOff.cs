@@ -72,7 +72,11 @@ namespace Uncas.EBS.Domain.Model
                 && date.Date <= this.ToDate.Date;
         }
 
-        // TODO: PERSON: There should be a PersonOff.RefPersonId property.
+        /// <summary>
+        /// Gets or sets the person id.
+        /// </summary>
+        /// <value>The person id.</value>
+        public int RefPersonId { get; set; }
     }
 
     /// <summary>

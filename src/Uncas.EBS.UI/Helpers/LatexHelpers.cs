@@ -60,6 +60,7 @@ namespace Uncas.EBS.UI.Helpers
 
 \usepackage[danish]{babel}
 \usepackage{verbatim}
+\usepackage{textcomp}
 
 \addtolength\textheight{3cm}
 \addtolength\topmargin{-1.5cm}
@@ -142,18 +143,7 @@ namespace Uncas.EBS.UI.Helpers
                 = new LatexColumn<IssueEvaluation>
                 (Resources.Phrases.Average
                 , (IssueEvaluation ie)
-                    => ie.Average.HasValue
-                    ? ie.Average.Value.ToString("N1")
-                    : string.Empty
-                , ColumnAlignment.Right);
-
-            var progressColumn
-                = new LatexColumn<IssueEvaluation>
-                (Resources.Phrases.Progress
-                , (IssueEvaluation ie)
-                    => ie.Progress.HasValue
-                    ? LatexPercentageStringFromDouble(ie.Progress.Value)
-                    : string.Empty
+                    => GetDaysRemainingText(ie.Average)
                 , ColumnAlignment.Right);
 
             var issueEstimates
@@ -166,8 +156,36 @@ namespace Uncas.EBS.UI.Helpers
                 , projectColumn
                 , issueTitleColumn
                 , averageDaysColumn
-                , progressColumn
                 ));
+        }
+
+        /// <summary>
+        /// Gets the days remaining text.
+        /// </summary>
+        /// <param name="daysRemaining">The days remaining.</param>
+        /// <example>
+        ///     daysRemaining  returnValue
+        ///        0.4             ½
+        ///        0.6             1
+        ///        1.1             2
+        ///        3.9             4
+        /// </example>
+        /// <returns></returns>
+        public string GetDaysRemainingText(double? daysRemaining)
+        {
+            if (!daysRemaining.HasValue)
+            {
+                return "?";
+            }
+            else if (daysRemaining.Value < 0.5d)
+            {
+                return @"\textonehalf";
+            }
+            else
+            {
+                return ((int)Math.Ceiling(daysRemaining.Value))
+                    .ToString();
+            }
         }
 
         public string ShortenText(string text, int maxLength)

@@ -266,6 +266,10 @@ namespace Uncas.EBS.Domain.Model
             }
         }
 
-        // TODO: PERSON: There should be a Task.RefPersonId property.
+        /// <summary>
+        /// Gets or sets the person id.
+        /// </summary>
+        /// <value>The person id.</value>
+        public int RefPersonId { get; set; }
     }
 }

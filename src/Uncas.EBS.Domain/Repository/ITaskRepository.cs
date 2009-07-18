@@ -8,7 +8,7 @@ namespace Uncas.EBS.Domain.Repository
     /// </summary>
     public interface ITaskRepository
     {
-        // TODO: Refactor: Combine the two Get methods below:
+        // TODO: REFACTOR: Combine the two Get methods below:
         // Maybe create and use TaskSpecification: Status, MaxCount.
 
         /// <summary>

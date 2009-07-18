@@ -143,14 +143,46 @@ namespace Uncas.EBS.Domain.Simulation
 
         private double GetRandomSpeed()
         {
-            // TODO: FEATURE: Consider exponentially distributed.
-
-            // Sets the speed to a random number:
             const double averageSpeed = 1d;
             const double deltaSpeed = 0.8d;
 
+            return GetRandomSpeedConcentratedAroundAverage
+                (averageSpeed
+                , deltaSpeed);
+
+            // Speed of execution 
+            // (5000 runs with 1000 simulations each; 
+            // i.e. 5M simulations in total):
+
+            // EvenlyDistributed:
+            // 7.19, 6.91, 7.00, 7.16, 7.42
+
+            // Concentrated:
+            // 7.35, 7.66, 7.84, 7.56
+        }
+
+        private double GetRandomSpeedEvenlyDistributedAroundAverage
+            (double averageSpeed
+            , double deltaSpeed)
+        {
             // A random number between -1 and +1:
-            double randomBase = (2d * _rnd.NextDouble() - 1d);
+            double randomBase = 2d * _rnd.NextDouble() - 1d;
+
+            // Random speed between 
+            //      averageSpeed - deltaSpeed 
+            // and 
+            //      averageSpeed + deltaSpeed:
+            double speed = averageSpeed
+                + deltaSpeed * randomBase;
+            return speed;
+        }
+
+        private double GetRandomSpeedConcentratedAroundAverage
+            (double averageSpeed
+            , double deltaSpeed)
+        {
+            // A random number between -1 and +1:
+            double randomBase = 2d * _rnd.NextDouble() - 1d;
 
             // A power that should be an odd number (1,3,5,etc.)
             const double power = 3d;

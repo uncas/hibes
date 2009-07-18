@@ -42,7 +42,7 @@ namespace Uncas.EBS.Domain.Model
         /// Gets or sets the name of the project.
         /// </summary>
         /// <value>The name of the project.</value>
-        // TODO: Maybe move this to ViewModel.IssueDetails?
+        // TODO: REFACTOR: Maybe move this to ViewModel.IssueDetails?
         public string ProjectName { get; set; }
 
         /// <summary>

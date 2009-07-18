@@ -1,10 +1,5 @@
 Features
 --------
-- Choose format of latex output:
-    Rounding of numbers
-    Choose columns
-    Change texts
-
 - Handle multiple persons:
     - Person choice on task.
     - When estimating task: Use random speed for person in question.

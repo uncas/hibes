@@ -66,9 +66,12 @@ namespace Uncas.EBS.UI.Controls
             else if (sender is DateBox)
             {
                 DateBox box = sender as DateBox;
-                // TODO: NOT NEEDED: Handle insert mode.
+
+                // TODO: COMPONENT: Determine insert mode.
+                bool isInsertMode = false;
+
                 // If in insert mode, no text should appear
-                // if (!this.IsInsertMode)
+                if (!isInsertMode)
                 {
                     object dataItem = DataBinder.GetDataItem
                         (box.NamingContainer);
@@ -81,6 +84,11 @@ namespace Uncas.EBS.UI.Controls
                             (datePropertyValue);
                         box.SelectedDate = selectedDate;
                     }
+                }
+                else
+                {
+                    // TODO: COMPONENT: Handle insert mode.
+                    throw new NotImplementedException();
                 }
             }
         }
