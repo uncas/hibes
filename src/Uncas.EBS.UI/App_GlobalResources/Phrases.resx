@@ -279,4 +279,7 @@
   <data name="FailedProjectDeletion" xml:space="preserve">
     <value>Deletion of project failed. Please delete all issues for the project first.</value>
   </data>
+  <data name="Person" xml:space="preserve">
+    <value>Person</value>
+  </data>
 </root>

@@ -18,6 +18,6 @@ namespace Uncas.EBS.Domain.ViewModel
         /// Gets or sets the tasks.
         /// </summary>
         /// <value>The tasks.</value>
-        public IList<Task> Tasks { get; set; }
+        public IList<TaskDetails> Tasks { get; set; }
     }
 }

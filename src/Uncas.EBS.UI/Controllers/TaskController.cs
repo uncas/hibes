@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Uncas.EBS.Domain.Model;
 using Uncas.EBS.Domain.Repository;
+using Uncas.EBS.Domain.ViewModel;
 
 namespace Uncas.EBS.UI.Controllers
 {
@@ -16,7 +17,7 @@ namespace Uncas.EBS.UI.Controllers
         private ITaskRepository _taskRepo
             = App.Repositories.TaskRepository;
 
-        public IList<Task> GetTasks(int issueId, Status status)
+        public IList<TaskDetails> GetTasks(int issueId, Status status)
         {
             var issueView = _issueRepo.GetIssueView
                 (issueId, status);
@@ -30,7 +31,9 @@ namespace Uncas.EBS.UI.Controllers
             , DateTime? EndDate
             , int Sequence
             , Status Status
-            , int RefIssueId)
+            , int RefIssueId
+            , int RefPersonId
+            )
         {
             Task task = Task.ConstructTask
                 (RefIssueId
@@ -40,7 +43,8 @@ namespace Uncas.EBS.UI.Controllers
                 , OriginalEstimate
                 , Elapsed
                 , StartDate
-                , EndDate);
+                , EndDate
+                , RefPersonId);
             _taskRepo.InsertTask(task);
         }
 
@@ -52,7 +56,9 @@ namespace Uncas.EBS.UI.Controllers
             , DateTime? StartDate
             , DateTime? EndDate
             , int Sequence
-            , Status Status)
+            , Status Status
+            , int RefPersonId
+            )
         {
             Task task = Task.ReconstructTaskToUpdate
                 (Original_TaskId
@@ -62,7 +68,8 @@ namespace Uncas.EBS.UI.Controllers
                 , CurrentEstimate
                 , Elapsed
                 , StartDate
-                , EndDate);
+                , EndDate
+                , RefPersonId);
             _taskRepo.UpdateTask(task);
         }
 

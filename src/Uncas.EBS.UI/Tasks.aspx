@@ -42,7 +42,8 @@
                                 </uncas:StatusSelection>
                             </EditItemTemplate>
                             <ItemTemplate>
-                                <uncas:StatusLabel ID="slStatus" runat="server" Status='<%# Eval("Status") %>'></uncas:StatusLabel>
+                                <uncas:StatusLabel ID="slStatus" runat="server" Status='<%# Eval("Status") %>'>
+                                </uncas:StatusLabel>
                             </ItemTemplate>
                         </asp:TemplateField>
                         <uncas:BoundFieldResource HeaderResourceName="Created" DataField="CreatedDate" DataFormatString="{0:d}"
@@ -58,11 +59,14 @@
                             ReadOnly="True" />
                         <asp:TemplateField>
                             <ItemTemplate>
-                                <uncas:EditButton ID="ebEdit" runat="server"></uncas:EditButton>
+                                <uncas:EditButton ID="ebEdit" runat="server">
+                                </uncas:EditButton>
                             </ItemTemplate>
                             <EditItemTemplate>
-                                <uncas:UpdateButton ID="ubUpdate" runat="server"></uncas:UpdateButton>
-                                <uncas:CancelButton ID="ubCancel" runat="server"></uncas:CancelButton>
+                                <uncas:UpdateButton ID="ubUpdate" runat="server">
+                                </uncas:UpdateButton>
+                                <uncas:CancelButton ID="ubCancel" runat="server">
+                                </uncas:CancelButton>
                             </EditItemTemplate>
                         </asp:TemplateField>
                     </Columns>
@@ -83,10 +87,14 @@
             <div id="newTask">
                 <asp:FormView ID="fvNewTask" runat="server" DataSourceID="odsTasks">
                     <EmptyDataTemplate>
-                        <uncas:NewButton ID="nbNew" runat="server"><%= Resources.Phrases.CreateNewTask %></uncas:NewButton>
+                        <uncas:NewButton ID="nbNew" runat="server">
+                            <%= Resources.Phrases.CreateNewTask %>
+                        </uncas:NewButton>
                     </EmptyDataTemplate>
                     <ItemTemplate>
-                        <uncas:NewButton ID="nbNew" runat="server"><%= Resources.Phrases.CreateNewTask %></uncas:NewButton>
+                        <uncas:NewButton ID="nbNew" runat="server">
+                            <%= Resources.Phrases.CreateNewTask %>
+                        </uncas:NewButton>
                     </ItemTemplate>
                     <InsertItemTemplate>
                         <table>
@@ -106,6 +114,9 @@
                                     </th>
                                     <th>
                                         <%= Resources.Phrases.Elapsed %>
+                                    </th>
+                                    <th>
+                                        <%= Resources.Phrases.Person %>
                                     </th>
                                     <th style="display: none;">
                                         <%= Resources.Phrases.Begin %>
@@ -132,7 +143,11 @@
                                     <asp:TextBox ID="tbOriginal" runat="server" Text='<%# Bind("OriginalEstimate") %>'></asp:TextBox>
                                 </td>
                                 <td>
-                                    <asp:TextBox ID="tbCurrent" runat="server" Text='<%# Bind("Elapsed") %>'></asp:TextBox>
+                                    <asp:TextBox ID="tbElapsed" runat="server" Text='<%# Bind("Elapsed") %>'></asp:TextBox>
+                                </td>
+                                <td>
+                                    <uncas:PersonSelection ID="psPerson" runat="server" SelectedValue='<%# Bind("RefPersonId") %>'>
+                                    </uncas:PersonSelection>
                                 </td>
                                 <td style="display: none;">
                                     <uncas:DateBox ID="dbStart" runat="server" DateObject='<%# Bind("StartDate") %>'>
@@ -143,8 +158,10 @@
                                     </uncas:DateBox>
                                 </td>
                                 <td>
-                                    <uncas:InsertButton ID="ibInsert" runat="server"></uncas:InsertButton>
-                                    <uncas:CancelButton ID="cbCancel" runat="server"></uncas:CancelButton>
+                                    <uncas:InsertButton ID="ibInsert" runat="server">
+                                    </uncas:InsertButton>
+                                    <uncas:CancelButton ID="cbCancel" runat="server">
+                                    </uncas:CancelButton>
                                 </td>
                             </tr>
                         </table>
@@ -182,7 +199,8 @@
                                 </uncas:StatusSelection>
                             </EditItemTemplate>
                             <ItemTemplate>
-                                <uncas:StatusLabel ID="slStatus" runat="server" Status='<%# Eval("Status") %>'></uncas:StatusLabel>
+                                <uncas:StatusLabel ID="slStatus" runat="server" Status='<%# Eval("Status") %>'>
+                                </uncas:StatusLabel>
                             </ItemTemplate>
                         </asp:TemplateField>
                         <uncas:BoundFieldResource HeaderResourceName="Original" DataField="OriginalEstimate"
@@ -191,6 +209,18 @@
                             HtmlEncode="false" DataFormatString="{0:N1}" ItemStyle-HorizontalAlign="Right" />
                         <uncas:BoundFieldResource HeaderResourceName="Elapsed" DataField="Elapsed" HtmlEncode="false"
                             DataFormatString="{0:N1}" ItemStyle-HorizontalAlign="Right" />
+                        <asp:TemplateField>
+                            <HeaderTemplate>
+                                <%= Resources.Phrases.Person %>
+                            </HeaderTemplate>
+                            <EditItemTemplate>
+                                <uncas:PersonSelection ID="psPerson" runat="server" SelectedValue='<%# Bind("RefPersonId") %>'>
+                                </uncas:PersonSelection>
+                            </EditItemTemplate>
+                            <ItemTemplate>
+                                <asp:Label ID="lblPerson" runat="server" Text='<%# Eval("PersonName") %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
                         <uncas:DateField HeaderResourceName="Begin" DataField="StartDate" Visible="false">
                         </uncas:DateField>
                         <uncas:DateField HeaderResourceName="End" DataField="EndDate" Visible="false">
@@ -199,12 +229,16 @@
                             DataFormatString="{0:d}" ReadOnly="true" />
                         <asp:TemplateField>
                             <ItemTemplate>
-                                <uncas:EditButton ID="ebEdit" runat="server"></uncas:EditButton>
-                                <uncas:DeleteButton ID="dbDelete" runat="server"></uncas:DeleteButton>
+                                <uncas:EditButton ID="ebEdit" runat="server">
+                                </uncas:EditButton>
+                                <uncas:DeleteButton ID="dbDelete" runat="server">
+                                </uncas:DeleteButton>
                             </ItemTemplate>
                             <EditItemTemplate>
-                                <uncas:UpdateButton ID="ubUpdate" runat="server"></uncas:UpdateButton>
-                                <uncas:CancelButton ID="ubCancel" runat="server"></uncas:CancelButton>
+                                <uncas:UpdateButton ID="ubUpdate" runat="server">
+                                </uncas:UpdateButton>
+                                <uncas:CancelButton ID="ubCancel" runat="server">
+                                </uncas:CancelButton>
                             </EditItemTemplate>
                         </asp:TemplateField>
                     </Columns>

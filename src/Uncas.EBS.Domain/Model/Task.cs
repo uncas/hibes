@@ -80,6 +80,7 @@ namespace Uncas.EBS.Domain.Model
         /// <param name="elapsed">The elapsed.</param>
         /// <param name="startDate">The start date.</param>
         /// <param name="endDate">The end date.</param>
+        /// <param name="refPersonId">The person id.</param>
         /// <returns></returns>
         public static Task ReconstructTaskToUpdate
             (int taskId
@@ -90,6 +91,7 @@ namespace Uncas.EBS.Domain.Model
             , double elapsed
             , DateTime? startDate
             , DateTime? endDate
+            , int refPersonId
             )
         {
             Task task = new Task();
@@ -102,6 +104,7 @@ namespace Uncas.EBS.Domain.Model
             task.Sequence = sequence;
             task.StartDate = startDate;
             task.Status = status;
+            task.RefPersonId = refPersonId;
             return task;
         }
 
@@ -116,6 +119,7 @@ namespace Uncas.EBS.Domain.Model
         /// <param name="elapsed">The elapsed.</param>
         /// <param name="startDate">The start date.</param>
         /// <param name="endDate">The end date.</param>
+        /// <param name="refPersonId">The person id.</param>
         /// <returns></returns>
         public static Task ConstructTask
             (int refIssueId
@@ -126,6 +130,7 @@ namespace Uncas.EBS.Domain.Model
             , double elapsed
             , DateTime? startDate
             , DateTime? endDate
+            , int refPersonId
             )
         {
             Task task = new Task();
@@ -140,6 +145,7 @@ namespace Uncas.EBS.Domain.Model
             task.Sequence = sequence;
             task.StartDate = startDate;
             task.Status = status;
+            task.RefPersonId = refPersonId;
             return task;
         }
 

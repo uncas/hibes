@@ -262,7 +262,8 @@ namespace Uncas.EBS.DAL
                     Issue = GetIssueDetailsFromDbIssue(issue),
                     Tasks = issue.Tasks
                         .Where(t => t.RefStatusId == 1)
-                        .Select(t => _taskRepo.GetModelTaskFromDbTask(t))
+                        .Select(t => _taskRepo
+                            .GetTaskDetailsFromDbTask(t))
                         .ToList()
                 });
 

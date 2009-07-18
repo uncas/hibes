@@ -44,7 +44,7 @@ namespace Uncas.EBS.Domain.ViewModel
         {
             get
             {
-                // HACK: PERSON: Implement this properly.
+                // TODO: REFACTOR: PERSON: Implement this properly.
                 var pe = new List<PersonEstimate>();
                 pe.Add(new PersonEstimate
                     (PersonViews[0], this._evaluations));
@@ -59,11 +59,15 @@ namespace Uncas.EBS.Domain.ViewModel
         public IList<CompletionDateConfidence>
             GetSelectedCompletionDateConfidences()
         {
-            // HACK: PERSON: Implement this properly.
+            // TODO: REFACTOR: PERSON: Implement this properly.
             return PersonEstimates[0]
                 .GetSelectedCompletionDateConfidences();
         }
 
+        /// <summary>
+        /// Gets the person confidence dates.
+        /// </summary>
+        /// <returns></returns>
         public PersonConfidenceDates GetPersonConfidenceDates()
         {
             return new PersonConfidenceDates
@@ -117,7 +121,7 @@ namespace Uncas.EBS.Domain.ViewModel
         public IList<CompletionDateConfidence>
             GetCompletionDateConfidences()
         {
-            // HACK: PERSON: Implement this properly.
+            // TODO: REFACTOR: PERSON: Implement this properly.
             return this.PersonEstimates[0]
                 .GetCompletionDateConfidences();
         }

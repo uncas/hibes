@@ -8,28 +8,33 @@ namespace Uncas.EBS.DAL
 {
     class PersonOffRepository : BaseRepository, IPersonOffRepository
     {
-        // HACK: PERSON: Manually setting person id to one:
-        private const int PersonId = 1;
-
         #region IPersonOffRepository Members
 
         public IList<Model.PersonOff> GetPersonOffs()
         {
+            // TODO: PERSON: Retrieve person id from dbPersonOff:
+            const int PersonId = 1;
+
             return db.PersonOffs
                 .Where(po => po.ToDate.Date >= DateTime.Now.Date)
                 .OrderBy(po => po.ToDate)
                 .Select(po => Model.PersonOff.ReconstructPersonOff
-                    (po.PersonOffId, po.FromDate, po.ToDate, PersonId))
+                    (po.PersonOffId
+                    , po.FromDate
+                    , po.ToDate
+                    , PersonId))
                 .ToList();
         }
 
         public void InsertPersonOff(Model.PersonOff personOff)
         {
+            // TODO: Save PersonOff.RefPersonId to db:
             db.PersonOffs.InsertOnSubmit
                 (new PersonOff
                 {
                     FromDate = personOff.FromDate,
-                    ToDate = personOff.ToDate
+                    ToDate = personOff.ToDate,
+                    //RefPersonId = personOff.RefPersonId
                 });
             base.SubmitChanges();
         }

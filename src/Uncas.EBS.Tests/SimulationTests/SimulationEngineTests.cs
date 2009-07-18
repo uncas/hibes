@@ -22,8 +22,8 @@ namespace Uncas.EBS.Tests.SimulationTests
                 Status = Status.Closed
             });
 
-            var openTasks = new List<Task>();
-            openTasks.Add(new Task
+            var openTasks = new List<TaskDetails>();
+            openTasks.Add(new TaskDetails
             {
                 CurrentEstimate = 1d,
                 Elapsed = 0d,
@@ -93,8 +93,8 @@ namespace Uncas.EBS.Tests.SimulationTests
                 Status = Status.Closed
             });
 
-            var openTasks = new List<Task>();
-            openTasks.Add(new Task
+            var openTasks = new List<TaskDetails>();
+            openTasks.Add(new TaskDetails
             {
                 CurrentEstimate = 1d,
                 Elapsed = 0d,

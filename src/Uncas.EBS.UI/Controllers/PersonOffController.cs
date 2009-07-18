@@ -15,17 +15,20 @@ namespace Uncas.EBS.UI.Controllers
             return _personOffRepo.GetPersonOffs();
         }
 
-        public void InsertPersonOff(DateTime FromDate, DateTime ToDate)
+        public void InsertPersonOff
+            (DateTime FromDate
+            , DateTime ToDate)
         {
             _personOffRepo.InsertPersonOff
                 (new PersonOff(FromDate, ToDate));
         }
 
-        public void UpdatePersonOff(DateTime FromDate
+        public void UpdatePersonOff
+            (DateTime FromDate
             , DateTime ToDate
             , int Original_PersonOffId)
         {
-            // HACK: PERSON: Manually setting person id to 1:
+            // TODO: PERSON: Input person id from person off form:
 
             _personOffRepo.UpdatePersonOff
                 (PersonOff.ReconstructPersonOff(Original_PersonOffId

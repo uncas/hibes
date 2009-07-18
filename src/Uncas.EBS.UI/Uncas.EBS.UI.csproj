@@ -64,6 +64,7 @@
     <Compile Include="App.cs" />
     <Compile Include="Controllers\IssueController.cs" />
     <Compile Include="Controllers\LanguageController.cs" />
+    <Compile Include="Controllers\PersonController.cs" />
     <Compile Include="Controllers\PersonOffController.cs" />
     <Compile Include="Controllers\ProjectController.cs" />
     <Compile Include="Controllers\TaskController.cs" />
@@ -89,6 +90,7 @@
     <Compile Include="Controls\ColorCodes.ascx.designer.cs">
       <DependentUpon>ColorCodes.ascx</DependentUpon>
     </Compile>
+    <Compile Include="Controls\PersonSelection.cs" />
     <Compile Include="Controls\ProjectFilter.cs" />
     <Compile Include="Controls\DateBox.cs" />
     <Compile Include="Controls\DateField.cs" />
@@ -138,6 +140,13 @@
     </Compile>
     <Compile Include="Language.aspx.designer.cs">
       <DependentUpon>Language.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Persons.aspx.cs">
+      <DependentUpon>Persons.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Persons.aspx.designer.cs">
+      <DependentUpon>Persons.aspx</DependentUpon>
     </Compile>
     <Compile Include="PersonSetup.aspx.cs">
       <DependentUpon>PersonSetup.aspx</DependentUpon>
@@ -218,6 +227,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Controls\ColorCodes.ascx" />
+    <Content Include="Persons.aspx" />
     <Content Include="Projects.aspx" />
     <Content Include="Setup.aspx" />
     <Content Include="Web.appSettings.config" />

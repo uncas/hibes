@@ -35,6 +35,11 @@ Features
 - Custom reports
 
 
+REFACTOR
+--------
+gvIssue(s) as usercontrol!
+
+
 Testing
 -------
 - Use mock repository classes for unit testing.

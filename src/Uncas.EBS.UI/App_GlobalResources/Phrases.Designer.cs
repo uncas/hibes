@@ -403,6 +403,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Person.
+        /// </summary>
+        internal static string Person {
+            get {
+                return ResourceManager.GetString("Person", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Distribute the priorities of open issues evenly.
         /// </summary>
         internal static string PrioritizeOpenIssues {

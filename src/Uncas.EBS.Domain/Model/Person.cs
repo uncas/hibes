@@ -18,15 +18,28 @@ namespace Uncas.EBS.Domain.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Person"/> class.
         /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="daysPerWeek">The days per week.</param>
+        /// <param name="hoursPerDay">The hours per day.</param>
+        public Person(string name
+            , int daysPerWeek
+            , double hoursPerDay)
+        {
+            this.PersonName = name;
+            this.DaysPerWeek = daysPerWeek;
+            this.HoursPerDay = hoursPerDay;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Person"/> class.
+        /// </summary>
         public Person(int id
             , string name
             , int daysPerWeek
             , double hoursPerDay)
+            : this(name, daysPerWeek, hoursPerDay)
         {
             this.PersonId = id;
-            this.PersonName = name;
-            this.DaysPerWeek = daysPerWeek;
-            this.HoursPerDay = hoursPerDay;
         }
 
         /// <summary>
