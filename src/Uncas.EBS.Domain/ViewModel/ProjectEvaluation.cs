@@ -40,26 +40,15 @@ namespace Uncas.EBS.Domain.ViewModel
         /// <value>The person views.</value>
         public IList<PersonView> PersonViews { get; set; }
 
-        #region // TODO: PERSON: Put in new class: PersonEstimate.
-
-        // This is only relevant if there is a person given.
-        // It needs some properties of the ProjectEvaluation class.
-        // How to structure this?
-
-        // class ProjectEvaluation
-        // class PersonEstimate : ProjectEvaluation
-        // class PersonEstimate
-        // {
-        //     ProjectEvaluation ProjEval { get; set; }
-        // }
-
-        // HACK: PERSON: Simulating internals of new class:
-
-        private PersonView _personView
+        private IList<PersonEstimate> PersonEstimates
         {
             get
             {
-                return this.PersonViews[0];
+                // HACK: PERSON: Implement this properly.
+                var pe = new List<PersonEstimate>();
+                pe.Add(new PersonEstimate
+                    (PersonViews[0], this._evaluations));
+                return pe;
             }
         }
 
@@ -70,11 +59,55 @@ namespace Uncas.EBS.Domain.ViewModel
         public IList<CompletionDateConfidence>
             GetSelectedCompletionDateConfidences()
         {
-            return GetCompletionDateConfidences()
-                .Where(cdc => cdc.Probability == 0.05d
-                    || cdc.Probability == 0.5d
-                    || cdc.Probability == 0.95d)
-                .ToList();
+            // HACK: PERSON: Implement this properly.
+            return PersonEstimates[0]
+                .GetSelectedCompletionDateConfidences();
+        }
+
+        public PersonConfidenceDates GetPersonConfidenceDates()
+        {
+            return new PersonConfidenceDates
+                (this.PersonViews[0].PersonId
+                , this.PersonViews[0].PersonName
+                , GetSelectedCompletionDateConfidences()[0].Date
+                , GetSelectedCompletionDateConfidences()[1].Date
+                , GetSelectedCompletionDateConfidences()[2].Date);
+        }
+
+        /// <summary>
+        /// Gets the completion date for 5 percent confidence.
+        /// </summary>
+        /// <value>The completion date5.</value>
+        public DateTime CompletionDate5
+        {
+            get
+            {
+                return GetSelectedCompletionDateConfidences()[0].Date;
+            }
+        }
+
+        /// <summary>
+        /// Gets the completion date for 50 percent confidence.
+        /// </summary>
+        /// <value>The completion date50.</value>
+        public DateTime CompletionDate50
+        {
+            get
+            {
+                return GetSelectedCompletionDateConfidences()[1].Date;
+            }
+        }
+
+        /// <summary>
+        /// Gets the completion date for 95 percent confidence.
+        /// </summary>
+        /// <value>The completion date95.</value>
+        public DateTime CompletionDate95
+        {
+            get
+            {
+                return GetSelectedCompletionDateConfidences()[2].Date;
+            }
         }
 
         /// <summary>
@@ -84,49 +117,10 @@ namespace Uncas.EBS.Domain.ViewModel
         public IList<CompletionDateConfidence>
             GetCompletionDateConfidences()
         {
-            // TODO: PERSON:
-            // Depends on the following class members:
-            //      _evaluations
-            //      _personView -> already in 'class'
-
-            var result = new List<CompletionDateConfidence>();
-            IEnumerable<double> orderedEvaluations =
-                this._evaluations.OrderBy(d => d);
-            int count = orderedEvaluations.Count();
-            for (int percentage = 1; percentage <= 100; percentage++)
-            {
-                int countForPercentage = (count * percentage) / 100;
-                double hoursAtThisPercentage = orderedEvaluations
-                    .Skip(countForPercentage - 1).FirstOrDefault();
-
-                // See how many days ahead this amounts to:
-                // Run forward one day at a time, beginning tomorrow
-                // and sum the number of hours.
-                // When the sum equals hoursAtThisPercentage
-                // we take the day as the completion date:
-                DateTime date = DateTime.Now.Date;
-                double sumOfHours = 0d;
-                while (sumOfHours <= hoursAtThisPercentage)
-                {
-                    date = date.AddDays(1d);
-                    if (this._personView.IsAtWork(date.DayOfWeek)
-                        && !this._personView.PersonOffs
-                            .IsPersonOff(date))
-                    {
-                        sumOfHours += this._personView.HoursPerDay;
-                    }
-                }
-
-                result.Add(new CompletionDateConfidence
-                {
-                    Probability = percentage / 100d,
-                    Date = date
-                });
-            }
-            return result;
+            // HACK: PERSON: Implement this properly.
+            return this.PersonEstimates[0]
+                .GetCompletionDateConfidences();
         }
-
-        #endregion
 
         /// <summary>
         /// Gets the average number of days.

@@ -411,13 +411,13 @@ Indexes on all foreign keys:
         {
             FuncToSpeedTest tf = () =>
             {
-                _projectService.GetProjectEvaluation
+                _projectService.GetTeamEvaluation
                     (null, null, numberOfSimulations
                     , maxNumberOfHistoricalData);
-                _projectService.GetProjectEvaluation
+                _projectService.GetTeamEvaluation
                     (null, null, numberOfSimulations
                     , maxNumberOfHistoricalData);
-                _projectService.GetProjectEvaluation
+                _projectService.GetTeamEvaluation
                     (null, null, numberOfSimulations
                     , maxNumberOfHistoricalData);
             };

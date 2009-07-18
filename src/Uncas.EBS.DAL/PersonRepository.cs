@@ -15,9 +15,17 @@ namespace Uncas.EBS.DAL
             PersonOffRepository por = new PersonOffRepository();
 
             var personViews = new List<PersonView>();
+
+            // HACK: PERSON: Simulating two persons here:
+
             var personOffs = por.GetPersonOffs();
-            var personView = new PersonView(personOffs);
-            personViews.Add(personView);
+            var personViewA = new PersonView
+                (1, "A.A.", 5, 7.5d, personOffs);
+            personViews.Add(personViewA);
+
+            var personViewB = new PersonView
+                (2, "B.B.", 3, 5d, null);
+            personViews.Add(personViewB);
 
             return personViews;
         }

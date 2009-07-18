@@ -2,6 +2,7 @@
 using System.Linq;
 using Uncas.EBS.Domain.Repository;
 using Model = Uncas.EBS.Domain.Model;
+using System;
 
 namespace Uncas.EBS.DAL
 {
@@ -89,9 +90,11 @@ namespace Uncas.EBS.DAL
             return result.Select(t => GetModelTaskFromDbTask(t));
         }
 
+        private Random _rnd = new Random(1);
+
         internal Model.Task GetModelTaskFromDbTask(Task dbTask)
         {
-            // HACK: PERSON: Manually setting person id to 1:
+            // HACK: PERSON: Manually setting person id to 1 or 2:
             return Model.Task.ReconstructTask
                 (dbTask.TaskId
                 , dbTask.RefIssueId
@@ -104,7 +107,7 @@ namespace Uncas.EBS.DAL
                 , dbTask.StartDate
                 , dbTask.EndDate
                 , dbTask.CreatedDate
-                , 1
+                , _rnd.Next(1, 3)
                 );
         }
 

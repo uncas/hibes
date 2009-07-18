@@ -20,11 +20,11 @@ namespace Uncas.EBS.IntegrationTests.ApplicationServicesTests
         public void GetProjectEvaluation_All_PositiveAverage()
         {
             var projectEvaluation
-                = _projectService.GetProjectEvaluation
+                = _projectService.GetTeamEvaluation
                     (null
                     , null
                     , 100
-                    , 10);
+                    , 10).TotalEvaluation;
 
             Assert.IsNotNull(projectEvaluation.Average);
             Assert.Less(0d, projectEvaluation.Average);
@@ -33,8 +33,8 @@ namespace Uncas.EBS.IntegrationTests.ApplicationServicesTests
         [Test]
         public void GetProjectEstimate_NonExistingProject()
         {
-            var projectEstimate = _projectService.GetProjectEvaluation
-                (0, 0, 100, 100);
+            var projectEstimate = _projectService.GetTeamEvaluation
+                (0, 0, 100, 100).TotalEvaluation;
             Trace.WriteLine(projectEstimate);
             foreach (var ie in projectEstimate.GetIssueEvaluations())
             {
@@ -48,8 +48,8 @@ namespace Uncas.EBS.IntegrationTests.ApplicationServicesTests
         {
             var projId = _projectRepository.GetProjects()
                 .Min(p => p.ProjectId);
-            var projectEstimate = _projectService.GetProjectEvaluation
-                (projId, null, 100, 20);
+            var projectEstimate = _projectService.GetTeamEvaluation
+                (projId, null, 100, 20).TotalEvaluation;
             Trace.WriteLine(projectEstimate);
             foreach (var ie in projectEstimate.GetIssueEvaluations())
             {
@@ -83,11 +83,12 @@ namespace Uncas.EBS.IntegrationTests.ApplicationServicesTests
             foreach (var project in _projectRepository.GetProjects())
             {
                 var projId = project.ProjectId;
-                var projectEstimate = _projectService.GetProjectEvaluation
+                var projectEstimate = _projectService.GetTeamEvaluation
                     (projId
                     , null
                     , numberOfSimulations
-                    , maxNumberOfHistoricalData);
+                    , maxNumberOfHistoricalData)
+                    .TotalEvaluation;
                 //Trace.WriteLine(projectEstimate);
                 foreach (var ie in projectEstimate.GetIssueEvaluations())
                 {

@@ -8,8 +8,14 @@ namespace Uncas.EBS.UI.Controls
         {
             set
             {
-                var resourceManager = Resources.Phrases.ResourceManager;
-                this.HeaderText = resourceManager.GetString(value);
+                var resourceManager
+                    = Resources.Phrases.ResourceManager;
+                string headerText = resourceManager.GetString(value);
+                if (string.IsNullOrEmpty(headerText))
+                {
+                    headerText = value;
+                }
+                this.HeaderText = headerText;
             }
         }
     }

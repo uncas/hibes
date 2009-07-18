@@ -2,22 +2,44 @@
 namespace Uncas.EBS.Domain.Model
 {
     /// <summary>
-    /// Represents a person.
+    /// Represents info about a person.
     /// </summary>
     public class Person
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Person"/> class.
         /// </summary>
-        public Person()
+        public Person(int id
+            , string name)
+            : this(id, name, 5, 7.5d)
         {
-            this.DaysPerWeek = 5;
-            this.HoursPerDay = 7.5d;
         }
 
-        //public int PersonId { get; set; }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Person"/> class.
+        /// </summary>
+        public Person(int id
+            , string name
+            , int daysPerWeek
+            , double hoursPerDay)
+        {
+            this.PersonId = id;
+            this.PersonName = name;
+            this.DaysPerWeek = daysPerWeek;
+            this.HoursPerDay = hoursPerDay;
+        }
 
-        //public string PersonName { get; set; }
+        /// <summary>
+        /// Gets or sets the person id.
+        /// </summary>
+        /// <value>The person id.</value>
+        public int PersonId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the name of the person.
+        /// </summary>
+        /// <value>The name of the person.</value>
+        public string PersonName { get; set; }
 
         /// <summary>
         /// Gets or sets the days per week.

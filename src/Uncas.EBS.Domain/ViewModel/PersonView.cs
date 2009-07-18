@@ -11,9 +11,31 @@ namespace Uncas.EBS.Domain.ViewModel
         /// <summary>
         /// Initializes a new instance of the <see cref="PersonView"/> class.
         /// </summary>
+        /// <param name="id">The id.</param>
+        /// <param name="name">The name.</param>
         /// <param name="personOffs">The person offs.</param>
-        public PersonView(IList<PersonOff> personOffs)
-            : base()
+        public PersonView(int id
+            , string name
+            , IList<PersonOff> personOffs)
+            : base(id, name)
+        {
+            this.PersonOffs = personOffs;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PersonView"/> class.
+        /// </summary>
+        /// <param name="id">The id.</param>
+        /// <param name="name">The name.</param>
+        /// <param name="daysPerWeek">The days per week.</param>
+        /// <param name="hoursPerDay">The hours per day.</param>
+        /// <param name="personOffs">The person offs.</param>
+        public PersonView(int id
+            , string name
+            , int daysPerWeek
+            , double hoursPerDay
+            , IList<PersonOff> personOffs)
+            : base(id, name, daysPerWeek, hoursPerDay)
         {
             this.PersonOffs = personOffs;
         }

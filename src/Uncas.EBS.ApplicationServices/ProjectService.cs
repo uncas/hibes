@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Linq;
 using Uncas.EBS.Domain.Model;
 using Uncas.EBS.Domain.Repository;
 using Uncas.EBS.Domain.Simulation;
 using Uncas.EBS.Domain.ViewModel;
+using System.Collections.Generic;
 
 namespace Uncas.EBS.ApplicationServices
 {
@@ -51,13 +53,13 @@ namespace Uncas.EBS.ApplicationServices
             _repositories = repositories;
         }
 
-        public ProjectEvaluation GetProjectEvaluation
+        public TeamEvaluation GetTeamEvaluation
             (int? projectId
             , int? maxPriority
             , int numberOfSimulations
             , int maxNumberOfHistoricalData)
         {
-            // Fetches data for the simulation:
+            // Fetches all data for the simulations:
             var openIssuesAndOpenTasks
                 = IssueRepository.GetOpenIssuesAndOpenTasks
                 (projectId, maxPriority);
@@ -68,15 +70,48 @@ namespace Uncas.EBS.ApplicationServices
             var personViews
                 = PersonRepository.GetPersonViews();
 
-            // Runs the simulation:
             var simulationEngine = new SimulationEngine(closedTasks);
+
+            // Runs a simulation with all tasks:
             var projectEvaluation
                 = simulationEngine.GetProjectEvaluation
                 (personViews
                 , openIssuesAndOpenTasks
                 , numberOfSimulations);
 
-            return projectEvaluation;
+            TeamEvaluation teamEvaluation = new TeamEvaluation
+            {
+                TotalEvaluation = projectEvaluation
+            };
+
+            // Gets a project evaluation for each person individually:
+            foreach (PersonView personView in personViews)
+            {
+                var issuesWithTasksForPerson =
+                    openIssuesAndOpenTasks
+                    .Select(i =>
+                        new IssueView
+                        {
+                            Issue = i.Issue,
+                            Tasks = i.Tasks
+                                .Where(t =>
+                                    t.RefPersonId
+                                    == personView.PersonId)
+                                .ToList()
+                        }).ToList();
+                var personViewAsList = new List<PersonView>();
+                personViewAsList.Add(personView);
+                var evaluationForPerson
+                    = simulationEngine.GetProjectEvaluation
+                    (personViewAsList
+                    , issuesWithTasksForPerson
+                    , numberOfSimulations);
+
+                teamEvaluation.EvaluationsPerPerson.Add
+                    (evaluationForPerson);
+            }
+
+            return teamEvaluation;
         }
     }
 }

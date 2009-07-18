@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web;
 using System.Web.Caching;
 using Uncas.EBS.ApplicationServices;
@@ -29,15 +30,18 @@ namespace Uncas.EBS.UI.Controllers
             return result;
         }
 
-        private ProjectEvaluation GetProjEval(int? projectId, int? maxPriority)
+        private TeamEvaluation GetProjEval(int? projectId
+            , int? maxPriority)
         {
-            string cacheKey = string.Format("ProjectEvaluation-{0}-{1}"
+            string cacheKey = string.Format
+                ("ProjectEvaluation-{0}-{1}"
                 , projectId, maxPriority);
             Cache cache = HttpRuntime.Cache;
-            ProjectEvaluation projEval = (ProjectEvaluation)cache[cacheKey];
+            TeamEvaluation projEval
+                = (TeamEvaluation)cache[cacheKey];
             if (projEval == null)
             {
-                projEval = _projectService.GetProjectEvaluation
+                projEval = _projectService.GetTeamEvaluation
                     (projectId
                     , maxPriority
                     , NumberOfSimulations
@@ -55,7 +59,8 @@ namespace Uncas.EBS.UI.Controllers
             (int? projectId, int? maxPriority)
         {
             var result = new List<ProjectEvaluation>();
-            result.Add(GetProjEval(projectId, maxPriority));
+            result.Add(GetProjEval
+                (projectId, maxPriority).TotalEvaluation);
             return result;
         }
 
@@ -63,7 +68,7 @@ namespace Uncas.EBS.UI.Controllers
             (int? projectId, int? maxPriority)
         {
             var result = GetProjEval(projectId, maxPriority)
-                .Statistics.Probabilities;
+                .TotalEvaluation.Statistics.Probabilities;
             return result;
         }
 
@@ -71,7 +76,7 @@ namespace Uncas.EBS.UI.Controllers
             (int? projectId, int? maxPriority)
         {
             var result = GetProjEval(projectId, maxPriority)
-                .GetIssueEvaluations();
+                .TotalEvaluation.GetIssueEvaluations();
             return result;
         }
 
@@ -79,8 +84,10 @@ namespace Uncas.EBS.UI.Controllers
             GetCompletionDateConfidences
             (int? projectId, int? maxPriority)
         {
-            var projectEvaluation = GetProjEval(projectId, maxPriority);
-            var result = projectEvaluation.GetCompletionDateConfidences();
+            var projectEvaluation = GetProjEval(projectId
+                , maxPriority);
+            var result = projectEvaluation
+                .TotalEvaluation.GetCompletionDateConfidences();
             return result;
         }
 
@@ -88,8 +95,23 @@ namespace Uncas.EBS.UI.Controllers
             GetSelectedCompletionDateConfidences
             (int? projectId, int? maxPriority)
         {
-            var projectEvaluation = GetProjEval(projectId, maxPriority);
-            var result = projectEvaluation.GetSelectedCompletionDateConfidences();
+            var projectEvaluation = GetProjEval(projectId
+                , maxPriority);
+            var result = projectEvaluation
+                .TotalEvaluation
+                .GetSelectedCompletionDateConfidences();
+            return result;
+        }
+
+        public IEnumerable<PersonConfidenceDates>
+            GetEvaluationsPerPerson
+            (int? projectId, int? maxPriority)
+        {
+            var projectEvaluation = GetProjEval(projectId
+                , maxPriority);
+            var result = projectEvaluation
+                .EvaluationsPerPerson
+                .Select(epp => epp.GetPersonConfidenceDates());
             return result;
         }
 
@@ -103,9 +125,11 @@ namespace Uncas.EBS.UI.Controllers
             _projectRepo.DeleteProject(Original_ProjectId);
         }
 
-        public void UpdateProject(string projectName, int Original_ProjectId)
+        public void UpdateProject(string projectName
+            , int Original_ProjectId)
         {
-            _projectRepo.UpdateProject(projectName, Original_ProjectId);
+            _projectRepo.UpdateProject(projectName
+                , Original_ProjectId);
         }
     }
 }

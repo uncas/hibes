@@ -122,7 +122,7 @@ namespace Uncas.EBS.Domain.Simulation
                 = Math.Max(historicalTasksForThisPerson.Count, minMaxIndex)
                 + minRandomCount;
             int randomIndex = _rnd.Next(maxIndex + 1);
-            if (randomIndex < this.HistoricalTasks.Count)
+            if (randomIndex < historicalTasksForThisPerson.Count)
             {
                 var randomHistoricalTask
                     = historicalTasksForThisPerson[randomIndex];

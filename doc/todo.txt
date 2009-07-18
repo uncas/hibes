@@ -1,38 +1,15 @@
 Features
 --------
 - Handle multiple persons:
-    - Person choice on task.
-    - When estimating task: Use random speed for person in question.
-    - Total estimate: One simulation with all tasks.
-    - Per person estimate: Simulation with tasks per person.
-    - On estimate page:
-        Distribution of possible ship dates for each person
-        Confidence intervals per person
-        Include days remaining: Total/per person
-
-    - Model:
-        + Person
-            PersonId
-            PersonName
-            DaysPerWeek
-            HoursPerDay
-        PersonOff
-            + RefPersonId
-        Task
-            + RefPersonId
+    - UI:
+        - On estimate page:
+            Chart of possible completion dates for each person
+        - Person choice on task.
+        - Person offs per person.
 
     - ViewModel:
-        + PersonView : Person
-            IList<PersonOff> PersonOffs
         + TaskView : Task
             PersonName
-        ProjectEvaluation
-            Get hours per day from Person object
-            Compare to PersonOffs from Person object
-
-    - Repository:
-        + PersonRepository
-            GetPersons()
 
     - Database:
         + Person
@@ -44,12 +21,6 @@ Features
             + RefPersonId
         Task
             + RefPersonId
-
-    Plan - Do it one step at a time:
-        - Introduce a Model.Person class with the desired properties.
-        - Before changing anything: Add tests!
-        - Refer to the Person object instead of hard codes...
-        - Consider how to bring in the person from the Repository.
 
 
 - Time registration:

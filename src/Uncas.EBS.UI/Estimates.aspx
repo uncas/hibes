@@ -189,6 +189,30 @@
         </ContentTemplate>
     </asp:UpdatePanel>
     <uncas:ColorCodes ID="cc" runat="server" />
+    <div>
+        <asp:ObjectDataSource ID="odsEvaluationsPerPerson" runat="server" TypeName="Uncas.EBS.UI.Controllers.ProjectController"
+            SelectMethod="GetEvaluationsPerPerson">
+            <SelectParameters>
+                <asp:ControlParameter ControlID="psProjects" Name="projectId" PropertyName="SelectedValue"
+                    Type="Int32" />
+                <asp:ControlParameter ControlID="nbMaxPriority" Name="maxPriority" PropertyName="Text"
+                    Type="Int32" />
+            </SelectParameters>
+        </asp:ObjectDataSource>
+        <asp:GridView ID="gvEvaluationsPerPerson" runat="server" DataSourceID="odsEvaluationsPerPerson"
+            AutoGenerateColumns="false">
+            <Columns>
+                <uncas:BoundFieldResource HeaderResourceName="Person" DataField="PersonName">
+                </uncas:BoundFieldResource>
+                <asp:BoundField HeaderText="5 %" DataField="CompletionDate5" DataFormatString="{0:d}"
+                    ItemStyle-HorizontalAlign="Right" HeaderStyle-HorizontalAlign="Right"></asp:BoundField>
+                <asp:BoundField HeaderText="50 %" DataField="CompletionDate50" DataFormatString="{0:d}"
+                    ItemStyle-HorizontalAlign="Right" HeaderStyle-HorizontalAlign="Right"></asp:BoundField>
+                <asp:BoundField HeaderText="95 %" DataField="CompletionDate95" DataFormatString="{0:d}"
+                    ItemStyle-HorizontalAlign="Right" HeaderStyle-HorizontalAlign="Right"></asp:BoundField>
+            </Columns>
+        </asp:GridView>
+    </div>
     <ul>
         <li>
             <asp:LinkButton ID="lbDownloadLatex" runat="server"><%= Resources.Phrases.GetInLatex %></asp:LinkButton>

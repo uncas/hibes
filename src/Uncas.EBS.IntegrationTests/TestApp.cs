@@ -109,6 +109,8 @@ namespace Uncas.EBS.IntegrationTests
                 currentEstimate += _rnd.NextDouble() * 10d;
             }
 
+            // HACK: Manually setting random person id here:
+
             Task task = new Task
             {
                 CurrentEstimate = currentEstimate,
@@ -117,7 +119,8 @@ namespace Uncas.EBS.IntegrationTests
                 OriginalEstimate = originalEstimate,
                 Status = status,
                 Elapsed = elapsed,
-                Sequence = sequence
+                Sequence = sequence,
+                RefPersonId = _rnd.Next(1, 3)
             };
 
             _taskRepo.InsertTask(task);
