@@ -102,22 +102,9 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
                 Title = "GetIssueView"
             };
             _issueRepo.InsertIssue(issue);
-            Task task = new Task
-            {
-                CurrentEstimate = 1d,
-                OriginalEstimate = 1d,
-                Description = "GetIssueView1",
-                RefIssueId = issue.IssueId.Value,
-            };
+            Task task = GetTask(issue, Status.Open);
             _taskRepo.InsertTask(task);
-            Task taskClosed = new Task
-            {
-                CurrentEstimate = 1d,
-                OriginalEstimate = 1d,
-                Description = "GetIssueView1",
-                RefIssueId = issue.IssueId.Value,
-                Status = Status.Closed
-            };
+            Task taskClosed = GetTask(issue, Status.Closed);
             _taskRepo.InsertTask(taskClosed);
 
             // Testing:
@@ -145,6 +132,21 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
             Assert.AreEqual(1, issueView.Tasks.Count());
             Assert.AreEqual(taskClosed.TaskId.Value
                 , issueView.Tasks[0].TaskId.Value);
+        }
+
+        private Task GetTask(Issue issue, Status taskStatus)
+        {
+            Task task = Task.ConstructTask
+                (issue.IssueId.Value
+                , "GetIssueView1"
+                , taskStatus
+                , 1
+                , 1d
+                , 0d
+                , null
+                , null
+                , 1);
+            return task;
         }
 
         #endregion
@@ -331,13 +333,7 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
             };
             _issueRepo.InsertIssue(issue);
             Assert.IsNotNull(issue.IssueId);
-            Task task = new Task
-            {
-                CurrentEstimate = 1d,
-                OriginalEstimate = 1d,
-                Description = "asd22",
-                RefIssueId = issue.IssueId.Value,
-            };
+            Task task = GetTask(issue, Status.Open);
             _taskRepo.InsertTask(task);
             Assert.IsNotNull(task.TaskId);
 
@@ -443,9 +439,9 @@ Indexes on all foreign keys:
         {
             FuncToSpeedTest tf = () =>
                 {
-                    _taskRepo.GetTasksByStatus(Status.Any);
-                    _taskRepo.GetTasksByStatus(Status.Closed);
-                    _taskRepo.GetTasksByStatus(Status.Open);
+                    _taskRepo.GetTasks(Status.Any, null);
+                    _taskRepo.GetTasks(Status.Closed, null);
+                    _taskRepo.GetTasks(Status.Open, null);
                 };
             TestSpeed("GetTasks", tf);
         }

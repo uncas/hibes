@@ -39,15 +39,16 @@ namespace Uncas.EBS.Domain.ViewModel
         {
             get
             {
-                // TODO: REFACTOR this getter:
-                // Always round up!
-                int min = (int)Math.Ceiling(Min);
-                int max = (int)Math.Ceiling(Max);
+                // Rounds up:
+                Func<double, int> toInt =
+                    (double number) => (int)Math.Ceiling(number);
+                int min = toInt(Min);
+                int max = toInt(Max);
                 int intervalWidth = 1;
                 int maxIntervals = 11;
                 if (max - min > maxIntervals)
                 {
-                    intervalWidth = (int)Math.Ceiling
+                    intervalWidth = toInt
                         ((1d * (max - min))
                         / (1d * (maxIntervals - 1)));
                 }
@@ -60,8 +61,8 @@ namespace Uncas.EBS.Domain.ViewModel
                     int upper = lower + intervalWidth - 1;
                     int numberInInterval = this.Data.Count
                         (ps => lower
-                            <= (int)Math.Ceiling(_transformToQuantity(ps))
-                        && (int)Math.Ceiling(_transformToQuantity(ps))
+                            <= toInt(_transformToQuantity(ps))
+                        && toInt(_transformToQuantity(ps))
                             <= upper);
                     double probability = (1d * numberInInterval)
                         / (1d * this.Count);

@@ -68,7 +68,11 @@
             <asp:ObjectDataSource ID="odsPersonOffs" runat="server" TypeName="Uncas.EBS.UI.Controllers.PersonOffController"
                 SelectMethod="GetPersonOffs" UpdateMethod="UpdatePersonOff" InsertMethod="InsertPersonOff"
                 DeleteMethod="DeletePersonOff" OldValuesParameterFormatString="Original_{0}">
+                <SelectParameters>
+                    <asp:QueryStringParameter Name="RefPersonId" QueryStringField="Person" Type="Int32" />
+                </SelectParameters>
                 <InsertParameters>
+                    <asp:QueryStringParameter Name="RefPersonId" QueryStringField="Person" Type="Int32" />
                     <asp:Parameter Name="FromDate" Type="DateTime" />
                     <asp:Parameter Name="ToDate" Type="DateTime" />
                 </InsertParameters>

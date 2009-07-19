@@ -9,18 +9,33 @@ namespace Uncas.EBS.Tests.SimulationTests
     [TestFixture]
     public class SimulationEngineTests
     {
+        private Task GetTask
+            (double original
+            , double current
+            , double elapsed
+            , Status status)
+        {
+            Task task = Task.ConstructTask
+                (1
+                , "test"
+                , status
+                , 1
+                , original
+                , elapsed
+                , null
+                , null
+                , 1);
+            task.CurrentEstimate = current;
+            return task;
+        }
+
         [Test]
         public void GetProjectEvaluation_OneCase_OK()
         {
             // Setting up:
             var closedTasks = new List<Task>();
-            closedTasks.Add(new Task
-            {
-                OriginalEstimate = 1d,
-                CurrentEstimate = 2d,
-                Elapsed = 2d,
-                Status = Status.Closed
-            });
+            closedTasks.Add(GetTask
+                (1d, 2d, 2d, Status.Closed));
 
             var openTasks = new List<TaskDetails>();
             openTasks.Add(new TaskDetails
@@ -74,24 +89,14 @@ namespace Uncas.EBS.Tests.SimulationTests
             Assert.Less(ie[0].Average, 1.9d);
         }
 
-        private static void PrepareIssuesAndTasks(out List<Task> closedTasks, out List<IssueView> issueViews)
+        private void PrepareIssuesAndTasks(out List<Task> closedTasks, out List<IssueView> issueViews)
         {
             // Setting up:
             closedTasks = new List<Task>();
-            closedTasks.Add(new Task
-            {
-                OriginalEstimate = 1d,
-                CurrentEstimate = 2d,
-                Elapsed = 2d,
-                Status = Status.Closed
-            });
-            closedTasks.Add(new Task
-            {
-                OriginalEstimate = 1d,
-                CurrentEstimate = 1.5d,
-                Elapsed = 1.5d,
-                Status = Status.Closed
-            });
+            closedTasks.Add(GetTask
+                (1d, 2d, 2d, Status.Closed));
+            closedTasks.Add(GetTask
+                (1d, 1.5d, 1.5d, Status.Closed));
 
             var openTasks = new List<TaskDetails>();
             openTasks.Add(new TaskDetails

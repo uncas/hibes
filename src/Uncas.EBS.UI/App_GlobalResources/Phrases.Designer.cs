@@ -187,6 +187,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Days per week.
+        /// </summary>
+        internal static string DaysPerWeek {
+            get {
+                return ResourceManager.GetString("DaysPerWeek", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Delete.
         /// </summary>
         internal static string Delete {
@@ -291,6 +300,15 @@ namespace Resources {
         internal static string History {
             get {
                 return ResourceManager.GetString("History", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hours per day.
+        /// </summary>
+        internal static string HoursPerDay {
+            get {
+                return ResourceManager.GetString("HoursPerDay", resourceCulture);
             }
         }
         
@@ -408,6 +426,15 @@ namespace Resources {
         internal static string Person {
             get {
                 return ResourceManager.GetString("Person", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Persons.
+        /// </summary>
+        internal static string Persons {
+            get {
+                return ResourceManager.GetString("Persons", resourceCulture);
             }
         }
         

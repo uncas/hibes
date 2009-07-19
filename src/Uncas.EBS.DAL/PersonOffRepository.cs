@@ -10,11 +10,9 @@ namespace Uncas.EBS.DAL
     {
         #region IPersonOffRepository Members
 
-        public IList<Model.PersonOff> GetPersonOffs()
+        public IList<Model.PersonOff> GetPersonOffs(int personId)
         {
             // TODO: PERSON: Retrieve person id from dbPersonOff:
-            const int PersonId = 1;
-
             return db.PersonOffs
                 .Where(po => po.ToDate.Date >= DateTime.Now.Date)
                 .OrderBy(po => po.ToDate)
@@ -22,13 +20,13 @@ namespace Uncas.EBS.DAL
                     (po.PersonOffId
                     , po.FromDate
                     , po.ToDate
-                    , PersonId))
+                    , personId))
                 .ToList();
         }
 
         public void InsertPersonOff(Model.PersonOff personOff)
         {
-            // TODO: Save PersonOff.RefPersonId to db:
+            // TODO: PERSON: Save PersonOff.RefPersonId to db:
             db.PersonOffs.InsertOnSubmit
                 (new PersonOff
                 {

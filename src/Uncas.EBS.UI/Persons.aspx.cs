@@ -6,6 +6,7 @@ namespace Uncas.EBS.UI
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            this.Title = Resources.Phrases.Persons;
         }
     }
 }

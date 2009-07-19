@@ -6,9 +6,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <ul>
         <li><a href="Persons.aspx">
-            <%= Resources.Phrases.Person %></a></li>
-        <li><a href="PersonSetup.aspx">
-            <%= Resources.Phrases.SetupDaysOff %></a></li>
+            <%= Resources.Phrases.Persons %></a></li>
         <li><a href="Projects.aspx">
             <%= Resources.Phrases.Projects %></a></li>
     </ul>

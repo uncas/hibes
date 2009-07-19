@@ -12,7 +12,7 @@ namespace Uncas.EBS.Domain.Repository
         /// Gets the person offs.
         /// </summary>
         /// <returns></returns>
-        IList<PersonOff> GetPersonOffs();
+        IList<PersonOff> GetPersonOffs(int personId);
 
         /// <summary>
         /// Inserts the person off.

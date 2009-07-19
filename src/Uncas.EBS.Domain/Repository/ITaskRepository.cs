@@ -8,23 +8,13 @@ namespace Uncas.EBS.Domain.Repository
     /// </summary>
     public interface ITaskRepository
     {
-        // TODO: REFACTOR: Combine the two Get methods below:
-        // Maybe create and use TaskSpecification: Status, MaxCount.
-
-        /// <summary>
-        /// Gets the tasks by status.
-        /// </summary>
-        /// <param name="status">The status.</param>
-        /// <returns></returns>
-        IList<Task> GetTasksByStatus(Status status);
-
         /// <summary>
         /// Gets the tasks.
         /// </summary>
         /// <param name="status">The status.</param>
         /// <param name="maxCount">The max count.</param>
         /// <returns></returns>
-        IList<Task> GetTasks(Status status, int maxCount);
+        IList<Task> GetTasks(Status status, int? maxCount);
 
         /// <summary>
         /// Inserts the task.

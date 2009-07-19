@@ -7,9 +7,15 @@ Features
         - Per person estimate: Simulation with tasks per person.
 
     - UI:
+        - Person choice on task.
         - On estimate page:
             Confidence intervals per person
             List of possible completion dates for each person
+        - Person offs per person.
+            PersonSetup.aspx?Person=xxx
+            GetPersonOffs(+ personId)
+            InsertPersonOff(..., + refPersonId)
+        - Texts
 
     - Model:
         + Person
@@ -23,6 +29,8 @@ Features
             + RefPersonId
 
     - ViewModel:
+        + TaskView : Task
+            PersonName
         + PersonView : Person
             IList<PersonOff> PersonOffs
         ProjectEvaluation

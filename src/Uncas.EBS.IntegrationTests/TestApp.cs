@@ -111,19 +111,41 @@ namespace Uncas.EBS.IntegrationTests
 
             // HACK: Manually setting random person id here:
 
-            Task task = new Task
-            {
-                CurrentEstimate = currentEstimate,
-                Description = "Task " + sequence,
-                RefIssueId = issueId,
-                OriginalEstimate = originalEstimate,
-                Status = status,
-                Elapsed = elapsed,
-                Sequence = sequence,
-                RefPersonId = _rnd.Next(1, 3)
-            };
+            int personId = _rnd.Next(1, 3);
+
+            Task task = GetTask
+                (issueId
+                , originalEstimate
+                , sequence
+                , status
+                , elapsed
+                , personId);
+
+            task.CurrentEstimate = currentEstimate;
 
             _taskRepo.InsertTask(task);
+        }
+
+        internal static Task GetTask
+            (int issueId
+            , double originalEstimate
+            , int sequence
+            , Status status
+            , double elapsed
+            , int personId)
+        {
+            Task task = Task.ConstructTask
+                (issueId
+                , "Task " + sequence
+                , status
+                , sequence
+                , originalEstimate
+                , elapsed
+                , null
+                , null
+                , personId
+                );
+            return task;
         }
 
         private void SetUpDatabase()

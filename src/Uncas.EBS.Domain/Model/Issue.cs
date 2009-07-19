@@ -8,7 +8,9 @@ namespace Uncas.EBS.Domain.Model
     /// </summary>
     public class Issue
     {
-        // TODO: REFACTOR: Consider constructors.
+        #region Constructors
+
+        // TODO: REFACTOR: Create constructors or factory methods.
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Issue"/> class.
@@ -19,6 +21,10 @@ namespace Uncas.EBS.Domain.Model
             this.Status = Status.Open;
             this.Priority = 1;
         }
+
+        #endregion
+
+        #region Properties
 
         /// <summary>
         /// Gets or sets the issue id.
@@ -42,7 +48,7 @@ namespace Uncas.EBS.Domain.Model
         /// Gets or sets the name of the project.
         /// </summary>
         /// <value>The name of the project.</value>
-        // TODO: REFACTOR: Maybe move this to ViewModel.IssueDetails?
+        // TODO: REFACTOR: Move this to ViewModel.IssueDetails.
         public string ProjectName { get; set; }
 
         /// <summary>
@@ -76,6 +82,8 @@ namespace Uncas.EBS.Domain.Model
                 }
             }
         }
+
+        #endregion
 
         /// <summary>
         /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.

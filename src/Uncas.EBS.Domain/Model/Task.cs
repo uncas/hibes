@@ -8,16 +8,58 @@ namespace Uncas.EBS.Domain.Model
     /// </summary>
     public class Task
     {
-        // TODO: REFACTOR: Make this constructor private.
+        #region Constructors and factory methods
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Task"/> class.
         /// </summary>
-        public Task()
+        protected Task()
         {
             this.CreatedDate = DateTime.Now;
             this.Sequence = 1;
             this.Status = Status.Open;
             this.Elapsed = 0d;
+        }
+
+        /// <summary>
+        /// Constructs the task.
+        /// </summary>
+        /// <param name="refIssueId">The issue id.</param>
+        /// <param name="description">The description.</param>
+        /// <param name="status">The status.</param>
+        /// <param name="sequence">The sequence.</param>
+        /// <param name="originalEstimate">The original estimate.</param>
+        /// <param name="elapsed">The elapsed.</param>
+        /// <param name="startDate">The start date.</param>
+        /// <param name="endDate">The end date.</param>
+        /// <param name="refPersonId">The person id.</param>
+        /// <returns></returns>
+        public static Task ConstructTask
+            (int refIssueId
+            , string description
+            , Status status
+            , int sequence
+            , double originalEstimate
+            , double elapsed
+            , DateTime? startDate
+            , DateTime? endDate
+            , int refPersonId
+            )
+        {
+            Task task = new Task();
+            task.CurrentEstimate
+                = originalEstimate;
+            task.Description = description;
+            task.Elapsed = elapsed;
+            task.EndDate = endDate;
+            task.OriginalEstimate
+                = originalEstimate;
+            task.RefIssueId = refIssueId;
+            task.Sequence = sequence;
+            task.StartDate = startDate;
+            task.Status = status;
+            task.RefPersonId = refPersonId;
+            return task;
         }
 
         /// <summary>
@@ -108,46 +150,9 @@ namespace Uncas.EBS.Domain.Model
             return task;
         }
 
-        /// <summary>
-        /// Constructs the task.
-        /// </summary>
-        /// <param name="refIssueId">The issue id.</param>
-        /// <param name="description">The description.</param>
-        /// <param name="status">The status.</param>
-        /// <param name="sequence">The sequence.</param>
-        /// <param name="originalEstimate">The original estimate.</param>
-        /// <param name="elapsed">The elapsed.</param>
-        /// <param name="startDate">The start date.</param>
-        /// <param name="endDate">The end date.</param>
-        /// <param name="refPersonId">The person id.</param>
-        /// <returns></returns>
-        public static Task ConstructTask
-            (int refIssueId
-            , string description
-            , Status status
-            , int sequence
-            , double originalEstimate
-            , double elapsed
-            , DateTime? startDate
-            , DateTime? endDate
-            , int refPersonId
-            )
-        {
-            Task task = new Task();
-            task.CurrentEstimate
-                = originalEstimate;
-            task.Description = description;
-            task.Elapsed = elapsed;
-            task.EndDate = endDate;
-            task.OriginalEstimate
-                = originalEstimate;
-            task.RefIssueId = refIssueId;
-            task.Sequence = sequence;
-            task.StartDate = startDate;
-            task.Status = status;
-            task.RefPersonId = refPersonId;
-            return task;
-        }
+        #endregion
+
+        #region Properties
 
         /// <summary>
         /// Gets or sets the task id.
@@ -244,6 +249,16 @@ namespace Uncas.EBS.Domain.Model
         public DateTime? EndDate { get; set; }
 
         /// <summary>
+        /// Gets or sets the person id.
+        /// </summary>
+        /// <value>The person id.</value>
+        public int RefPersonId { get; set; }
+
+        #endregion
+
+        #region Derived properties
+
+        /// <summary>
         /// Gets the speed.
         /// </summary>
         /// <remarks>
@@ -275,10 +290,6 @@ namespace Uncas.EBS.Domain.Model
             }
         }
 
-        /// <summary>
-        /// Gets or sets the person id.
-        /// </summary>
-        /// <value>The person id.</value>
-        public int RefPersonId { get; set; }
+        #endregion
     }
 }

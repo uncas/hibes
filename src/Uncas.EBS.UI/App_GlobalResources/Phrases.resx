@@ -282,4 +282,13 @@
   <data name="Person" xml:space="preserve">
     <value>Person</value>
   </data>
+  <data name="Persons" xml:space="preserve">
+    <value>Persons</value>
+  </data>
+  <data name="DaysPerWeek" xml:space="preserve">
+    <value>Days per week</value>
+  </data>
+  <data name="HoursPerDay" xml:space="preserve">
+    <value>Hours per day</value>
+  </data>
 </root>

@@ -44,18 +44,9 @@ namespace Uncas.EBS.DAL
             base.SubmitChanges();
         }
 
-        public IList<Model.Task> GetTasksByStatus(Model.Status status)
-        {
-            var result = db.Tasks.AsQueryable<Task>();
-            if (status != Model.Status.Any)
-            {
-                result = result.Where(t => t.RefStatusId == (int)status);
-            }
-            return result.Select(t => GetModelTaskFromDbTask(t))
-                .ToList();
-        }
-
-        public IList<Model.Task> GetTasks(Model.Status status, int maxCount)
+        public IList<Model.Task> GetTasks
+            (Model.Status status
+            , int? maxCount)
         {
             var result = db.Tasks.AsQueryable<Task>();
             if (status != Model.Status.Any)
@@ -63,8 +54,12 @@ namespace Uncas.EBS.DAL
                 result = result
                     .Where(t => t.RefStatusId == (int)status);
             }
-            return result.OrderByDescending(t => t.EndDate)
-                .Take(maxCount)
+            result = result.OrderByDescending(t => t.EndDate);
+            if (maxCount.HasValue)
+            {
+                result = result.Take(maxCount.Value);
+            }
+            return result
                 .Select(t => GetModelTaskFromDbTask(t))
                 .ToList();
         }

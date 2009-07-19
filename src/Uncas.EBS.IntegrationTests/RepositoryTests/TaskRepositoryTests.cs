@@ -31,13 +31,13 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
                 Title = "Abc",
             };
             _issueRepo.InsertIssue(issue);
-            Task task = new Task
-            {
-                CurrentEstimate = 1d,
-                Description = "ASD",
-                RefIssueId = issue.IssueId.Value,
-                OriginalEstimate = 1d,
-            };
+            Task task = TestApp.GetTask
+                (issue.IssueId.Value
+                , 1d
+                , 1
+                , Status.Open
+                , 0d
+                , 1);
 
             // Testing:
             _taskRepo.InsertTask(task);
@@ -59,13 +59,16 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
                 Title = "Abc",
             };
             _issueRepo.InsertIssue(issue);
-            Task task = new Task
-            {
-                CurrentEstimate = 1d,
-                Description = "",
-                RefIssueId = issue.IssueId.Value,
-                OriginalEstimate = 1d,
-            };
+            Task task = Task.ConstructTask
+                (issue.IssueId.Value
+                , ""
+                , Status.Open
+                , 13
+                , 1d
+                , 0d
+                , null
+                , null
+                , 1);
 
             // Testing:
             _taskRepo.InsertTask(task);
@@ -86,13 +89,16 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
                 Title = "Abc",
             };
             _issueRepo.InsertIssue(issue);
-            Task task = new Task
-            {
-                CurrentEstimate = 1d,
-                Description = "ASD",
-                RefIssueId = issue.IssueId.Value,
-                OriginalEstimate = 1d,
-            };
+            Task task = Task.ConstructTask
+                (issue.IssueId.Value
+                , "ASD"
+                , Status.Open
+                , 19
+                , 1d
+                , 0d
+                , null
+                , null
+                , 1);
             _taskRepo.InsertTask(task);
             task.Description = "New description";
 
@@ -119,27 +125,28 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
                 Title = "Abc",
             };
             _issueRepo.InsertIssue(issue);
-            Task task = new Task
-            {
-                CurrentEstimate = 1d,
-                Description = "ASD",
-                RefIssueId = issue.IssueId.Value,
-                OriginalEstimate = 1d,
-            };
+            Task task = Task.ConstructTask
+                (issue.IssueId.Value
+                , "ASD"
+                , Status.Open
+                , 23
+                , 1d
+                , 0d
+                , null
+                , null
+                , 1);
             _taskRepo.InsertTask(task);
             task.Description = "New description";
-            Task taskToUpdate = new Task
-            {
-                TaskId = task.TaskId,
-                Status = task.Status,
-                StartDate = task.StartDate,
-                Sequence = task.Sequence,
-                EndDate = task.EndDate,
-                Elapsed = task.Elapsed,
-                Description = task.Description,
-                CurrentEstimate = task.CurrentEstimate,
-                OriginalEstimate = task.OriginalEstimate,
-            };
+            Task taskToUpdate = Task.ReconstructTaskToUpdate
+                (task.TaskId.Value
+                , task.Description
+                , task.Status
+                , task.Sequence
+                , task.CurrentEstimate
+                , task.Elapsed
+                , task.StartDate
+                , task.EndDate
+                , task.RefPersonId);
 
             // Testing:
             _taskRepo.UpdateTask(taskToUpdate);
@@ -166,13 +173,16 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
                 Title = "Abc",
             };
             _issueRepo.InsertIssue(issue);
-            Task task = new Task
-            {
-                CurrentEstimate = 1d,
-                Description = "ASD",
-                RefIssueId = issue.IssueId.Value,
-                OriginalEstimate = 1d,
-            };
+            Task task = Task.ConstructTask
+                (issue.IssueId.Value
+                , "ASD"
+                , Status.Open
+                , 93
+                , 1d
+                , 0d
+                , null
+                , null
+                , 1);
             _taskRepo.InsertTask(task);
 
             // Testing:

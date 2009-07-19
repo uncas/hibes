@@ -22,7 +22,7 @@ namespace Uncas.EBS.DAL
                     // Simulating two persons here:
 
                     var personOffs
-                        = personOffRepository.GetPersonOffs();
+                        = personOffRepository.GetPersonOffs(1);
                     var personViewA = new PersonView
                         (1, "A.A.", 5, 7.5d, personOffs);
                     _personViews.Add(personViewA);
@@ -67,12 +67,12 @@ namespace Uncas.EBS.DAL
 
         public void UpdatePerson(Uncas.EBS.Domain.Model.Person person)
         {
-            // TODO: Person: Update person in db.
+            // TODO: PERSON: Update person in db.
         }
 
         public void DeletePerson(int personId)
         {
-            // TODO: Person: Delete person from db.
+            // TODO: PERSON: Delete person from db.
         }
 
         #endregion

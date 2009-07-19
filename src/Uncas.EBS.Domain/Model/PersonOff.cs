@@ -12,9 +12,10 @@ namespace Uncas.EBS.Domain.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="PersonOff"/> class.
         /// </summary>
+        /// <param name="refPersonId">The person id.</param>
         /// <param name="from">From.</param>
         /// <param name="to">To.</param>
-        public PersonOff(DateTime from, DateTime to)
+        public PersonOff(int refPersonId, DateTime from, DateTime to)
         {
             if (from.Date > to.Date)
             {
@@ -22,6 +23,7 @@ namespace Uncas.EBS.Domain.Model
             }
             this.FromDate = from;
             this.ToDate = to;
+            this.RefPersonId = refPersonId;
         }
 
         /// <summary>
@@ -39,9 +41,8 @@ namespace Uncas.EBS.Domain.Model
             , int refPersonId
             )
         {
-            var personOff = new PersonOff(from, to);
+            var personOff = new PersonOff(refPersonId, from, to);
             personOff.PersonOffId = personOffId;
-            personOff.RefPersonId = refPersonId;
             return personOff;
         }
 

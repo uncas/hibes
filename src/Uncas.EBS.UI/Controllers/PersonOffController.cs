@@ -10,17 +10,18 @@ namespace Uncas.EBS.UI.Controllers
         private IPersonOffRepository _personOffRepo =
             App.Repositories.PersonOffRepository;
 
-        public IList<PersonOff> GetPersonOffs()
+        public IList<PersonOff> GetPersonOffs(int RefPersonId)
         {
-            return _personOffRepo.GetPersonOffs();
+            return _personOffRepo.GetPersonOffs(RefPersonId);
         }
 
         public void InsertPersonOff
-            (DateTime FromDate
+            (int RefPersonId
+            , DateTime FromDate
             , DateTime ToDate)
         {
             _personOffRepo.InsertPersonOff
-                (new PersonOff(FromDate, ToDate));
+                (new PersonOff(RefPersonId, FromDate, ToDate));
         }
 
         public void UpdatePersonOff

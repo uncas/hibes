@@ -80,7 +80,7 @@ namespace Uncas.EBS.UI.Controllers
 
         public IList<Task> GetClosedTasks()
         {
-            return _taskRepo.GetTasksByStatus(Status.Closed);
+            return _taskRepo.GetTasks(Status.Closed, null);
         }
     }
 }

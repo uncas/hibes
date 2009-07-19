@@ -1,15 +1,7 @@
 Features
 --------
 - Handle multiple persons:
-    - UI:
-        - On estimate page:
-            Chart of possible completion dates for each person
-        - Person choice on task.
-        - Person offs per person.
-
-    - ViewModel:
-        + TaskView : Task
-            PersonName
+    - Refactor
 
     - Database:
         + Person
@@ -21,6 +13,11 @@ Features
             + RefPersonId
         Task
             + RefPersonId
+
+    - UI:
+        - On estimate page:
+            Multi-chart of possible completion dates for each person
+            Remove old chart
 
 
 - Time registration:

@@ -10,6 +10,8 @@ namespace Uncas.EBS.Domain.ViewModel
     /// </summary>
     public class ProjectEvaluation
     {
+        // TODO: REFACTOR: Refactor entire ProjectEvaluation class.
+
         /// <summary>
         /// The standard number of hours per day.
         /// </summary>
