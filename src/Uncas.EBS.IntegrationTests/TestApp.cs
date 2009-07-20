@@ -47,13 +47,11 @@ namespace Uncas.EBS.IntegrationTests
 
             Status status = GetStatus(priority);
 
-            Issue issue = new Issue
-            {
-                RefProjectId = project.ProjectId,
-                Title = "Issue " + priority,
-                Priority = priority,
-                Status = status
-            };
+            Issue issue = Issue.ConstructIssue
+                (project.ProjectId
+                , "Issue" + priority
+                , status
+                , priority);
 
             _issueRepo.InsertIssue(issue);
 
@@ -79,6 +77,8 @@ namespace Uncas.EBS.IntegrationTests
 
         private void AddTask(int issueId, Status issueStatus)
         {
+            // TODO: REFACTOR: Reduce number of statements and calls.
+
             double originalEstimate
                 = Math.Ceiling(_rnd.NextDouble() * 15d);
 
@@ -109,9 +109,7 @@ namespace Uncas.EBS.IntegrationTests
                 currentEstimate += _rnd.NextDouble() * 10d;
             }
 
-            // HACK: Manually setting random person id here:
-
-            int personId = _rnd.Next(1, 3);
+            int personId = GetPersonId();
 
             Task task = GetTask
                 (issueId
@@ -124,6 +122,15 @@ namespace Uncas.EBS.IntegrationTests
             task.CurrentEstimate = currentEstimate;
 
             _taskRepo.InsertTask(task);
+        }
+
+        private int GetPersonId()
+        {
+            return Repositories
+                .PersonRepository
+                .GetPersons()
+                .FirstOrDefault()
+                .PersonId;
         }
 
         internal static Task GetTask

@@ -90,46 +90,28 @@ namespace Uncas.EBS.DAL
 
         internal TaskDetails GetTaskDetailsFromDbTask(Task dbTask)
         {
-            int count = PersonRepository.PersonViews.Count;
-            var personView
-                = PersonRepository.PersonViews[_rnd.Next(count)];
-            // TODO: PERSON: Retrieve person id and name from dbTask:
             return new TaskDetails
                 {
-                    TaskId = dbTask.TaskId
-                ,
-                    RefIssueId = dbTask.RefIssueId
-                ,
-                    Description = dbTask.Description
-                ,
-                    Status = (Model.Status)dbTask.RefStatusId
-                ,
-                    Sequence = dbTask.Sequence
-                ,
-                    OriginalEstimate = (double)dbTask.OriginalEstimateInHours
-                ,
-                    CurrentEstimate = (double)dbTask.CurrentEstimateInHours
-                ,
-                    Elapsed = (double)dbTask.ElapsedHours
-                ,
-                    StartDate = dbTask.StartDate
-                ,
-                    EndDate = dbTask.EndDate
-                ,
-                    CreatedDate = dbTask.CreatedDate
-                ,
-                    RefPersonId = personView.PersonId
-                ,
-                    PersonName = personView.PersonName
+                    TaskId = dbTask.TaskId,
+                    RefIssueId = dbTask.RefIssueId,
+                    Description = dbTask.Description,
+                    Status = (Model.Status)dbTask.RefStatusId,
+                    Sequence = dbTask.Sequence,
+                    OriginalEstimate
+                        = (double)dbTask.OriginalEstimateInHours,
+                    CurrentEstimate
+                        = (double)dbTask.CurrentEstimateInHours,
+                    Elapsed = (double)dbTask.ElapsedHours,
+                    StartDate = dbTask.StartDate,
+                    EndDate = dbTask.EndDate,
+                    CreatedDate = dbTask.CreatedDate,
+                    RefPersonId = dbTask.RefPersonId,
+                    PersonName = dbTask.Person.PersonName
                 };
         }
 
         internal Model.Task GetModelTaskFromDbTask(Task dbTask)
         {
-            // TODO: PERSON: Retrieve person id from dbTask:
-            int count = PersonRepository.PersonViews.Count;
-            var personView
-                = PersonRepository.PersonViews[_rnd.Next(count)];
             return Model.Task.ReconstructTask
                 (dbTask.TaskId
                 , dbTask.RefIssueId
@@ -142,7 +124,7 @@ namespace Uncas.EBS.DAL
                 , dbTask.StartDate
                 , dbTask.EndDate
                 , dbTask.CreatedDate
-                , personView.PersonId
+                , dbTask.RefPersonId
                 );
         }
 
@@ -181,8 +163,7 @@ namespace Uncas.EBS.DAL
             dbTask.Sequence = task.Sequence;
             dbTask.StartDate = task.StartDate;
             dbTask.RefStatusId = (int)task.Status;
-            // TODO: PERSON: Save Task.RefPersonId to database.
-            // dbTask.RefPersonId = task.RefPersonId;
+            dbTask.RefPersonId = task.RefPersonId;
         }
     }
 }

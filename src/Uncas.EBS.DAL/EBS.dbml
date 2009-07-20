@@ -27,8 +27,20 @@
       <Column Name="OriginalEstimateInHours" Type="System.Decimal" DbType="Decimal(10,2) NOT NULL" CanBeNull="false" />
       <Column Name="CurrentEstimateInHours" Type="System.Decimal" DbType="Decimal(10,2) NOT NULL" CanBeNull="false" />
       <Column Name="ElapsedHours" Type="System.Decimal" DbType="Decimal(10,2) NOT NULL" CanBeNull="false" />
+      <Column Name="RefPersonId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Association Name="Issue_Task" Member="Issue" ThisKey="RefIssueId" OtherKey="IssueId" Type="Issue" IsForeignKey="true" />
       <Association Name="Status_Task" Member="Status" ThisKey="RefStatusId" OtherKey="StatusId" Type="Status" IsForeignKey="true" />
+      <Association Name="Person_Task" Member="Person" ThisKey="RefPersonId" OtherKey="PersonId" Type="Person" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Person" Member="Persons">
+    <Type Name="Person">
+      <Column Name="PersonId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="PersonName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="DaysPerWeek" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="HoursPerDay" Type="System.Decimal" DbType="Decimal(10,2) NOT NULL" CanBeNull="false" />
+      <Association Name="Person_Task" Member="Tasks" ThisKey="PersonId" OtherKey="RefPersonId" Type="Task" />
+      <Association Name="Person_PersonOff" Member="PersonOffs" ThisKey="PersonId" OtherKey="RefPersonId" Type="PersonOff" />
     </Type>
   </Table>
   <Table Name="dbo.Project" Member="Projects">
@@ -52,6 +64,8 @@
       <Column Name="PersonOffId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="FromDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="ToDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="RefPersonId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Person_PersonOff" Member="Person" ThisKey="RefPersonId" OtherKey="PersonId" Type="Person" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

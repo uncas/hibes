@@ -8,74 +8,91 @@ namespace Uncas.EBS.DAL
 {
     class PersonRepository : BaseRepository, IPersonRepository
     {
-        private static IList<PersonView> _personViews = null;
-        public static IList<PersonView> PersonViews
-        {
-            get
-            {
-                if (_personViews == null)
-                {
-                    _personViews = new List<PersonView>();
-                    var personOffRepository
-                        = new PersonOffRepository();
-
-                    // Simulating two persons here:
-
-                    var personOffs
-                        = personOffRepository.GetPersonOffs(1);
-                    var personViewA = new PersonView
-                        (1, "A.A.", 5, 7.5d, personOffs);
-                    _personViews.Add(personViewA);
-
-                    var personViewB = new PersonView
-                        (2, "B.B.", 3, 5d, null);
-                    _personViews.Add(personViewB);
-                }
-                return _personViews;
-            }
-        }
-
         #region IPersonRepository Members
 
         public IList<PersonView> GetPersonViews()
         {
-            // TODO: PERSON: Retrieve person views from db.
+            var result = db.Persons
+                .Select(p =>
+                    new PersonView
+                        (p.PersonId
+                        , p.PersonName
+                        , p.PersonOffs.Select
+                            (po => new Model.PersonOff
+                                (po.RefPersonId
+                                , po.FromDate
+                                , po.ToDate)
+                            ).ToList()
+                        )
+                        );
 
-            return PersonViews;
+            return result.ToList();
         }
 
         public IList<Model.Person> GetPersons()
         {
-            // TODO: PERSON: Retrieve persons from db.
+            var result = db.Persons
+                .Select(p =>
+                    new Model.Person
+                        (p.PersonId
+                        , p.PersonName
+                        , p.DaysPerWeek
+                        , (double)p.HoursPerDay
+                        )
+                        );
 
-            return PersonViews
-                .Cast<Model.Person>()
-                .ToList();
+            return result.ToList();
         }
 
         public void InsertPerson(Model.Person person)
         {
-            // TODO: PERSON: Insert person in db.
+            var dbPerson = new Person
+            {
+                DaysPerWeek = person.DaysPerWeek,
+                HoursPerDay = (decimal)person.HoursPerDay,
+                PersonName = person.PersonName,
+            };
 
-            PersonViews.Add(new PersonView
-                (PersonViews.Max(pv => pv.PersonId) + 1
-                , person.PersonName
-                , person.DaysPerWeek
-                , person.HoursPerDay
-                , null));
+            db.Persons.InsertOnSubmit(dbPerson);
+
+            base.SubmitChanges();
+
+            person.PersonId = dbPerson.PersonId;
         }
 
-        public void UpdatePerson(Uncas.EBS.Domain.Model.Person person)
+        public void UpdatePerson(Model.Person person)
         {
-            // TODO: PERSON: Update person in db.
+            Person dbPerson = GetDbPerson(person.PersonId);
+            if (dbPerson == null)
+            {
+                throw new RepositoryException("No such person.");
+            }
+
+            dbPerson.DaysPerWeek = person.DaysPerWeek;
+            dbPerson.HoursPerDay = (decimal)person.HoursPerDay;
+            dbPerson.PersonName = person.PersonName;
+
+            db.SubmitChanges();
         }
 
         public void DeletePerson(int personId)
         {
-            // TODO: PERSON: Delete person from db.
+            Person person = GetDbPerson(personId);
+            if (person == null)
+            {
+                throw new RepositoryException("No such person.");
+            }
+            db.Persons.DeleteOnSubmit(person);
+            db.SubmitChanges();
         }
 
         #endregion
-    }
 
+        private Person GetDbPerson(int personId)
+        {
+            return db.Persons
+                .Where(p => p.PersonId == personId)
+                .SingleOrDefault();
+        }
+    }
 }

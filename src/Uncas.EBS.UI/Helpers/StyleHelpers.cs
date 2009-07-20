@@ -8,6 +8,8 @@ namespace Uncas.EBS.UI.Helpers
     {
         internal static void SetChartStyles(Chart chart)
         {
+            // TODO: REFACTOR: Reduce number of statements and calls.
+
             chart.ImageType = ChartImageType.Png;
             chart.BackColor = Color.FromArgb(200, 210, 190);
             chart.Palette = ChartColorPalette.BrightPastel;

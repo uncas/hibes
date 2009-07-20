@@ -36,6 +36,9 @@ namespace Uncas.EBS.DAL
     partial void InsertTask(Task instance);
     partial void UpdateTask(Task instance);
     partial void DeleteTask(Task instance);
+    partial void InsertPerson(Person instance);
+    partial void UpdatePerson(Person instance);
+    partial void DeletePerson(Person instance);
     partial void InsertProject(Project instance);
     partial void UpdateProject(Project instance);
     partial void DeleteProject(Project instance);
@@ -90,6 +93,14 @@ namespace Uncas.EBS.DAL
 			get
 			{
 				return this.GetTable<Task>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Person> Persons
+		{
+			get
+			{
+				return this.GetTable<Person>();
 			}
 		}
 		
@@ -438,9 +449,13 @@ namespace Uncas.EBS.DAL
 		
 		private decimal _ElapsedHours;
 		
+		private int _RefPersonId;
+		
 		private EntityRef<Issue> _Issue;
 		
 		private EntityRef<Status> _Status;
+		
+		private EntityRef<Person> _Person;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -468,12 +483,15 @@ namespace Uncas.EBS.DAL
     partial void OnCurrentEstimateInHoursChanged();
     partial void OnElapsedHoursChanging(decimal value);
     partial void OnElapsedHoursChanged();
+    partial void OnRefPersonIdChanging(int value);
+    partial void OnRefPersonIdChanged();
     #endregion
 		
 		public Task()
 		{
 			this._Issue = default(EntityRef<Issue>);
 			this._Status = default(EntityRef<Status>);
+			this._Person = default(EntityRef<Person>);
 			OnCreated();
 		}
 		
@@ -705,6 +723,30 @@ namespace Uncas.EBS.DAL
 			}
 		}
 		
+		[Column(Storage="_RefPersonId", DbType="Int NOT NULL")]
+		public int RefPersonId
+		{
+			get
+			{
+				return this._RefPersonId;
+			}
+			set
+			{
+				if ((this._RefPersonId != value))
+				{
+					if (this._Person.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnRefPersonIdChanging(value);
+					this.SendPropertyChanging();
+					this._RefPersonId = value;
+					this.SendPropertyChanged("RefPersonId");
+					this.OnRefPersonIdChanged();
+				}
+			}
+		}
+		
 		[Association(Name="Issue_Task", Storage="_Issue", ThisKey="RefIssueId", OtherKey="IssueId", IsForeignKey=true)]
 		public Issue Issue
 		{
@@ -773,6 +815,40 @@ namespace Uncas.EBS.DAL
 			}
 		}
 		
+		[Association(Name="Person_Task", Storage="_Person", ThisKey="RefPersonId", OtherKey="PersonId", IsForeignKey=true)]
+		public Person Person
+		{
+			get
+			{
+				return this._Person.Entity;
+			}
+			set
+			{
+				Person previousValue = this._Person.Entity;
+				if (((previousValue != value) 
+							|| (this._Person.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Person.Entity = null;
+						previousValue.Tasks.Remove(this);
+					}
+					this._Person.Entity = value;
+					if ((value != null))
+					{
+						value.Tasks.Add(this);
+						this._RefPersonId = value.PersonId;
+					}
+					else
+					{
+						this._RefPersonId = default(int);
+					}
+					this.SendPropertyChanged("Person");
+				}
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -791,6 +867,196 @@ namespace Uncas.EBS.DAL
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
+		}
+	}
+	
+	[Table(Name="dbo.Person")]
+	public partial class Person : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _PersonId;
+		
+		private string _PersonName;
+		
+		private int _DaysPerWeek;
+		
+		private decimal _HoursPerDay;
+		
+		private EntitySet<Task> _Tasks;
+		
+		private EntitySet<PersonOff> _PersonOffs;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnPersonIdChanging(int value);
+    partial void OnPersonIdChanged();
+    partial void OnPersonNameChanging(string value);
+    partial void OnPersonNameChanged();
+    partial void OnDaysPerWeekChanging(int value);
+    partial void OnDaysPerWeekChanged();
+    partial void OnHoursPerDayChanging(decimal value);
+    partial void OnHoursPerDayChanged();
+    #endregion
+		
+		public Person()
+		{
+			this._Tasks = new EntitySet<Task>(new Action<Task>(this.attach_Tasks), new Action<Task>(this.detach_Tasks));
+			this._PersonOffs = new EntitySet<PersonOff>(new Action<PersonOff>(this.attach_PersonOffs), new Action<PersonOff>(this.detach_PersonOffs));
+			OnCreated();
+		}
+		
+		[Column(Storage="_PersonId", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int PersonId
+		{
+			get
+			{
+				return this._PersonId;
+			}
+			set
+			{
+				if ((this._PersonId != value))
+				{
+					this.OnPersonIdChanging(value);
+					this.SendPropertyChanging();
+					this._PersonId = value;
+					this.SendPropertyChanged("PersonId");
+					this.OnPersonIdChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_PersonName", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string PersonName
+		{
+			get
+			{
+				return this._PersonName;
+			}
+			set
+			{
+				if ((this._PersonName != value))
+				{
+					this.OnPersonNameChanging(value);
+					this.SendPropertyChanging();
+					this._PersonName = value;
+					this.SendPropertyChanged("PersonName");
+					this.OnPersonNameChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_DaysPerWeek", DbType="Int NOT NULL")]
+		public int DaysPerWeek
+		{
+			get
+			{
+				return this._DaysPerWeek;
+			}
+			set
+			{
+				if ((this._DaysPerWeek != value))
+				{
+					this.OnDaysPerWeekChanging(value);
+					this.SendPropertyChanging();
+					this._DaysPerWeek = value;
+					this.SendPropertyChanged("DaysPerWeek");
+					this.OnDaysPerWeekChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_HoursPerDay", DbType="Decimal(10,2) NOT NULL")]
+		public decimal HoursPerDay
+		{
+			get
+			{
+				return this._HoursPerDay;
+			}
+			set
+			{
+				if ((this._HoursPerDay != value))
+				{
+					this.OnHoursPerDayChanging(value);
+					this.SendPropertyChanging();
+					this._HoursPerDay = value;
+					this.SendPropertyChanged("HoursPerDay");
+					this.OnHoursPerDayChanged();
+				}
+			}
+		}
+		
+		[Association(Name="Person_Task", Storage="_Tasks", ThisKey="PersonId", OtherKey="RefPersonId")]
+		public EntitySet<Task> Tasks
+		{
+			get
+			{
+				return this._Tasks;
+			}
+			set
+			{
+				this._Tasks.Assign(value);
+			}
+		}
+		
+		[Association(Name="Person_PersonOff", Storage="_PersonOffs", ThisKey="PersonId", OtherKey="RefPersonId")]
+		public EntitySet<PersonOff> PersonOffs
+		{
+			get
+			{
+				return this._PersonOffs;
+			}
+			set
+			{
+				this._PersonOffs.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_Tasks(Task entity)
+		{
+			this.SendPropertyChanging();
+			entity.Person = this;
+		}
+		
+		private void detach_Tasks(Task entity)
+		{
+			this.SendPropertyChanging();
+			entity.Person = null;
+		}
+		
+		private void attach_PersonOffs(PersonOff entity)
+		{
+			this.SendPropertyChanging();
+			entity.Person = this;
+		}
+		
+		private void detach_PersonOffs(PersonOff entity)
+		{
+			this.SendPropertyChanging();
+			entity.Person = null;
 		}
 	}
 	
@@ -1086,6 +1352,10 @@ namespace Uncas.EBS.DAL
 		
 		private System.DateTime _ToDate;
 		
+		private int _RefPersonId;
+		
+		private EntityRef<Person> _Person;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -1096,10 +1366,13 @@ namespace Uncas.EBS.DAL
     partial void OnFromDateChanged();
     partial void OnToDateChanging(System.DateTime value);
     partial void OnToDateChanged();
+    partial void OnRefPersonIdChanging(int value);
+    partial void OnRefPersonIdChanged();
     #endregion
 		
 		public PersonOff()
 		{
+			this._Person = default(EntityRef<Person>);
 			OnCreated();
 		}
 		
@@ -1159,6 +1432,64 @@ namespace Uncas.EBS.DAL
 					this._ToDate = value;
 					this.SendPropertyChanged("ToDate");
 					this.OnToDateChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_RefPersonId", DbType="Int NOT NULL")]
+		public int RefPersonId
+		{
+			get
+			{
+				return this._RefPersonId;
+			}
+			set
+			{
+				if ((this._RefPersonId != value))
+				{
+					if (this._Person.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnRefPersonIdChanging(value);
+					this.SendPropertyChanging();
+					this._RefPersonId = value;
+					this.SendPropertyChanged("RefPersonId");
+					this.OnRefPersonIdChanged();
+				}
+			}
+		}
+		
+		[Association(Name="Person_PersonOff", Storage="_Person", ThisKey="RefPersonId", OtherKey="PersonId", IsForeignKey=true)]
+		public Person Person
+		{
+			get
+			{
+				return this._Person.Entity;
+			}
+			set
+			{
+				Person previousValue = this._Person.Entity;
+				if (((previousValue != value) 
+							|| (this._Person.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Person.Entity = null;
+						previousValue.PersonOffs.Remove(this);
+					}
+					this._Person.Entity = value;
+					if ((value != null))
+					{
+						value.PersonOffs.Add(this);
+						this._RefPersonId = value.PersonId;
+					}
+					else
+					{
+						this._RefPersonId = default(int);
+					}
+					this.SendPropertyChanged("Person");
 				}
 			}
 		}

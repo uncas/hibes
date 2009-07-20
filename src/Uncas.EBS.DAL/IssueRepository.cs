@@ -9,6 +9,8 @@ namespace Uncas.EBS.DAL
 {
     public class IssueRepository : BaseRepository, IIssueRepository
     {
+        // TODO: REFACTOR: Reduce number of methods.
+
         TaskRepository _taskRepo = new TaskRepository();
 
         #region IIssueRepository Members
@@ -64,9 +66,16 @@ namespace Uncas.EBS.DAL
             {
                 throw new RepositoryException("Issue must have a title.");
             }
-            if (issue.RefProjectId == 0)
+            if (issue.RefProjectId <= 0)
             {
                 throw new RepositoryException("Project Id must be larger than zero.");
+            }
+            ProjectRepository projRepo = new ProjectRepository();
+            if (!projRepo.GetProjects()
+                .Any(p => p.ProjectId == issue.RefProjectId))
+            {
+                throw new RepositoryException
+                    ("Project does not exist.");
             }
             // Saves the changes:
             try

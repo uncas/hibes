@@ -25,11 +25,11 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
                 .ProjectId;
 
             // Setting up:
-            Issue issue = new Issue
-            {
-                RefProjectId = projectId,
-                Title = "Abc",
-            };
+            Issue issue = Issue.ConstructIssue
+                (projectId
+                , "InsertTask"
+                , Status.Open
+                , 1);
             _issueRepo.InsertIssue(issue);
             Task task = TestApp.GetTask
                 (issue.IssueId.Value
@@ -53,11 +53,11 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
             var project = _projectRepo.GetProjects().FirstOrDefault();
 
             // Setting up:
-            Issue issue = new Issue
-            {
-                RefProjectId = project.ProjectId,
-                Title = "Abc",
-            };
+            Issue issue = Issue.ConstructIssue
+                (project.ProjectId
+                , "InsertTask_EmptyDescription"
+                , Status.Open
+                , 13);
             _issueRepo.InsertIssue(issue);
             Task task = Task.ConstructTask
                 (issue.IssueId.Value
@@ -83,11 +83,11 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
             var project = _projectRepo.GetProjects().FirstOrDefault();
 
             // Setting up:
-            Issue issue = new Issue
-            {
-                RefProjectId = project.ProjectId,
-                Title = "Abc",
-            };
+            Issue issue = Issue.ConstructIssue
+                (project.ProjectId
+                , "UpdateTask_ChangedDescription_ChangedOK"
+                , Status.Open
+                , 14);
             _issueRepo.InsertIssue(issue);
             Task task = Task.ConstructTask
                 (issue.IssueId.Value
@@ -116,14 +116,16 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
         [Test]
         public void UpdateTask_NullIssue()
         {
+            // TODO: REFACTOR: Reduce number of statements and calls.
+
             var project = _projectRepo.GetProjects().FirstOrDefault();
 
             // Setting up:
-            Issue issue = new Issue
-            {
-                RefProjectId = project.ProjectId,
-                Title = "Abc",
-            };
+            Issue issue = Issue.ConstructIssue
+                (project.ProjectId
+                , "UpdateTask_NullIssue"
+                , Status.Open
+                , 16);
             _issueRepo.InsertIssue(issue);
             Task task = Task.ConstructTask
                 (issue.IssueId.Value
@@ -160,18 +162,18 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
         }
 
         [Test]
-        public void DeleteTask()
+        public void DeleteTask_Default_OK()
         {
             int projectId = _projectRepo
                 .GetProjects().FirstOrDefault()
                 .ProjectId;
 
             // Setting up:
-            Issue issue = new Issue
-            {
-                RefProjectId = projectId,
-                Title = "Abc",
-            };
+            Issue issue = Issue.ConstructIssue
+                (projectId
+                , "DeleteTask"
+                , Status.Open
+                , 19);
             _issueRepo.InsertIssue(issue);
             Task task = Task.ConstructTask
                 (issue.IssueId.Value

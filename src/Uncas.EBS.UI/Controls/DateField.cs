@@ -25,6 +25,8 @@ namespace Uncas.EBS.UI.Controls
             , DataControlRowState rowState
             , int rowIndex)
         {
+            // TODO: REFACTOR: Reduce number of statements and calls.
+
             if (cellType == DataControlCellType.Header)
             {
                 base.InitializeCell(cell, cellType, rowState, rowIndex);
@@ -55,6 +57,8 @@ namespace Uncas.EBS.UI.Controls
 
         void control_DataBinding(object sender, EventArgs e)
         {
+            // TODO: REFACTOR: Reduce number of statements and calls.
+
             if (sender is TableCell)
             {
                 TableCell cell = sender as TableCell;
@@ -99,6 +103,8 @@ namespace Uncas.EBS.UI.Controls
             , DataControlRowState rowState
             , bool includeReadOnly)
         {
+            // TODO: REFACTOR: Reduce number of statements and calls.
+
             base.ExtractValuesFromCell(dictionary
                 , cell, rowState, includeReadOnly);
             DateTime? value = null;

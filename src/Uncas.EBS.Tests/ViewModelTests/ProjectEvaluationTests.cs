@@ -10,6 +10,8 @@ namespace Uncas.EBS.Tests.ViewModelTests
         [Test]
         public void ProjectEvaluationTest()
         {
+            // TODO: REFACTOR: Reduce number of calls.
+
             ProjectEvaluation pEval = new ProjectEvaluation();
 
             pEval.AddEvaluation(1d);
@@ -22,8 +24,10 @@ namespace Uncas.EBS.Tests.ViewModelTests
 
             Assert.GreaterOrEqual(pEval.Statistics.Probabilities.Count, 1);
 
-            Issue issue1 = new Issue();
-            Issue issue2 = new Issue();
+            Issue issue1
+                = Issue.ConstructIssue(1, "A", Status.Open, 1);
+            Issue issue2
+                = Issue.ConstructIssue(1, "A", Status.Open, 1);
             pEval.AddIssueEvaluation(issue1, 2, 0.5d, 1d);
             pEval.AddIssueEvaluation(issue1, 3, 0.5d, 2d);
             pEval.AddIssueEvaluation(issue2, 4, 0.5d, 1d);

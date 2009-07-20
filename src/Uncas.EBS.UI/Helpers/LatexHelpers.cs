@@ -208,6 +208,8 @@ namespace Uncas.EBS.UI.Helpers
 
         public string LatexEncodeText(string text)
         {
+            // TODO: REFACTOR: Reduce number of statements and calls.
+
             var transforms = new Dictionary<string, string>();
             transforms.Add("æ", @"\ae");
             transforms.Add("ø", @"\o");
@@ -245,6 +247,8 @@ namespace Uncas.EBS.UI.Helpers
             (IEnumerable<T> data
             , params LatexColumn<T>[] columns)
         {
+            // TODO: REFACTOR: Reduce number of statements and calls.
+
             StringBuilder sb = new StringBuilder();
 
             // Begins tabular:

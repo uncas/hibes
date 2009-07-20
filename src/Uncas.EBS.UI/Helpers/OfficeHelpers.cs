@@ -72,6 +72,8 @@ namespace Uncas.EBS.UI.Helpers
         private void PrepareControlForExport
             (Control control)
         {
+            // TODO: REFACTOR: Reduce number of statements and calls.
+
             for (int i = 0; i < control.Controls.Count; i++)
             {
                 Control current = control.Controls[i];

@@ -10,6 +10,8 @@ namespace Uncas.EBS.Domain.ViewModel
     /// </remarks>
     public class IssueDetails : Issue
     {
+        // TODO: REFACTOR: Create constructors or factory methods.
+
         /// <summary>
         /// Gets or sets the number of tasks.
         /// </summary>

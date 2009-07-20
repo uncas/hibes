@@ -1,11 +1,6 @@
 Features
 --------
 - Handle multiple persons:
-    - Estimation engine:
-        - When estimating task: Use random speed for person in question.
-        - Total estimate: One simulation with all tasks.
-        - Per person estimate: Simulation with tasks per person.
-
     - UI:
         - Person choice on task.
         - On estimate page:
@@ -17,16 +12,24 @@ Features
             InsertPersonOff(..., + refPersonId)
         - Texts
 
-    - Model:
-        + Person
-            PersonId
-            PersonName
-            DaysPerWeek
-            HoursPerDay
-        PersonOff
-            + RefPersonId
-        Task
-            + RefPersonId
+    - AppService:
+        ProjectService
+            GetProjectEvaluation
+                1) Get all tasks
+                2) Run simulations with all tasks for all persons.
+                    Output: ProjectEvaluation
+                3) Run simulations with tasks per person.
+                    Output: ProjectEvaluation + PersonEstimate
+                4) Collect and return all simulation results.
+
+    - Estimation engine:
+        - When estimating task: Use random speed for person in question.
+        - Total estimate: One simulation with all tasks.
+        - Per person estimate: Simulation with tasks per person.
+
+    - Repository:
+        + PersonRepository
+            GetPersons()
 
     - ViewModel:
         + TaskView : Task
@@ -42,19 +45,27 @@ Features
             50 %
             95 %
 
-    - Repository:
-        + PersonRepository
-            GetPersons()
+    - Model:
+        + Person
+            PersonId
+            PersonName
+            DaysPerWeek
+            HoursPerDay
+        PersonOff
+            + RefPersonId
+        Task
+            + RefPersonId
 
-    - AppService:
-        ProjectService
-            GetProjectEvaluation
-                1) Get all tasks
-                2) Run simulations with all tasks for all persons.
-                    Output: ProjectEvaluation
-                3) Run simulations with tasks per person.
-                    Output: ProjectEvaluation + PersonEstimate
-                4) Collect and return all simulation results.
+    - Database:
+        + Person
+            PersonId
+            PersonName
+            DaysPerWeek
+            HoursPerDay
+        PersonOff
+            + RefPersonId
+        Task
+            + RefPersonId
 
 
 Architecture

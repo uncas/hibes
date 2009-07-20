@@ -7,6 +7,8 @@ namespace Uncas.EBS.UI.Controls
     [ToolboxData("<{0}:NumberBox runat=server></{0}:NumberBox>")]
     public class NumberBox : CompositeControl, ITextControl
     {
+        // TODO: REFACTOR: Reduce number of methods.
+
         protected TextBox tbNumber;
         protected RegularExpressionValidator revNumber;
 
@@ -107,6 +109,7 @@ namespace Uncas.EBS.UI.Controls
 
         public int? Number
         {
+            // TODO: REFACTOR: Reduce number of statements and calls.
             get
             {
                 EnsureChildControls();

@@ -22,11 +22,11 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
             int projectId = project.ProjectId;
 
             // Setting up:
-            Issue issue = new Issue
-            {
-                RefProjectId = projectId,
-                Title = "GetProjects"
-            };
+            Issue issue = Issue.ConstructIssue
+                (projectId
+                , "GetProjects"
+                , Status.Open
+                , 1);
             _issueRepo.InsertIssue(issue);
 
             // Testing:

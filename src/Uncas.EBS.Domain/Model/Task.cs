@@ -8,6 +8,8 @@ namespace Uncas.EBS.Domain.Model
     /// </summary>
     public class Task
     {
+        // TODO: REFACTOR: Reduce number of methods.
+
         #region Constructors and factory methods
 
         /// <summary>

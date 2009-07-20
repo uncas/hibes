@@ -29,11 +29,10 @@ namespace Uncas.EBS.UI.Controllers
             , DateTime ToDate
             , int Original_PersonOffId)
         {
-            // TODO: PERSON: Input person id from person off form:
-
             _personOffRepo.UpdatePersonOff
-                (PersonOff.ReconstructPersonOff(Original_PersonOffId
-                , FromDate, ToDate, 1));
+                (PersonOff.ReconstructPersonOff
+                    (Original_PersonOffId
+                    , FromDate, ToDate, 1));
         }
 
         public void DeletePersonOff(int Original_PersonOffId)

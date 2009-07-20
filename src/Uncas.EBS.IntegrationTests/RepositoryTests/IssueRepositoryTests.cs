@@ -31,26 +31,24 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
         [Test]
         public void GetIssues_All()
         {
+            // TODO: REFACTOR: Reduce number of statements and calls.
+
             int projectId = _projectRepo
                 .GetProjects().FirstOrDefault()
                 .ProjectId;
 
             // Setting up:
-            Issue issueClosed = new Issue
-            {
-                RefProjectId = projectId,
-                Priority = _rnd.Next(100),
-                Status = Status.Closed,
-                Title = "TestIssue",
-            };
+            Issue issueClosed = Issue.ConstructIssue
+                (projectId
+                , "GetIssues_All-Closed"
+                , Status.Closed
+                , _rnd.Next(100));
             _issueRepo.InsertIssue(issueClosed);
-            Issue issueOpen = new Issue
-            {
-                RefProjectId = projectId,
-                Priority = _rnd.Next(100),
-                Status = Status.Open,
-                Title = "TestIssue",
-            };
+            Issue issueOpen = Issue.ConstructIssue
+                (projectId
+                , "GetIssues_All-Open"
+                , Status.Open
+                , _rnd.Next(100));
             _issueRepo.InsertIssue(issueOpen);
 
             // Testing:
@@ -91,16 +89,18 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
         [Test]
         public void GetIssueView()
         {
+            // TODO: REFACTOR: Reduce number of statements and calls.
+
             int projectId = _projectRepo
                 .GetProjects().FirstOrDefault()
                 .ProjectId;
 
             // Setting up:
-            Issue issue = new Issue
-            {
-                RefProjectId = projectId,
-                Title = "GetIssueView"
-            };
+            Issue issue = Issue.ConstructIssue
+                (projectId
+                , "GetIssueView"
+                , Status.Open
+                , 15);
             _issueRepo.InsertIssue(issue);
             Task task = GetTask(issue, Status.Open);
             _taskRepo.InsertTask(task);
@@ -154,20 +154,18 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
         #region Insert
 
         [Test]
-        public void InsertIssueTest()
+        public void InsertIssue_Default_OK()
         {
             int projectId = _projectRepo
                 .GetProjects().FirstOrDefault()
                 .ProjectId;
 
             // Setting up:
-            Issue issue = new Issue
-            {
-                RefProjectId = projectId,
-                Priority = _rnd.Next(100),
-                Status = Status.Closed,
-                Title = "TestIssue",
-            };
+            Issue issue = Issue.ConstructIssue
+                (projectId
+                , "InsertIssue_Default_OK"
+                , Status.Closed
+                , _rnd.Next(100));
 
             // Testing:
             _issueRepo.InsertIssue(issue);
@@ -182,15 +180,14 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
 
         [Test]
         [ExpectedException(typeof(RepositoryException))]
-        public void InsertIssueTest_MissingProjectId()
+        public void InsertIssue_NonExistingProject_Exception()
         {
             // Setting up:
-            Issue issue = new Issue
-            {
-                Priority = _rnd.Next(100),
-                Status = Status.Closed,
-                Title = "TestIssue",
-            };
+            Issue issue = Issue.ConstructIssue
+                (int.MaxValue
+                , "InsertIssue"
+                , Status.Closed
+                , 20);
 
             // Testing:
             _issueRepo.InsertIssue(issue);
@@ -198,15 +195,14 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
 
         [Test]
         [ExpectedException(typeof(RepositoryException))]
-        public void InsertIssueTest_MissingTitle()
+        public void InsertIssue_MissingTitle_Exception()
         {
             // Setting up:
-            Issue issue = new Issue
-            {
-                Priority = _rnd.Next(100),
-                Status = Status.Closed,
-                ProjectName = "TestProject3",
-            };
+            Issue issue = Issue.ConstructIssue
+                (1
+                , null
+                , Status.Closed
+                , _rnd.Next(100));
 
             // Testing:
             _issueRepo.InsertIssue(issue);
@@ -221,12 +217,11 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
                 .ProjectId;
 
             // Setting up:
-            Issue issue = new Issue
-            {
-                Priority = _rnd.Next(100),
-                Status = Status.Closed,
-                RefProjectId = projectId
-            };
+            Issue issue = Issue.ConstructIssue
+                (projectId
+                , null
+                , Status.Closed
+                , _rnd.Next(100));
 
             // Testing:
             try
@@ -247,6 +242,8 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
         [Test]
         public void UpdateIssue()
         {
+            // TODO: REFACTOR: Reduce number of statements and calls.
+
             int projectId = _projectRepo
                 .GetProjects().FirstOrDefault()
                 .ProjectId;
@@ -255,13 +252,11 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
             int oldPriority = _rnd.Next(100);
             string oldTitle = "OriginalTitle";
             Status oldStatus = Status.Open;
-            Issue issue = new Issue
-            {
-                Priority = oldPriority,
-                RefProjectId = projectId,
-                Status = oldStatus,
-                Title = oldTitle
-            };
+            Issue issue = Issue.ConstructIssue
+                (projectId
+                , oldTitle
+                , oldStatus
+                , oldPriority);
             Trace.WriteLine(issue);
             _issueRepo.InsertIssue(issue);
             int newPriority = oldPriority + 2;
@@ -285,19 +280,17 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
         }
 
         [Test]
-        public void DeleteIssue()
+        public void DeleteIssue_Default_OK()
         {
             int projectId = _projectRepo
                 .GetProjects().FirstOrDefault()
                 .ProjectId;
             // Setting up:
-            Issue issue = new Issue
-            {
-                Priority = _rnd.Next(100),
-                RefProjectId = projectId,
-                Status = Status.Closed,
-                Title = "asd"
-            };
+            Issue issue = Issue.ConstructIssue
+                (projectId
+                , "DeleteIssue"
+                , Status.Closed
+                , _rnd.Next(100));
             _issueRepo.InsertIssue(issue);
             Assert.IsNotNull(issue.IssueId);
 
@@ -324,13 +317,11 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
         public void DeleteIssue_WithTasks()
         {
             // Setting up:
-            Issue issue = new Issue
-            {
-                Priority = _rnd.Next(100),
-                ProjectName = "TestProject3",
-                Status = Status.Closed,
-                Title = "asd"
-            };
+            Issue issue = Issue.ConstructIssue
+                (3
+                , "DeleteIssue"
+                , Status.Closed
+                , _rnd.Next(100));
             _issueRepo.InsertIssue(issue);
             Assert.IsNotNull(issue.IssueId);
             Task task = GetTask(issue, Status.Open);

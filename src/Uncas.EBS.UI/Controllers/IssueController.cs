@@ -50,13 +50,11 @@ namespace Uncas.EBS.UI.Controllers
             , Status status
             , int priority)
         {
-            Issue issue = new Issue
-            {
-                RefProjectId = refProjectId,
-                Title = title,
-                Status = status,
-                Priority = priority
-            };
+            Issue issue = Issue.ConstructIssue
+                (refProjectId
+                , title
+                , status
+                , priority);
             _issueRepository.InsertIssue(issue);
         }
 
@@ -65,13 +63,11 @@ namespace Uncas.EBS.UI.Controllers
             , Status status
             , int priority)
         {
-            Issue issue = new Issue
-            {
-                IssueId = Original_IssueId,
-                Title = title,
-                Status = status,
-                Priority = priority
-            };
+            Issue issue = Issue.ReconstructIssue
+                (Original_IssueId
+                , title
+                , status
+                , priority);
             _issueRepository.UpdateIssue(issue);
         }
 

@@ -15,11 +15,59 @@ namespace Uncas.EBS.Domain.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Issue"/> class.
         /// </summary>
-        public Issue()
+        internal protected Issue()
         {
             this.CreatedDate = DateTime.Now;
             this.Status = Status.Open;
             this.Priority = 1;
+        }
+
+        /// <summary>
+        /// Constructs the issue.
+        /// </summary>
+        /// <param name="refProjectId">The project id.</param>
+        /// <param name="title">The title.</param>
+        /// <param name="status">The status.</param>
+        /// <param name="priority">The priority.</param>
+        /// <returns></returns>
+        public static Issue ConstructIssue
+            (int refProjectId
+            , string title
+            , Status status
+            , int priority)
+        {
+            Issue issue = new Issue
+                {
+                    RefProjectId = refProjectId,
+                    Title = title,
+                    Status = status,
+                    Priority = priority
+                };
+            return issue;
+        }
+
+        /// <summary>
+        /// Reconstructs the issue.
+        /// </summary>
+        /// <param name="issueId">The issue id.</param>
+        /// <param name="title">The title.</param>
+        /// <param name="status">The status.</param>
+        /// <param name="priority">The priority.</param>
+        /// <returns></returns>
+        public static Issue ReconstructIssue
+            (int issueId
+            , string title
+            , Status status
+            , int priority)
+        {
+            Issue issue = new Issue
+            {
+                IssueId = issueId,
+                Title = title,
+                Status = status,
+                Priority = priority
+            };
+            return issue;
         }
 
         #endregion

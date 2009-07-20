@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Uncas.EBS.Domain.Model;
+using System.Runtime.CompilerServices;
 
 namespace Uncas.EBS.Domain.ViewModel
 {
@@ -10,14 +11,14 @@ namespace Uncas.EBS.Domain.ViewModel
     /// </summary>
     public class ProjectEvaluation
     {
-        // TODO: REFACTOR: Refactor entire ProjectEvaluation class.
+        // TODO: REFACTOR: Reduce number of methods.
 
         /// <summary>
         /// The standard number of hours per day.
         /// </summary>
         public const double StandardNumberOfHoursPerDay = 7.5d;
 
-        private IList<double> _evaluations = new List<double>();
+        internal IList<double> _evaluations = new List<double>();
 
         private IDictionary<Issue, IssueEvaluation> _issueEvaluations
             = new Dictionary<Issue, IssueEvaluation>();

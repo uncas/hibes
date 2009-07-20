@@ -65,6 +65,46 @@ namespace Uncas.EBS.Domain.Model
         /// </summary>
         /// <value>The hours per day.</value>
         public double HoursPerDay { get; set; }
+
+        /// <summary>
+        /// Determines whether the specified <see cref="T:System.Object"/> is equal to the current <see cref="T:System.Object"/>.
+        /// </summary>
+        /// <param name="obj">The <see cref="T:System.Object"/> to compare with the current <see cref="T:System.Object"/>.</param>
+        /// <returns>
+        /// true if the specified <see cref="T:System.Object"/> is equal to the current <see cref="T:System.Object"/>; otherwise, false.
+        /// </returns>
+        /// <exception cref="T:System.NullReferenceException">
+        /// The <paramref name="obj"/> parameter is null.
+        /// </exception>
+        public override bool Equals(object obj)
+        {
+            if (obj is Person)
+            {
+                Person other = (Person)obj;
+                return this.PersonId.Equals(other.PersonId)
+                    && this.PersonName.Equals(other.PersonName)
+                    && this.DaysPerWeek.Equals(other.DaysPerWeek)
+                    && this.HoursPerDay.Equals(other.HoursPerDay);
+            }
+            else
+            {
+                return base.Equals(obj);
+            }
+        }
+
+        /// <summary>
+        /// Serves as a hash function for a particular type.
+        /// </summary>
+        /// <returns>
+        /// A hash code for the current <see cref="T:System.Object"/>.
+        /// </returns>
+        public override int GetHashCode()
+        {
+            return this.PersonId.GetHashCode()
+                + this.PersonName.GetHashCode()
+                + this.DaysPerWeek.GetHashCode()
+                + this.HoursPerDay.GetHashCode();
+        }
     }
 
     /// <summary>

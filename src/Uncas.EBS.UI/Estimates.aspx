@@ -55,27 +55,6 @@
                                 </Columns>
                             </asp:GridView>
                         </div>
-                        <div class="obsolete">
-                            <asp:ObjectDataSource ID="odsSelectedCompletionDateConfidences" runat="server" TypeName="Uncas.EBS.UI.Controllers.ProjectController"
-                                SelectMethod="GetSelectedCompletionDateConfidences">
-                                <SelectParameters>
-                                    <asp:ControlParameter ControlID="psProjects" Name="projectId" PropertyName="SelectedValue"
-                                        Type="Int32" />
-                                    <asp:ControlParameter ControlID="nbMaxPriority" Name="maxPriority" PropertyName="Text"
-                                        Type="Int32" />
-                                </SelectParameters>
-                            </asp:ObjectDataSource>
-                            <asp:GridView ID="gvSelectedCompletionDates" runat="server" DataSourceID="odsSelectedCompletionDateConfidences"
-                                AutoGenerateColumns="false">
-                                <Columns>
-                                    <uncas:BoundFieldResource HeaderResourceName="End" DataField="Date" DataFormatString="{0:d}">
-                                    </uncas:BoundFieldResource>
-                                    <uncas:BoundFieldResource HeaderResourceName="Probability" DataField="Probability"
-                                        DataFormatString="{0:P0}" ItemStyle-HorizontalAlign="Right" HeaderStyle-HorizontalAlign="Right">
-                                    </uncas:BoundFieldResource>
-                                </Columns>
-                            </asp:GridView>
-                        </div>
                     </div>
                     <div class="part">
                         <asp:ObjectDataSource ID="odsCompletionDateConfidences" runat="server" TypeName="Uncas.EBS.UI.Controllers.ProjectController"

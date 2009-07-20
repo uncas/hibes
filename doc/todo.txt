@@ -2,23 +2,13 @@ Features
 --------
 - Handle multiple persons:
     - Refactor
-
-    - Database:
-        + Person
-            PersonId
-            PersonName
-            DaysPerWeek
-            HoursPerDay
-        PersonOff
-            + RefPersonId
-        Task
-            + RefPersonId
-
     - UI:
         - On estimate page:
             Multi-chart of possible completion dates for each person
             Remove old chart
 
+
+- Refactor!
 
 - Time registration:
     TimePost

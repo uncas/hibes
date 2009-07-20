@@ -12,7 +12,7 @@ namespace Uncas.EBS.Tests.ViewModelTests
         {
             IssueEvaluation ie
                 = new IssueEvaluation
-                (new Issue()
+                (Issue.ConstructIssue(1, "A", Status.Open, 1)
                 , 2, 3d, 4d);
             Assert.AreEqual(2, ie.NumberOfOpenTasks);
             Assert.AreEqual(3d, ie.Elapsed);
@@ -26,7 +26,7 @@ namespace Uncas.EBS.Tests.ViewModelTests
         {
             IssueEvaluation ie
                 = new IssueEvaluation
-                    (new Issue()
+                    (Issue.ConstructIssue(1, "A", Status.Open, 1)
                     , 2, -1d, 0d);
         }
 
@@ -35,7 +35,7 @@ namespace Uncas.EBS.Tests.ViewModelTests
         {
             // Adding evaluations in terms of hours:
             IssueEvaluation issueEvaluation = new IssueEvaluation
-                (new Issue(), 2, 1d, 1d);
+                (Issue.ConstructIssue(1, "A", Status.Open, 1), 2, 1d, 1d);
             issueEvaluation.AddEvaluation(6.5d);
 
             // Checking the resulting average in days:
