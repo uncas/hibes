@@ -7,16 +7,26 @@ using Model = Uncas.EBS.Domain.Model;
 
 namespace Uncas.EBS.DAL
 {
-    public class IssueRepository : BaseRepository, IIssueRepository
+    public class IssueRepository
+        : BaseRepository
+        , IIssueRepository
     {
-        // TODO: REFACTOR: Reduce number of methods.
 
-        TaskRepository _taskRepo = new TaskRepository();
+        #region Private fields
 
-        #region IIssueRepository Members
+        private TaskRepository _taskRepo = new TaskRepository();
 
-        public IList<IssueDetails> GetIssues(int? projectId
-            , Model.Status status)
+        #endregion
+
+
+        #region Public methods (IIssueRepository members)
+
+
+        public IList<IssueDetails> GetIssues
+            (
+            int? projectId
+            , Model.Status status
+            )
         {
             var dbIssues = db.Issues.Select(i => i);
 
@@ -43,8 +53,12 @@ namespace Uncas.EBS.DAL
                 .ToList();
         }
 
-        public IssueView GetIssueView(int issueId
-            , Model.Status taskStatus)
+
+        public IssueView GetIssueView
+            (
+            int issueId
+            , Model.Status taskStatus
+            )
         {
             TaskRepository taskRepo = new TaskRepository();
             return new IssueView
@@ -55,12 +69,50 @@ namespace Uncas.EBS.DAL
             };
         }
 
+
+        public IList<IssueView> GetOpenIssuesAndOpenTasks
+            (
+            int? projectId
+            , int? maxPriority
+            )
+        {
+            var issues = db.Issues.Where(i => i.RefStatusId == 1)
+                .OrderBy(i => i.Priority).AsQueryable<Issue>();
+            if (projectId.HasValue)
+            {
+                issues = issues.Where
+                    (i => i.RefProjectId == projectId.Value);
+            }
+            if (maxPriority.HasValue)
+            {
+                issues = issues.Where
+                    (i => i.Priority <= maxPriority.Value);
+            }
+
+            var result = issues.Select
+                (issue => new IssueView
+                {
+                    Issue = GetIssueDetailsFromDbIssue(issue),
+                    Tasks = issue.Tasks
+                        .Where(t => t.RefStatusId == 1)
+                        .Select(t => _taskRepo
+                            .GetTaskDetailsFromDbTask(t))
+                        .ToList()
+                });
+
+            return result.ToList();
+        }
+
+
         /// <summary>
         /// Inserts the issue.
         /// </summary>
         /// <param name="issue">The issue.</param>
         /// <exception cref="RepositoryException"></exception>
-        public void InsertIssue(Model.Issue issue)
+        public void InsertIssue
+            (
+            Model.Issue issue
+            )
         {
             if (string.IsNullOrEmpty(issue.Title))
             {
@@ -92,7 +144,11 @@ namespace Uncas.EBS.DAL
             }
         }
 
-        public void UpdateIssue(Model.Issue issue)
+
+        public void UpdateIssue
+            (
+            Model.Issue issue
+            )
         {
             if (!issue.IssueId.HasValue)
             {
@@ -107,7 +163,11 @@ namespace Uncas.EBS.DAL
             base.SubmitChanges();
         }
 
-        public void DeleteIssue(int issueId)
+
+        public void DeleteIssue
+            (
+            int issueId
+            )
         {
             Issue issue = ReadIssue(issueId
                 , "Found no such issue to delete.");
@@ -126,40 +186,32 @@ namespace Uncas.EBS.DAL
             }
         }
 
-        private Issue ReadIssue(int issueId, string message)
-        {
-            Issue issue = db.Issues
-                .Where(i => i.IssueId == issueId)
-                .SingleOrDefault();
-            if (issue == null)
-            {
-                throw new RepositoryException(message);
-            }
-            return issue;
-        }
 
-        public bool AddOneToPriority(int issueId)
+        public bool AddOneToPriority
+            (
+            int issueId
+            )
         {
             ChangePriority(issueId, 1);
 
             return true;
         }
 
-        private void ChangePriority(int issueId, int priorityChange)
-        {
-            Issue issue = ReadIssue(issueId
-                , "Found no such issue to change priority.");
-            issue.Priority += priorityChange;
-            base.SubmitChanges();
-        }
 
-        public bool SubtractOneFromPriority(int issueId)
+        public bool SubtractOneFromPriority
+            (
+            int issueId
+            )
         {
             ChangePriority(issueId, -1);
             return true;
         }
 
-        public bool PrioritizeAllOpenIssues(int? projectId)
+
+        public bool PrioritizeAllOpenIssues
+            (
+            int? projectId
+            )
         {
             int priority = 1;
             var issues = db.Issues.Where(i => i.RefStatusId == 1);
@@ -178,47 +230,70 @@ namespace Uncas.EBS.DAL
             return true;
         }
 
+
         #endregion
 
-        private Model.Issue GetIssue(int issueId)
+
+        #region Private methods
+
+
+        private Issue ReadIssue
+            (
+            int issueId
+            , string message
+            )
         {
-            return db.Issues.Where(i => i.IssueId == issueId)
+            Issue issue = db.Issues
+                .Where(i => i.IssueId == issueId)
+                .SingleOrDefault();
+            if (issue == null)
+            {
+                throw new RepositoryException(message);
+            }
+            return issue;
+        }
+
+
+        private void ChangePriority
+            (
+            int issueId
+            , int priorityChange
+            )
+        {
+            Issue issue = ReadIssue(issueId
+                , "Found no such issue to change priority.");
+            issue.Priority += priorityChange;
+            base.SubmitChanges();
+        }
+
+
+        private IssueDetails GetIssueDetails
+            (
+            int issueId
+            )
+        {
+            return db.Issues
+                .Where(i => i.IssueId == issueId)
                 .Select(i => GetIssueDetailsFromDbIssue(i))
                 .SingleOrDefault();
         }
 
-        private IssueDetails GetIssueDetails(int issueId)
-        {
-            return db.Issues.Where(i => i.IssueId == issueId)
-                .Select(i => GetIssueDetailsFromDbIssue(i))
-                .SingleOrDefault();
-        }
 
-        private IssueDetails GetIssueDetailsFromDbIssue(Issue dbIssue)
+        private IssueDetails GetIssueDetailsFromDbIssue
+            (
+            Issue dbIssue
+            )
         {
-            return GetIssueDetailsFromDbIssue(dbIssue
-                , dbIssue.Tasks.Count
-                , dbIssue.Tasks.Where(t => t.RefStatusId == 1)
-                    .Sum(t => t.CurrentEstimateInHours - t.ElapsedHours)
-                , dbIssue.Tasks.Sum(t => t.ElapsedHours)
-                );
-        }
+            int numberOfTasks
+                = dbIssue.Tasks.Count;
+            decimal? remaining
+                = dbIssue.Tasks
+                 .Where(t => t.RefStatusId == 1)
+                 .Sum(t => t.CurrentEstimateInHours
+                     - t.ElapsedHours);
+            decimal? elapsed
+                = dbIssue.Tasks.Sum(t => t.ElapsedHours);
 
-        private IssueDetails GetIssueDetailsFromDbIssue(Issue dbIssue
-            , int numberOfTasks
-            , decimal? remaining
-            , decimal? elapsed)
-        {
-            double? rem = null;
-            if (remaining.HasValue)
-            {
-                rem = (double)remaining.Value;
-            }
-            double? el = null;
-            if (elapsed.HasValue)
-            {
-                el = (double)elapsed.Value;
-            }
             return new IssueDetails
             {
                 IssueId = dbIssue.IssueId,
@@ -228,13 +303,16 @@ namespace Uncas.EBS.DAL
                 Status = (Model.Status)dbIssue.RefStatusId,
                 Title = dbIssue.Title,
                 NumberOfTasks = numberOfTasks,
-                Remaining = rem,
-                Elapsed = el
+                Remaining = GetDoubleFromDecimal(remaining),
+                Elapsed = GetDoubleFromDecimal(elapsed)
             };
         }
 
+
         private Issue GetDbIssueFromModelIssue
-            (Model.Issue issue)
+            (
+            Model.Issue issue
+            )
         {
             var dbIssue = new Issue
                 {
@@ -249,34 +327,8 @@ namespace Uncas.EBS.DAL
             return dbIssue;
         }
 
-        public IList<IssueView> GetOpenIssuesAndOpenTasks
-            (int? projectId, int? maxPriority)
-        {
-            var issues = db.Issues.Where(i => i.RefStatusId == 1)
-                .OrderBy(i => i.Priority).AsQueryable<Issue>();
-            if (projectId.HasValue)
-            {
-                issues = issues.Where
-                    (i => i.RefProjectId == projectId.Value);
-            }
-            if (maxPriority.HasValue)
-            {
-                issues = issues.Where
-                    (i => i.Priority <= maxPriority.Value);
-            }
 
-            var result = issues.Select
-                (issue => new IssueView
-                {
-                    Issue = GetIssueDetailsFromDbIssue(issue),
-                    Tasks = issue.Tasks
-                        .Where(t => t.RefStatusId == 1)
-                        .Select(t => _taskRepo
-                            .GetTaskDetailsFromDbTask(t))
-                        .ToList()
-                });
+        #endregion
 
-            return result.ToList();
-        }
     }
 }

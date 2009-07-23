@@ -18,8 +18,12 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
         [Test]
         public void UpdatePerson_Default_OK()
         {
-            Person person = new Person(Guid.NewGuid().ToString()
-                , 1, 2);
+            Person person = new Person
+                (
+                Guid.NewGuid().ToString()
+                , 1
+                , 2
+                );
             _personRepo.InsertPerson(person);
 
             int newDays = 2;

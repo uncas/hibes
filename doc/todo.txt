@@ -1,14 +1,32 @@
 Features
 --------
-- Handle multiple persons:
-    - Refactor
-    - UI:
-        - On estimate page:
-            Multi-chart of possible completion dates for each person
-            Remove old chart
+- Estimate page - Chart of completion dates:
+    Multi-chart of possible dates for each person
+    Remove old chart
 
+- Stylish user interface!
 
-- Refactor!
+- Improve installation easiness! Make release!
+
+- Front page - Issues with tasks per person:
+    Choices: 
+        - All - Shows all issues
+        Al      Shows only issues with open tasks for the chosen person
+        Ben
+        Curt
+        David
+        Elvira
+        ...
+
+- Search page:
+    Search for string in issues and tasks
+    Choice 1:
+        [X] Issues
+        [X] Tasks
+    Choice 2:
+        Ø Open
+        O Closed
+        O All
 
 - Time registration:
     TimePost
@@ -19,7 +37,7 @@ Features
         ElapsedHours
     Every time this table is updated, 
     the corresponding task is updated with elapsed hours.
-- Custom reports
+
 
 
 REFACTOR
@@ -30,7 +48,6 @@ gvIssue(s) as usercontrol!
 Testing
 -------
 - Use mock repository classes for unit testing.
-- Clean up after integration tests.
 
 
 Design
@@ -42,8 +59,6 @@ Design
 Setup/administration
 --------------------
 - Comments and documentation
-- Schema -> Schema-001.sql or some kind of version check
-    SchemaVersions
 
 
 Usability
@@ -52,45 +67,15 @@ Usability
 - Validation
 - About page
 - Datebox
-- Web.config: set default culture (en=English or da=dansk)
+- Web.config/appSettings: set default culture (en=English or da=dansk)
 
 
-Random number
--------------
-1) How to generate a random number that is normal distributed?
 
-2) How to generate a random number between y0-dy and y0+dy 
-that has highest probability to be close to y0?
-
-Possible solution:
-a) Generate a random number x with even chances between -1 and +1.
-b) Calculate the number y = f(x) = y0 + dy * x^(2n+1)
-    where n=1,2,...
-Background:
-For the random number x we have the even probability distribution like:
-    1 = integral_{-1}^{+1} dx P(x), where P(x) = ½
-For the number y the corresponding distribution will be:
-    1 = integral_{y0-dy}^{y0+dy} dy Q(y)
-Using the relation between x and y we get that
-    Q(y) = [dy/(y-y0)]^[2n/(2n+1)] / [2(2n+1)dy]
-Alternative formulation:
-a) Generate a random number z with even chances between 0 and 1:
-b) Calculate the number y = g(z) = y0 + dy * (2z-1)^(2n+1)
-
-Solution from wikipedia:
-a) Generate two uniformly distributed random numbers U and V between 0 and 1:
-b) Calculate a normally distributed random number by
-    X = sqrt(-2 ln U) cos(2 pi V)
-or
-    Y = sqrt(-2 ln U) sin(2 pi V)
-
-
-Rejected / waiting
-------------------
+Maybe
+-----
 - Project version
 - Issue: Field that tells if the estimate is complete.
 - Time units?
-- Import data from csv file
 - On history page:
     - Speed average + standard deviation
     - List of recent closed tasks that are the basis for the average speeds.
@@ -101,3 +86,9 @@ Rejected / waiting
     Include progress percentage
         50% ship date per priority (5, 10, 15, ...)
         Evolution of 5%/50%/95% ship date distribution over time
+
+
+Rejected
+--------
+- Import data from csv file
+- Custom reports

@@ -139,3 +139,33 @@ Architecture
     PersonOff
         FromDate
         ToDate
+
+
+Random number
+-------------
+1) How to generate a random number that is normal distributed?
+
+2) How to generate a random number between y0-dy and y0+dy 
+that has highest probability to be close to y0?
+
+Possible solution:
+a) Generate a random number x with even chances between -1 and +1.
+b) Calculate the number y = f(x) = y0 + dy * x^(2n+1)
+    where n=1,2,...
+Background:
+For the random number x we have the even probability distribution like:
+    1 = integral_{-1}^{+1} dx P(x), where P(x) = ½
+For the number y the corresponding distribution will be:
+    1 = integral_{y0-dy}^{y0+dy} dy Q(y)
+Using the relation between x and y we get that
+    Q(y) = [dy/(y-y0)]^[2n/(2n+1)] / [2(2n+1)dy]
+Alternative formulation:
+a) Generate a random number z with even chances between 0 and 1:
+b) Calculate the number y = g(z) = y0 + dy * (2z-1)^(2n+1)
+
+Solution from wikipedia:
+a) Generate two uniformly distributed random numbers U and V between 0 and 1:
+b) Calculate a normally distributed random number by
+    X = sqrt(-2 ln U) cos(2 pi V)
+or
+    Y = sqrt(-2 ln U) sin(2 pi V)

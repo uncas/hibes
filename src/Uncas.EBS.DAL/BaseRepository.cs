@@ -8,5 +8,18 @@
         {
             db.SubmitChanges();
         }
+
+        protected double? GetDoubleFromDecimal
+            (
+            decimal? value
+            )
+        {
+            double? result = null;
+            if (value.HasValue)
+            {
+                result = (double)value.Value;
+            }
+            return result;
+        }
     }
 }

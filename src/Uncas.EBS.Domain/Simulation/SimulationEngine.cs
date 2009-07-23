@@ -38,8 +38,13 @@ namespace Uncas.EBS.Domain.Simulation
             , IList<IssueView> issueViews
             , int numberOfSimulations)
         {
+            // UNDONE: Obsolete this and take only *one* PersonView.
             ProjectEvaluation result = new ProjectEvaluation();
-            result.PersonViews = personViews;
+            //result.PersonViews = personViews;
+            if (personViews != null && personViews.Count > 0)
+            {
+                result.Person = personViews[0];
+            }
             // For a list of issues:
             // Do a simulation N times:
             for (int simulationNumber = 1

@@ -1,13 +1,18 @@
 <?xml version="1.0"?>
 <project name="hibes" default="all">
 
-    <property name="configuration" value="debug" />
-    <property name="framework.version" value="v2.0.50727" />
+    <property name="configuration" value="release" />
+
+	<property name="build.dir" value="build" />
+	<property name="solution.dir" value="src"/>
+	<property name="solution.file" value="hibes.sln"/>
+	<property name="results.dir" value="${build.dir}\results" />
 	
+	<property name="msbuild"
+		value="${framework::get-framework-directory(framework::get-target-framework())}\msbuild.exe" />
+
     <property name="devenv" 
 		value="C:\Program Files\Microsoft Visual Studio 9.0\Common7\IDE\devenv.exe" />
-	<property name="msbuild"
-		value="C:\WINDOWS\Microsoft.NET\Framework\v3.5\msbuild.exe" />
 	<property name="sqlcmd" 
 		value="C:\Program Files\Microsoft SQL Server\90\Tools\Binn\SqlCmd.exe" />
 
@@ -36,7 +41,7 @@
 	</target>
 
 	<target name="clean">
-		<delete dir="build" />
+		<delete dir="${build.dir}" />
 
         <property name="folderToClean" value="ApplicationServices" />
         <call target="cleanFolder" />
@@ -61,17 +66,17 @@
 	</target>
 	
 	<target name="init" depends="clean">
-		<mkdir dir="build" />
+		<mkdir dir="${build.dir}" />
 	</target>
 
 	<target name="compile" depends="init">
         <exec program="${msbuild}"
               commandline="hibes.sln 
                 /p:Debug=false 
-                /p:Configuration=Release"/>
+                /p:Configuration=${configuration}"/>
 	</target>
 
-    <target name="getBuildProducts" depends="compile">
+    <target name="getBuildProducts" depends="unitTest">
         <copy todir="build">
             <fileset basedir="src\Uncas.EBS.UI">
                 <include name="**\*.*" />
@@ -130,5 +135,42 @@
 		<exec program="${sqlcmd}"
 			commandline="${sqlcmdCredentials} -d ${database} -i sql\schema.sql" />
     </target>
+
+    <target name="xyz">
+        <echo message="${msbuild}" />
+    </target>
+
+	<target name="move-for-test" depends="compile">
+		<copy todir="${build.dir}" flatten="true">
+			<fileset basedir="${solution.dir}">
+				<include name="/**/bin/${configuration}/**" />
+			</fileset>
+		</copy>
+	</target>	
+
+	<target name="basetest">
+        <echo message="Testing ${test.assembly}:" />
+		<nunit2 failonerror="true" verbose="true">
+			<formatter type="Xml" outputdir="${results.dir}" usefile="true" extension=".xml"/>
+			<formatter type="Plain" />
+			<test assemblyname="${build.dir}/${test.assembly}" />
+		</nunit2>
+	</target>
+
+	<target name="unitTest">
+        <call target="move-for-test" />
+		<property name="test.assembly" value="Uncas.EBS.Tests.dll" />
+        <call target="basetest" />
+	</target>
+
+	<target name="integrationTest">
+		<property name="test.assembly" value="Uncas.EBS.IntegrationTests.dll" />
+        <call target="basetest" />
+	</target>
+
+	<target name="test" depends="move-for-test">
+        <call target="unitTest" />
+        <call target="integrationTest" />
+	</target>
 
 </project>

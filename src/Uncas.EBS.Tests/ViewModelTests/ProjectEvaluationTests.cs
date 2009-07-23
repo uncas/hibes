@@ -12,27 +12,27 @@ namespace Uncas.EBS.Tests.ViewModelTests
         {
             // TODO: REFACTOR: Reduce number of calls.
 
-            ProjectEvaluation pEval = new ProjectEvaluation();
+            ProjectEvaluation projEval = new ProjectEvaluation();
 
-            pEval.AddEvaluation(1d);
-            Assert.Less(0d, pEval.Statistics.Average);
-            Assert.LessOrEqual(0d, pEval.Statistics.StandardDeviation);
+            projEval.AddEvaluation(1d);
+            Assert.Less(0d, projEval.Statistics.Average);
+            Assert.LessOrEqual(0d, projEval.Statistics.StandardDeviation);
 
-            pEval.AddEvaluation(2d);
-            Assert.Less(0d, pEval.Statistics.Average);
-            Assert.Greater(pEval.Statistics.StandardDeviation, 0d);
+            projEval.AddEvaluation(2d);
+            Assert.Less(0d, projEval.Statistics.Average);
+            Assert.Greater(projEval.Statistics.StandardDeviation, 0d);
 
-            Assert.GreaterOrEqual(pEval.Statistics.Probabilities.Count, 1);
+            Assert.GreaterOrEqual(projEval.Statistics.Probabilities.Count, 1);
 
             Issue issue1
                 = Issue.ConstructIssue(1, "A", Status.Open, 1);
             Issue issue2
                 = Issue.ConstructIssue(1, "A", Status.Open, 1);
-            pEval.AddIssueEvaluation(issue1, 2, 0.5d, 1d);
-            pEval.AddIssueEvaluation(issue1, 3, 0.5d, 2d);
-            pEval.AddIssueEvaluation(issue2, 4, 0.5d, 1d);
-            pEval.AddIssueEvaluation(issue2, 5, 0.5d, 3d);
-            var ie = pEval.GetIssueEvaluations();
+            projEval.AddIssueEvaluation(issue1, 2, 0.5d, 1d);
+            projEval.AddIssueEvaluation(issue1, 3, 0.5d, 2d);
+            projEval.AddIssueEvaluation(issue2, 4, 0.5d, 1d);
+            projEval.AddIssueEvaluation(issue2, 5, 0.5d, 3d);
+            var ie = projEval.GetIssueEvaluations();
             Assert.Less(0d, ie[0].Average);
             Assert.Less(0d, ie[1].Average);
         }

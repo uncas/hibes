@@ -1,4 +1,4 @@
 (Avg, Max)
 
-Rev  Methods/class  Calls/method  Statements/method
-31     4.8, 20.0      2.0, 17.0        3.0, 20.0
+Rev  Methods/class  Calls/method  Statements/method  Complexity   Depth
+31     4.8, 20.0      2.0, 17.0        3.0, 20.0       1.4, 12   1.6, 5

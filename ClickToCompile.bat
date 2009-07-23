@@ -1,2 +1,2 @@
 @echo off
-build compile
+build unitTest

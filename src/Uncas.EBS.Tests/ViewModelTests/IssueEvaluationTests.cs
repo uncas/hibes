@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using Uncas.EBS.Domain.Model;
 using Uncas.EBS.Domain.ViewModel;
+using System;
 
 namespace Uncas.EBS.Tests.ViewModelTests
 {
@@ -21,7 +22,7 @@ namespace Uncas.EBS.Tests.ViewModelTests
         }
 
         [Test]
-        [ExpectedException]
+        [ExpectedException(typeof(ArgumentException))]
         public void Constructor_ElapsedNegative_Exception()
         {
             IssueEvaluation ie

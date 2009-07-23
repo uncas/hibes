@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Uncas.EBS.Domain.Model;
-using System.Runtime.CompilerServices;
 
 namespace Uncas.EBS.Domain.ViewModel
 {
@@ -12,16 +11,20 @@ namespace Uncas.EBS.Domain.ViewModel
     public class ProjectEvaluation
     {
         // TODO: REFACTOR: Reduce number of methods.
+        // UNDONE: REFACTOR: In progress...
+
+
+        #region Public constants
 
         /// <summary>
         /// The standard number of hours per day.
         /// </summary>
         public const double StandardNumberOfHoursPerDay = 7.5d;
 
-        internal IList<double> _evaluations = new List<double>();
+        #endregion
 
-        private IDictionary<Issue, IssueEvaluation> _issueEvaluations
-            = new Dictionary<Issue, IssueEvaluation>();
+
+        #region Public properties
 
         /// <summary>
         /// Gets the statistics.
@@ -31,54 +34,126 @@ namespace Uncas.EBS.Domain.ViewModel
         {
             get
             {
-                return new Statistic<double>(_evaluations
+                return new Statistic<double>
+                    (
+                    _evaluations
                     , (double evaluation)
-                    => evaluation / StandardNumberOfHoursPerDay);
+                        => evaluation / StandardNumberOfHoursPerDay
+                    );
             }
         }
 
         /// <summary>
-        /// Gets or sets the person views.
+        /// Gets the average number of remaining days.
         /// </summary>
-        /// <value>The person views.</value>
-        public IList<PersonView> PersonViews { get; set; }
-
-        private IList<PersonEstimate> PersonEstimates
+        /// <value>The average number of remaining days.</value>
+        public double? Average
         {
             get
             {
-                // TODO: REFACTOR: PERSON: Implement this properly.
-                var pe = new List<PersonEstimate>();
-                pe.Add(new PersonEstimate
-                    (PersonViews[0], this._evaluations));
-                return pe;
+                if (this.NumberOfOpenTasks > 0)
+                {
+                    return this.Statistics.Average;
+                }
+                else
+                {
+                    // If there are no open tasks, the average is ill-defined:
+                    return null;
+                }
             }
         }
 
         /// <summary>
-        /// Gets the selected completion date confidences.
+        /// Gets the standard deviation of remaining days.
         /// </summary>
-        /// <returns></returns>
-        public IList<CompletionDateConfidence>
-            GetSelectedCompletionDateConfidences()
+        /// <value>The standard deviation.</value>
+        public double StandardDeviation
         {
-            // TODO: REFACTOR: PERSON: Implement this properly.
-            return PersonEstimates[0]
-                .GetSelectedCompletionDateConfidences();
+            get
+            {
+                return this.Statistics.StandardDeviation;
+            }
         }
 
         /// <summary>
-        /// Gets the person confidence dates.
+        /// Gets the elapsed days.
         /// </summary>
-        /// <returns></returns>
-        public PersonConfidenceDates GetPersonConfidenceDates()
+        /// <value>The elapsed days.</value>
+        public double? Elapsed
         {
-            return new PersonConfidenceDates
-                (this.PersonViews[0].PersonId
-                , this.PersonViews[0].PersonName
-                , GetSelectedCompletionDateConfidences()[0].Date
-                , GetSelectedCompletionDateConfidences()[1].Date
-                , GetSelectedCompletionDateConfidences()[2].Date);
+            get
+            {
+                return this._issueEvaluations
+                    .Select(i => i.Value)
+                    .Sum(i => i.Elapsed)
+                    / StandardNumberOfHoursPerDay;
+            }
+        }
+
+        /// <summary>
+        /// Gets the progressed fraction.
+        /// </summary>
+        /// <value>The progressed fraction.</value>
+        public double? Progress
+        {
+            get
+            {
+                return this.Elapsed
+                    / (this.Elapsed
+                    + this.Average);
+            }
+        }
+
+        /// <summary>
+        /// Gets the number of open issues.
+        /// </summary>
+        /// <value>The number of open issues.</value>
+        public int NumberOfOpenIssues
+        {
+            get
+            {
+                return this._issueEvaluations.Count;
+            }
+        }
+
+        /// <summary>
+        /// Gets the number of open tasks.
+        /// </summary>
+        /// <value>The number of open tasks.</value>
+        public int NumberOfOpenTasks
+        {
+            get
+            {
+                return _issueEvaluations.Sum
+                    (i => i.Value.NumberOfOpenTasks);
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the person, if any,
+        /// specific to the project evaluation.
+        /// </summary>
+        /// <value>The person.</value>
+        public PersonView Person { get; set; }
+
+        /// <summary>
+        /// Gets the days remaining.
+        /// </summary>
+        /// <value>The days remaining.</value>
+        public int DaysRemaining
+        {
+            get
+            {
+                DateTime mediumCompletionDate =
+                    GetCompletionDateConfidences()
+                    .Where(cdc => cdc.Probability == 0.5d)
+                    .FirstOrDefault()
+                    .Date;
+                return (int)Math.Ceiling
+                    (mediumCompletionDate
+                    .Subtract(DateTime.Now)
+                    .TotalDays);
+            }
         }
 
         /// <summary>
@@ -117,6 +192,55 @@ namespace Uncas.EBS.Domain.ViewModel
             }
         }
 
+        #endregion
+
+
+        #region Private fields and properties
+
+        private IList<double> _evaluations = new List<double>();
+
+        private IDictionary<Issue, IssueEvaluation> _issueEvaluations
+            = new Dictionary<Issue, IssueEvaluation>();
+
+        private PersonEstimate PersonEstimate
+        {
+            get
+            {
+                return new PersonEstimate
+                    (this.Person, this._evaluations);
+            }
+        }
+
+        #endregion
+
+
+        #region Public methods
+
+        /// <summary>
+        /// Gets the selected completion date confidences.
+        /// </summary>
+        /// <returns></returns>
+        public IList<CompletionDateConfidence>
+            GetSelectedCompletionDateConfidences()
+        {
+            return PersonEstimate
+                .GetSelectedCompletionDateConfidences();
+        }
+
+        /// <summary>
+        /// Gets the person confidence dates.
+        /// </summary>
+        /// <returns></returns>
+        public PersonConfidenceDates GetPersonConfidenceDates()
+        {
+            return new PersonConfidenceDates
+                (this.Person.PersonId
+                , this.Person.PersonName
+                , GetSelectedCompletionDateConfidences()[0].Date
+                , GetSelectedCompletionDateConfidences()[1].Date
+                , GetSelectedCompletionDateConfidences()[2].Date);
+        }
+
         /// <summary>
         /// Gets the completion date confidences.
         /// </summary>
@@ -124,94 +248,8 @@ namespace Uncas.EBS.Domain.ViewModel
         public IList<CompletionDateConfidence>
             GetCompletionDateConfidences()
         {
-            // TODO: REFACTOR: PERSON: Implement this properly.
-            return this.PersonEstimates[0]
+            return this.PersonEstimate
                 .GetCompletionDateConfidences();
-        }
-
-        /// <summary>
-        /// Gets the average number of days.
-        /// </summary>
-        /// <value>The average.</value>
-        public double? Average
-        {
-            get
-            {
-                if (this.NumberOfOpenTasks > 0)
-                {
-                    return this.Statistics.Average;
-                }
-                else
-                {
-                    // If there are no open tasks, the average is ill-defined:
-                    return null;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Gets the standard deviation.
-        /// </summary>
-        /// <value>The standard deviation.</value>
-        public double StandardDeviation
-        {
-            get
-            {
-                return this.Statistics.StandardDeviation;
-            }
-        }
-
-        /// <summary>
-        /// Gets the elapsed days.
-        /// </summary>
-        /// <value>The elapsed.</value>
-        public double? Elapsed
-        {
-            get
-            {
-                return this._issueEvaluations
-                    .Select(i => i.Value)
-                    .Sum(i => i.Elapsed)
-                    / StandardNumberOfHoursPerDay;
-            }
-        }
-
-        /// <summary>
-        /// Gets the progress.
-        /// </summary>
-        /// <value>The progress.</value>
-        public double? Progress
-        {
-            get
-            {
-                return this.Elapsed
-                    / (this.Elapsed
-                    + this.Average);
-            }
-        }
-
-        /// <summary>
-        /// Gets the number of open issues.
-        /// </summary>
-        /// <value>The number of open issues.</value>
-        public int NumberOfOpenIssues
-        {
-            get
-            {
-                return this._issueEvaluations.Count;
-            }
-        }
-
-        /// <summary>
-        /// Gets the number of open tasks.
-        /// </summary>
-        /// <value>The number of open tasks.</value>
-        public int NumberOfOpenTasks
-        {
-            get
-            {
-                return _issueEvaluations.Sum(i => i.Value.NumberOfOpenTasks);
-            }
         }
 
         /// <summary>
@@ -259,24 +297,11 @@ namespace Uncas.EBS.Domain.ViewModel
             return _issueEvaluations.Select(i => i.Value).ToList();
         }
 
-        /// <summary>
-        /// Gets the days remaining.
-        /// </summary>
-        /// <value>The days remaining.</value>
-        public int DaysRemaining
-        {
-            get
-            {
-                DateTime mediumCompletionDate =
-                    GetCompletionDateConfidences()
-                    .Where(cdc => cdc.Probability == 0.5d)
-                    .FirstOrDefault()
-                    .Date;
-                return (int)Math.Ceiling
-                    (mediumCompletionDate
-                    .Subtract(DateTime.Now)
-                    .TotalDays);
-            }
-        }
+        #endregion
+
+
+        #region Private methods
+        #endregion
+
     }
 }
