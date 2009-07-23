@@ -26,25 +26,21 @@ namespace Uncas.EBS.Domain.Simulation
 
         private Random _rnd = new Random();
 
+
         /// <summary>
         /// Gets the project evaluation.
         /// </summary>
-        /// <param name="personViews">The person views.</param>
+        /// <param name="person">The person.</param>
         /// <param name="issueViews">The issue views.</param>
         /// <param name="numberOfSimulations">The number of simulations.</param>
         /// <returns></returns>
         public ProjectEvaluation GetProjectEvaluation
-            (IList<PersonView> personViews
+            (PersonView person
             , IList<IssueView> issueViews
             , int numberOfSimulations)
         {
-            // UNDONE: Obsolete this and take only *one* PersonView.
-            ProjectEvaluation result = new ProjectEvaluation();
-            //result.PersonViews = personViews;
-            if (personViews != null && personViews.Count > 0)
-            {
-                result.Person = personViews[0];
-            }
+            ProjectEvaluation result = new ProjectEvaluation(person);
+
             // For a list of issues:
             // Do a simulation N times:
             for (int simulationNumber = 1
@@ -53,8 +49,10 @@ namespace Uncas.EBS.Domain.Simulation
             {
                 RunSimulation(issueViews, result);
             }
+
             return result;
         }
+
 
         /// <summary>
         /// Runs the simulation.

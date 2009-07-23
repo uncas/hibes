@@ -148,6 +148,19 @@
 		</copy>
 	</target>	
 
+	<target name="unitTest" depends="move-for-test">
+		<property name="test.assembly" value="Uncas.EBS.Tests.dll" />
+        <call target="basetest" />
+	</target>
+
+	<target name="integrationTest" depends="unitTest">
+		<property name="test.assembly" value="Uncas.EBS.IntegrationTests.dll" />
+        <call target="basetest" />
+	</target>
+
+	<target name="test" depends="integrationTest">
+	</target>
+
 	<target name="basetest">
         <echo message="Testing ${test.assembly}:" />
 		<nunit2 failonerror="true" verbose="true">
@@ -155,22 +168,6 @@
 			<formatter type="Plain" />
 			<test assemblyname="${build.dir}/${test.assembly}" />
 		</nunit2>
-	</target>
-
-	<target name="unitTest">
-        <call target="move-for-test" />
-		<property name="test.assembly" value="Uncas.EBS.Tests.dll" />
-        <call target="basetest" />
-	</target>
-
-	<target name="integrationTest">
-		<property name="test.assembly" value="Uncas.EBS.IntegrationTests.dll" />
-        <call target="basetest" />
-	</target>
-
-	<target name="test" depends="move-for-test">
-        <call target="unitTest" />
-        <call target="integrationTest" />
 	</target>
 
 </project>

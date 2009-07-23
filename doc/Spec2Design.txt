@@ -67,6 +67,9 @@ Features
         Task
             + RefPersonId
 
+- Estimate page - Chart of completion dates:
+    Multi-chart of possible dates for each person
+
 
 Architecture
 ------------

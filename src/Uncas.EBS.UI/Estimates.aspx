@@ -33,7 +33,7 @@
                     <div class="part">
                         <div>
                             <asp:ObjectDataSource ID="odsEvaluationsPerPerson" runat="server" TypeName="Uncas.EBS.UI.Controllers.ProjectController"
-                                SelectMethod="GetEvaluationsPerPerson">
+                                SelectMethod="GetConfidenceDatesPerPerson">
                                 <SelectParameters>
                                     <asp:ControlParameter ControlID="psProjects" Name="projectId" PropertyName="SelectedValue"
                                         Type="Int32" />
@@ -66,29 +66,26 @@
                                     Type="Int32" />
                             </SelectParameters>
                         </asp:ObjectDataSource>
-                        <div class="obsolete">
-                            <asp:Chart ID="chartCompletionDateConfidences" runat="server" DataSourceID="odsCompletionDateConfidences">
-                                <Series>
-                                    <asp:Series Name="seriesConfidence" XValueMember="Date" YValueMembers="Probability"
-                                        ChartType="Line" YValueType="Double">
-                                    </asp:Series>
-                                </Series>
-                                <ChartAreas>
-                                    <asp:ChartArea Name="ChartArea1">
-                                        <AxisY Minimum="0" Maximum="1">
-                                        </AxisY>
-                                    </asp:ChartArea>
-                                </ChartAreas>
-                            </asp:Chart>
-                        </div>
-                        <asp:Chart ID="chartDateRanges" runat="server" Visible="false">
+                        <asp:Chart ID="chartDateRanges" runat="server">
                             <Series>
-                                <asp:Series Name="Tasks" ChartType="RangeBar" YValuesPerPoint="3">
+                                <asp:Series Name="Tasks" ChartType="RangeBar" YValuesPerPoint="2">
                                 </asp:Series>
                             </Series>
                             <ChartAreas>
                                 <asp:ChartArea Name="ChartArea1">
                                     <AxisY IsStartedFromZero="False">
+                                    </AxisY>
+                                </asp:ChartArea>
+                            </ChartAreas>
+                        </asp:Chart>
+                        <asp:Chart ID="chartDateConfidencesPerPerson" runat="server">
+                            <Legends>
+                                <asp:Legend>
+                                </asp:Legend>
+                            </Legends>
+                            <ChartAreas>
+                                <asp:ChartArea Name="ChartArea1">
+                                    <AxisY Minimum="0" Maximum="1">
                                     </AxisY>
                                 </asp:ChartArea>
                             </ChartAreas>

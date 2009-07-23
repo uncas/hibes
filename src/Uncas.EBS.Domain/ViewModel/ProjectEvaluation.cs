@@ -10,8 +10,27 @@ namespace Uncas.EBS.Domain.ViewModel
     /// </summary>
     public class ProjectEvaluation
     {
-        // TODO: REFACTOR: Reduce number of methods.
-        // UNDONE: REFACTOR: In progress...
+
+        #region Constructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ProjectEvaluation"/> class.
+        /// </summary>
+        public ProjectEvaluation()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ProjectEvaluation"/> class.
+        /// </summary>
+        /// <param name="person">The person.</param>
+        public ProjectEvaluation(PersonView person)
+        {
+            this.Person = person;
+        }
+
+        #endregion
+
 
 
         #region Public constants
@@ -24,7 +43,9 @@ namespace Uncas.EBS.Domain.ViewModel
         #endregion
 
 
+
         #region Public properties
+
 
         /// <summary>
         /// Gets the statistics.
@@ -43,6 +64,7 @@ namespace Uncas.EBS.Domain.ViewModel
             }
         }
 
+
         /// <summary>
         /// Gets the average number of remaining days.
         /// </summary>
@@ -57,11 +79,13 @@ namespace Uncas.EBS.Domain.ViewModel
                 }
                 else
                 {
-                    // If there are no open tasks, the average is ill-defined:
+                    // If there are no open tasks, 
+                    // the average is ill-defined:
                     return null;
                 }
             }
         }
+
 
         /// <summary>
         /// Gets the standard deviation of remaining days.
@@ -74,6 +98,7 @@ namespace Uncas.EBS.Domain.ViewModel
                 return this.Statistics.StandardDeviation;
             }
         }
+
 
         /// <summary>
         /// Gets the elapsed days.
@@ -90,6 +115,7 @@ namespace Uncas.EBS.Domain.ViewModel
             }
         }
 
+
         /// <summary>
         /// Gets the progressed fraction.
         /// </summary>
@@ -104,6 +130,7 @@ namespace Uncas.EBS.Domain.ViewModel
             }
         }
 
+
         /// <summary>
         /// Gets the number of open issues.
         /// </summary>
@@ -115,6 +142,7 @@ namespace Uncas.EBS.Domain.ViewModel
                 return this._issueEvaluations.Count;
             }
         }
+
 
         /// <summary>
         /// Gets the number of open tasks.
@@ -129,12 +157,6 @@ namespace Uncas.EBS.Domain.ViewModel
             }
         }
 
-        /// <summary>
-        /// Gets or sets the person, if any,
-        /// specific to the project evaluation.
-        /// </summary>
-        /// <value>The person.</value>
-        public PersonView Person { get; set; }
 
         /// <summary>
         /// Gets the days remaining.
@@ -156,65 +178,13 @@ namespace Uncas.EBS.Domain.ViewModel
             }
         }
 
-        /// <summary>
-        /// Gets the completion date for 5 percent confidence.
-        /// </summary>
-        /// <value>The completion date5.</value>
-        public DateTime CompletionDate5
-        {
-            get
-            {
-                return GetSelectedCompletionDateConfidences()[0].Date;
-            }
-        }
-
-        /// <summary>
-        /// Gets the completion date for 50 percent confidence.
-        /// </summary>
-        /// <value>The completion date50.</value>
-        public DateTime CompletionDate50
-        {
-            get
-            {
-                return GetSelectedCompletionDateConfidences()[1].Date;
-            }
-        }
-
-        /// <summary>
-        /// Gets the completion date for 95 percent confidence.
-        /// </summary>
-        /// <value>The completion date95.</value>
-        public DateTime CompletionDate95
-        {
-            get
-            {
-                return GetSelectedCompletionDateConfidences()[2].Date;
-            }
-        }
 
         #endregion
 
-
-        #region Private fields and properties
-
-        private IList<double> _evaluations = new List<double>();
-
-        private IDictionary<Issue, IssueEvaluation> _issueEvaluations
-            = new Dictionary<Issue, IssueEvaluation>();
-
-        private PersonEstimate PersonEstimate
-        {
-            get
-            {
-                return new PersonEstimate
-                    (this.Person, this._evaluations);
-            }
-        }
-
-        #endregion
 
 
         #region Public methods
+
 
         /// <summary>
         /// Gets the selected completion date confidences.
@@ -227,19 +197,24 @@ namespace Uncas.EBS.Domain.ViewModel
                 .GetSelectedCompletionDateConfidences();
         }
 
+
         /// <summary>
         /// Gets the person confidence dates.
         /// </summary>
         /// <returns></returns>
         public PersonConfidenceDates GetPersonConfidenceDates()
         {
+            var selectedCompletionDateConfidences
+                = GetSelectedCompletionDateConfidences();
+
             return new PersonConfidenceDates
                 (this.Person.PersonId
                 , this.Person.PersonName
-                , GetSelectedCompletionDateConfidences()[0].Date
-                , GetSelectedCompletionDateConfidences()[1].Date
-                , GetSelectedCompletionDateConfidences()[2].Date);
+                , selectedCompletionDateConfidences[0].Date
+                , selectedCompletionDateConfidences[1].Date
+                , selectedCompletionDateConfidences[2].Date);
         }
+
 
         /// <summary>
         /// Gets the completion date confidences.
@@ -252,6 +227,7 @@ namespace Uncas.EBS.Domain.ViewModel
                 .GetCompletionDateConfidences();
         }
 
+
         /// <summary>
         /// Adds the evaluation.
         /// </summary>
@@ -261,17 +237,22 @@ namespace Uncas.EBS.Domain.ViewModel
             this._evaluations.Add(evaluation);
         }
 
+
         /// <summary>
         /// Adds the issue evaluation.
         /// </summary>
         /// <param name="issue">The issue.</param>
-        /// <param name="numberOfOpenTasksForThisIssue">The number of open tasks for this issue.</param>
+        /// <param name="numberOfOpenTasksForThisIssue">
+        /// The number of open tasks for this issue.</param>
         /// <param name="elapsed">The number of elapsed hours.</param>
         /// <param name="evaluation">The evaluation.</param>
-        public void AddIssueEvaluation(Issue issue
+        public void AddIssueEvaluation
+            (
+            Issue issue
             , int numberOfOpenTasksForThisIssue
             , double? elapsed
-            , double evaluation)
+            , double evaluation
+            )
         {
             if (_issueEvaluations.ContainsKey(issue))
             {
@@ -288,6 +269,7 @@ namespace Uncas.EBS.Domain.ViewModel
             }
         }
 
+
         /// <summary>
         /// Gets the issue evaluations.
         /// </summary>
@@ -297,10 +279,39 @@ namespace Uncas.EBS.Domain.ViewModel
             return _issueEvaluations.Select(i => i.Value).ToList();
         }
 
+
         #endregion
 
 
-        #region Private methods
+
+        #region Private fields and properties
+
+
+        private IList<double> _evaluations = new List<double>();
+
+
+        private IDictionary<Issue, IssueEvaluation> _issueEvaluations
+            = new Dictionary<Issue, IssueEvaluation>();
+
+
+        /// <summary>
+        /// Gets or sets the person, if any,
+        /// specific to the project evaluation.
+        /// </summary>
+        /// <value>The person.</value>
+        private PersonView Person { get; set; }
+
+
+        private PersonEstimate PersonEstimate
+        {
+            get
+            {
+                return new PersonEstimate
+                    (this.Person, this._evaluations);
+            }
+        }
+
+
         #endregion
 
     }

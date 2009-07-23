@@ -10,6 +10,9 @@ namespace Uncas.EBS.Domain.ViewModel
     /// </summary>
     public class PersonEstimate
     {
+
+        #region Constructors
+
         /// <summary>
         /// Initializes a new instance of the <see cref="PersonEstimate"/> class.
         /// </summary>
@@ -22,9 +25,12 @@ namespace Uncas.EBS.Domain.ViewModel
             this._evaluations = evaluations;
         }
 
-        private PersonView _personView { get; set; }
+        #endregion
 
-        private IList<double> _evaluations { get; set; }
+
+
+        #region Public methods
+
 
         /// <summary>
         /// Gets the selected completion date confidences.
@@ -33,12 +39,18 @@ namespace Uncas.EBS.Domain.ViewModel
         public IList<CompletionDateConfidence>
             GetSelectedCompletionDateConfidences()
         {
+            // Selected confidence levels:
+            const double confidenceLow = 0.05d;
+            const double confidenceMedium = 0.5d;
+            const double confidenceHigh = 0.95d;
+
             return GetCompletionDateConfidences()
-                .Where(cdc => cdc.Probability == 0.05d
-                    || cdc.Probability == 0.5d
-                    || cdc.Probability == 0.95d)
+                .Where(cdc => cdc.Probability == confidenceLow
+                    || cdc.Probability == confidenceMedium
+                    || cdc.Probability == confidenceHigh)
                 .ToList();
         }
+
 
         /// <summary>
         /// Gets the completion date confidences.
@@ -47,13 +59,19 @@ namespace Uncas.EBS.Domain.ViewModel
         public IList<CompletionDateConfidence>
             GetCompletionDateConfidences()
         {
+            // Prepares the list of results:
             var result = new List<CompletionDateConfidence>();
-            IEnumerable<double> orderedEvaluations =
-                this._evaluations.OrderBy(d => d);
+
+            // Orders the evaluations according to the number of hours
+            // with the lowest number of hours first:
+            var orderedEvaluations
+                = this._evaluations.OrderBy(d => d);
+
+            // Gets an estimated date for each whole percentage:
             int count = orderedEvaluations.Count();
             for (int percentage = 1; percentage <= 100; percentage++)
             {
-                int countForPercentage = (count * percentage) / 100;
+                int countForPercentage = count * percentage / 100;
                 double hoursAtThisPercentage = orderedEvaluations
                     .Skip(countForPercentage - 1).FirstOrDefault();
 
@@ -75,13 +93,32 @@ namespace Uncas.EBS.Domain.ViewModel
                     }
                 }
 
+                // Adds the date for the given percentage:
                 result.Add(new CompletionDateConfidence
                 {
                     Probability = percentage / 100d,
                     Date = date
                 });
             }
+
             return result;
         }
+
+
+        #endregion
+
+
+
+        #region Private fields
+
+
+        private PersonView _personView { get; set; }
+
+
+        private IList<double> _evaluations { get; set; }
+
+
+        #endregion
+
     }
 }

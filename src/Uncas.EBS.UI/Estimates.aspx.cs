@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Web.UI;
+using System.Web.UI.DataVisualization.Charting;
 using System.Web.UI.WebControls;
 using Uncas.EBS.Domain.ViewModel;
 using Uncas.EBS.UI.Helpers;
@@ -9,13 +10,16 @@ namespace Uncas.EBS.UI
 {
     public partial class Estimates : BasePage
     {
+
         protected void Page_Init(object sender, EventArgs e)
         {
             lbDownloadLatex.Click += new EventHandler(lbDownloadLatex_Click);
             lbDownloadWord.Click += new EventHandler(lbDownloadWord_Click);
             lbDownloadExcel.Click += new EventHandler(lbDownloadExcel_Click);
-            gvIssues.RowDataBound += new GridViewRowEventHandler(gvIssues_RowDataBound);
+            gvIssues.RowDataBound
+                += new GridViewRowEventHandler(gvIssues_RowDataBound);
         }
+
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -23,19 +27,18 @@ namespace Uncas.EBS.UI
             chartArea.AxisX.Title = Resources.Phrases.Remaining;
             chartArea.AxisY.Title = Resources.Phrases.Probability;
 
-            chartArea = chartCompletionDateConfidences.ChartAreas[0];
+            chartArea = chartDateConfidencesPerPerson.ChartAreas[0];
             chartArea.AxisX.Title = Resources.Phrases.End;
             chartArea.AxisY.Title = Resources.Phrases.Probability;
 
             gvIssues.EmptyDataText = Resources.Phrases.NoIssues;
 
-            Unit widthOfCharts = Unit.Pixel(400);
-            chartCompletionDateConfidences.Width = widthOfCharts;
-            chartProbabilities.Width = widthOfCharts;
-
-            StyleHelpers.SetChartStyles(chartCompletionDateConfidences);
             StyleHelpers.SetChartStyles(chartDateRanges);
             StyleHelpers.SetChartStyles(chartProbabilities);
+            StyleHelpers.SetChartStyles(chartDateConfidencesPerPerson);
+
+            ShowDateRanges();
+            ShowCompletionDateConfidences();
         }
 
         void gvIssues_RowDataBound(object sender, GridViewRowEventArgs e)
@@ -48,21 +51,90 @@ namespace Uncas.EBS.UI
             }
         }
 
+
+        private void ShowCompletionDateConfidences()
+        {
+            var projectController = new Controllers.ProjectController();
+            var evaluationsPerPerson
+                = projectController
+                .GetEvaluationsPerPerson
+                (
+                this.SelectedProjectId
+                , this.SelectedMaxPriority
+                )
+                ;
+
+            foreach (var evaluationPerPerson in evaluationsPerPerson)
+            {
+                // If there is no timespan, the person is *not* displayed:
+                var personConfidenceDates
+                    = evaluationPerPerson.GetPersonConfidenceDates();
+                if (personConfidenceDates.CompletionDate95
+                    == personConfidenceDates.CompletionDate5)
+                {
+                    continue;
+                }
+
+                string name
+                    = personConfidenceDates.PersonName;
+                Series seriesConfidence
+                    = new Series(GetShortenedPersonName(name));
+                seriesConfidence.ChartType = SeriesChartType.Line;
+                seriesConfidence.YValueType = ChartValueType.Double;
+                foreach (var dateConf in
+                    evaluationPerPerson.GetCompletionDateConfidences())
+                {
+                    seriesConfidence.Points.AddXY(dateConf.Date
+                        , dateConf.Probability);
+                }
+                chartDateConfidencesPerPerson.Series
+                    .Add(seriesConfidence);
+            }
+        }
+
+
         private void ShowDateRanges()
         {
-            // UNDONE: ShowDateRanges not implemented;
+            var projectController = new Controllers.ProjectController();
+            var completionDatesPerPerson
+                = projectController
+                .GetConfidenceDatesPerPerson
+                (
+                this.SelectedProjectId
+                , this.SelectedMaxPriority
+                )
+                .OrderBy(epp => epp.CompletionDate95)
+                ;
 
-            // HACK: Needs to input correct parameters:
-            var projRepo = new Controllers.ProjectController();
-            var result = projRepo
-                .GetSelectedCompletionDateConfidences(null, null);
-            chartDateRanges.Series["Tasks"].Points.AddXY
-                (1
-                , result.FirstOrDefault().Date
-                , result.Skip(1).FirstOrDefault().Date
-                , result.Skip(2).FirstOrDefault().Date);
+            int personNumber = 1;
+            foreach (var datePerPerson in completionDatesPerPerson)
+            {
+                if (datePerPerson.CompletionDate95
+                    == datePerPerson.CompletionDate5)
+                {
+                    continue;
+                }
 
-            throw new NotImplementedException();
+                chartDateRanges.Series["Tasks"].Points.AddXY
+                    (
+                    GetShortenedPersonName(datePerPerson.PersonName)
+                    , datePerPerson.CompletionDate5
+                    , datePerPerson.CompletionDate95
+                    );
+                personNumber++;
+            }
+        }
+
+        private string GetShortenedPersonName(string name)
+        {
+            if (name.Length <= 10)
+            {
+                return name;
+            }
+            else
+            {
+                return name.Substring(0, 10);
+            }
         }
 
         private int? SelectedProjectId

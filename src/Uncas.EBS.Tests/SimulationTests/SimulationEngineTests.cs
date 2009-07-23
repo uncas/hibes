@@ -57,7 +57,7 @@ namespace Uncas.EBS.Tests.SimulationTests
             SimulationEngine simulationEngine
                 = new SimulationEngine(closedTasks);
             var result = simulationEngine.GetProjectEvaluation
-                (null, issueViews, 100);
+                (new PersonView(1, null, null), issueViews, 100);
 
 
             // Checking results:
@@ -77,7 +77,7 @@ namespace Uncas.EBS.Tests.SimulationTests
             // Testing:
             SimulationEngine evals = new SimulationEngine(closedTasks);
             var result = evals.GetProjectEvaluation
-                (null, issueViews, 1000);
+                (new PersonView(1, null, null), issueViews, 1000);
 
             // Checking (a lot of things):
             var average = result.Statistics.Average;
@@ -127,7 +127,7 @@ namespace Uncas.EBS.Tests.SimulationTests
                 () =>
                 {
                     evals.GetProjectEvaluation
-                        (null, issueViews, 100);
+                        (new PersonView(1, null, null), issueViews, 100);
                 };
 
             SpeedTester.RunSpeedTest

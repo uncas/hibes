@@ -1,32 +1,20 @@
 Features
 --------
-- Estimate page - Chart of completion dates:
-    Multi-chart of possible dates for each person
-    Remove old chart
+- Plugin system
+    For a custom report page
 
-- Stylish user interface!
+    IPlugin
+        string Name { get; set; }
+        IPluginHost Host { get; set; }
+        void Show();
+    IPluginHost
+        void Register(IPlugin plugin);
 
-- Improve installation easiness! Make release!
+    About plugins:
+        http://stackoverflow.com/questions/515925/system-with-plugins-in-c
+        http://www.codeproject.com/KB/cs/pluginsincsharp.aspx
+        http://www.informit.com/articles/article.aspx?p=332874
 
-- Front page - Issues with tasks per person:
-    Choices: 
-        - All - Shows all issues
-        Al      Shows only issues with open tasks for the chosen person
-        Ben
-        Curt
-        David
-        Elvira
-        ...
-
-- Search page:
-    Search for string in issues and tasks
-    Choice 1:
-        [X] Issues
-        [X] Tasks
-    Choice 2:
-        Ø Open
-        O Closed
-        O All
 
 - Time registration:
     TimePost
@@ -38,6 +26,9 @@ Features
     Every time this table is updated, 
     the corresponding task is updated with elapsed hours.
 
+- Improve installation easiness
+
+- Write web site using ASP.NET MVC
 
 
 REFACTOR
@@ -73,6 +64,25 @@ Usability
 
 Maybe
 -----
+- Front page - Issues with tasks per person:
+    Choices: 
+        - All - Shows all issues
+        Al      Shows only issues with open tasks for the chosen person
+        Ben
+        Curt
+        David
+        Elvira
+        ...
+- Search page:
+    Search for string in issues and tasks
+    Choice 1:
+        [X] Issues
+        [X] Tasks
+    Choice 2:
+        Ø Open
+        O Closed
+        O All
+- Improve the style of the user interface
 - Project version
 - Issue: Field that tells if the estimate is complete.
 - Time units?

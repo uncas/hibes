@@ -10,6 +10,9 @@ namespace Uncas.EBS.UI.Helpers
         {
             // TODO: REFACTOR: Reduce number of statements and calls.
 
+            Unit widthOfCharts = Unit.Pixel(500);
+            chart.Width = widthOfCharts;
+
             chart.ImageType = ChartImageType.Png;
             chart.BackColor = Color.FromArgb(200, 210, 190);
             chart.Palette = ChartColorPalette.BrightPastel;

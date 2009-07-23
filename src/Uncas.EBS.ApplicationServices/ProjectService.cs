@@ -75,7 +75,7 @@ namespace Uncas.EBS.ApplicationServices
             // Runs a simulation with all tasks:
             var projectEvaluation
                 = simulationEngine.GetProjectEvaluation
-                (personViews
+                (personViews[0]
                 , openIssuesAndOpenTasks
                 , numberOfSimulations);
 
@@ -99,11 +99,9 @@ namespace Uncas.EBS.ApplicationServices
                                     == personView.PersonId)
                                 .ToList()
                         }).ToList();
-                var personViewAsList = new List<PersonView>();
-                personViewAsList.Add(personView);
                 var evaluationForPerson
                     = simulationEngine.GetProjectEvaluation
-                    (personViewAsList
+                    (personView
                     , issuesWithTasksForPerson
                     , numberOfSimulations);
 

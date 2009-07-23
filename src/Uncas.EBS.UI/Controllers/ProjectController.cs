@@ -30,36 +30,36 @@ namespace Uncas.EBS.UI.Controllers
             return result;
         }
 
-        private TeamEvaluation GetProjEval(int? projectId
+        private TeamEvaluation GetTeamEvaluation(int? projectId
             , int? maxPriority)
         {
             string cacheKey = string.Format
-                ("ProjectEvaluation-{0}-{1}"
+                ("TeamEvaluation-{0}-{1}"
                 , projectId, maxPriority);
             Cache cache = HttpRuntime.Cache;
-            TeamEvaluation projEval
+            TeamEvaluation teamEvaluation
                 = (TeamEvaluation)cache[cacheKey];
-            if (projEval == null)
+            if (teamEvaluation == null)
             {
-                projEval = _projectService.GetTeamEvaluation
+                teamEvaluation = _projectService.GetTeamEvaluation
                     (projectId
                     , maxPriority
                     , NumberOfSimulations
                     , MaxNumberOfHistoricalTasks);
-                cache.Add(cacheKey, projEval, null
+                cache.Add(cacheKey, teamEvaluation, null
                     , DateTime.Now.AddSeconds(30d)
                     , TimeSpan.Zero
                     , CacheItemPriority.Normal
                     , null);
             }
-            return projEval;
+            return teamEvaluation;
         }
 
         public IList<ProjectEvaluation> GetProjectEstimate
             (int? projectId, int? maxPriority)
         {
             var result = new List<ProjectEvaluation>();
-            result.Add(GetProjEval
+            result.Add(GetTeamEvaluation
                 (projectId, maxPriority).TotalEvaluation);
             return result;
         }
@@ -67,7 +67,7 @@ namespace Uncas.EBS.UI.Controllers
         public IList<IntervalProbability> GetIntervalProbabilities
             (int? projectId, int? maxPriority)
         {
-            var result = GetProjEval(projectId, maxPriority)
+            var result = GetTeamEvaluation(projectId, maxPriority)
                 .TotalEvaluation.Statistics.Probabilities;
             return result;
         }
@@ -75,7 +75,7 @@ namespace Uncas.EBS.UI.Controllers
         public IEnumerable<IssueEvaluation> GetIssueEstimates
             (int? projectId, int? maxPriority)
         {
-            var result = GetProjEval(projectId, maxPriority)
+            var result = GetTeamEvaluation(projectId, maxPriority)
                 .TotalEvaluation.GetIssueEvaluations();
             return result;
         }
@@ -84,9 +84,9 @@ namespace Uncas.EBS.UI.Controllers
             GetCompletionDateConfidences
             (int? projectId, int? maxPriority)
         {
-            var projectEvaluation = GetProjEval(projectId
+            var teamEvaluation = GetTeamEvaluation(projectId
                 , maxPriority);
-            var result = projectEvaluation
+            var result = teamEvaluation
                 .TotalEvaluation.GetCompletionDateConfidences();
             return result;
         }
@@ -95,23 +95,33 @@ namespace Uncas.EBS.UI.Controllers
             GetSelectedCompletionDateConfidences
             (int? projectId, int? maxPriority)
         {
-            var projectEvaluation = GetProjEval(projectId
+            var teamEvaluation = GetTeamEvaluation(projectId
                 , maxPriority);
-            var result = projectEvaluation
+            var result = teamEvaluation
                 .TotalEvaluation
                 .GetSelectedCompletionDateConfidences();
             return result;
         }
 
         public IEnumerable<PersonConfidenceDates>
-            GetEvaluationsPerPerson
+            GetConfidenceDatesPerPerson
             (int? projectId, int? maxPriority)
         {
-            var projectEvaluation = GetProjEval(projectId
+            var teamEvaluation = GetTeamEvaluation(projectId
                 , maxPriority);
-            var result = projectEvaluation
+            var result = teamEvaluation
                 .EvaluationsPerPerson
                 .Select(epp => epp.GetPersonConfidenceDates());
+            return result;
+        }
+
+        public IList<ProjectEvaluation> GetEvaluationsPerPerson
+            (int? projectId, int? maxPriority)
+        {
+            var teamEvaluation = GetTeamEvaluation(projectId
+                , maxPriority);
+            var result = teamEvaluation
+                .EvaluationsPerPerson;
             return result;
         }
 
