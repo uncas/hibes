@@ -39,6 +39,13 @@ namespace Uncas.EBS.UI
 
             ShowDateRanges();
             ShowCompletionDateConfidences();
+
+            gvEvaluationsPerPerson.Columns[1].HeaderText
+                = Uncas.EBS.UI.App.ConfidenceLow.ToString("P0");
+            gvEvaluationsPerPerson.Columns[2].HeaderText
+                = Uncas.EBS.UI.App.ConfidenceMedium.ToString("P0");
+            gvEvaluationsPerPerson.Columns[3].HeaderText
+                = Uncas.EBS.UI.App.ConfidenceHigh.ToString("P0");
         }
 
         void gvIssues_RowDataBound(object sender, GridViewRowEventArgs e)
@@ -68,9 +75,10 @@ namespace Uncas.EBS.UI
             {
                 // If there is no timespan, the person is *not* displayed:
                 var personConfidenceDates
-                    = evaluationPerPerson.GetPersonConfidenceDates();
-                if (personConfidenceDates.CompletionDate95
-                    == personConfidenceDates.CompletionDate5)
+                    = evaluationPerPerson.GetPersonConfidenceDates
+                    (App.ConfidenceLevels);
+                if (personConfidenceDates.CompletionDateHigh
+                    == personConfidenceDates.CompletionDateLow)
                 {
                     continue;
                 }
@@ -103,14 +111,14 @@ namespace Uncas.EBS.UI
                 this.SelectedProjectId
                 , this.SelectedMaxPriority
                 )
-                .OrderBy(epp => epp.CompletionDate95)
+                .OrderBy(epp => epp.CompletionDateHigh)
                 ;
 
             int personNumber = 1;
             foreach (var datePerPerson in completionDatesPerPerson)
             {
-                if (datePerPerson.CompletionDate95
-                    == datePerPerson.CompletionDate5)
+                if (datePerPerson.CompletionDateHigh
+                    == datePerPerson.CompletionDateLow)
                 {
                     continue;
                 }
@@ -118,8 +126,8 @@ namespace Uncas.EBS.UI
                 chartDateRanges.Series["Tasks"].Points.AddXY
                     (
                     GetShortenedPersonName(datePerPerson.PersonName)
-                    , datePerPerson.CompletionDate5
-                    , datePerPerson.CompletionDate95
+                    , datePerPerson.CompletionDateLow
+                    , datePerPerson.CompletionDateHigh
                     );
                 personNumber++;
             }

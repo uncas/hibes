@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{6BF0F142-F718-4BF9-A7F6-9B36D1C091B4}</ProjectGuid>
+    <ProjectGuid>{C69769B7-A03D-4957-86FA-0E18795639E2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Uncas.EBS.Domain</RootNamespace>
-    <AssemblyName>Uncas.EBS.Domain</AssemblyName>
+    <RootNamespace>Uncas.EBS.SQLiteRepository</RootNamespace>
+    <AssemblyName>Uncas.EBS.SQLiteRepository</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -21,7 +21,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\Uncas.EBS.Domain.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -33,11 +32,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.DataAnnotations">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.SQLite, Version=1.0.44.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\System.Data.SQLite.DLL</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -49,26 +49,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\Issue.cs" />
-    <Compile Include="Model\Person.cs" />
-    <Compile Include="Model\PersonOff.cs" />
-    <Compile Include="Model\Project.cs" />
-    <Compile Include="Model\Status.cs" />
-    <Compile Include="Model\Task.cs" />
+    <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewModel\ConfidenceLevels.cs" />
-    <Compile Include="ViewModel\IntervalProbability.cs" />
-    <Compile Include="ViewModel\CompletionDateConfidence.cs" />
-    <Compile Include="ViewModel\IssueDetails.cs" />
-    <Compile Include="ViewModel\IssueEvaluation.cs" />
-    <Compile Include="ViewModel\PersonConfidenceDates.cs" />
-    <Compile Include="ViewModel\PersonEstimate.cs" />
-    <Compile Include="ViewModel\PersonView.cs" />
-    <Compile Include="ViewModel\ProjectEvaluation.cs" />
-    <Compile Include="ViewModel\Statistic.cs" />
-    <Compile Include="ViewModel\IssueView.cs" />
-    <Compile Include="ViewModel\TaskDetails.cs" />
-    <Compile Include="ViewModel\TeamEvaluation.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

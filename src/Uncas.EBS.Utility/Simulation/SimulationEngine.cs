@@ -4,13 +4,16 @@ using System.Linq;
 using Uncas.EBS.Domain.Model;
 using Uncas.EBS.Domain.ViewModel;
 
-namespace Uncas.EBS.Domain.Simulation
+namespace Uncas.EBS.Utility.Simulation
 {
     /// <summary>
     /// Simulation engine that runs the simulations.
     /// </summary>
     public class SimulationEngine
     {
+
+        #region Constructors
+
         /// <summary>
         /// Initializes a new instance of the <see cref="SimulationEngine"/> class.
         /// </summary>
@@ -22,9 +25,11 @@ namespace Uncas.EBS.Domain.Simulation
                 .ToList();
         }
 
-        private IList<Task> HistoricalTasks { get; set; }
+        #endregion
 
-        private Random _rnd = new Random();
+
+
+        #region Public method
 
 
         /// <summary>
@@ -32,14 +37,21 @@ namespace Uncas.EBS.Domain.Simulation
         /// </summary>
         /// <param name="person">The person.</param>
         /// <param name="issueViews">The issue views.</param>
-        /// <param name="numberOfSimulations">The number of simulations.</param>
+        /// <param name="numberOfSimulations">
+        /// The number of simulations.</param>
+        /// <param name="standardNumberOfHoursPerDay">
+        /// The standard number of hours per day.</param>
         /// <returns></returns>
         public ProjectEvaluation GetProjectEvaluation
             (PersonView person
             , IList<IssueView> issueViews
-            , int numberOfSimulations)
+            , int numberOfSimulations
+            , double standardNumberOfHoursPerDay)
         {
-            ProjectEvaluation result = new ProjectEvaluation(person);
+            ProjectEvaluation result
+                = new ProjectEvaluation
+                    (person
+                    , standardNumberOfHoursPerDay);
 
             // For a list of issues:
             // Do a simulation N times:
@@ -54,12 +66,19 @@ namespace Uncas.EBS.Domain.Simulation
         }
 
 
+        #endregion
+
+
+
+        #region Private methods
+
+
         /// <summary>
         /// Runs the simulation.
         /// </summary>
         /// <param name="issueViews">The issue views.</param>
         /// <param name="evaluation">The evaluation.</param>
-        public void RunSimulation(IList<IssueView> issueViews
+        private void RunSimulation(IList<IssueView> issueViews
             , ProjectEvaluation evaluation)
         {
             double statisticalRemainingForProject = 0d;
@@ -78,12 +97,13 @@ namespace Uncas.EBS.Domain.Simulation
             evaluation.AddEvaluation(statisticalRemainingForProject);
         }
 
+
         /// <summary>
         /// Gets the issue simulation.
         /// </summary>
         /// <param name="issueView">The issue view.</param>
         /// <returns></returns>
-        public double GetIssueSimulation(IssueView issueView)
+        private double GetIssueSimulation(IssueView issueView)
         {
             double statisticalRemainingForIssue = 0d;
             // For each of the current tasks:
@@ -96,12 +116,13 @@ namespace Uncas.EBS.Domain.Simulation
             return statisticalRemainingForIssue;
         }
 
+
         /// <summary>
         /// Gets the task simulation.
         /// </summary>
         /// <param name="task">The task.</param>
         /// <returns></returns>
-        public double GetTaskSimulation(Task task)
+        private double GetTaskSimulation(Task task)
         {
             // TODO: FEATURE: Look among similar historical tasks:
             //       Improve this by getting a random historical task 
@@ -150,6 +171,7 @@ namespace Uncas.EBS.Domain.Simulation
             return statisticalRemainingForTask;
         }
 
+
         private double GetRandomSpeed()
         {
             const double averageSpeed = 1d;
@@ -170,6 +192,7 @@ namespace Uncas.EBS.Domain.Simulation
             // 7.35, 7.66, 7.84, 7.56
         }
 
+
         private double GetRandomSpeedEvenlyDistributedAroundAverage
             (double averageSpeed
             , double deltaSpeed)
@@ -185,6 +208,7 @@ namespace Uncas.EBS.Domain.Simulation
                 + deltaSpeed * randomBase;
             return speed;
         }
+
 
         private double GetRandomSpeedConcentratedAroundAverage
             (double averageSpeed
@@ -204,5 +228,22 @@ namespace Uncas.EBS.Domain.Simulation
                 + deltaSpeed * Math.Pow(randomBase, power);
             return speed;
         }
+
+
+        #endregion
+
+
+
+        #region Private fields and properties
+
+
+        private IList<Task> HistoricalTasks { get; set; }
+
+
+        private Random _rnd = new Random();
+
+
+        #endregion
+
     }
 }

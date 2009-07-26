@@ -8,6 +8,10 @@ namespace Uncas.EBS.Domain.ViewModel
     /// </summary>
     public class IssueEvaluation
     {
+
+        #region Constructors
+
+
         /// <summary>
         /// Initializes a new instance of the <see cref="IssueEvaluation"/> class.
         /// </summary>
@@ -15,10 +19,12 @@ namespace Uncas.EBS.Domain.ViewModel
         /// <param name="numberOfOpenTasks">The number of open tasks.</param>
         /// <param name="elapsed">The number of elapsed hours.</param>
         /// <param name="evaluation">The evaluation.</param>
+        /// <param name="standardNumberOfHoursPerDay">The standard number of hours per day.</param>
         public IssueEvaluation(Issue issue
             , int numberOfOpenTasks
             , double? elapsed
-            , double evaluation)
+            , double evaluation
+            , double standardNumberOfHoursPerDay)
         {
             if (issue == null
                 || numberOfOpenTasks < 0
@@ -31,7 +37,17 @@ namespace Uncas.EBS.Domain.ViewModel
             this.NumberOfOpenTasks = numberOfOpenTasks;
             this.Elapsed = elapsed;
             this.AddEvaluation(evaluation);
+            this._standardNumberOfHoursPerDay
+                = standardNumberOfHoursPerDay;
         }
+
+
+        #endregion Constructors
+
+
+
+        #region Public properties
+
 
         /// <summary>
         /// Gets or sets the issue.
@@ -104,7 +120,7 @@ namespace Uncas.EBS.Domain.ViewModel
                 if (this.NumberOfOpenTasks > 0)
                 {
                     return this._sum / this._count
-                        / ProjectEvaluation.StandardNumberOfHoursPerDay;
+                        / this._standardNumberOfHoursPerDay;
                 }
                 else
                 {
@@ -133,7 +149,7 @@ namespace Uncas.EBS.Domain.ViewModel
                     return this.Elapsed
                         / (this.Elapsed
                         + this.Average
-                        * ProjectEvaluation.StandardNumberOfHoursPerDay);
+                        * this._standardNumberOfHoursPerDay);
                 }
                 else
                 {
@@ -141,6 +157,13 @@ namespace Uncas.EBS.Domain.ViewModel
                 }
             }
         }
+
+        #endregion
+
+
+
+        #region Public methods
+
 
         /// <summary>
         /// Adds the evaluation.
@@ -152,7 +175,22 @@ namespace Uncas.EBS.Domain.ViewModel
             this._sum += evaluation;
         }
 
+
+        #endregion
+
+
+
+        #region Private fields and properties
+
+
+        private double _standardNumberOfHoursPerDay;
+
         private double _sum = 0d;
+
         private int _count = 0;
+
+
+        #endregion
+
     }
 }

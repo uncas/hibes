@@ -52,10 +52,19 @@
         <property name="folderToClean" value="Domain" />
         <call target="cleanFolder" />
 
+        <property name="folderToClean" value="Domain.Repository" />
+        <call target="cleanFolder" />
+
         <property name="folderToClean" value="FakeRepository" />
         <call target="cleanFolder" />
 
+        <property name="folderToClean" value="SQLiteRepository" />
+        <call target="cleanFolder" />
+
         <property name="folderToClean" value="UI" />
+        <call target="cleanFolder" />
+
+        <property name="folderToClean" value="Utility" />
         <call target="cleanFolder" />
 
         <property name="folderToClean" value="IntegrationTests" />
@@ -63,6 +72,8 @@
 
         <property name="folderToClean" value="Tests" />
         <call target="cleanFolder" />
+
+	<delete file="hibes.sln.cache" />
 	</target>
 	
 	<target name="init" depends="clean">

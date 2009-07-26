@@ -1,7 +1,19 @@
 Features
 --------
+- Support more databases:
+    MySql
+    PostGreSql
+    SqLite
+    Access
+    VistaDB
+    
+- Using
+    NHibernate
+    Subsonic
+
 - Plugin system
     For a custom report page
+    In C# or (Iron)Python
 
     IPlugin
         string Name { get; set; }
@@ -15,7 +27,6 @@ Features
         http://www.codeproject.com/KB/cs/pluginsincsharp.aspx
         http://www.informit.com/articles/article.aspx?p=332874
 
-
 - Time registration:
     TimePost
         TimePostId
@@ -28,7 +39,7 @@ Features
 
 - Improve installation easiness
 
-- Write web site using ASP.NET MVC
+
 
 
 REFACTOR
@@ -102,3 +113,4 @@ Rejected
 --------
 - Import data from csv file
 - Custom reports
+- Write web site using ASP.NET MVC

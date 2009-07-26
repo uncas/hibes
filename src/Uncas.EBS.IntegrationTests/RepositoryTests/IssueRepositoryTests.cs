@@ -12,6 +12,8 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
     [TestFixture]
     public class IssueRepositoryTests
     {
+        private const double StandardNumberOfHoursPerDay = 7.5d;
+
         private IIssueRepository _issueRepo
             = TestApp.Repositories.IssueRepository;
 
@@ -400,13 +402,16 @@ Indexes on all foreign keys:
             {
                 _projectService.GetTeamEvaluation
                     (null, null, numberOfSimulations
-                    , maxNumberOfHistoricalData);
+                    , maxNumberOfHistoricalData
+                    , StandardNumberOfHoursPerDay);
                 _projectService.GetTeamEvaluation
                     (null, null, numberOfSimulations
-                    , maxNumberOfHistoricalData);
+                    , maxNumberOfHistoricalData
+                    , StandardNumberOfHoursPerDay);
                 _projectService.GetTeamEvaluation
                     (null, null, numberOfSimulations
-                    , maxNumberOfHistoricalData);
+                    , maxNumberOfHistoricalData
+                    , StandardNumberOfHoursPerDay);
             };
             string testTitle = string.Format("GetProjectEvaluation-{0}-{1}"
                 , numberOfSimulations

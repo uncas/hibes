@@ -1,10 +1,8 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Uncas.EBS.Domain.Model;
 using Uncas.EBS.Domain.Repository;
-using Uncas.EBS.Domain.Simulation;
 using Uncas.EBS.Domain.ViewModel;
-using System.Collections.Generic;
+using Uncas.EBS.Utility.Simulation;
 
 namespace Uncas.EBS.ApplicationServices
 {
@@ -57,7 +55,8 @@ namespace Uncas.EBS.ApplicationServices
             (int? projectId
             , int? maxPriority
             , int numberOfSimulations
-            , int maxNumberOfHistoricalData)
+            , int maxNumberOfHistoricalData
+            , double standardNumberOfHoursPerDay)
         {
             // Fetches all data for the simulations:
             var openIssuesAndOpenTasks
@@ -77,7 +76,8 @@ namespace Uncas.EBS.ApplicationServices
                 = simulationEngine.GetProjectEvaluation
                 (personViews[0]
                 , openIssuesAndOpenTasks
-                , numberOfSimulations);
+                , numberOfSimulations
+                , standardNumberOfHoursPerDay);
 
             TeamEvaluation teamEvaluation = new TeamEvaluation
             {
@@ -103,7 +103,8 @@ namespace Uncas.EBS.ApplicationServices
                     = simulationEngine.GetProjectEvaluation
                     (personView
                     , issuesWithTasksForPerson
-                    , numberOfSimulations);
+                    , numberOfSimulations
+                    , standardNumberOfHoursPerDay);
 
                 teamEvaluation.EvaluationsPerPerson.Add
                     (evaluationForPerson);

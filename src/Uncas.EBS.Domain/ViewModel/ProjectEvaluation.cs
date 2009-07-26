@@ -14,31 +14,22 @@ namespace Uncas.EBS.Domain.ViewModel
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ProjectEvaluation"/> class.
-        /// </summary>
-        public ProjectEvaluation()
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ProjectEvaluation"/> class.
+        /// Initializes a new instance of the 
+        /// <see cref="ProjectEvaluation"/> class.
         /// </summary>
         /// <param name="person">The person.</param>
-        public ProjectEvaluation(PersonView person)
+        /// <param name="standardNumberOfHoursPerDay">
+        /// The standard number of hours per day.</param>
+        public ProjectEvaluation
+            (
+                PersonView person
+                , double standardNumberOfHoursPerDay
+            )
         {
             this.Person = person;
+            this._standardNumberOfHoursPerDay
+                = standardNumberOfHoursPerDay;
         }
-
-        #endregion
-
-
-
-        #region Public constants
-
-        /// <summary>
-        /// The standard number of hours per day.
-        /// </summary>
-        public const double StandardNumberOfHoursPerDay = 7.5d;
 
         #endregion
 
@@ -59,7 +50,8 @@ namespace Uncas.EBS.Domain.ViewModel
                     (
                     _evaluations
                     , (double evaluation)
-                        => evaluation / StandardNumberOfHoursPerDay
+                        => evaluation
+                        / _standardNumberOfHoursPerDay
                     );
             }
         }
@@ -111,7 +103,7 @@ namespace Uncas.EBS.Domain.ViewModel
                 return this._issueEvaluations
                     .Select(i => i.Value)
                     .Sum(i => i.Elapsed)
-                    / StandardNumberOfHoursPerDay;
+                    / _standardNumberOfHoursPerDay;
             }
         }
 
@@ -191,10 +183,10 @@ namespace Uncas.EBS.Domain.ViewModel
         /// </summary>
         /// <returns></returns>
         public IList<CompletionDateConfidence>
-            GetSelectedCompletionDateConfidences()
+            GetSelectedCompletionDateConfidences(ConfidenceLevels levels)
         {
             return PersonEstimate
-                .GetSelectedCompletionDateConfidences();
+                .GetSelectedCompletionDateConfidences(levels);
         }
 
 
@@ -202,10 +194,11 @@ namespace Uncas.EBS.Domain.ViewModel
         /// Gets the person confidence dates.
         /// </summary>
         /// <returns></returns>
-        public PersonConfidenceDates GetPersonConfidenceDates()
+        public PersonConfidenceDates GetPersonConfidenceDates
+            (ConfidenceLevels levels)
         {
             var selectedCompletionDateConfidences
-                = GetSelectedCompletionDateConfidences();
+                = GetSelectedCompletionDateConfidences(levels);
 
             return new PersonConfidenceDates
                 (this.Person.PersonId
@@ -265,6 +258,7 @@ namespace Uncas.EBS.Domain.ViewModel
                         , numberOfOpenTasksForThisIssue
                         , elapsed
                         , evaluation
+                        , this._standardNumberOfHoursPerDay
                         ));
             }
         }
@@ -285,6 +279,12 @@ namespace Uncas.EBS.Domain.ViewModel
 
 
         #region Private fields and properties
+
+
+        /// <summary>
+        /// Standard number of hours per day.
+        /// </summary>
+        private double _standardNumberOfHoursPerDay;
 
 
         private IList<double> _evaluations = new List<double>();

@@ -6,8 +6,7 @@ namespace Uncas.EBS.UI
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            App app = new App();
-            app.SelectedLanguage = Request.QueryString["Language"];
+            App.SelectedLanguage = Request.QueryString["Language"];
             string redirectUrl =
                Request.UrlReferrer != null
                ? Request.UrlReferrer.AbsoluteUri

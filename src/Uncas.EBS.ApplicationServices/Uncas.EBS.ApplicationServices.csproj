@@ -49,9 +49,17 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Uncas.EBS.Domain.Repository\Uncas.EBS.Domain.Repository.csproj">
+      <Project>{DD70A58E-D0B3-45BC-9C4A-38EBA7420F46}</Project>
+      <Name>Uncas.EBS.Domain.Repository</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Uncas.EBS.Domain\Uncas.EBS.Domain.csproj">
       <Project>{6BF0F142-F718-4BF9-A7F6-9B36D1C091B4}</Project>
       <Name>Uncas.EBS.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Uncas.EBS.Utility\Uncas.EBS.Utility.csproj">
+      <Project>{474CB88A-87E9-43A6-9C80-A21A6FB1CEB4}</Project>
+      <Name>Uncas.EBS.Utility</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

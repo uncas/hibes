@@ -71,7 +71,6 @@ namespace Uncas.EBS.UI.Controls
             {
                 DateBox box = sender as DateBox;
 
-                // TODO: COMPONENT: Determine insert mode.
                 bool isInsertMode = false;
 
                 // If in insert mode, no text should appear
@@ -91,7 +90,6 @@ namespace Uncas.EBS.UI.Controls
                 }
                 else
                 {
-                    // TODO: COMPONENT: Handle insert mode.
                     throw new NotImplementedException();
                 }
             }

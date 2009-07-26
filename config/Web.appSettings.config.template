@@ -1,4 +1,8 @@
 ﻿<appSettings>
     <add key="ChartImageHandler" 
         value="storage=file;timeout=20;dir=@websiteFolder@App_Data;" />
+    <add key="ConfidenceLow" value="0,1"/>
+    <add key="ConfidenceMedium" value="0,5"/>
+    <add key="ConfidenceHigh" value="0,9"/>
+    <add key="NumberOfHoursPerDay" value="7,5"/>
 </appSettings>

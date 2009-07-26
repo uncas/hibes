@@ -57,12 +57,10 @@ namespace Uncas.EBS.FakeRepository
 
         public void UpdatePerson(Person person)
         {
-            // TODO: Update person in fake.
         }
 
         public void DeletePerson(int personId)
         {
-            // TODO: Delete person from fake.
         }
 
         #endregion

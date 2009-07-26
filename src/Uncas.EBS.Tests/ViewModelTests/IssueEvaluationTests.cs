@@ -8,17 +8,19 @@ namespace Uncas.EBS.Tests.ViewModelTests
     [TestFixture]
     public class IssueEvaluationTests
     {
+        private const double _standardNumberOfHoursPerDay = 7.5d;
+
         [Test]
         public void Constructor_NormalInput_OK()
         {
             IssueEvaluation ie
                 = new IssueEvaluation
                 (Issue.ConstructIssue(1, "A", Status.Open, 1)
-                , 2, 3d, 4d);
+                , 2, 3d, 4d, _standardNumberOfHoursPerDay);
             Assert.AreEqual(2, ie.NumberOfOpenTasks);
             Assert.AreEqual(3d, ie.Elapsed);
-            // HACK: Here a hard-coded value of 7.5 is used!
-            Assert.AreEqual(4d / 7.5d, ie.Average);
+            Assert.AreEqual(4d / _standardNumberOfHoursPerDay
+                , ie.Average);
         }
 
         [Test]
@@ -28,20 +30,35 @@ namespace Uncas.EBS.Tests.ViewModelTests
             IssueEvaluation ie
                 = new IssueEvaluation
                     (Issue.ConstructIssue(1, "A", Status.Open, 1)
-                    , 2, -1d, 0d);
+                    , 2, -1d, 0d
+                    , _standardNumberOfHoursPerDay);
         }
 
         [Test]
         public void AddEvaluation_TwoItems_AverageOK()
         {
             // Adding evaluations in terms of hours:
-            IssueEvaluation issueEvaluation = new IssueEvaluation
-                (Issue.ConstructIssue(1, "A", Status.Open, 1), 2, 1d, 1d);
-            issueEvaluation.AddEvaluation(6.5d);
+            double evaluation1 = 1d;
+            IssueEvaluation issueEvaluation
+                = new IssueEvaluation
+                    (
+                        Issue.ConstructIssue
+                            (1, "A", Status.Open, 1)
+                        , 2
+                        , 1d
+                        , evaluation1
+                        , _standardNumberOfHoursPerDay
+                    );
+            double evaluation2 = 6.5d;
+            issueEvaluation.AddEvaluation(evaluation2);
 
             // Checking the resulting average in days:
-            // HACK: Assumes a value of 7.5 hours per day:
-            Assert.AreEqual(0.5d, issueEvaluation.Average);
+            Assert.AreEqual
+                (
+                (evaluation1 + evaluation2)
+                    / (2d * _standardNumberOfHoursPerDay)
+                , issueEvaluation.Average
+                );
         }
     }
 }

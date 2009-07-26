@@ -15,9 +15,6 @@ namespace Uncas.EBS.UI.Controllers
     /// </summary>
     public class ProjectController
     {
-        private const int NumberOfSimulations = 1000;
-        private const int MaxNumberOfHistoricalTasks = 50;
-
         private IProjectRepository _projectRepo
             = App.Repositories.ProjectRepository;
 
@@ -44,8 +41,9 @@ namespace Uncas.EBS.UI.Controllers
                 teamEvaluation = _projectService.GetTeamEvaluation
                     (projectId
                     , maxPriority
-                    , NumberOfSimulations
-                    , MaxNumberOfHistoricalTasks);
+                    , App.NumberOfSimulations
+                    , App.MaxNumberOfHistoricalTasks
+                    , App.StandardNumberOfHoursPerDay);
                 cache.Add(cacheKey, teamEvaluation, null
                     , DateTime.Now.AddSeconds(30d)
                     , TimeSpan.Zero
@@ -99,7 +97,8 @@ namespace Uncas.EBS.UI.Controllers
                 , maxPriority);
             var result = teamEvaluation
                 .TotalEvaluation
-                .GetSelectedCompletionDateConfidences();
+                .GetSelectedCompletionDateConfidences
+                (App.ConfidenceLevels);
             return result;
         }
 
@@ -111,7 +110,8 @@ namespace Uncas.EBS.UI.Controllers
                 , maxPriority);
             var result = teamEvaluation
                 .EvaluationsPerPerson
-                .Select(epp => epp.GetPersonConfidenceDates());
+                .Select(epp => epp.GetPersonConfidenceDates
+                    (App.ConfidenceLevels));
             return result;
         }
 

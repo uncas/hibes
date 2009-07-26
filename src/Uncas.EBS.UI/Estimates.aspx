@@ -46,12 +46,12 @@
                                 <Columns>
                                     <uncas:BoundFieldResource HeaderResourceName="Person" DataField="PersonName">
                                     </uncas:BoundFieldResource>
-                                    <asp:BoundField HeaderText="5 %" DataField="CompletionDate5" DataFormatString="{0:d}"
-                                        ItemStyle-HorizontalAlign="Right" HeaderStyle-HorizontalAlign="Right"></asp:BoundField>
-                                    <asp:BoundField HeaderText="50 %" DataField="CompletionDate50" DataFormatString="{0:d}"
-                                        ItemStyle-HorizontalAlign="Right" HeaderStyle-HorizontalAlign="Right"></asp:BoundField>
-                                    <asp:BoundField HeaderText="95 %" DataField="CompletionDate95" DataFormatString="{0:d}"
-                                        ItemStyle-HorizontalAlign="Right" HeaderStyle-HorizontalAlign="Right"></asp:BoundField>
+                                    <asp:BoundField DataField="CompletionDateLow" DataFormatString="{0:d}" ItemStyle-HorizontalAlign="Right"
+                                        HeaderStyle-HorizontalAlign="Right"></asp:BoundField>
+                                    <asp:BoundField DataField="CompletionDateMedium" DataFormatString="{0:d}" ItemStyle-HorizontalAlign="Right"
+                                        HeaderStyle-HorizontalAlign="Right"></asp:BoundField>
+                                    <asp:BoundField DataField="CompletionDateHigh" DataFormatString="{0:d}" ItemStyle-HorizontalAlign="Right"
+                                        HeaderStyle-HorizontalAlign="Right"></asp:BoundField>
                                 </Columns>
                             </asp:GridView>
                         </div>

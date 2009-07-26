@@ -10,6 +10,8 @@ namespace Uncas.EBS.IntegrationTests.ApplicationServicesTests
     [TestFixture]
     public class ProjectServiceTests
     {
+        private const double StandardNumberOfHoursPerDay = 7.5d;
+
         private ProjectService _projectService
              = new ProjectService(TestApp.Repositories);
 
@@ -24,7 +26,9 @@ namespace Uncas.EBS.IntegrationTests.ApplicationServicesTests
                     (null
                     , null
                     , 100
-                    , 10).TotalEvaluation;
+                    , 10
+                    , StandardNumberOfHoursPerDay)
+                    .TotalEvaluation;
 
             Assert.IsNotNull(projectEvaluation.Average);
             Assert.Less(0d, projectEvaluation.Average);
@@ -34,7 +38,8 @@ namespace Uncas.EBS.IntegrationTests.ApplicationServicesTests
         public void GetProjectEstimate_NonExistingProject()
         {
             var projectEstimate = _projectService.GetTeamEvaluation
-                (0, 0, 100, 100).TotalEvaluation;
+                (0, 0, 100, 100
+                , StandardNumberOfHoursPerDay).TotalEvaluation;
             Trace.WriteLine(projectEstimate);
             foreach (var ie in projectEstimate.GetIssueEvaluations())
             {
@@ -49,7 +54,8 @@ namespace Uncas.EBS.IntegrationTests.ApplicationServicesTests
             var projId = _projectRepository.GetProjects()
                 .Min(p => p.ProjectId);
             var projectEstimate = _projectService.GetTeamEvaluation
-                (projId, null, 100, 20).TotalEvaluation;
+                (projId, null, 100, 20
+                , StandardNumberOfHoursPerDay).TotalEvaluation;
             Trace.WriteLine(projectEstimate);
             foreach (var ie in projectEstimate.GetIssueEvaluations())
             {
@@ -87,7 +93,8 @@ namespace Uncas.EBS.IntegrationTests.ApplicationServicesTests
                     (projId
                     , null
                     , numberOfSimulations
-                    , maxNumberOfHistoricalData)
+                    , maxNumberOfHistoricalData
+                    , StandardNumberOfHoursPerDay)
                     .TotalEvaluation;
                 //Trace.WriteLine(projectEstimate);
                 foreach (var ie in projectEstimate.GetIssueEvaluations())

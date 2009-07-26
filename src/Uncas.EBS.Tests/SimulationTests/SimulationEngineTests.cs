@@ -1,14 +1,17 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
 using Uncas.EBS.Domain.Model;
-using Uncas.EBS.Domain.Simulation;
 using Uncas.EBS.Domain.ViewModel;
+using Uncas.EBS.Utility.Simulation;
 
 namespace Uncas.EBS.Tests.SimulationTests
 {
     [TestFixture]
     public class SimulationEngineTests
     {
+        private const double DefaultStandardNumberOfHoursPerDay
+            = 7.5d;
+
         private Task GetTask
             (double original
             , double current
@@ -57,7 +60,8 @@ namespace Uncas.EBS.Tests.SimulationTests
             SimulationEngine simulationEngine
                 = new SimulationEngine(closedTasks);
             var result = simulationEngine.GetProjectEvaluation
-                (new PersonView(1, null, null), issueViews, 100);
+                (new PersonView(1, null, null), issueViews, 100
+                , DefaultStandardNumberOfHoursPerDay);
 
 
             // Checking results:
@@ -77,7 +81,8 @@ namespace Uncas.EBS.Tests.SimulationTests
             // Testing:
             SimulationEngine evals = new SimulationEngine(closedTasks);
             var result = evals.GetProjectEvaluation
-                (new PersonView(1, null, null), issueViews, 1000);
+                (new PersonView(1, null, null), issueViews, 1000
+                , DefaultStandardNumberOfHoursPerDay);
 
             // Checking (a lot of things):
             var average = result.Statistics.Average;
@@ -127,7 +132,10 @@ namespace Uncas.EBS.Tests.SimulationTests
                 () =>
                 {
                     evals.GetProjectEvaluation
-                        (new PersonView(1, null, null), issueViews, 100);
+                        (new PersonView(1, null, null)
+                        , issueViews
+                        , 100
+                        , DefaultStandardNumberOfHoursPerDay);
                 };
 
             SpeedTester.RunSpeedTest

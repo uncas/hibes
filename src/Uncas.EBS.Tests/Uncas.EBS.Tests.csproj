@@ -63,13 +63,13 @@
       <Project>{6BF0F142-F718-4BF9-A7F6-9B36D1C091B4}</Project>
       <Name>Uncas.EBS.Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Uncas.EBS.FakeRepository\Uncas.EBS.FakeRepository.csproj">
-      <Project>{94E26026-DD6B-41C9-AB59-04923F563FFC}</Project>
-      <Name>Uncas.EBS.FakeRepository</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Uncas.EBS.UI\Uncas.EBS.UI.csproj">
       <Project>{1449B0B0-AE43-46B7-9C12-6951C196F1E9}</Project>
       <Name>Uncas.EBS.UI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Uncas.EBS.Utility\Uncas.EBS.Utility.csproj">
+      <Project>{474CB88A-87E9-43A6-9C80-A21A6FB1CEB4}</Project>
+      <Name>Uncas.EBS.Utility</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -13,9 +13,8 @@ namespace Uncas.EBS.UI
         {
             base.InitializeCulture();
 
-            App app = new App();
             var selectedCulture = new System.Globalization.CultureInfo
-                    (app.SelectedLanguage);
+                    (App.SelectedLanguage);
             Thread.CurrentThread.CurrentCulture = selectedCulture;
             Thread.CurrentThread.CurrentUICulture = selectedCulture;
         }

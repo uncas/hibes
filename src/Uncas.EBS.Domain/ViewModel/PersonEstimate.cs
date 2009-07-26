@@ -35,19 +35,16 @@ namespace Uncas.EBS.Domain.ViewModel
         /// <summary>
         /// Gets the selected completion date confidences.
         /// </summary>
+        /// <param name="levels">The confidence levels.</param>
         /// <returns></returns>
         public IList<CompletionDateConfidence>
-            GetSelectedCompletionDateConfidences()
+            GetSelectedCompletionDateConfidences
+            (ConfidenceLevels levels)
         {
-            // Selected confidence levels:
-            const double confidenceLow = 0.05d;
-            const double confidenceMedium = 0.5d;
-            const double confidenceHigh = 0.95d;
-
             return GetCompletionDateConfidences()
-                .Where(cdc => cdc.Probability == confidenceLow
-                    || cdc.Probability == confidenceMedium
-                    || cdc.Probability == confidenceHigh)
+                .Where(cdc => cdc.Probability == levels.Low
+                    || cdc.Probability == levels.Medium
+                    || cdc.Probability == levels.High)
                 .ToList();
         }
 

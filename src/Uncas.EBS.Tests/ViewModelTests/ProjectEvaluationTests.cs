@@ -7,12 +7,17 @@ namespace Uncas.EBS.Tests.ViewModelTests
     [TestFixture]
     public class ProjectEvaluationTests
     {
+        private const double
+            StandardNumberOfHoursPerDay = 7.5d;
+
         [Test]
         public void ProjectEvaluationTest()
         {
             // TODO: REFACTOR: Reduce number of calls.
 
-            ProjectEvaluation projEval = new ProjectEvaluation();
+            ProjectEvaluation projEval = new ProjectEvaluation
+                (new PersonView(1, "A", null)
+                , StandardNumberOfHoursPerDay);
 
             projEval.AddEvaluation(1d);
             Assert.Less(0d, projEval.Statistics.Average);
