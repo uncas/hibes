@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 
 namespace Uncas.EBS.Domain.Model
 {
@@ -8,7 +7,6 @@ namespace Uncas.EBS.Domain.Model
     /// </summary>
     public class Task
     {
-        // TODO: REFACTOR: Reduce number of methods.
 
         #region Constructors and factory methods
 
@@ -154,7 +152,11 @@ namespace Uncas.EBS.Domain.Model
 
         #endregion
 
-        #region Properties
+
+        #region Properties (14)
+
+
+        #region Administrative properties (2)
 
         /// <summary>
         /// Gets or sets the task id.
@@ -168,24 +170,42 @@ namespace Uncas.EBS.Domain.Model
         /// <value>The created date.</value>
         public DateTime CreatedDate { get; set; }
 
+        #endregion
+
+
+        #region Attributes (2)
+
+
+        /// <summary>
+        /// Gets or sets the description.
+        /// </summary>
+        /// <value>The description.</value>
+        public string Description { get; set; }
+
         /// <summary>
         /// Gets or sets the issue id.
         /// </summary>
         /// <value>The issue id.</value>
         public int RefIssueId { get; set; }
 
+
+        #endregion
+
+
+        #region Work on the task (3)
+
+
+        /// <summary>
+        /// Gets or sets the person id.
+        /// </summary>
+        /// <value>The person id.</value>
+        public int RefPersonId { get; set; }
+
         /// <summary>
         /// Gets or sets the sequence.
         /// </summary>
         /// <value>The sequence.</value>
         public int Sequence { get; set; }
-
-        /// <summary>
-        /// Gets or sets the description.
-        /// </summary>
-        /// <value>The description.</value>
-        [Required]
-        public string Description { get; set; }
 
         private Status _status = Status.Open;
         /// <summary>
@@ -207,6 +227,11 @@ namespace Uncas.EBS.Domain.Model
             }
         }
 
+        #endregion
+
+
+        #region Estimates (2)
+
         private double _originalEstimate = 0d;
         /// <summary>
         /// Gets or sets the original estimate in hours.
@@ -226,11 +251,22 @@ namespace Uncas.EBS.Domain.Model
                     _originalEstimate = value;
             }
         }
+
         /// <summary>
         /// Gets or sets the current estimate in hours.
         /// </summary>
         /// <value>The current estimate in hours.</value>
         public double CurrentEstimate { get; set; }
+
+        #endregion
+
+
+        // TODO: REFACTOR: Put action properties in TaskDetails.
+
+        #region Action aggregates (5)
+
+
+        #region Progress (3)
 
         /// <summary>
         /// Gets or sets the elapsed hours.
@@ -250,15 +286,10 @@ namespace Uncas.EBS.Domain.Model
         /// <value>The end date.</value>
         public DateTime? EndDate { get; set; }
 
-        /// <summary>
-        /// Gets or sets the person id.
-        /// </summary>
-        /// <value>The person id.</value>
-        public int RefPersonId { get; set; }
-
         #endregion
 
-        #region Derived properties
+
+        #region Derived properties (2)
 
         /// <summary>
         /// Gets the speed.
@@ -293,5 +324,12 @@ namespace Uncas.EBS.Domain.Model
         }
 
         #endregion
+
+
+        #endregion
+
+
+        #endregion
+
     }
 }

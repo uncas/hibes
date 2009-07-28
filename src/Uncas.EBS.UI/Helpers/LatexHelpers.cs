@@ -208,8 +208,6 @@ namespace Uncas.EBS.UI.Helpers
 
         public string LatexEncodeText(string text)
         {
-            // TODO: REFACTOR: Reduce number of statements and calls.
-
             var transforms = new Dictionary<string, string>();
             transforms.Add("æ", @"\ae");
             transforms.Add("ø", @"\o");
@@ -220,25 +218,35 @@ namespace Uncas.EBS.UI.Helpers
 
             string result = text;
 
-            foreach (KeyValuePair<string, string> transform in transforms)
+            foreach (KeyValuePair<string, string> transform 
+                in transforms)
             {
-                string oldString = transform.Key + " ";
-                string newString = transform.Value + @"\ ";
-                result = result.Replace
-                    (oldString
-                    , newString);
-
-                oldString = transform.Key;
-                newString = transform.Value + " ";
-                result = result.Replace
-                    (oldString
-                    , newString);
+                LatexTransformString(ref result, transform);
             }
 
             return result;
         }
 
-        private void AppendSection(string sectionTitle, StringBuilder sb)
+        private static void LatexTransformString
+            (ref string result
+            , KeyValuePair<string, string> transform)
+        {
+            string oldString = transform.Key + " ";
+            string newString = transform.Value + @"\ ";
+            result = result.Replace
+                (oldString
+                , newString);
+
+            oldString = transform.Key;
+            newString = transform.Value + " ";
+            result = result.Replace
+                (oldString
+                , newString);
+        }
+
+        private void AppendSection
+            (string sectionTitle
+            , StringBuilder sb)
         {
             sb.AppendLine(@"\section*{" + LatexEncodeText(sectionTitle) + "}");
         }
@@ -247,11 +255,23 @@ namespace Uncas.EBS.UI.Helpers
             (IEnumerable<T> data
             , params LatexColumn<T>[] columns)
         {
-            // TODO: REFACTOR: Reduce number of statements and calls.
-
             StringBuilder sb = new StringBuilder();
 
-            // Begins tabular:
+            BeginTabular<T>(columns, sb);
+
+            MakeHeader<T>(columns, sb);
+
+            AddRowPerItem<T>(data, columns, sb);
+
+            EndTabular(sb);
+
+            return sb.ToString();
+        }
+
+        private static void BeginTabular<T>
+            (LatexColumn<T>[] columns
+            , StringBuilder sb)
+        {
             sb.Append(@"\begin{tabular}{");
             int columnIndex = 0;
             foreach (LatexColumn<T> column in columns)
@@ -277,7 +297,12 @@ namespace Uncas.EBS.UI.Helpers
                 columnIndex++;
             }
             sb.AppendLine("}");
+        }
 
+        private void MakeHeader<T>
+            (LatexColumn<T>[] columns
+            , StringBuilder sb)
+        {
             // Makes header:
             int headerFieldIndex = 0;
             foreach (LatexColumn<T> column in columns)
@@ -292,7 +317,13 @@ namespace Uncas.EBS.UI.Helpers
             }
             sb.AppendLine(@"    \\
     \hline");
+        }
 
+        private void AddRowPerItem<T>
+            (IEnumerable<T> data
+            , LatexColumn<T>[] columns
+            , StringBuilder sb)
+        {
             // Adds a row per item:
             foreach (var item in data)
             {
@@ -309,10 +340,14 @@ namespace Uncas.EBS.UI.Helpers
                 }
                 sb.AppendLine(@"    \\");
             }
+        }
+
+        private static void EndTabular
+            (StringBuilder sb)
+        {
             sb.AppendLine(
 @"    \hline
 \end{tabular}");
-            return sb.ToString();
         }
     }
 }

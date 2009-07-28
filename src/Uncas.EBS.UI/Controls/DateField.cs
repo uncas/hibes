@@ -20,17 +20,37 @@ namespace Uncas.EBS.UI.Controls
             }
         }
 
-        public override void InitializeCell(DataControlFieldCell cell
+        public override void InitializeCell
+            (DataControlFieldCell cell
             , DataControlCellType cellType
             , DataControlRowState rowState
             , int rowIndex)
         {
-            // TODO: REFACTOR: Reduce number of statements and calls.
-
             if (cellType == DataControlCellType.Header)
             {
-                base.InitializeCell(cell, cellType, rowState, rowIndex);
+                base.InitializeCell(cell
+                    , cellType
+                    , rowState
+                    , rowIndex);
             }
+
+            Control control = GetControl
+                (cell
+                , cellType
+                , rowState);
+
+            if (control != null && this.Visible)
+            {
+                control.DataBinding
+                    += new EventHandler(control_DataBinding);
+            }
+        }
+
+        private Control GetControl
+            (DataControlFieldCell cell
+            , DataControlCellType cellType
+            , DataControlRowState rowState)
+        {
             Control control = null;
 
             if (cellType == DataControlCellType.DataCell)
@@ -45,20 +65,18 @@ namespace Uncas.EBS.UI.Controls
                     DateBox box = new DateBox();
                     cell.Controls.Add(box);
 
-                    //If we have a data field, bind to the data binding event later
+                    //If data field, use datebox:
                     if (!string.IsNullOrEmpty(this.DataField))
+                    {
                         control = box;
+                    }
                 }
             }
-
-            if (control != null && this.Visible)
-                control.DataBinding += new EventHandler(control_DataBinding);
+            return control;
         }
 
         void control_DataBinding(object sender, EventArgs e)
         {
-            // TODO: REFACTOR: Reduce number of statements and calls.
-
             if (sender is TableCell)
             {
                 TableCell cell = sender as TableCell;
@@ -71,26 +89,16 @@ namespace Uncas.EBS.UI.Controls
             {
                 DateBox box = sender as DateBox;
 
-                bool isInsertMode = false;
-
-                // If in insert mode, no text should appear
-                if (!isInsertMode)
+                object dataItem = DataBinder.GetDataItem
+                    (box.NamingContainer);
+                string datePropertyValue
+                    = DataBinder.GetPropertyValue
+                    (dataItem, this.DataField, null);
+                if (!string.IsNullOrEmpty(datePropertyValue))
                 {
-                    object dataItem = DataBinder.GetDataItem
-                        (box.NamingContainer);
-                    string datePropertyValue
-                        = DataBinder.GetPropertyValue
-                        (dataItem, this.DataField, null);
-                    if (!string.IsNullOrEmpty(datePropertyValue))
-                    {
-                        DateTime selectedDate = DateTime.Parse
-                            (datePropertyValue);
-                        box.SelectedDate = selectedDate;
-                    }
-                }
-                else
-                {
-                    throw new NotImplementedException();
+                    DateTime selectedDate = DateTime.Parse
+                        (datePropertyValue);
+                    box.SelectedDate = selectedDate;
                 }
             }
         }
@@ -101,8 +109,6 @@ namespace Uncas.EBS.UI.Controls
             , DataControlRowState rowState
             , bool includeReadOnly)
         {
-            // TODO: REFACTOR: Reduce number of statements and calls.
-
             base.ExtractValuesFromCell(dictionary
                 , cell, rowState, includeReadOnly);
             DateTime? value = null;
@@ -113,16 +119,22 @@ namespace Uncas.EBS.UI.Controls
             {
                 Control control = cell.Controls[index];
                 if (control == null)
+                {
                     throw new InvalidOperationException
                         ("The control cannot be extracted");
+                }
                 DateBox box = ((DateBox)control);
                 value = box.SelectedDate;
             }
 
             if (dictionary.Contains(this.DataField))
+            {
                 dictionary[this.DataField] = value;
+            }
             else
+            {
                 dictionary.Add(this.DataField, value);
+            }
         }
     }
 }

@@ -241,7 +241,7 @@ namespace Uncas.EBS.Domain.ViewModel
         /// <param name="evaluation">The evaluation.</param>
         public void AddIssueEvaluation
             (
-            Issue issue
+            IssueDetails issue
             , int numberOfOpenTasksForThisIssue
             , double? elapsed
             , double evaluation

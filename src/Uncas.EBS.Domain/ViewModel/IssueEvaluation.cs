@@ -1,5 +1,4 @@
 ﻿using System;
-using Uncas.EBS.Domain.Model;
 
 namespace Uncas.EBS.Domain.ViewModel
 {
@@ -20,7 +19,7 @@ namespace Uncas.EBS.Domain.ViewModel
         /// <param name="elapsed">The number of elapsed hours.</param>
         /// <param name="evaluation">The evaluation.</param>
         /// <param name="standardNumberOfHoursPerDay">The standard number of hours per day.</param>
-        public IssueEvaluation(Issue issue
+        public IssueEvaluation(IssueDetails issue
             , int numberOfOpenTasks
             , double? elapsed
             , double evaluation
@@ -53,7 +52,7 @@ namespace Uncas.EBS.Domain.ViewModel
         /// Gets or sets the issue.
         /// </summary>
         /// <value>The issue.</value>
-        public Issue Issue { get; private set; }
+        public IssueDetails Issue { get; private set; }
 
         /// <summary>
         /// Gets or sets the number of open tasks.

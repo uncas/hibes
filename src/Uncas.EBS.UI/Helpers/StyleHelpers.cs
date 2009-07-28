@@ -8,11 +8,16 @@ namespace Uncas.EBS.UI.Helpers
     {
         internal static void SetChartStyles(Chart chart)
         {
-            // TODO: REFACTOR: Reduce number of statements and calls.
+            SetBaseChartStyles(chart);
 
-            Unit widthOfCharts = Unit.Pixel(500);
-            chart.Width = widthOfCharts;
+            SetChartSeriesStyles(chart.Series);
 
+            SetChartAreaStyles(chart.ChartAreas[0]);
+        }
+
+        private static void SetBaseChartStyles(Chart chart)
+        {
+            chart.Width = Unit.Pixel(500);
             chart.ImageType = ChartImageType.Png;
             chart.BackColor = Color.FromArgb(200, 210, 190);
             chart.Palette = ChartColorPalette.BrightPastel;
@@ -21,20 +26,33 @@ namespace Uncas.EBS.UI.Helpers
             chart.BorderSkin.BorderDashStyle = ChartDashStyle.Solid;
             chart.BorderSkin.BorderWidth = 2;
             chart.BorderSkin.BorderColor = Color.FromArgb(26, 59, 105);
+        }
 
-            foreach (Series series in chart.Series)
+        private static void SetChartSeriesStyles
+            (SeriesCollection seriesCollection)
+        {
+            foreach (Series series in seriesCollection)
             {
                 series.Color = Color.FromArgb(33, 99, 99);
                 series.BorderColor = Color.FromArgb(180, 26, 59, 105);
             }
+        }
 
-            var chartArea = chart.ChartAreas[0];
+        private static void SetChartAreaStyles(ChartArea chartArea)
+        {
             chartArea.BorderColor = Color.FromArgb(64, 64, 64, 64);
             chartArea.BorderDashStyle = ChartDashStyle.Solid;
             chartArea.BackSecondaryColor = Color.White;
             chartArea.BackColor = Color.FromArgb(64, 165, 191, 228);
             chartArea.ShadowColor = Color.Transparent;
-            var area3DStyle = chartArea.Area3DStyle;
+
+            SetArea3DStyles(chartArea.Area3DStyle);
+            SetAxisStyles(chartArea.AxisX);
+            SetAxisStyles(chartArea.AxisY);
+        }
+
+        private static void SetArea3DStyles(ChartArea3DStyle area3DStyle)
+        {
             area3DStyle.Rotation = 5;
             area3DStyle.Perspective = 5;
             area3DStyle.Inclination = 10;
@@ -44,13 +62,14 @@ namespace Uncas.EBS.UI.Helpers
             area3DStyle.IsClustered = false;
             area3DStyle.Enable3D = true;
             area3DStyle.LightStyle = LightStyle.Realistic;
-            var axisY = chartArea.AxisY;
+        }
+
+        private static void SetAxisStyles(Axis axis)
+        {
             var lineColor = Color.FromArgb(64, 64, 64, 64);
-            axisY.LineColor = lineColor;
-            axisY.MajorGrid.LineColor = lineColor;
-            var axisX = chartArea.AxisX;
-            axisX.LineColor = lineColor;
-            axisX.MajorGrid.LineColor = lineColor;
+
+            axis.LineColor = lineColor;
+            axis.MajorGrid.LineColor = lineColor;
         }
 
         internal static void SetIssueRowStyle(GridViewRow row

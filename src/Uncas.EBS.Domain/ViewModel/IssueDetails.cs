@@ -1,4 +1,5 @@
-﻿using Uncas.EBS.Domain.Model;
+﻿using System;
+using Uncas.EBS.Domain.Model;
 
 namespace Uncas.EBS.Domain.ViewModel
 {
@@ -10,7 +11,57 @@ namespace Uncas.EBS.Domain.ViewModel
     /// </remarks>
     public class IssueDetails : Issue
     {
-        // TODO: REFACTOR: Create constructors or factory methods.
+        #region Constructors
+
+        /// <summary>
+        /// Reconstructs the issue details.
+        /// </summary>
+        /// <param name="issueId">The issue id.</param>
+        /// <param name="createdDate">The created date.</param>
+        /// <param name="priority">The priority.</param>
+        /// <param name="projectName">Name of the project.</param>
+        /// <param name="status">The status.</param>
+        /// <param name="title">The title.</param>
+        /// <param name="numberOfTasks">The number of tasks.</param>
+        /// <param name="remaining">The remaining.</param>
+        /// <param name="elapsed">The elapsed.</param>
+        /// <returns></returns>
+        public static IssueDetails ReconstructIssueDetails
+            (
+                int issueId
+                , DateTime createdDate
+                , int priority
+                , string projectName
+                , Status status
+                , string title
+                , int numberOfTasks
+                , double? remaining
+                , double? elapsed
+            )
+        {
+            return new IssueDetails
+            {
+                IssueId = issueId,
+                CreatedDate = createdDate,
+                Priority = priority,
+                ProjectName = projectName,
+                Status = status,
+                Title = title,
+                NumberOfTasks = numberOfTasks,
+                Remaining = remaining,
+                Elapsed = elapsed
+            };
+        }
+
+        #endregion
+
+        #region Public properties
+
+        /// <summary>
+        /// Gets or sets the name of the project.
+        /// </summary>
+        /// <value>The name of the project.</value>
+        public string ProjectName { get; set; }
 
         /// <summary>
         /// Gets or sets the number of tasks.
@@ -75,5 +126,7 @@ namespace Uncas.EBS.Domain.ViewModel
                 }
             }
         }
+
+        #endregion
     }
 }

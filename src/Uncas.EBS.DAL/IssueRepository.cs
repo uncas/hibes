@@ -294,18 +294,17 @@ namespace Uncas.EBS.DAL
             decimal? elapsed
                 = dbIssue.Tasks.Sum(t => t.ElapsedHours);
 
-            return new IssueDetails
-            {
-                IssueId = dbIssue.IssueId,
-                CreatedDate = dbIssue.CreatedDate,
-                Priority = dbIssue.Priority,
-                ProjectName = dbIssue.Project.ProjectName,
-                Status = (Model.Status)dbIssue.RefStatusId,
-                Title = dbIssue.Title,
-                NumberOfTasks = numberOfTasks,
-                Remaining = GetDoubleFromDecimal(remaining),
-                Elapsed = GetDoubleFromDecimal(elapsed)
-            };
+            return IssueDetails.ReconstructIssueDetails
+                (dbIssue.IssueId
+                , dbIssue.CreatedDate
+                , dbIssue.Priority
+                , dbIssue.Project.ProjectName
+                , (Model.Status)dbIssue.RefStatusId
+                , dbIssue.Title
+                , numberOfTasks
+                , GetDoubleFromDecimal(remaining)
+                , GetDoubleFromDecimal(elapsed)
+                );
         }
 
 

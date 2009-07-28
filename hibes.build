@@ -3,18 +3,18 @@
 
     <property name="configuration" value="release" />
 
-	<property name="build.dir" value="build" />
-	<property name="solution.dir" value="src"/>
-	<property name="solution.file" value="hibes.sln"/>
-	<property name="results.dir" value="${build.dir}\results" />
-	
-	<property name="msbuild"
-		value="${framework::get-framework-directory(framework::get-target-framework())}\msbuild.exe" />
+    <property name="build.dir" value="build" />
+    <property name="solution.dir" value="src"/>
+    <property name="solution.file" value="hibes.sln"/>
+    <property name="results.dir" value="${build.dir}\results" />
+    
+    <property name="msbuild"
+        value="${framework::get-framework-directory(framework::get-target-framework())}\msbuild.exe" />
 
     <property name="devenv" 
-		value="C:\Program Files\Microsoft Visual Studio 9.0\Common7\IDE\devenv.exe" />
-	<property name="sqlcmd" 
-		value="C:\Program Files\Microsoft SQL Server\90\Tools\Binn\SqlCmd.exe" />
+        value="C:\Program Files\Microsoft Visual Studio 9.0\Common7\IDE\devenv.exe" />
+    <property name="sqlcmd" 
+        value="C:\Program Files\Microsoft SQL Server\90\Tools\Binn\SqlCmd.exe" />
 
     <property name="sqlServer" value=".\SqlExpress" />
     <property name="database" value="hibes_test" />
@@ -24,8 +24,8 @@
         value="${connectionString}" />
     <property name="testFolder"
         value="c:\inetpub\wwwroot\hibes\" />
-	<property name="sqlcmdCredentials"
-		value="-S {sqlServer} -E" />
+    <property name="sqlcmdCredentials"
+        value="-S {sqlServer} -E" />
     <property name="websiteFolder" value="${testFolder}" />
 
     <if test="${file::exists('local.properties.xml')}">
@@ -35,13 +35,13 @@
     
     <target name="all"/>
 
-	<target name="cleanFolder">
+    <target name="cleanFolder">
         <delete dir="src\Uncas.EBS.${folderToClean}\bin" />
         <delete dir="src\Uncas.EBS.${folderToClean}\obj" />
-	</target>
+    </target>
 
-	<target name="clean">
-		<delete dir="${build.dir}" />
+    <target name="clean">
+        <delete dir="${build.dir}" />
 
         <property name="folderToClean" value="ApplicationServices" />
         <call target="cleanFolder" />
@@ -74,18 +74,25 @@
         <call target="cleanFolder" />
 
 	<delete file="hibes.sln.cache" />
-	</target>
-	
-	<target name="init" depends="clean">
-		<mkdir dir="${build.dir}" />
-	</target>
 
-	<target name="compile" depends="init">
+	<delete>
+            <fileset basedir="sql">
+                <include name="**\*~" />
+            </fileset>
+	</delete>
+
+    </target>
+    
+    <target name="init" depends="clean">
+        <mkdir dir="${build.dir}" />
+    </target>
+
+    <target name="compile" depends="init">
         <exec program="${msbuild}"
               commandline="hibes.sln 
                 /p:Debug=false 
                 /p:Configuration=${configuration}"/>
-	</target>
+    </target>
 
     <target name="getBuildProducts" depends="unitTest">
         <copy todir="build">
@@ -141,44 +148,44 @@
     <target name="setupDatabase" depends="init">
         <property name="target" value="database.sql" />
         <call target="convert.template" />
-		<exec program="${sqlcmd}"
-			commandline="${sqlcmdCredentials} -d master -i build\database.sql" />
-		<exec program="${sqlcmd}"
-			commandline="${sqlcmdCredentials} -d ${database} -i sql\schema.sql" />
+        <exec program="${sqlcmd}"
+            commandline="${sqlcmdCredentials} -d master -i build\database.sql" />
+        <exec program="${sqlcmd}"
+            commandline="${sqlcmdCredentials} -d ${database} -i sql\schema.sql" />
     </target>
 
     <target name="xyz">
         <echo message="${msbuild}" />
     </target>
 
-	<target name="move-for-test" depends="compile">
-		<copy todir="${build.dir}" flatten="true">
-			<fileset basedir="${solution.dir}">
-				<include name="/**/bin/${configuration}/**" />
-			</fileset>
-		</copy>
-	</target>	
+    <target name="move-for-test" depends="compile">
+        <copy todir="${build.dir}" flatten="true">
+            <fileset basedir="${solution.dir}">
+                <include name="/**/bin/${configuration}/**" />
+            </fileset>
+        </copy>
+    </target>    
 
-	<target name="unitTest" depends="move-for-test">
-		<property name="test.assembly" value="Uncas.EBS.Tests.dll" />
+    <target name="unitTest" depends="move-for-test">
+        <property name="test.assembly" value="Uncas.EBS.Tests.dll" />
         <call target="basetest" />
-	</target>
+    </target>
 
-	<target name="integrationTest" depends="unitTest">
-		<property name="test.assembly" value="Uncas.EBS.IntegrationTests.dll" />
+    <target name="integrationTest" depends="unitTest">
+        <property name="test.assembly" value="Uncas.EBS.IntegrationTests.dll" />
         <call target="basetest" />
-	</target>
+    </target>
 
-	<target name="test" depends="integrationTest">
-	</target>
+    <target name="test" depends="integrationTest">
+    </target>
 
-	<target name="basetest">
+    <target name="basetest">
         <echo message="Testing ${test.assembly}:" />
-		<nunit2 failonerror="true" verbose="true">
-			<formatter type="Xml" outputdir="${results.dir}" usefile="true" extension=".xml"/>
-			<formatter type="Plain" />
-			<test assemblyname="${build.dir}/${test.assembly}" />
-		</nunit2>
-	</target>
+        <nunit2 failonerror="true" verbose="true">
+            <formatter type="Xml" outputdir="${results.dir}" usefile="true" extension=".xml"/>
+            <formatter type="Plain" />
+            <test assemblyname="${build.dir}/${test.assembly}" />
+        </nunit2>
+    </target>
 
 </project>

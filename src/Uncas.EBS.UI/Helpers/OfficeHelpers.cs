@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.DataVisualization.Charting;
@@ -8,6 +10,7 @@ namespace Uncas.EBS.UI.Helpers
 {
     public class OfficeHelpers
     {
+
         public void DownloadWord(Control control
             , string fileName
             , HttpResponse response)
@@ -22,6 +25,7 @@ namespace Uncas.EBS.UI.Helpers
                 , contentType);
         }
 
+
         public void DownloadExcel(Control control
             , string fileName
             , HttpResponse response)
@@ -35,6 +39,7 @@ namespace Uncas.EBS.UI.Helpers
                 , fileExtension
                 , contentType);
         }
+
 
         private void DownloadToProgram
             (Control control
@@ -64,6 +69,7 @@ namespace Uncas.EBS.UI.Helpers
             response.End();
         }
 
+
         /// <summary>
         /// Replace any of the contained controls with literals
         /// </summary>
@@ -72,52 +78,24 @@ namespace Uncas.EBS.UI.Helpers
         private void PrepareControlForExport
             (Control control)
         {
-            // TODO: REFACTOR: Reduce number of statements and calls.
+            var transforms
+                = ControlTransformBase.GetControlTransforms();
 
             for (int i = 0; i < control.Controls.Count; i++)
             {
                 Control current = control.Controls[i];
-                if (current is Chart)
+
+                foreach (ControlTransformBase transform in transforms)
                 {
-                    current.Visible = false;
-                }
-                else if (current is CheckBox)
-                {
-                    current.Visible = false;
-                    control.Controls.AddAt(i, new LiteralControl((current as CheckBox).Checked ? "True" : "False"));
-                    i++;
-                }
-                else if (current is DropDownList)
-                {
-                    current.Visible = false;
-                    control.Controls.AddAt(i, new LiteralControl((current as DropDownList).SelectedItem.Text));
-                    i++;
-                }
-                else if (current is HyperLink)
-                {
-                    current.Visible = false;
-                    string text = (current as HyperLink).Text;
-                    text = HttpContext.Current.Server.HtmlEncode(text);
-                    control.Controls.AddAt(i, new LiteralControl(text));
-                    i++;
-                }
-                else if (current is ImageButton)
-                {
-                    current.Visible = false;
-                    control.Controls.AddAt(i, new LiteralControl((current as ImageButton).AlternateText));
-                    i++;
-                }
-                else if (current is LinkButton)
-                {
-                    current.Visible = false;
-                    control.Controls.AddAt(i, new LiteralControl((current as LinkButton).Text));
-                    i++;
-                }
-                else if (current is TextBox)
-                {
-                    current.Visible = false;
-                    control.Controls.AddAt(i, new LiteralControl((current as TextBox).Text));
-                    i++;
+                    if (transform.IsT(current))
+                    {
+                        current.Visible = false;
+                        control.Controls.AddAt
+                            (i
+                            , new LiteralControl
+                                (transform.ControlToString(current)));
+                        i++;
+                    }
                 }
 
                 if (current.HasControls())
@@ -126,5 +104,85 @@ namespace Uncas.EBS.UI.Helpers
                 }
             }
         }
+
+
+
+        #region Private classes
+
+
+        private abstract class ControlTransformBase
+        {
+            internal abstract bool IsT(Control c);
+
+            internal Func<Control, string> ControlToString { get; set; }
+
+            internal static IEnumerable<ControlTransformBase>
+                GetControlTransforms()
+            {
+                var transforms = new ControlTransformBase[]
+                {
+
+                    new ControlTransform
+                        <Chart>
+                        ((Control c) 
+                            => ""),
+                    
+                    new ControlTransform
+                        <DropDownList>
+                        ((Control c) 
+                            => (c as DropDownList).SelectedItem.Text),
+                    
+                    new ControlTransform
+                        <CheckBox>
+                        ((Control c)
+                            => (c as CheckBox).Checked
+                            ? "True"
+                            : "False"),
+
+                    new ControlTransform
+                        <HyperLink>
+                        ((Control c)
+                            => HttpContext.Current.Server.HtmlEncode
+                            ((c as HyperLink).Text)),
+
+                    new ControlTransform
+                        <ImageButton>
+                        ((Control c)
+                            => (c as ImageButton).AlternateText),
+
+                    new ControlTransform
+                        <LinkButton>
+                        ((Control c)
+                            => (c as LinkButton).Text),
+
+                    new ControlTransform
+                        <TextBox>
+                        ((Control c)
+                            => (c as TextBox).Text)
+
+                };
+
+                return transforms;
+            }
+        }
+
+
+        private class ControlTransform<T> : ControlTransformBase
+            where T : Control
+        {
+            internal ControlTransform(Func<Control, string> toString)
+            {
+                base.ControlToString = toString;
+            }
+
+            internal override bool IsT(Control c)
+            {
+                return c is T;
+            }
+        }
+
+
+        #endregion
+
     }
 }

@@ -1,8 +1,8 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using NUnit.Framework;
 using Uncas.EBS.Domain.Model;
 using Uncas.EBS.Domain.Repository;
-using System;
 
 namespace Uncas.EBS.IntegrationTests
 {
@@ -77,8 +77,6 @@ namespace Uncas.EBS.IntegrationTests
 
         private void AddTask(int issueId, Status issueStatus)
         {
-            // TODO: REFACTOR: Reduce number of statements and calls.
-
             double originalEstimate
                 = Math.Ceiling(_rnd.NextDouble() * 15d);
 

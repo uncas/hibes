@@ -10,12 +10,19 @@ namespace Uncas.EBS.Tests.ViewModelTests
     {
         private const double _standardNumberOfHoursPerDay = 7.5d;
 
+        private IssueDetails GetIssue()
+        {
+            return IssueDetails.ReconstructIssueDetails
+                (1, DateTime.Now, 1, "A", Status.Open, "B"
+                , 0, null, null);
+        }
+
         [Test]
         public void Constructor_NormalInput_OK()
         {
             IssueEvaluation ie
                 = new IssueEvaluation
-                (Issue.ConstructIssue(1, "A", Status.Open, 1)
+                (GetIssue()
                 , 2, 3d, 4d, _standardNumberOfHoursPerDay);
             Assert.AreEqual(2, ie.NumberOfOpenTasks);
             Assert.AreEqual(3d, ie.Elapsed);
@@ -29,7 +36,7 @@ namespace Uncas.EBS.Tests.ViewModelTests
         {
             IssueEvaluation ie
                 = new IssueEvaluation
-                    (Issue.ConstructIssue(1, "A", Status.Open, 1)
+                    (GetIssue()
                     , 2, -1d, 0d
                     , _standardNumberOfHoursPerDay);
         }
@@ -42,8 +49,7 @@ namespace Uncas.EBS.Tests.ViewModelTests
             IssueEvaluation issueEvaluation
                 = new IssueEvaluation
                     (
-                        Issue.ConstructIssue
-                            (1, "A", Status.Open, 1)
+                        GetIssue()
                         , 2
                         , 1d
                         , evaluation1

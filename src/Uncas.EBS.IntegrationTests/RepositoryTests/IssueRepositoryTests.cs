@@ -33,7 +33,7 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
         [Test]
         public void GetIssues_All()
         {
-            // TODO: REFACTOR: Reduce number of statements and calls.
+            // TODO: REFACTOR: Reduce number of asserts.
 
             int projectId = _projectRepo
                 .GetProjects().FirstOrDefault()
@@ -91,7 +91,7 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
         [Test]
         public void GetIssueView()
         {
-            // TODO: REFACTOR: Reduce number of statements and calls.
+            // TODO: REFACTOR: Reduce number of asserts.
 
             int projectId = _projectRepo
                 .GetProjects().FirstOrDefault()
@@ -244,7 +244,7 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
         [Test]
         public void UpdateIssue()
         {
-            // TODO: REFACTOR: Reduce number of statements and calls.
+            // TODO: REFACTOR: Reduce number of asserts.
 
             int projectId = _projectRepo
                 .GetProjects().FirstOrDefault()

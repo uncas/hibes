@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 
 namespace Uncas.EBS.Domain.Model
 {
@@ -9,8 +8,6 @@ namespace Uncas.EBS.Domain.Model
     public class Issue
     {
         #region Constructors
-
-        // TODO: REFACTOR: Create constructors or factory methods.
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Issue"/> class.
@@ -37,12 +34,12 @@ namespace Uncas.EBS.Domain.Model
             , int priority)
         {
             Issue issue = new Issue
-                {
-                    RefProjectId = refProjectId,
-                    Title = title,
-                    Status = status,
-                    Priority = priority
-                };
+            {
+                RefProjectId = refProjectId,
+                Title = title,
+                Status = status,
+                Priority = priority
+            };
             return issue;
         }
 
@@ -93,13 +90,6 @@ namespace Uncas.EBS.Domain.Model
         public int RefProjectId { get; set; }
 
         /// <summary>
-        /// Gets or sets the name of the project.
-        /// </summary>
-        /// <value>The name of the project.</value>
-        // TODO: REFACTOR: Move this to ViewModel.IssueDetails.
-        public string ProjectName { get; set; }
-
-        /// <summary>
         /// Gets or sets the title.
         /// </summary>
         /// <value>The title.</value>
@@ -141,11 +131,10 @@ namespace Uncas.EBS.Domain.Model
         /// </returns>
         public override string ToString()
         {
-            return string.Format("{0} - {1} - {2} - {3} - {4} - {5}"
+            return string.Format("{0} - {1} - {2} - {3} - {4}"
                 , this.IssueId
                 , this.CreatedDate
                 , this.Priority
-                , this.ProjectName
                 , this.Status
                 , this.Title);
         }

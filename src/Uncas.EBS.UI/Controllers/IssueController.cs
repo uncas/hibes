@@ -34,9 +34,10 @@ namespace Uncas.EBS.UI.Controllers
 
         #endregion
 
-        public Issue GetIssue(int issueId)
+        public IssueDetails GetIssue(int issueId)
         {
-            var issueView = _issueRepository.GetIssueView(issueId, Status.Closed);
+            var issueView = _issueRepository.GetIssueView
+                (issueId, Status.Closed);
             return issueView.Issue;
         }
 

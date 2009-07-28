@@ -116,8 +116,6 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
         [Test]
         public void UpdateTask_NullIssue()
         {
-            // TODO: REFACTOR: Reduce number of statements and calls.
-
             var project = _projectRepo.GetProjects().FirstOrDefault();
 
             // Setting up:
@@ -139,19 +137,9 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
                 , 1);
             _taskRepo.InsertTask(task);
             task.Description = "New description";
-            Task taskToUpdate = Task.ReconstructTaskToUpdate
-                (task.TaskId.Value
-                , task.Description
-                , task.Status
-                , task.Sequence
-                , task.CurrentEstimate
-                , task.Elapsed
-                , task.StartDate
-                , task.EndDate
-                , task.RefPersonId);
 
             // Testing:
-            _taskRepo.UpdateTask(taskToUpdate);
+            _taskRepo.UpdateTask(task);
 
             // Checking:
             var issueView = _issueRepo.GetIssueView

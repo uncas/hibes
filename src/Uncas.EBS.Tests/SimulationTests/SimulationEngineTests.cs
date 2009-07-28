@@ -3,6 +3,7 @@ using NUnit.Framework;
 using Uncas.EBS.Domain.Model;
 using Uncas.EBS.Domain.ViewModel;
 using Uncas.EBS.Utility.Simulation;
+using System;
 
 namespace Uncas.EBS.Tests.SimulationTests
 {
@@ -51,7 +52,16 @@ namespace Uncas.EBS.Tests.SimulationTests
             var issueViews = new List<IssueView>();
             issueViews.Add(new IssueView
             {
-                Issue = new IssueDetails(),
+                Issue = IssueDetails.ReconstructIssueDetails
+                    (1
+                    , DateTime.Now
+                    , 1
+                    , null
+                    , Status.Closed
+                    , null
+                    , 0
+                    , null
+                    , null),
                 Tasks = openTasks
             });
 
@@ -114,7 +124,16 @@ namespace Uncas.EBS.Tests.SimulationTests
             issueViews = new List<IssueView>();
             issueViews.Add(new IssueView
             {
-                Issue = new IssueDetails(),
+                Issue = IssueDetails.ReconstructIssueDetails
+                    (1
+                    , DateTime.Now
+                    , 1
+                    , null
+                    , Status.Closed
+                    , null
+                    , 0
+                    , null
+                    , null),
                 Tasks = openTasks
             });
         }
