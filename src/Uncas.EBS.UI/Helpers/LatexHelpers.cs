@@ -9,6 +9,10 @@ namespace Uncas.EBS.UI.Helpers
 {
     public class LatexHelpers
     {
+        #region Constructors
+
+        #endregion
+
         private ProjectController _projectController
             = new ProjectController();
 
@@ -39,12 +43,14 @@ namespace Uncas.EBS.UI.Helpers
 
             AppendSection(Resources.Phrases.Date, sb);
 
-            AppendCompletionDateTable(projectId, maxPriority, sb);
+            //AppendCompletionDateTable(projectId, maxPriority, sb);
+            AppendPersonConfidenceDateTable
+                (projectId, maxPriority, sb);
 
 
             AppendSection(Resources.Phrases.Issues, sb);
 
-            AppendIssueEstimateTable(projectId, maxPriority, sb);
+            AppendIssueEstimateTables(projectId, maxPriority, sb);
 
 
             AppendLatexDocumentEnd(sb);
@@ -88,6 +94,10 @@ namespace Uncas.EBS.UI.Helpers
             , int? maxPriority
             , StringBuilder sb)
         {
+            var completionDateConfidences
+                = _projectController.GetSelectedCompletionDateConfidences
+                (projectId, maxPriority);
+
             var dateColumn
                 = new LatexColumn<CompletionDateConfidence>
                 (Resources.Phrases.Date
@@ -101,20 +111,87 @@ namespace Uncas.EBS.UI.Helpers
                     => LatexPercentageStringFromDouble(to.Probability)
                 , ColumnAlignment.Right);
 
-            var completionDateConfidences
-                = _projectController.GetSelectedCompletionDateConfidences
-                (projectId, maxPriority);
-
             sb.AppendLine(GetLatexTable<CompletionDateConfidence>
                 (completionDateConfidences
                 , dateColumn
                 , probabilityColumn));
         }
 
-        private void AppendIssueEstimateTable
+        private void AppendPersonConfidenceDateTable
             (int? projectId
             , int? maxPriority
             , StringBuilder sb)
+        {
+            var personConfidenceDates
+                = _projectController.GetConfidenceDatesPerPerson
+                (projectId, maxPriority);
+
+            var nameColumn
+                = new LatexColumn<PersonConfidenceDates>
+                (Resources.Phrases.Person
+                , (PersonConfidenceDates to)
+                    => to.PersonName);
+
+            var lowColumn
+                = new LatexColumn<PersonConfidenceDates>
+                (LatexPercentageStringFromDouble
+                    (App.ConfidenceLow)
+                , (PersonConfidenceDates to)
+                    => to.CompletionDateLow.ToShortDateString()
+                , ColumnAlignment.Right);
+
+            var mediumColumn
+                = new LatexColumn<PersonConfidenceDates>
+                (LatexPercentageStringFromDouble
+                    (App.ConfidenceMedium)
+                , (PersonConfidenceDates to)
+                    => to.CompletionDateMedium.ToShortDateString()
+                , ColumnAlignment.Right);
+
+            var highColumn
+                = new LatexColumn<PersonConfidenceDates>
+                (LatexPercentageStringFromDouble
+                    (App.ConfidenceHigh)
+                , (PersonConfidenceDates to)
+                    => to.CompletionDateHigh.ToShortDateString()
+                , ColumnAlignment.Right);
+
+            sb.AppendLine(GetLatexTable<PersonConfidenceDates>
+                (personConfidenceDates
+                , nameColumn
+                , lowColumn
+                , mediumColumn
+                , highColumn));
+        }
+
+        private void AppendIssueEstimateTables
+            (int? projectId
+            , int? maxPriority
+            , StringBuilder sb)
+        {
+            var issueEstimates
+                = _projectController.GetIssueEstimates
+                (projectId, maxPriority);
+
+            AppendIssueEstimateTable(sb, issueEstimates, true);
+
+            foreach (var personEvaluation
+                in _projectController.GetEvaluationsPerPerson
+                (projectId, maxPriority))
+            {
+                // TODO: FEATURE: Person name on latex output.
+                AppendIssueEstimateTable
+                    (sb
+                    , personEvaluation.GetIssueEvaluations()
+                    , false
+                    );
+            }
+        }
+
+        private void AppendIssueEstimateTable
+            (StringBuilder sb
+            , IEnumerable<IssueEvaluation> issueEstimates
+            , bool showEmptyRows)
         {
             var priorityColumn
                 = new LatexColumn<IssueEvaluation>
@@ -146,12 +223,16 @@ namespace Uncas.EBS.UI.Helpers
                     => GetDaysRemainingText(ie.Average)
                 , ColumnAlignment.Right);
 
-            var issueEstimates
-                = _projectController.GetIssueEstimates
-                (projectId, maxPriority);
+            Func<IssueEvaluation, bool> showRow = null;
+            if (!showEmptyRows)
+            {
+                showRow = (IssueEvaluation ie)
+                    => ie.Average.HasValue;
+            }
 
             sb.AppendLine(GetLatexTable<IssueEvaluation>
                 (issueEstimates
+                , showRow
                 , priorityColumn
                 , projectColumn
                 , issueTitleColumn
@@ -218,7 +299,7 @@ namespace Uncas.EBS.UI.Helpers
 
             string result = text;
 
-            foreach (KeyValuePair<string, string> transform 
+            foreach (KeyValuePair<string, string> transform
                 in transforms)
             {
                 LatexTransformString(ref result, transform);
@@ -227,7 +308,7 @@ namespace Uncas.EBS.UI.Helpers
             return result;
         }
 
-        private static void LatexTransformString
+        private void LatexTransformString
             (ref string result
             , KeyValuePair<string, string> transform)
         {
@@ -252,8 +333,21 @@ namespace Uncas.EBS.UI.Helpers
         }
 
         public string GetLatexTable<T>
+               (IEnumerable<T> data
+               , params LatexColumn<T>[] columns
+               )
+        {
+            return GetLatexTable<T>
+                (data
+                , null
+                , columns);
+        }
+
+        public string GetLatexTable<T>
             (IEnumerable<T> data
-            , params LatexColumn<T>[] columns)
+            , Func<T, bool> showRow
+            , params LatexColumn<T>[] columns
+            )
         {
             StringBuilder sb = new StringBuilder();
 
@@ -261,14 +355,17 @@ namespace Uncas.EBS.UI.Helpers
 
             MakeHeader<T>(columns, sb);
 
-            AddRowPerItem<T>(data, columns, sb);
+            AddRowPerItem<T>(data
+                , columns
+                , sb
+                , showRow);
 
             EndTabular(sb);
 
             return sb.ToString();
         }
 
-        private static void BeginTabular<T>
+        private void BeginTabular<T>
             (LatexColumn<T>[] columns
             , StringBuilder sb)
         {
@@ -319,14 +416,34 @@ namespace Uncas.EBS.UI.Helpers
     \hline");
         }
 
+        [Obsolete]
+        private void AddRowPerItem<T>
+           (IEnumerable<T> data
+           , LatexColumn<T>[] columns
+           , StringBuilder sb)
+        {
+            AddRowPerItem<T>
+                (data
+                , columns
+                , sb
+                , null);
+        }
+
         private void AddRowPerItem<T>
             (IEnumerable<T> data
             , LatexColumn<T>[] columns
-            , StringBuilder sb)
+            , StringBuilder sb
+            , Func<T, bool> showRow
+            )
         {
             // Adds a row per item:
             foreach (var item in data)
             {
+                if (showRow != null
+                    && !showRow(item))
+                {
+                    continue;
+                }
                 int fieldIndex = 0;
                 foreach (LatexColumn<T> column in columns)
                 {
@@ -342,7 +459,7 @@ namespace Uncas.EBS.UI.Helpers
             }
         }
 
-        private static void EndTabular
+        private void EndTabular
             (StringBuilder sb)
         {
             sb.AppendLine(
