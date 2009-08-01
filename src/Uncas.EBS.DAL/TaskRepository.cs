@@ -54,7 +54,7 @@ namespace Uncas.EBS.DAL
                 result = result
                     .Where(t => t.RefStatusId == (int)status);
             }
-            result = result.OrderByDescending(t => t.EndDate);
+            result = result.OrderBy(t => t.Sequence);
             if (maxCount.HasValue)
             {
                 result = result.Take(maxCount.Value);
@@ -83,6 +83,7 @@ namespace Uncas.EBS.DAL
                 result = result
                     .Where(t => t.RefStatusId == (int)status);
             }
+            result = result.OrderBy(t => t.Sequence);
             return result.Select(t => GetTaskDetailsFromDbTask(t));
         }
 

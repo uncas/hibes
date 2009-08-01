@@ -1,5 +1,20 @@
 Features
 --------
+- Latex output:
+    Show person name
+    Fields for template: [TOP], [BOTTOM]
+    API/URL to get latex file
+
+- Estimate page:
+    Issue list: include IssueId
+    List per person (open tasks)
+
+- Issue:
+    Field that indicates the place in the process:
+        IssueStep
+            Analysis, Design, Construction, Test
+        Issue.CompletedStep
+
 - Support more databases:
     MySql
     PostGreSql
@@ -12,20 +27,7 @@ Features
     Subsonic
 
 - Plugin system
-    For a custom report page
-    In C# or (Iron)Python
 
-    IPlugin
-        string Name { get; set; }
-        IPluginHost Host { get; set; }
-        void Show();
-    IPluginHost
-        void Register(IPlugin plugin);
-
-    About plugins:
-        http://stackoverflow.com/questions/515925/system-with-plugins-in-c
-        http://www.codeproject.com/KB/cs/pluginsincsharp.aspx
-        http://www.informit.com/articles/article.aspx?p=332874
 
 - Time registration:
     TimePost

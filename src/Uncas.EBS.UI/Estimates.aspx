@@ -190,18 +190,18 @@
                     </div>
                 </div>
             </asp:PlaceHolder>
+            <uncas:ColorCodes ID="cc" runat="server" />
+            <ul>
+                <li>
+                    <asp:HyperLink ID="hlDownloadLatex" runat="server"><%= Resources.Phrases.GetInLatex %></asp:HyperLink>
+                </li>
+                <li>
+                    <asp:LinkButton ID="lbDownloadWord" runat="server"><%= Resources.Phrases.GetInWord %></asp:LinkButton>
+                </li>
+                <li>
+                    <asp:LinkButton ID="lbDownloadExcel" runat="server"><%= Resources.Phrases.GetInExcel %></asp:LinkButton>
+                </li>
+            </ul>
         </ContentTemplate>
     </asp:UpdatePanel>
-    <uncas:ColorCodes ID="cc" runat="server" />
-    <ul>
-        <li>
-            <asp:LinkButton ID="lbDownloadLatex" runat="server"><%= Resources.Phrases.GetInLatex %></asp:LinkButton>
-        </li>
-        <li>
-            <asp:LinkButton ID="lbDownloadWord" runat="server"><%= Resources.Phrases.GetInWord %></asp:LinkButton>
-        </li>
-        <li>
-            <asp:LinkButton ID="lbDownloadExcel" runat="server"><%= Resources.Phrases.GetInExcel %></asp:LinkButton>
-        </li>
-    </ul>
 </asp:Content>

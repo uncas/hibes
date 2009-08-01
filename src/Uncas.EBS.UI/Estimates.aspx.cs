@@ -13,7 +13,6 @@ namespace Uncas.EBS.UI
 
         protected void Page_Init(object sender, EventArgs e)
         {
-            lbDownloadLatex.Click += new EventHandler(lbDownloadLatex_Click);
             lbDownloadWord.Click += new EventHandler(lbDownloadWord_Click);
             lbDownloadExcel.Click += new EventHandler(lbDownloadExcel_Click);
             gvIssues.RowDataBound
@@ -46,6 +45,11 @@ namespace Uncas.EBS.UI
                 = Uncas.EBS.UI.App.ConfidenceMedium.ToString("P0");
             gvEvaluationsPerPerson.Columns[3].HeaderText
                 = Uncas.EBS.UI.App.ConfidenceHigh.ToString("P0");
+
+            hlDownloadLatex.NavigateUrl = string.Format(
+                "EstimateAsLatex.ashx?ProjectId={0}&MaxPriority={1}"
+                , this.SelectedProjectId
+                , this.SelectedMaxPriority);
         }
 
         void gvIssues_RowDataBound(object sender, GridViewRowEventArgs e)
@@ -159,15 +163,6 @@ namespace Uncas.EBS.UI
             {
                 return nbMaxPriority.Number;
             }
-        }
-
-        void lbDownloadLatex_Click(object sender, EventArgs e)
-        {
-            LatexHelpers latexHelpers = new LatexHelpers();
-            latexHelpers.DownloadLatexFromEstimate
-                (SelectedProjectId
-                , SelectedMaxPriority
-                , Response);
         }
 
         OfficeHelpers _officeHelpers = new OfficeHelpers();

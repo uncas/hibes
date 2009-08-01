@@ -120,6 +120,9 @@
     <Compile Include="EBSMaster.Master.designer.cs">
       <DependentUpon>EBSMaster.Master</DependentUpon>
     </Compile>
+    <Compile Include="EstimateAsLatex.ashx.cs">
+      <DependentUpon>EstimateAsLatex.ashx</DependentUpon>
+    </Compile>
     <Compile Include="Estimates.aspx.cs">
       <DependentUpon>Estimates.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -235,6 +238,9 @@
     <Content Include="Projects.aspx" />
     <Content Include="Setup.aspx" />
     <Content Include="Web.appSettings.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="EstimateAsLatex.ashx" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

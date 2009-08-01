@@ -172,3 +172,60 @@ b) Calculate a normally distributed random number by
     X = sqrt(-2 ln U) cos(2 pi V)
 or
     Y = sqrt(-2 ln U) sin(2 pi V)
+
+
+
+Plugins
+----
+    For a custom report page
+    In C# or (Iron)Python
+
+  Uncas.EBS.Plugin.dll
+    IPlugin
+        string Name { get; set; }
+        IPluginHost Host { get; set; }
+        void Show();
+    IPluginHost
+        IList<Person> GetPersons();
+        IList<PersonOff> GetPersonOffs();
+        IList<Project> GetProjects();
+        IList<Issue> GetIssues();
+        IList<Task> GetTasks();
+
+  Uncas.EBS.ApplicationServices.dll
+
+    PluginHost : IPluginHost
+
+    PluginService
+       IPluginHost ph = new PluginHost();
+       void RegisterAllPlugins();
+       void Register(IPlugin plugin);
+
+
+    About plugins:
+        http://stackoverflow.com/questions/515925/system-with-plugins-in-c
+        http://www.codeproject.com/KB/cs/pluginsincsharp.aspx
+        http://www.informit.com/articles/article.aspx?p=332874
+
+Plugins with IronPyton
+----
+Plugin plan:
+1) Create PluginService class that provides data access, etc.
+2) Load custom python script.
+3) In C#: create a full python script as follows:
+
+**** Python script header:
+import sys
+import clr
+
+sys.path.append('C:\\Users\\Ole\\Documents\\Temp\\IronPythonFromCSharp\\IronPythonFromCSharp\\bin')
+clr.AddReferenceToFile('Plugin')
+import Plugin
+from Plugin import *
+
+**** Insert custom python script that can use PluginService, e.g.:
+service = PluginService()
+result = "<ul>"
+for task in service.Tasks:
+    result += "<li>" + task.Description + "</li>"
+result += "</ul>"

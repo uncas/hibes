@@ -212,13 +212,13 @@ namespace Uncas.EBS.UI {
         protected global::Uncas.EBS.UI.Controls.ColorCodes cc;
         
         /// <summary>
-        /// lbDownloadLatex control.
+        /// hlDownloadLatex control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton lbDownloadLatex;
+        protected global::System.Web.UI.WebControls.HyperLink hlDownloadLatex;
         
         /// <summary>
         /// lbDownloadWord control.

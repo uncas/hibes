@@ -218,7 +218,7 @@ namespace Uncas.EBS.UI.Helpers
 
             var averageDaysColumn
                 = new LatexColumn<IssueEvaluation>
-                (Resources.Phrases.Average
+                (Resources.Phrases.Days
                 , (IssueEvaluation ie)
                     => GetDaysRemainingText(ie.Average)
                 , ColumnAlignment.Right);

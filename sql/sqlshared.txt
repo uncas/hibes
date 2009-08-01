@@ -1,0 +1,8 @@
++T Status
++F StatusId int PK
++F StatusName nvarchar(20) NOTNULL UNIQUE
+E
+
++T Project
++F ProjectId int IDENTITY PK
+E
