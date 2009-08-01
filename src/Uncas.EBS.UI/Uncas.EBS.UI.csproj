@@ -133,6 +133,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\LatexDocument.cs" />
     <Compile Include="Helpers\LatexColumn.cs" />
     <Compile Include="Helpers\LatexHelpers.cs" />
     <Compile Include="Helpers\OfficeHelpers.cs" />

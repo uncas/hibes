@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Web;
 using Uncas.EBS.Domain.ViewModel;
 using Uncas.EBS.UI.Controllers;
@@ -9,12 +8,9 @@ namespace Uncas.EBS.UI.Helpers
 {
     public class LatexHelpers
     {
-        #region Constructors
 
-        #endregion
+        #region Public methods
 
-        private ProjectController _projectController
-            = new ProjectController();
 
         public void DownloadLatexFromEstimate
             (int? projectId
@@ -32,67 +28,48 @@ namespace Uncas.EBS.UI.Helpers
             response.End();
         }
 
-        public string GetLatexFromEstimate
+
+        #endregion
+
+
+
+        #region Private fields and properties
+
+        private ProjectController _projectController
+            = new ProjectController();
+
+        #endregion
+
+
+
+        #region Private methods
+
+
+        private string GetLatexFromEstimate
             (int? projectId
             , int? maxPriority)
         {
-            StringBuilder sb = new StringBuilder();
+            LatexDocument document = new LatexDocument();
 
-            AppendLatexDocumentBegin(sb);
+            document.AppendSection(Resources.Phrases.Date);
 
+            //AppendCompletionDateTable(projectId, maxPriority, document);
 
-            AppendSection(Resources.Phrases.Date, sb);
-
-            //AppendCompletionDateTable(projectId, maxPriority, sb);
             AppendPersonConfidenceDateTable
-                (projectId, maxPriority, sb);
+                (projectId, maxPriority, document);
 
+            document.AppendSection(Resources.Phrases.Issues);
 
-            AppendSection(Resources.Phrases.Issues, sb);
+            AppendIssueEstimateTables(projectId, maxPriority, document);
 
-            AppendIssueEstimateTables(projectId, maxPriority, sb);
-
-
-            AppendLatexDocumentEnd(sb);
-
-            return sb.ToString();
+            return document.ToString();
         }
-
-        private void AppendLatexDocumentBegin
-            (StringBuilder sb)
-        {
-            sb.AppendLine(
-@"\documentclass[a4paper,10pt,onecolumn]{article}
-
-\usepackage[danish]{babel}
-\usepackage{verbatim}
-\usepackage{textcomp}
-
-\addtolength\textheight{3cm}
-\addtolength\topmargin{-1.5cm}
-
-\addtolength\textwidth{4cm}
-\addtolength\oddsidemargin{-2cm}
-\addtolength\evensidemargin{-2cm}
-
-\begin{document}
-
-\title{...}
-\author{...}
-\maketitle
-");
-        }
-
-        private void AppendLatexDocumentEnd
-            (StringBuilder sb)
-        {
-            sb.Append(@"\end{document}");
-        }
-
+        
+        
         private void AppendCompletionDateTable
             (int? projectId
             , int? maxPriority
-            , StringBuilder sb)
+            , LatexDocument document)
         {
             var completionDateConfidences
                 = _projectController.GetSelectedCompletionDateConfidences
@@ -111,16 +88,17 @@ namespace Uncas.EBS.UI.Helpers
                     => LatexPercentageStringFromDouble(to.Probability)
                 , ColumnAlignment.Right);
 
-            sb.AppendLine(GetLatexTable<CompletionDateConfidence>
-                (completionDateConfidences
-                , dateColumn
-                , probabilityColumn));
+            document.AppendTable<CompletionDateConfidence>
+                 (completionDateConfidences
+                 , dateColumn
+                 , probabilityColumn);
         }
+
 
         private void AppendPersonConfidenceDateTable
             (int? projectId
             , int? maxPriority
-            , StringBuilder sb)
+            , LatexDocument document)
         {
             var personConfidenceDates
                 = _projectController.GetConfidenceDatesPerPerson
@@ -156,24 +134,25 @@ namespace Uncas.EBS.UI.Helpers
                     => to.CompletionDateHigh.ToShortDateString()
                 , ColumnAlignment.Right);
 
-            sb.AppendLine(GetLatexTable<PersonConfidenceDates>
+            document.AppendTable<PersonConfidenceDates>
                 (personConfidenceDates
                 , nameColumn
                 , lowColumn
                 , mediumColumn
-                , highColumn));
+                , highColumn);
         }
+
 
         private void AppendIssueEstimateTables
             (int? projectId
             , int? maxPriority
-            , StringBuilder sb)
+            , LatexDocument document)
         {
             var issueEstimates
                 = _projectController.GetIssueEstimates
                 (projectId, maxPriority);
 
-            AppendIssueEstimateTable(sb, issueEstimates, true);
+            AppendIssueEstimateTable(issueEstimates, true, document);
 
             foreach (var personEvaluation
                 in _projectController.GetEvaluationsPerPerson
@@ -181,17 +160,18 @@ namespace Uncas.EBS.UI.Helpers
             {
                 // TODO: FEATURE: Person name on latex output.
                 AppendIssueEstimateTable
-                    (sb
-                    , personEvaluation.GetIssueEvaluations()
+                    (personEvaluation.GetIssueEvaluations()
                     , false
+                    , document
                     );
             }
         }
 
+
         private void AppendIssueEstimateTable
-            (StringBuilder sb
-            , IEnumerable<IssueEvaluation> issueEstimates
-            , bool showEmptyRows)
+            (IEnumerable<IssueEvaluation> issueEstimates
+            , bool showEmptyRows
+            , LatexDocument document)
         {
             var priorityColumn
                 = new LatexColumn<IssueEvaluation>
@@ -230,15 +210,16 @@ namespace Uncas.EBS.UI.Helpers
                     => ie.Average.HasValue;
             }
 
-            sb.AppendLine(GetLatexTable<IssueEvaluation>
-                (issueEstimates
-                , showRow
-                , priorityColumn
-                , projectColumn
-                , issueTitleColumn
-                , averageDaysColumn
-                ));
+            document.AppendTable<IssueEvaluation>
+                   (issueEstimates
+                   , showRow
+                   , priorityColumn
+                   , projectColumn
+                   , issueTitleColumn
+                   , averageDaysColumn
+                   );
         }
+
 
         /// <summary>
         /// Gets the days remaining text.
@@ -252,7 +233,7 @@ namespace Uncas.EBS.UI.Helpers
         ///        3.9             4
         /// </example>
         /// <returns></returns>
-        public string GetDaysRemainingText(double? daysRemaining)
+        private string GetDaysRemainingText(double? daysRemaining)
         {
             if (!daysRemaining.HasValue)
             {
@@ -269,7 +250,15 @@ namespace Uncas.EBS.UI.Helpers
             }
         }
 
-        public string ShortenText(string text, int maxLength)
+
+        private string LatexPercentageStringFromDouble
+            (double number)
+        {
+            return number.ToString("P0").Replace("%", @"\%");
+        }
+
+
+        private string ShortenText(string text, int maxLength)
         {
             if (text.Length <= maxLength)
             {
@@ -281,190 +270,8 @@ namespace Uncas.EBS.UI.Helpers
             }
         }
 
-        public string LatexPercentageStringFromDouble
-            (double number)
-        {
-            return number.ToString("P0").Replace("%", @"\%");
-        }
 
-        public string LatexEncodeText(string text)
-        {
-            var transforms = new Dictionary<string, string>();
-            transforms.Add("æ", @"\ae");
-            transforms.Add("ø", @"\o");
-            transforms.Add("å", @"\aa");
-            transforms.Add("Æ", @"\AE");
-            transforms.Add("Ø", @"\O");
-            transforms.Add("Å", @"\AA");
+        #endregion
 
-            string result = text;
-
-            foreach (KeyValuePair<string, string> transform
-                in transforms)
-            {
-                LatexTransformString(ref result, transform);
-            }
-
-            return result;
-        }
-
-        private void LatexTransformString
-            (ref string result
-            , KeyValuePair<string, string> transform)
-        {
-            string oldString = transform.Key + " ";
-            string newString = transform.Value + @"\ ";
-            result = result.Replace
-                (oldString
-                , newString);
-
-            oldString = transform.Key;
-            newString = transform.Value + " ";
-            result = result.Replace
-                (oldString
-                , newString);
-        }
-
-        private void AppendSection
-            (string sectionTitle
-            , StringBuilder sb)
-        {
-            sb.AppendLine(@"\section*{" + LatexEncodeText(sectionTitle) + "}");
-        }
-
-        public string GetLatexTable<T>
-               (IEnumerable<T> data
-               , params LatexColumn<T>[] columns
-               )
-        {
-            return GetLatexTable<T>
-                (data
-                , null
-                , columns);
-        }
-
-        public string GetLatexTable<T>
-            (IEnumerable<T> data
-            , Func<T, bool> showRow
-            , params LatexColumn<T>[] columns
-            )
-        {
-            StringBuilder sb = new StringBuilder();
-
-            BeginTabular<T>(columns, sb);
-
-            MakeHeader<T>(columns, sb);
-
-            AddRowPerItem<T>(data
-                , columns
-                , sb
-                , showRow);
-
-            EndTabular(sb);
-
-            return sb.ToString();
-        }
-
-        private void BeginTabular<T>
-            (LatexColumn<T>[] columns
-            , StringBuilder sb)
-        {
-            sb.Append(@"\begin{tabular}{");
-            int columnIndex = 0;
-            foreach (LatexColumn<T> column in columns)
-            {
-                if (columnIndex > 0)
-                {
-                    sb.Append(" | ");
-                }
-                switch (column.Alignment)
-                {
-                    case ColumnAlignment.Left:
-                        sb.Append("l");
-                        break;
-                    case ColumnAlignment.Center:
-                        sb.Append("c");
-                        break;
-                    case ColumnAlignment.Right:
-                        sb.Append("r");
-                        break;
-                    default:
-                        throw new NotImplementedException();
-                }
-                columnIndex++;
-            }
-            sb.AppendLine("}");
-        }
-
-        private void MakeHeader<T>
-            (LatexColumn<T>[] columns
-            , StringBuilder sb)
-        {
-            // Makes header:
-            int headerFieldIndex = 0;
-            foreach (LatexColumn<T> column in columns)
-            {
-                if (headerFieldIndex > 0)
-                {
-                    sb.AppendLine("        &");
-                }
-                sb.AppendLine("        "
-                    + LatexEncodeText(column.Title));
-                headerFieldIndex++;
-            }
-            sb.AppendLine(@"    \\
-    \hline");
-        }
-
-        [Obsolete]
-        private void AddRowPerItem<T>
-           (IEnumerable<T> data
-           , LatexColumn<T>[] columns
-           , StringBuilder sb)
-        {
-            AddRowPerItem<T>
-                (data
-                , columns
-                , sb
-                , null);
-        }
-
-        private void AddRowPerItem<T>
-            (IEnumerable<T> data
-            , LatexColumn<T>[] columns
-            , StringBuilder sb
-            , Func<T, bool> showRow
-            )
-        {
-            // Adds a row per item:
-            foreach (var item in data)
-            {
-                if (showRow != null
-                    && !showRow(item))
-                {
-                    continue;
-                }
-                int fieldIndex = 0;
-                foreach (LatexColumn<T> column in columns)
-                {
-                    if (fieldIndex > 0)
-                    {
-                        sb.AppendLine("        &");
-                    }
-                    sb.AppendLine("        "
-                        + LatexEncodeText(column.Transform(item)));
-                    fieldIndex++;
-                }
-                sb.AppendLine(@"    \\");
-            }
-        }
-
-        private void EndTabular
-            (StringBuilder sb)
-        {
-            sb.AppendLine(
-@"    \hline
-\end{tabular}");
-        }
     }
 }

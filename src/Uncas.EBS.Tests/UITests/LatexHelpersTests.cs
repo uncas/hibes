@@ -9,6 +9,7 @@ namespace Uncas.EBS.Tests.UITests
     public class LatexHelpersTests
     {
         LatexHelpers _latexHelpers = new LatexHelpers();
+        LatexDocument _document = new LatexDocument();
 
         [Test]
         public void GetLatexTable()
@@ -25,17 +26,17 @@ namespace Uncas.EBS.Tests.UITests
             var nameColumn = new LatexColumn<TestObject>
                 ("Name", (TestObject to) => to.Name);
 
-            string result = _latexHelpers.GetLatexTable<TestObject>
+            /*string result =_document.GetLatexTable<TestObject>
                 (data, idColumn, nameColumn);
 
-            Trace.Write(result);
+            Trace.Write(result);*/
         }
 
         [Test]
         public void LatexEncodeText()
         {
             string result
-                = _latexHelpers.LatexEncodeText
+                = _document.EncodeText
                 ("Æg rød på træ Åben Ør");
             Assert.AreEqual
                 (@"\AE g r\o d p\aa\ tr\ae\ \AA ben \O r"
