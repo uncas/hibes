@@ -51,6 +51,8 @@ namespace Uncas.EBS.UI.Helpers
         {
             LatexDocument document = new LatexDocument();
 
+            document.AppendText("@TOP@");
+
             document.AppendSection(Resources.Phrases.Date);
 
             //AppendCompletionDateTable(projectId, maxPriority, document);
@@ -61,6 +63,8 @@ namespace Uncas.EBS.UI.Helpers
             document.AppendSection(Resources.Phrases.Issues);
 
             AppendIssueEstimateTables(projectId, maxPriority, document);
+
+            document.AppendText("@BOTTOM@");
 
             return document.ToString();
         }

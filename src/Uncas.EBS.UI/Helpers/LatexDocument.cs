@@ -260,5 +260,12 @@ namespace Uncas.EBS.UI.Helpers
 
         #endregion
 
+
+        internal void AppendText(string text)
+        {
+            _content.AppendLine();
+            _content.AppendLine(text);
+            _content.AppendLine();
+        }
     }
 }

@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<project name="hibes" default="all">
+
+    <if test="${file::exists('local.properties.xml')}">
+        <echo message="Loading local.properties.xml" />
+        <include buildfile="local.properties.xml" />
+    </if>
+    
+    <target name="all"/>
+
+    <target name="sendEstimates">
+        <exec program="python" commandline="GetEstimate.py" />
+        <mail from="ole@uncas.dk" 
+            tolist="ole@uncas.dk" 
+            subject="Estimates"
+            mailhost="smtp.mail.dk"
+            message="Estimates are attached here.">
+            <attachments>
+                <include name="estimates.pdf" />
+            </attachments>
+        </mail>
+    </target>
+
+</project>
