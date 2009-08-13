@@ -4,6 +4,9 @@ using System.Text;
 
 namespace Uncas.EBS.UI.Helpers
 {
+    /// <summary>
+    /// Represents a latex document.
+    /// </summary>
     public class LatexDocument
     {
 
@@ -23,6 +26,10 @@ namespace Uncas.EBS.UI.Helpers
         #region Public methods
 
 
+        /// <summary>
+        /// Appends the section.
+        /// </summary>
+        /// <param name="sectionTitle">The section title.</param>
         public void AppendSection
             (string sectionTitle)
         {
@@ -30,6 +37,12 @@ namespace Uncas.EBS.UI.Helpers
         }
 
 
+        /// <summary>
+        /// Appends the table.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="data">The data.</param>
+        /// <param name="columns">The columns.</param>
         public void AppendTable<T>
                (IEnumerable<T> data
                , params LatexColumn<T>[] columns
@@ -42,6 +55,13 @@ namespace Uncas.EBS.UI.Helpers
         }
 
 
+        /// <summary>
+        /// Appends the table.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="data">The data.</param>
+        /// <param name="showRow">The show row.</param>
+        /// <param name="columns">The columns.</param>
         public void AppendTable<T>
             (IEnumerable<T> data
             , Func<T, bool> showRow
@@ -65,6 +85,11 @@ namespace Uncas.EBS.UI.Helpers
         }
 
 
+        /// <summary>
+        /// Encodes the text.
+        /// </summary>
+        /// <param name="text">The text.</param>
+        /// <returns></returns>
         public string EncodeText(string text)
         {
             var transforms = new Dictionary<string, string>();
@@ -86,7 +111,13 @@ namespace Uncas.EBS.UI.Helpers
             return result;
         }
 
-        
+
+        /// <summary>
+        /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+        /// </returns>
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
@@ -133,9 +164,6 @@ namespace Uncas.EBS.UI.Helpers
 
 \begin{document}
 
-\title{...}
-\author{...}
-\maketitle
 ");
         }
 

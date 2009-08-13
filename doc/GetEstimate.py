@@ -18,12 +18,14 @@ def CreatePdfFile(latexFileName):
     os.system("pdflatex " + latexFileName)
     os.system("pdflatex " + latexFileName)
 
-estimateAsLatexUrl = 'http://localhost/hibes/EstimateAsLatex.ashx'
+estimateAsLatexUrl = 'http://aisrv01/hibes/EstimateAsLatex.ashx'
 rawFileName = 'estimatesRaw.tex'
 tempFileName = 'estimatesTemp.tex'
 outputFileName = 'estimates.tex'
 
+topContent = '\title{Opgaveliste, estimater, mm.} \author{Ole L. S\o rensen} \maketitle'
+
 GetEstimate(estimateAsLatexUrl, rawFileName)
-ReplaceLatex(rawFileName, tempFileName, '@TOP@', 'TOP CONTENT HERE')
-ReplaceLatex(tempFileName, outputFileName, '@BOTTOM@', 'BOTTOM CONTENT HERE')
+ReplaceLatex(rawFileName, tempFileName, '@TOP@', topContent)
+ReplaceLatex(tempFileName, outputFileName, '@BOTTOM@', '')
 CreatePdfFile(outputFileName)

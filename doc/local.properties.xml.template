@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<properties>
+
+    <property name="estimates.url" 
+        value="http://localhost/hibes/EstimateAsLatex.ashx" />
+
+    <property name="estimates.out" value="estimates" />
+
+    <property name="estimates.top" 
+        value="" />
+
+    <property name="estimates.bottom" 
+        value="" />
+
+    <property name="mail.host"
+        value="" />
+    <property name="mail.from"
+        value="" />
+    <property name="mail.tolist"
+        value="" />
+    <property name="mail.cclist"
+        value="" />
+    <property name="mail.bcclist"
+        value="" />
+    <property name="mail.subject"
+        value="Estimates" />
+    <property name="mail.message"
+        value="Here are some estimates for you." />
+
+</properties>

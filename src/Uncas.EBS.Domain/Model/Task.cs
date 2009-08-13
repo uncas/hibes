@@ -49,11 +49,11 @@ namespace Uncas.EBS.Domain.Model
             Task task = new Task();
             task.CurrentEstimate
                 = originalEstimate;
+            task.OriginalEstimate
+                = originalEstimate;
             task.Description = description;
             task.Elapsed = elapsed;
             task.EndDate = endDate;
-            task.OriginalEstimate
-                = originalEstimate;
             task.RefIssueId = refIssueId;
             task.Sequence = sequence;
             task.StartDate = startDate;
@@ -268,11 +268,28 @@ namespace Uncas.EBS.Domain.Model
 
         #region Progress (3)
 
+        private double _elapsed = 0d;
         /// <summary>
         /// Gets or sets the elapsed hours.
         /// </summary>
         /// <value>The elapsed hours.</value>
-        public double Elapsed { get; set; }
+        public double Elapsed
+        {
+            get
+            {
+                return _elapsed;
+            }
+            set
+            {
+                _elapsed = value;
+
+                // Estimate cannot be lower than the elapsed time:
+                if (this.CurrentEstimate < this.Elapsed)
+                {
+                    this.CurrentEstimate = this.Elapsed;
+                }
+            }
+        }
 
         /// <summary>
         /// Gets or sets the start date.

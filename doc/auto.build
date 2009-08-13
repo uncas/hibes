@@ -1,24 +1,75 @@
 <?xml version="1.0"?>
 <project name="hibes" default="all">
 
+    <!-- Customizable properties.
+         Copy local.properties.xml.template to local.properties.xml
+         And edit your custom values in there...
+    -->
+    <property name="estimates.url" 
+        value="http://localhost/hibes/EstimateAsLatex.ashx" />
+    <property name="estimates.top" 
+        value="" />
+    <property name="estimates.bottom" 
+        value="" />
+    <property name="mail.host"
+        value="localhost" />
+    <property name="mail.from"
+        value="" />
+    <property name="mail.tolist"
+        value="" />
+    <property name="mail.cclist"
+        value="" />
+    <property name="mail.bcclist"
+        value="" />
+    <property name="mail.subject"
+        value="" />
+    <property name="mail.message"
+        value="" />
+
+    <!-- Additional non-essential properties -->
+    <property name="estimates.in" value="estimatesRaw.tex" />
+    <property name="estimates.out" value="estimates" />
+
+    <!-- Loading local properties -->
     <if test="${file::exists('local.properties.xml')}">
-        <echo message="Loading local.properties.xml" />
+        <echo message="Loading local properties." />
         <include buildfile="local.properties.xml" />
     </if>
     
     <target name="all"/>
 
     <target name="sendEstimates">
-        <exec program="python" commandline="GetEstimate.py" />
-        <mail from="ole@uncas.dk" 
-            tolist="ole@uncas.dk" 
-            subject="Estimates"
-            mailhost="smtp.mail.dk"
-            message="Estimates are attached here.">
+
+        <!-- Downloads the estimates -->
+        <get src="${estimates.url}" dest="${estimates.in}"/>
+
+        <!-- Replaces some top and bottom text -->
+        <copy file="${estimates.in}" tofile="${estimates.out}.tex">
+            <filterchain>
+                <replacetokens>
+                    <token key="TOP" value="${estimates.top}" />
+                    <token key="BOTTOM" value="${estimates.bottom}" />
+                </replacetokens>
+            </filterchain>
+        </copy>
+
+        <!-- Converts to pdf -->
+        <exec program="pdflatex" commandline="${estimates.out}.tex" />
+        <exec program="pdflatex" commandline="${estimates.out}.tex" />
+
+        <!-- Sends mail -->
+        <mail from="${mail.from}" 
+            tolist="${mail.tolist}" 
+            cclist="${mail.cclist}" 
+            bcclist="${mail.bcclist}" 
+            subject="${mail.subject}"
+            mailhost="${mail.host}"
+            message="${mail.message}">
             <attachments>
-                <include name="estimates.pdf" />
+                <include name="${estimates.out}.pdf" />
             </attachments>
         </mail>
+
     </target>
 
 </project>

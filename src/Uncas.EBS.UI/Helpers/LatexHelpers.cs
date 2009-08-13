@@ -53,23 +53,21 @@ namespace Uncas.EBS.UI.Helpers
 
             document.AppendText("@TOP@");
 
-            document.AppendSection(Resources.Phrases.Date);
+            AppendIssueEstimateTables(projectId, maxPriority, document);
 
-            //AppendCompletionDateTable(projectId, maxPriority, document);
+            document.AppendSection(Resources.Phrases.Date);
 
             AppendPersonConfidenceDateTable
                 (projectId, maxPriority, document);
 
-            document.AppendSection(Resources.Phrases.Issues);
-
-            AppendIssueEstimateTables(projectId, maxPriority, document);
+            //AppendCompletionDateTable(projectId, maxPriority, document);
 
             document.AppendText("@BOTTOM@");
 
             return document.ToString();
         }
-        
-        
+
+
         private void AppendCompletionDateTable
             (int? projectId
             , int? maxPriority
@@ -156,13 +154,14 @@ namespace Uncas.EBS.UI.Helpers
                 = _projectController.GetIssueEstimates
                 (projectId, maxPriority);
 
+            document.AppendSection(Resources.Phrases.Issues);
             AppendIssueEstimateTable(issueEstimates, true, document);
 
             foreach (var personEvaluation
                 in _projectController.GetEvaluationsPerPerson
                 (projectId, maxPriority))
             {
-                // TODO: FEATURE: Person name on latex output.
+                document.AppendSection(personEvaluation.PersonName);
                 AppendIssueEstimateTable
                     (personEvaluation.GetIssueEvaluations()
                     , false

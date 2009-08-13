@@ -274,6 +274,19 @@ namespace Uncas.EBS.Domain.ViewModel
         }
 
 
+        /// <summary>
+        /// Gets the name of the person.
+        /// </summary>
+        /// <value>The name of the person.</value>
+        public string PersonName
+        {
+            get
+            {
+                return this.Person.PersonName;
+            }
+        }
+
+
         #endregion
 
 

@@ -33,7 +33,7 @@
   <ItemGroup>
     <Reference Include="NMock2, Version=2.0.0.44, Culture=neutral, PublicKeyToken=37d3be0adc87c2b7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\Program Files\nmock\bin\NMock2.dll</HintPath>
+      <HintPath>C:\Program Files\nmock\bin\NMock2.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
