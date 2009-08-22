@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Uncas.EBS.Domain.Model;
 using Uncas.EBS.Domain.Repository;
 using Uncas.EBS.Domain.ViewModel;
@@ -78,9 +79,20 @@ namespace Uncas.EBS.UI.Controllers
             _taskRepo.DeleteTask(Original_TaskId);
         }
 
-        public IList<Task> GetClosedTasks()
+        public IList<Task> GetClosedTasks(int? RefPersonId)
         {
-            return _taskRepo.GetTasks(Status.Closed, null);
+            // TODO: REFACTOR: Move this into repository:
+            var result = _taskRepo.GetTasks(Status.Closed, null);
+            if (RefPersonId.HasValue)
+            {
+                return result.Where
+                    (p => p.RefPersonId == RefPersonId.Value)
+                    .ToList();
+            }
+            else
+            {
+                return result;
+            }
         }
     }
 }

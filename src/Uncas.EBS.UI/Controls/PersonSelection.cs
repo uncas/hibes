@@ -7,12 +7,7 @@ namespace Uncas.EBS.UI.Controls
     {
         public PersonSelection()
         {
-            PersonController projRepo = new PersonController();
-            foreach (var Person in projRepo.GetPersons())
-            {
-                this.Items.Add(new ListItem(Person.PersonName
-                    , Person.PersonId.ToString()));
-            }
+            AddPersonItems();
         }
 
         public int? PersonId
@@ -25,6 +20,41 @@ namespace Uncas.EBS.UI.Controls
                     PersonId = int.Parse(this.SelectedValue);
                 }
                 return PersonId;
+            }
+        }
+
+        private bool _showAllOption = false;
+        public bool ShowAllOption
+        {
+            get
+            {
+                return _showAllOption;
+            }
+            set
+            {
+                _showAllOption = value;
+                EnsureChildControls();
+                AddPersonItems();
+            }
+        }
+
+        private void AddPersonItems()
+        {
+            this.Items.Clear();
+
+            PersonController projRepo = new PersonController();
+            if (this.ShowAllOption)
+            {
+                this.Items.Add
+                    (new ListItem
+                        (" - " + Resources.Phrases.All + " - "
+                        , "")
+                    );
+            }
+            foreach (var Person in projRepo.GetPersons())
+            {
+                this.Items.Add(new ListItem(Person.PersonName
+                    , Person.PersonId.ToString()));
             }
         }
     }

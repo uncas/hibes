@@ -6,29 +6,42 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <h2>
         <%= Resources.Phrases.History %></h2>
-    <asp:Chart ID="chartClosedTasks" runat="server" DataSourceID="odsClosedTasks">
-        <Series>
-            <asp:Series Name="SeriesOriginalVsElapsed" YValueMembers="OriginalEstimate" XValueMember="Elapsed"
-                ChartType="Point" Color="#339999" MarkerSize="9" MarkerStyle="Circle">
-            </asp:Series>
-            <asp:Series ChartType="Line" Color="Black">
-                <Points>
-                    <asp:DataPoint XValue="0" YValues="0" />
-                    <asp:DataPoint XValue="5" YValues="5" />
-                </Points>
-            </asp:Series>
-        </Series>
-        <ChartAreas>
-            <asp:ChartArea Name="ChartAreaClosedTasks">
-                <AxisX Minimum="0">
-                </AxisX>
-                <AxisY Minimum="0">
-                </AxisY>
-            </asp:ChartArea>
-        </ChartAreas>
-    </asp:Chart>
-    <asp:GridView ID="gvClosedTasks" runat="server" DataSourceID="odsClosedTasks" Visible="false">
-    </asp:GridView>
-    <asp:ObjectDataSource ID="odsClosedTasks" runat="server" TypeName="Uncas.EBS.UI.Controllers.TaskController"
-        SelectMethod="GetClosedTasks"></asp:ObjectDataSource>
+    <asp:UpdatePanel ID="up1" runat="server">
+        <ContentTemplate>
+            <div>
+                <uncas:PersonSelection ID="ps1" runat="server" AutoPostBack="true" ShowAllOption="true">
+                </uncas:PersonSelection>
+            </div>
+            <asp:Chart ID="chartClosedTasks" runat="server" DataSourceID="odsClosedTasks">
+                <Series>
+                    <asp:Series Name="SeriesOriginalVsElapsed" YValueMembers="OriginalEstimate" XValueMember="Elapsed"
+                        ChartType="Point" Color="#339999" MarkerSize="9" MarkerStyle="Circle">
+                    </asp:Series>
+                    <asp:Series ChartType="Line" Color="Black">
+                        <Points>
+                            <asp:DataPoint XValue="0" YValues="0" />
+                            <asp:DataPoint XValue="5" YValues="5" />
+                        </Points>
+                    </asp:Series>
+                </Series>
+                <ChartAreas>
+                    <asp:ChartArea Name="ChartAreaClosedTasks">
+                        <AxisX Minimum="0">
+                        </AxisX>
+                        <AxisY Minimum="0">
+                        </AxisY>
+                    </asp:ChartArea>
+                </ChartAreas>
+            </asp:Chart>
+            <asp:GridView ID="gvClosedTasks" runat="server" DataSourceID="odsClosedTasks" Visible="false">
+            </asp:GridView>
+            <asp:ObjectDataSource ID="odsClosedTasks" runat="server" TypeName="Uncas.EBS.UI.Controllers.TaskController"
+                SelectMethod="GetClosedTasks">
+                <SelectParameters>
+                    <asp:ControlParameter ControlID="ps1" Name="RefPersonId" PropertyName="PersonId"
+                        Type="Int32" />
+                </SelectParameters>
+            </asp:ObjectDataSource>
+        </ContentTemplate>
+    </asp:UpdatePanel>
 </asp:Content>
