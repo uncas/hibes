@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Specialized;
+using System.Globalization;
 using System.Security.Permissions;
 using System.Web;
 using System.Web.UI;
@@ -77,28 +78,32 @@ namespace Uncas.EBS.UI.Controls
 
         void control_DataBinding(object sender, EventArgs e)
         {
-            if (sender is TableCell)
+            TableCell cell = sender as TableCell;
+            if (cell != null)
             {
-                TableCell cell = sender as TableCell;
                 object dataItem = DataBinder.GetDataItem
                     (cell.NamingContainer);
                 cell.Text = DataBinder.GetPropertyValue
                     (dataItem, this.DataField, "{0:d}");
             }
-            else if (sender is DateBox)
+            else
             {
                 DateBox box = sender as DateBox;
-
-                object dataItem = DataBinder.GetDataItem
-                    (box.NamingContainer);
-                string datePropertyValue
-                    = DataBinder.GetPropertyValue
-                    (dataItem, this.DataField, null);
-                if (!string.IsNullOrEmpty(datePropertyValue))
+                if (box != null)
                 {
-                    DateTime selectedDate = DateTime.Parse
-                        (datePropertyValue);
-                    box.SelectedDate = selectedDate;
+                    object dataItem = DataBinder.GetDataItem
+                        (box.NamingContainer);
+                    string datePropertyValue
+                        = DataBinder.GetPropertyValue
+                        (dataItem, this.DataField, null);
+                    if (!string.IsNullOrEmpty(datePropertyValue))
+                    {
+                        DateTime selectedDate
+                            = DateTime.Parse
+                            (datePropertyValue
+                            , CultureInfo.InvariantCulture);
+                        box.SelectedDate = selectedDate;
+                    }
                 }
             }
         }

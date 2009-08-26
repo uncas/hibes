@@ -4,7 +4,7 @@ namespace Uncas.EBS.UI.Controllers
 {
     public class LanguageController
     {
-        public IList<Language> GetLanguages()
+        public static IList<Language> GetLanguages()
         {
             var languages = new List<Language>();
             languages.Add(new Language("da-DK", "dansk"));

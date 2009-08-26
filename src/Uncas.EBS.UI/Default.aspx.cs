@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Globalization;
 using System.Web.UI.WebControls;
-using Uncas.EBS.UI.Controllers;
-using Uncas.EBS.Domain.Model;
 using Uncas.EBS.Domain.ViewModel;
+using Uncas.EBS.UI.Controllers;
 using Uncas.EBS.UI.Helpers;
 
 namespace Uncas.EBS.UI
@@ -70,7 +70,9 @@ namespace Uncas.EBS.UI
         private void ModifyIssue(GridViewCommandEventArgs e
             , Func<int, bool> func)
         {
-            int issueId = int.Parse(e.CommandArgument.ToString());
+            int issueId
+                = int.Parse(e.CommandArgument.ToString()
+                    , CultureInfo.InvariantCulture);
             func(issueId);
             gvIssues.DataBind();
         }

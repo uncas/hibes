@@ -12,13 +12,6 @@ namespace Uncas.EBS.DAL
         , IIssueRepository
     {
 
-        #region Private fields
-
-        private TaskRepository _taskRepo = new TaskRepository();
-
-        #endregion
-
-
         #region Public methods (IIssueRepository members)
 
 
@@ -28,7 +21,7 @@ namespace Uncas.EBS.DAL
             , Model.Status status
             )
         {
-            var dbIssues = db.Issues.Select(i => i);
+            var dbIssues = DB.Issues.Select(i => i);
 
             // Filters on status:
             if (status != Model.Status.Any)
@@ -62,11 +55,11 @@ namespace Uncas.EBS.DAL
         {
             TaskRepository taskRepo = new TaskRepository();
             return new IssueView
-            {
-                Issue = GetIssueDetails(issueId),
-                Tasks = taskRepo.GetTasks(issueId, taskStatus)
-                    .ToList()
-            };
+                (
+                    GetIssueDetails(issueId),
+                    taskRepo.GetTasks(issueId, taskStatus)
+                        .ToList()
+                );
         }
 
 
@@ -76,7 +69,7 @@ namespace Uncas.EBS.DAL
             , int? maxPriority
             )
         {
-            var issues = db.Issues.Where(i => i.RefStatusId == 1)
+            var issues = DB.Issues.Where(i => i.RefStatusId == 1)
                 .OrderBy(i => i.Priority).AsQueryable<Issue>();
             if (projectId.HasValue)
             {
@@ -91,14 +84,14 @@ namespace Uncas.EBS.DAL
 
             var result = issues.Select
                 (issue => new IssueView
-                {
-                    Issue = GetIssueDetailsFromDbIssue(issue),
-                    Tasks = issue.Tasks
+                (
+                    GetIssueDetailsFromDbIssue(issue),
+                    issue.Tasks
                         .Where(t => t.RefStatusId == 1)
-                        .Select(t => _taskRepo
+                        .Select(t => TaskRepository
                             .GetTaskDetailsFromDbTask(t))
                         .ToList()
-                });
+                ));
 
             return result.ToList();
         }
@@ -133,7 +126,7 @@ namespace Uncas.EBS.DAL
             try
             {
                 Issue dbIssue = GetDbIssueFromModelIssue(issue);
-                db.Issues.InsertOnSubmit(dbIssue);
+                DB.Issues.InsertOnSubmit(dbIssue);
                 base.SubmitChanges();
                 // Reads auto-generated id from the database:
                 issue.IssueId = dbIssue.IssueId;
@@ -154,7 +147,7 @@ namespace Uncas.EBS.DAL
             {
                 throw new RepositoryException("Invalid issue");
             }
-            var dbIssue = db.Issues
+            var dbIssue = DB.Issues
                 .Where(i => i.IssueId == issue.IssueId.Value)
                 .SingleOrDefault();
             dbIssue.Priority = issue.Priority;
@@ -171,11 +164,11 @@ namespace Uncas.EBS.DAL
         {
             Issue issue = ReadIssue(issueId
                 , "Found no such issue to delete.");
-            if (db.Tasks.Where(t => t.RefIssueId == issueId).Count() > 0)
+            if (DB.Tasks.Where(t => t.RefIssueId == issueId).Count() > 0)
             {
                 throw new RepositoryException("Issue cannot be deleted when there are still tasks attached.");
             }
-            db.Issues.DeleteOnSubmit(issue);
+            DB.Issues.DeleteOnSubmit(issue);
             try
             {
                 base.SubmitChanges();
@@ -214,7 +207,7 @@ namespace Uncas.EBS.DAL
             )
         {
             int priority = 1;
-            var issues = db.Issues.Where(i => i.RefStatusId == 1);
+            var issues = DB.Issues.Where(i => i.RefStatusId == 1);
             if (projectId.HasValue)
             {
                 issues = issues.Where(i => i.RefProjectId == projectId.Value);
@@ -243,7 +236,7 @@ namespace Uncas.EBS.DAL
             , string message
             )
         {
-            Issue issue = db.Issues
+            Issue issue = DB.Issues
                 .Where(i => i.IssueId == issueId)
                 .SingleOrDefault();
             if (issue == null)
@@ -272,14 +265,14 @@ namespace Uncas.EBS.DAL
             int issueId
             )
         {
-            return db.Issues
+            return DB.Issues
                 .Where(i => i.IssueId == issueId)
                 .Select(i => GetIssueDetailsFromDbIssue(i))
                 .SingleOrDefault();
         }
 
 
-        private IssueDetails GetIssueDetailsFromDbIssue
+        private static IssueDetails GetIssueDetailsFromDbIssue
             (
             Issue dbIssue
             )
@@ -308,7 +301,7 @@ namespace Uncas.EBS.DAL
         }
 
 
-        private Issue GetDbIssueFromModelIssue
+        private static Issue GetDbIssueFromModelIssue
             (
             Model.Issue issue
             )

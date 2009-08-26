@@ -44,6 +44,6 @@ namespace Uncas.EBS.Domain.ViewModel
         /// Gets or sets the person offs.
         /// </summary>
         /// <value>The person offs.</value>
-        public IList<PersonOff> PersonOffs { get; set; }
+        public IList<PersonOff> PersonOffs { get; private set; }
     }
 }

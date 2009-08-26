@@ -1,4 +1,6 @@
-﻿namespace Uncas.EBS.Domain.ViewModel
+﻿using System.Globalization;
+
+namespace Uncas.EBS.Domain.ViewModel
 {
     /// <summary>
     /// Handles the probability to be in a given interval.
@@ -31,8 +33,12 @@
         /// </returns>
         public override string ToString()
         {
-            return string.Format("{0}-{1}: {2:P1}"
-                , this.Lower, this.Upper, this.Probability);
+            return string.Format
+                (
+                CultureInfo.CurrentCulture
+                , "{0}-{1}: {2:P1}"
+                , this.Lower, this.Upper, this.Probability
+                );
         }
     }
 }

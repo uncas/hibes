@@ -232,7 +232,7 @@ namespace Uncas.EBS.Domain.Model
 
         #region Estimates (2)
 
-        private double _originalEstimate = 0d;
+        private double _originalEstimate;
         /// <summary>
         /// Gets or sets the original estimate in hours.
         /// </summary>
@@ -246,7 +246,9 @@ namespace Uncas.EBS.Domain.Model
             set
             {
                 if (value <= 0d)
-                    throw new ArgumentOutOfRangeException();
+                    throw new ArgumentOutOfRangeException
+                        ("value"
+                        , "Original estimate must be non-negative");
                 else
                     _originalEstimate = value;
             }
@@ -268,7 +270,7 @@ namespace Uncas.EBS.Domain.Model
 
         #region Progress (3)
 
-        private double _elapsed = 0d;
+        private double _elapsed;
         /// <summary>
         /// Gets or sets the elapsed hours.
         /// </summary>

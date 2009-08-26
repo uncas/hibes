@@ -19,7 +19,9 @@ namespace Uncas.EBS.Domain.Model
         {
             if (from.Date > to.Date)
             {
-                throw new ArgumentException();
+                throw new ArgumentException
+                    ("From date must be smaller than to date."
+                    , "from");
             }
             this.FromDate = from;
             this.ToDate = to;

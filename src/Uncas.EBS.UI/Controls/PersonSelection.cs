@@ -1,4 +1,5 @@
-﻿using System.Web.UI.WebControls;
+﻿using System.Globalization;
+using System.Web.UI.WebControls;
 using Uncas.EBS.UI.Controllers;
 
 namespace Uncas.EBS.UI.Controls
@@ -17,13 +18,15 @@ namespace Uncas.EBS.UI.Controls
                 int? PersonId = null;
                 if (!string.IsNullOrEmpty(this.SelectedValue))
                 {
-                    PersonId = int.Parse(this.SelectedValue);
+                    PersonId = int.Parse
+                        (this.SelectedValue
+                        , CultureInfo.InvariantCulture);
                 }
                 return PersonId;
             }
         }
 
-        private bool _showAllOption = false;
+        private bool _showAllOption;
         public bool ShowAllOption
         {
             get
@@ -53,8 +56,13 @@ namespace Uncas.EBS.UI.Controls
             }
             foreach (var Person in projRepo.GetPersons())
             {
-                this.Items.Add(new ListItem(Person.PersonName
-                    , Person.PersonId.ToString()));
+                this.Items.Add
+                    (new ListItem
+                        (Person.PersonName
+                        , Person.PersonId.ToString
+                            (CultureInfo.InvariantCulture)
+                        )
+                    );
             }
         }
     }

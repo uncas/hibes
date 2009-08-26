@@ -1,4 +1,5 @@
-﻿using System.Web.UI.WebControls;
+﻿using System.Globalization;
+using System.Web.UI.WebControls;
 
 namespace Uncas.EBS.UI.Controls
 {
@@ -6,7 +7,9 @@ namespace Uncas.EBS.UI.Controls
     {
         public DeleteButton()
         {
-            this.OnClientClick = string.Format("return confirm('{0}');"
+            this.OnClientClick = string.Format
+                (CultureInfo.InvariantCulture
+                , "return confirm('{0}');"
                 , Resources.Phrases.ConfirmDelete);
 
             this.CommandName = "Delete";

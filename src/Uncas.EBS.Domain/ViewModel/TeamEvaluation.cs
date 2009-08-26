@@ -32,7 +32,7 @@ namespace Uncas.EBS.Domain.ViewModel
         public IList<ProjectEvaluation> EvaluationsPerPerson
         {
             get;
-            set;
+            private set;
         }
     }
 }

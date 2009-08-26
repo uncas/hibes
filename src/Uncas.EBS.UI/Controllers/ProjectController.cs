@@ -7,6 +7,7 @@ using Uncas.EBS.ApplicationServices;
 using Uncas.EBS.Domain.Model;
 using Uncas.EBS.Domain.Repository;
 using Uncas.EBS.Domain.ViewModel;
+using System.Globalization;
 
 namespace Uncas.EBS.UI.Controllers
 {
@@ -31,8 +32,10 @@ namespace Uncas.EBS.UI.Controllers
             , int? maxPriority)
         {
             string cacheKey = string.Format
-                ("TeamEvaluation-{0}-{1}"
-                , projectId, maxPriority);
+                (CultureInfo.InvariantCulture
+                , "TeamEvaluation-{0}-{1}"
+                , projectId
+                , maxPriority);
             Cache cache = HttpRuntime.Cache;
             TeamEvaluation teamEvaluation
                 = (TeamEvaluation)cache[cacheKey];

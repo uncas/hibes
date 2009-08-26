@@ -36,7 +36,7 @@ namespace Uncas.EBS.Tests.UITests
         public void LatexEncodeText()
         {
             string result
-                = _document.EncodeText
+                = LatexDocument.EncodeText
                 ("Æg rød på træ Åben Ør");
             Assert.AreEqual
                 (@"\AE g r\o d p\aa\ tr\ae\ \AA ben \O r"

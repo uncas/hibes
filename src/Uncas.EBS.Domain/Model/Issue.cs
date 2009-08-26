@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace Uncas.EBS.Domain.Model
 {
@@ -131,7 +132,10 @@ namespace Uncas.EBS.Domain.Model
         /// </returns>
         public override string ToString()
         {
-            return string.Format("{0} - {1} - {2} - {3} - {4}"
+            return string.Format
+                (
+                CultureInfo.CurrentCulture
+                , "{0} - {1} - {2} - {3} - {4}"
                 , this.IssueId
                 , this.CreatedDate
                 , this.Priority

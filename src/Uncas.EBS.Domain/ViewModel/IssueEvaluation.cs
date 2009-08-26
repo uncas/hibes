@@ -30,7 +30,8 @@ namespace Uncas.EBS.Domain.ViewModel
                 || elapsed < 0d
                 || evaluation < 0d)
             {
-                throw new ArgumentException();
+                throw new ArgumentException
+                    ("Invalid issue evaluation");
             }
             this.Issue = issue;
             this.NumberOfOpenTasks = numberOfOpenTasks;
@@ -184,9 +185,9 @@ namespace Uncas.EBS.Domain.ViewModel
 
         private double _standardNumberOfHoursPerDay;
 
-        private double _sum = 0d;
+        private double _sum;
 
-        private int _count = 0;
+        private int _count;
 
 
         #endregion

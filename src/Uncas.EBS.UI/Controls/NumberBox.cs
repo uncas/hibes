@@ -1,5 +1,6 @@
 ﻿using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Globalization;
 
 namespace Uncas.EBS.UI.Controls
 {
@@ -111,8 +112,10 @@ namespace Uncas.EBS.UI.Controls
             {
                 EnsureChildControls();
                 int iOut = 0;
-                if (tbNumber.Text == string.Empty || !int.TryParse(tbNumber.Text, out iOut))
+                if (!int.TryParse(tbNumber.Text, out iOut))
+                {
                     return null;
+                }
                 else
                 {
                     if (iOut > maxValue) return maxValue;
@@ -125,9 +128,24 @@ namespace Uncas.EBS.UI.Controls
                 EnsureChildControls();
                 if (value.HasValue)
                 {
-                    if (value.Value > maxValue) tbNumber.Text = maxValue.ToString();
-                    else if (value.Value < minValue) tbNumber.Text = minValue.ToString();
-                    else tbNumber.Text = value.Value.ToString();
+                    if (value.Value > maxValue)
+                    {
+                        tbNumber.Text
+                            = maxValue.ToString
+                            (CultureInfo.CurrentCulture);
+                    }
+                    else if (value.Value < minValue)
+                    {
+                        tbNumber.Text
+                            = minValue.ToString
+                            (CultureInfo.CurrentCulture);
+                    }
+                    else
+                    {
+                        tbNumber.Text
+                            = value.Value.ToString
+                            (CultureInfo.CurrentCulture);
+                    }
                 }
                 else tbNumber.Text = string.Empty;
             }

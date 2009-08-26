@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Web;
 using System.Web.UI;
@@ -52,11 +53,16 @@ namespace Uncas.EBS.UI.Helpers
 
             response.AddHeader
                 ("Content-Disposition"
-                , string.Format("attachment;filename={0}{1}"
-                , fileName, fileExtension));
+                , string.Format
+                    (CultureInfo.InvariantCulture
+                    , "attachment;filename={0}{1}"
+                    , fileName
+                    , fileExtension)
+                );
             response.ContentType = contentType;
 
-            using (StringWriter sw = new StringWriter())
+            using (StringWriter sw
+                = new StringWriter(CultureInfo.CurrentCulture))
             {
                 using (HtmlTextWriter writer = new HtmlTextWriter(sw))
                 {

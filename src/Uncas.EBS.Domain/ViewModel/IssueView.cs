@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Uncas.EBS.Domain.Model;
+using System;
 
 namespace Uncas.EBS.Domain.ViewModel
 {
@@ -8,6 +9,22 @@ namespace Uncas.EBS.Domain.ViewModel
     /// </summary>
     public class IssueView
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IssueView"/> class.
+        /// </summary>
+        /// <param name="issue">The issue.</param>
+        /// <param name="tasks">The tasks.</param>
+        public IssueView(IssueDetails issue
+            , IList<TaskDetails> tasks)
+        {
+            this.Issue = issue;
+            this.Tasks = new List<TaskDetails>();
+            foreach (TaskDetails td in tasks)
+            {
+                this.Tasks.Add(td);
+            }
+        }
+
         /// <summary>
         /// Gets or sets the issue.
         /// </summary>
@@ -18,6 +35,10 @@ namespace Uncas.EBS.Domain.ViewModel
         /// Gets or sets the tasks.
         /// </summary>
         /// <value>The tasks.</value>
-        public IList<TaskDetails> Tasks { get; set; }
+        public IList<TaskDetails> Tasks
+        {
+            get;
+            private set;
+        }
     }
 }

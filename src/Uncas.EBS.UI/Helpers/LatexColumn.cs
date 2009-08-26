@@ -30,6 +30,7 @@ namespace Uncas.EBS.UI.Helpers
 
     public enum ColumnAlignment
     {
+        NotSet = 0,
         Left = 1,
         Center = 2,
         Right = 3

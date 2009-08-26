@@ -13,7 +13,7 @@ namespace Uncas.EBS.DAL
 
         public IList<Model.PersonOff> GetPersonOffs(int personId)
         {
-            return db.PersonOffs
+            return DB.PersonOffs
                 .Where(po
                     => po.RefPersonId == personId
                     && po.ToDate.Date >= DateTime.Now.Date)
@@ -28,7 +28,7 @@ namespace Uncas.EBS.DAL
 
         public void InsertPersonOff(Model.PersonOff personOff)
         {
-            db.PersonOffs.InsertOnSubmit
+            DB.PersonOffs.InsertOnSubmit
                 (new PersonOff
                 {
                     FromDate = personOff.FromDate,
@@ -40,9 +40,9 @@ namespace Uncas.EBS.DAL
 
         public void DeletePersonOff(int personOffId)
         {
-            db.PersonOffs.DeleteOnSubmit
+            DB.PersonOffs.DeleteOnSubmit
                 (GetPersonOff(personOffId));
-            db.SubmitChanges();
+            DB.SubmitChanges();
         }
 
         public void UpdatePersonOff(Model.PersonOff personOff)
@@ -54,14 +54,14 @@ namespace Uncas.EBS.DAL
             var dbpo = GetPersonOff(personOff.PersonOffId.Value);
             dbpo.FromDate = personOff.FromDate;
             dbpo.ToDate = personOff.ToDate;
-            db.SubmitChanges();
+            DB.SubmitChanges();
         }
 
         #endregion
 
         private PersonOff GetPersonOff(int personOffId)
         {
-            return db.PersonOffs
+            return DB.PersonOffs
                 .Where(po => po.PersonOffId == personOffId)
                 .SingleOrDefault();
         }

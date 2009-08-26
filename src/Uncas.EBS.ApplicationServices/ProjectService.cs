@@ -36,14 +36,6 @@ namespace Uncas.EBS.ApplicationServices
             }
         }
 
-        private IPersonOffRepository PersonOffRepository
-        {
-            get
-            {
-                return _repositories.PersonOffRepository;
-            }
-        }
-
         #endregion
 
         public ProjectService(IRepositoryFactory repositories)
@@ -91,14 +83,14 @@ namespace Uncas.EBS.ApplicationServices
                     openIssuesAndOpenTasks
                     .Select(i =>
                         new IssueView
-                        {
-                            Issue = i.Issue,
-                            Tasks = i.Tasks
+                        (
+                            i.Issue,
+                            i.Tasks
                                 .Where(t =>
                                     t.RefPersonId
                                     == personView.PersonId)
                                 .ToList()
-                        }).ToList();
+                        )).ToList();
                 var evaluationForPerson
                     = simulationEngine.GetProjectEvaluation
                     (personView

@@ -51,8 +51,8 @@ namespace Uncas.EBS.Tests.SimulationTests
 
             var issueViews = new List<IssueView>();
             issueViews.Add(new IssueView
-            {
-                Issue = IssueDetails.ReconstructIssueDetails
+            (
+                IssueDetails.ReconstructIssueDetails
                     (1
                     , DateTime.Now
                     , 1
@@ -62,8 +62,8 @@ namespace Uncas.EBS.Tests.SimulationTests
                     , 0
                     , null
                     , null),
-                Tasks = openTasks
-            });
+                openTasks
+            ));
 
 
             // Testing:
@@ -123,8 +123,8 @@ namespace Uncas.EBS.Tests.SimulationTests
 
             issueViews = new List<IssueView>();
             issueViews.Add(new IssueView
-            {
-                Issue = IssueDetails.ReconstructIssueDetails
+            (
+                IssueDetails.ReconstructIssueDetails
                     (1
                     , DateTime.Now
                     , 1
@@ -134,8 +134,8 @@ namespace Uncas.EBS.Tests.SimulationTests
                     , 0
                     , null
                     , null),
-                Tasks = openTasks
-            });
+                openTasks
+            ));
         }
 
         [Test]

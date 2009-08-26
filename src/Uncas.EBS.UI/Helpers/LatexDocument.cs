@@ -90,7 +90,7 @@ namespace Uncas.EBS.UI.Helpers
         /// </summary>
         /// <param name="text">The text.</param>
         /// <returns></returns>
-        public string EncodeText(string text)
+        public static string EncodeText(string text)
         {
             var transforms = new Dictionary<string, string>();
             transforms.Add("æ", @"\ae");
@@ -145,7 +145,7 @@ namespace Uncas.EBS.UI.Helpers
         #region Private methods
 
 
-        private void AppendBegin
+        private static void AppendBegin
             (StringBuilder sb)
         {
             sb.AppendLine(
@@ -168,14 +168,14 @@ namespace Uncas.EBS.UI.Helpers
         }
 
 
-        private void AppendEnd
+        private static void AppendEnd
             (StringBuilder sb)
         {
             sb.Append(@"\end{document}");
         }
 
 
-        private void TransformString
+        private static void TransformString
             (ref string result
             , KeyValuePair<string, string> transform)
         {
@@ -193,7 +193,7 @@ namespace Uncas.EBS.UI.Helpers
         }
 
 
-        private void BeginTabular<T>
+        private static void BeginTabular<T>
             (LatexColumn<T>[] columns
             , StringBuilder sb)
         {
@@ -225,7 +225,7 @@ namespace Uncas.EBS.UI.Helpers
         }
 
 
-        private void MakeHeader<T>
+        private static void MakeHeader<T>
             (LatexColumn<T>[] columns
             , StringBuilder sb)
         {
@@ -246,7 +246,7 @@ namespace Uncas.EBS.UI.Helpers
         }
 
 
-        private void AddRowPerItem<T>
+        private static void AddRowPerItem<T>
             (IEnumerable<T> data
             , LatexColumn<T>[] columns
             , StringBuilder sb
@@ -277,7 +277,7 @@ namespace Uncas.EBS.UI.Helpers
         }
 
 
-        private void EndTabular
+        private static void EndTabular
             (StringBuilder sb)
         {
             sb.AppendLine(

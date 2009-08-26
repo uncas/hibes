@@ -5,6 +5,7 @@ namespace Uncas.EBS.Domain.Repository
     /// <summary>
     /// Represents exceptions that are thrown from the repository layer.
     /// </summary>
+    [Serializable]
     public class RepositoryException : Exception
     {
         /// <summary>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using System.Web.UI;
 using System.Web.UI.DataVisualization.Charting;
@@ -40,14 +41,18 @@ namespace Uncas.EBS.UI
             ShowCompletionDateConfidences();
 
             gvEvaluationsPerPerson.Columns[1].HeaderText
-                = Uncas.EBS.UI.App.ConfidenceLow.ToString("P0");
+                = App.ConfidenceLow
+                    .ToString("P0", CultureInfo.CurrentCulture);
             gvEvaluationsPerPerson.Columns[2].HeaderText
-                = Uncas.EBS.UI.App.ConfidenceMedium.ToString("P0");
+                = App.ConfidenceMedium
+                    .ToString("P0", CultureInfo.CurrentCulture);
             gvEvaluationsPerPerson.Columns[3].HeaderText
-                = Uncas.EBS.UI.App.ConfidenceHigh.ToString("P0");
+                = App.ConfidenceHigh
+                    .ToString("P0", CultureInfo.CurrentCulture);
 
-            hlDownloadLatex.NavigateUrl = string.Format(
-                "EstimateAsLatex.ashx?ProjectId={0}&MaxPriority={1}"
+            hlDownloadLatex.NavigateUrl = string.Format
+                (CultureInfo.InvariantCulture
+                , "EstimateAsLatex.ashx?ProjectId={0}&MaxPriority={1}"
                 , this.SelectedProjectId
                 , this.SelectedMaxPriority);
         }
@@ -137,7 +142,7 @@ namespace Uncas.EBS.UI
             }
         }
 
-        private string GetShortenedPersonName(string name)
+        private static string GetShortenedPersonName(string name)
         {
             if (name.Length <= 10)
             {

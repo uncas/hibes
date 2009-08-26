@@ -12,7 +12,7 @@ namespace Uncas.EBS.DAL
 
         public IList<PersonView> GetPersonViews()
         {
-            var result = db.Persons
+            var result = DB.Persons
                 .Select(p =>
                     new PersonView
                         (p.PersonId
@@ -31,7 +31,7 @@ namespace Uncas.EBS.DAL
 
         public IList<Model.Person> GetPersons()
         {
-            var result = db.Persons
+            var result = DB.Persons
                 .Select(p =>
                     new Model.Person
                         (p.PersonId
@@ -53,7 +53,7 @@ namespace Uncas.EBS.DAL
                 PersonName = person.PersonName,
             };
 
-            db.Persons.InsertOnSubmit(dbPerson);
+            DB.Persons.InsertOnSubmit(dbPerson);
 
             base.SubmitChanges();
 
@@ -72,7 +72,7 @@ namespace Uncas.EBS.DAL
             dbPerson.HoursPerDay = (decimal)person.HoursPerDay;
             dbPerson.PersonName = person.PersonName;
 
-            db.SubmitChanges();
+            DB.SubmitChanges();
         }
 
         public void DeletePerson(int personId)
@@ -82,15 +82,15 @@ namespace Uncas.EBS.DAL
             {
                 throw new RepositoryException("No such person.");
             }
-            db.Persons.DeleteOnSubmit(person);
-            db.SubmitChanges();
+            DB.Persons.DeleteOnSubmit(person);
+            DB.SubmitChanges();
         }
 
         #endregion
 
         private Person GetDbPerson(int personId)
         {
-            return db.Persons
+            return DB.Persons
                 .Where(p => p.PersonId == personId)
                 .SingleOrDefault();
         }

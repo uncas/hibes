@@ -79,9 +79,9 @@ namespace Uncas.EBS.Domain.Model
         /// </exception>
         public override bool Equals(object obj)
         {
-            if (obj is Person)
+            Person other = (Person)obj;
+            if (other != null)
             {
-                Person other = (Person)obj;
                 return this.PersonId.Equals(other.PersonId)
                     && this.PersonName.Equals(other.PersonName)
                     && this.DaysPerWeek.Equals(other.DaysPerWeek)

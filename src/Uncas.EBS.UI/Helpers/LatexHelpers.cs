@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Web;
 using Uncas.EBS.Domain.ViewModel;
 using Uncas.EBS.UI.Controllers;
@@ -60,40 +61,9 @@ namespace Uncas.EBS.UI.Helpers
             AppendPersonConfidenceDateTable
                 (projectId, maxPriority, document);
 
-            //AppendCompletionDateTable(projectId, maxPriority, document);
-
             document.AppendText("@BOTTOM@");
 
             return document.ToString();
-        }
-
-
-        private void AppendCompletionDateTable
-            (int? projectId
-            , int? maxPriority
-            , LatexDocument document)
-        {
-            var completionDateConfidences
-                = _projectController.GetSelectedCompletionDateConfidences
-                (projectId, maxPriority);
-
-            var dateColumn
-                = new LatexColumn<CompletionDateConfidence>
-                (Resources.Phrases.Date
-                , (CompletionDateConfidence to)
-                    => to.Date.ToShortDateString());
-
-            var probabilityColumn
-                = new LatexColumn<CompletionDateConfidence>
-                (Resources.Phrases.Probability
-                , (CompletionDateConfidence to)
-                    => LatexPercentageStringFromDouble(to.Probability)
-                , ColumnAlignment.Right);
-
-            document.AppendTable<CompletionDateConfidence>
-                 (completionDateConfidences
-                 , dateColumn
-                 , probabilityColumn);
         }
 
 
@@ -171,7 +141,7 @@ namespace Uncas.EBS.UI.Helpers
         }
 
 
-        private void AppendIssueEstimateTable
+        private static void AppendIssueEstimateTable
             (IEnumerable<IssueEvaluation> issueEstimates
             , bool showEmptyRows
             , LatexDocument document)
@@ -180,7 +150,7 @@ namespace Uncas.EBS.UI.Helpers
                 = new LatexColumn<IssueEvaluation>
                 (Resources.Phrases.Priority
                 , (IssueEvaluation ie)
-                    => ie.Priority.ToString()
+                    => ie.Priority.ToString(CultureInfo.CurrentCulture)
                 , ColumnAlignment.Center);
 
             var projectColumn
@@ -236,7 +206,7 @@ namespace Uncas.EBS.UI.Helpers
         ///        3.9             4
         /// </example>
         /// <returns></returns>
-        private string GetDaysRemainingText(double? daysRemaining)
+        private static string GetDaysRemainingText(double? daysRemaining)
         {
             if (!daysRemaining.HasValue)
             {
@@ -249,19 +219,21 @@ namespace Uncas.EBS.UI.Helpers
             else
             {
                 return ((int)Math.Ceiling(daysRemaining.Value))
-                    .ToString();
+                    .ToString(CultureInfo.CurrentCulture);
             }
         }
 
 
-        private string LatexPercentageStringFromDouble
+        private static string LatexPercentageStringFromDouble
             (double number)
         {
-            return number.ToString("P0").Replace("%", @"\%");
+            return number
+                .ToString("P0", CultureInfo.CurrentCulture)
+                .Replace("%", @"\%");
         }
 
 
-        private string ShortenText(string text, int maxLength)
+        private static string ShortenText(string text, int maxLength)
         {
             if (text.Length <= maxLength)
             {

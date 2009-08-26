@@ -193,23 +193,6 @@ namespace Uncas.EBS.Utility.Simulation
         }
 
 
-        private double GetRandomSpeedEvenlyDistributedAroundAverage
-            (double averageSpeed
-            , double deltaSpeed)
-        {
-            // A random number between -1 and +1:
-            double randomBase = 2d * _rnd.NextDouble() - 1d;
-
-            // Random speed between 
-            //      averageSpeed - deltaSpeed 
-            // and 
-            //      averageSpeed + deltaSpeed:
-            double speed = averageSpeed
-                + deltaSpeed * randomBase;
-            return speed;
-        }
-
-
         private double GetRandomSpeedConcentratedAroundAverage
             (double averageSpeed
             , double deltaSpeed)

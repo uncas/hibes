@@ -18,7 +18,7 @@ namespace Uncas.EBS.DAL
                 throw new RepositoryException("Task description required.");
             }
             var dbTask = GetDbTaskFromModelTask(task);
-            db.Tasks.InsertOnSubmit(dbTask);
+            DB.Tasks.InsertOnSubmit(dbTask);
             base.SubmitChanges();
             task.TaskId = dbTask.TaskId;
         }
@@ -40,7 +40,7 @@ namespace Uncas.EBS.DAL
 
         public void DeleteTask(int taskId)
         {
-            db.Tasks.DeleteOnSubmit(GetTask(taskId));
+            DB.Tasks.DeleteOnSubmit(GetTask(taskId));
             base.SubmitChanges();
         }
 
@@ -48,7 +48,7 @@ namespace Uncas.EBS.DAL
             (Model.Status status
             , int? maxCount)
         {
-            var result = db.Tasks.AsQueryable<Task>();
+            var result = DB.Tasks.AsQueryable<Task>();
             if (status != Model.Status.Any)
             {
                 result = result
@@ -68,7 +68,7 @@ namespace Uncas.EBS.DAL
 
         private Task GetTask(int taskId)
         {
-            return db.Tasks
+            return DB.Tasks
                 .Where(t => t.TaskId == taskId)
                 .SingleOrDefault();
         }
@@ -76,7 +76,7 @@ namespace Uncas.EBS.DAL
         internal IQueryable<TaskDetails> GetTasks(int issueId
             , Model.Status status)
         {
-            var result = db.Tasks
+            var result = DB.Tasks
                 .Where(t => t.RefIssueId == issueId);
             if (status != Model.Status.Any)
             {
@@ -87,9 +87,7 @@ namespace Uncas.EBS.DAL
             return result.Select(t => GetTaskDetailsFromDbTask(t));
         }
 
-        private static Random _rnd = new Random(1);
-
-        internal TaskDetails GetTaskDetailsFromDbTask(Task dbTask)
+        internal static TaskDetails GetTaskDetailsFromDbTask(Task dbTask)
         {
             return new TaskDetails
                 {
@@ -111,7 +109,7 @@ namespace Uncas.EBS.DAL
                 };
         }
 
-        internal Model.Task GetModelTaskFromDbTask(Task dbTask)
+        private static Model.Task GetModelTaskFromDbTask(Task dbTask)
         {
             return Model.Task.ReconstructTask
                 (dbTask.TaskId
@@ -129,7 +127,7 @@ namespace Uncas.EBS.DAL
                 );
         }
 
-        internal Task GetDbTaskFromModelTask(Model.Task task)
+        private static Task GetDbTaskFromModelTask(Model.Task task)
         {
             Task dbTask = new Task();
             AssignValuesToDbTask(dbTask, task);
@@ -140,7 +138,7 @@ namespace Uncas.EBS.DAL
             return dbTask;
         }
 
-        private void AssignValuesToDbTask(Task dbTask
+        private static void AssignValuesToDbTask(Task dbTask
             , Model.Task task)
         {
             // Never changed:
@@ -153,7 +151,8 @@ namespace Uncas.EBS.DAL
             UpdateValuesToDbTask(dbTask, task);
         }
 
-        private void UpdateValuesToDbTask(Task dbTask
+        private static void UpdateValuesToDbTask
+            (Task dbTask
             , Model.Task task)
         {
             dbTask.CurrentEstimateInHours
