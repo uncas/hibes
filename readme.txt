@@ -25,6 +25,4 @@ Requirements on the development machine:
 
     NUnit (to run unit and integration tests)
 
-    NMock2 (to run tests with fake objects)
-
     NAnt (to run build and deploy scripts)

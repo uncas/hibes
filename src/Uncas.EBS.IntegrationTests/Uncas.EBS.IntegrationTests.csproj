@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{B7FA4055-C329-4691-90C6-166EDC3C5A24}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -71,10 +71,6 @@
     <ProjectReference Include="..\Uncas.EBS.Domain\Uncas.EBS.Domain.csproj">
       <Project>{6BF0F142-F718-4BF9-A7F6-9B36D1C091B4}</Project>
       <Name>Uncas.EBS.Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Uncas.EBS.SQLiteRepository\Uncas.EBS.SQLiteRepository.csproj">
-      <Project>{C69769B7-A03D-4957-86FA-0E18795639E2}</Project>
-      <Name>Uncas.EBS.SQLiteRepository</Name>
     </ProjectReference>
     <ProjectReference Include="..\Uncas.EBS.Tests\Uncas.EBS.Tests.csproj">
       <Project>{40AECC36-94C1-4EE1-83D9-E7AFBFB868E2}</Project>
