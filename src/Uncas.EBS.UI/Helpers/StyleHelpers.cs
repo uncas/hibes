@@ -4,7 +4,7 @@ using System.Web.UI.WebControls;
 
 namespace Uncas.EBS.UI.Helpers
 {
-    public class StyleHelpers
+    public static class StyleHelpers
     {
         internal static void SetChartStyles(Chart chart)
         {

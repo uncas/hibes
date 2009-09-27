@@ -12,10 +12,16 @@ namespace Uncas.EBS.UI.Controls
         Level = AspNetHostingPermissionLevel.Minimal)]
     public class DateField : BoundField
     {
+        private string _headerResourceName;
         public string HeaderResourceName
         {
+            get
+            {
+                return this._headerResourceName;
+            }
             set
             {
+                this._headerResourceName = value;
                 var resourceManager = Resources.Phrases.ResourceManager;
                 this.HeaderText = resourceManager.GetString(value);
             }

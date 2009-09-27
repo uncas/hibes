@@ -7,7 +7,6 @@ namespace Uncas.EBS.DAL
         protected BaseRepository()
         {
             _db = new EBSDataContext();
-            _disposed = false;
         }
 
         private bool _disposed;

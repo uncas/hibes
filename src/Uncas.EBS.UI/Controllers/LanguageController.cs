@@ -4,12 +4,26 @@ namespace Uncas.EBS.UI.Controllers
 {
     public class LanguageController
     {
-        public static IList<Language> GetLanguages()
+        private static IList<Language> _languages;
+        private static IList<Language> Languages
         {
-            var languages = new List<Language>();
-            languages.Add(new Language("da-DK", "dansk"));
-            languages.Add(new Language("en-US", "English"));
-            return languages;
+            get
+            {
+                if (_languages == null)
+                {
+                    _languages = new List<Language>();
+                    _languages.Add
+                        (new Language("da-DK", "dansk"));
+                    _languages.Add
+                        (new Language("en-US", "English"));
+                }
+                return _languages;
+            }
+        }
+
+        public IList<Language> GetLanguages()
+        {
+            return Languages;
         }
     }
 
