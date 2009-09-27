@@ -181,7 +181,11 @@
                                     HeaderStyle-HorizontalAlign="Right" />
                                 <uncas:HyperLinkFieldResource HeaderResourceName="Issue" DataNavigateUrlFields="IssueId"
                                     DataNavigateUrlFormatString="Tasks.aspx?Issue={0}" DataTextField="IssueTitle" />
-                                <uncas:BoundFieldResource HeaderResourceName="Average" DataField="Average" DataFormatString="{0:N1}"
+                                <uncas:BoundFieldResource HeaderResourceName="Elapsed" DataField="ElapsedDays" DataFormatString="{0:N1}"
+                                    ItemStyle-HorizontalAlign="Right" HeaderStyle-HorizontalAlign="Right" />
+                                <uncas:BoundFieldResource HeaderResourceName="Remaining" DataField="Average" DataFormatString="{0:N1}"
+                                    ItemStyle-HorizontalAlign="Right" HeaderStyle-HorizontalAlign="Right" />
+                                <uncas:BoundFieldResource HeaderResourceName="Total" DataField="TotalDays" DataFormatString="{0:N1}"
                                     ItemStyle-HorizontalAlign="Right" HeaderStyle-HorizontalAlign="Right" />
                                 <uncas:BoundFieldResource HeaderResourceName="Progress" DataField="Progress" DataFormatString="{0:P0}"
                                     ItemStyle-HorizontalAlign="Right" HeaderStyle-HorizontalAlign="Right" />

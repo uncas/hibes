@@ -110,9 +110,9 @@ namespace Uncas.EBS.Domain.ViewModel
         }
 
         /// <summary>
-        /// Gets the average days.
+        /// Gets the average days remaining.
         /// </summary>
-        /// <value>The average days.</value>
+        /// <value>The average days remaining.</value>
         public double? Average
         {
             get
@@ -135,6 +135,31 @@ namespace Uncas.EBS.Domain.ViewModel
         /// </summary>
         /// <value>The elapsed hours.</value>
         public double? Elapsed { get; private set; }
+
+        /// <summary>
+        /// Gets or sets the elapsed days.
+        /// </summary>
+        /// <value>The elapsed days.</value>
+        public double? ElapsedDays
+        {
+            get
+            {
+                return this.Elapsed
+                    / this._standardNumberOfHoursPerDay;
+            }
+        }
+
+        /// <summary>
+        /// Gets the evaluated total days for the issue.
+        /// </summary>
+        /// <value>The evaluated total days for the issue.</value>
+        public double? TotalDays
+        {
+            get
+            {
+                return this.Average + this.ElapsedDays;
+            }
+        }
 
         /// <summary>
         /// Gets the progress (elapsed divided by estimated total).

@@ -14,7 +14,7 @@
     <property name="devenv" 
         value="C:\Program Files\Microsoft Visual Studio 9.0\Common7\IDE\devenv.exe" />
     <property name="sqlcmd" 
-        value="C:\Program Files\Microsoft SQL Server\90\Tools\Binn\SqlCmd.exe" />
+        value="C:\Program Files\Microsoft SQL Server\100\Tools\Binn\SqlCmd.exe" />
 
     <property name="sqlServer" value=".\SqlExpress" />
     <property name="database" value="hibes_test" />
@@ -95,7 +95,7 @@
     </target>
 
     <target name="getBuildProducts" depends="unitTest">
-        <copy todir="build">
+        <copy todir="build\WebSite">
             <fileset basedir="src\Uncas.EBS.UI">
                 <include name="**\*.*" />
                 <exclude name="bin\*.xml" />
@@ -125,7 +125,7 @@
         <property name="target" value="Web.appSettings.config" />
         <call target="convert.template" />
         <copy todir="${websiteFolder}">
-            <fileset basedir="build">
+            <fileset basedir="build\WebSite">
                 <include name="**\*.*" />
             </fileset>
         </copy>
@@ -133,7 +133,7 @@
 
     <target name="convert.template">
         <copy file="config\${target}.template" 
-            tofile="build\${target}" 
+            tofile="build\WebSite\${target}" 
             overwrite="true">
             <filterchain>
                 <replacetokens>
@@ -152,6 +152,10 @@
             commandline="${sqlcmdCredentials} -d master -i build\database.sql" />
         <exec program="${sqlcmd}"
             commandline="${sqlcmdCredentials} -d ${database} -i sql\schema.sql" />
+        <exec program="${sqlcmd}"
+            commandline="${sqlcmdCredentials} -d ${database} -i sql\schema-001.0000-base.sql" />
+        <exec program="${sqlcmd}"
+            commandline="${sqlcmdCredentials} -d ${database} -i sql\schema-001.0001-change.sql" />
     </target>
 
     <target name="xyz">
