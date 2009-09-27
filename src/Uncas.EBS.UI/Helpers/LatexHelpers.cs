@@ -54,12 +54,17 @@ namespace Uncas.EBS.UI.Helpers
 
             document.AppendText("@TOP@");
 
-            AppendIssueEstimateTables(projectId, maxPriority, document);
+            AppendIssueEstimateTables
+                (projectId
+                , maxPriority
+                , document);
 
             document.AppendSection(Resources.Phrases.Date);
 
             AppendPersonConfidenceDateTable
-                (projectId, maxPriority, document);
+                (projectId
+                , maxPriority
+                , document);
 
             document.AppendText("@BOTTOM@");
 
@@ -125,13 +130,17 @@ namespace Uncas.EBS.UI.Helpers
                 (projectId, maxPriority);
 
             document.AppendSection(Resources.Phrases.Issues);
-            AppendIssueEstimateTable(issueEstimates, true, document);
+            AppendIssueEstimateTable
+                (issueEstimates
+                , true
+                , document);
 
             foreach (var personEvaluation
                 in _projectController.GetEvaluationsPerPerson
                 (projectId, maxPriority))
             {
-                document.AppendSection(personEvaluation.PersonName);
+                document.AppendSection
+                    (personEvaluation.PersonName);
                 AppendIssueEstimateTable
                     (personEvaluation.GetIssueEvaluations()
                     , false
@@ -150,7 +159,8 @@ namespace Uncas.EBS.UI.Helpers
                 = new LatexColumn<IssueEvaluation>
                 (Resources.Phrases.Priority
                 , (IssueEvaluation ie)
-                    => ie.Priority.ToString(CultureInfo.CurrentCulture)
+                    => ie.Priority.ToString
+                    (CultureInfo.CurrentCulture)
                 , ColumnAlignment.Center);
 
             var projectColumn
@@ -169,11 +179,26 @@ namespace Uncas.EBS.UI.Helpers
                         , maxCharactersInIssueTitle)
                 );
 
-            var averageDaysColumn
+            var elapsedDaysColumn
                 = new LatexColumn<IssueEvaluation>
-                (Resources.Phrases.Days
+                (Resources.Phrases.Elapsed
+                , (IssueEvaluation ie)
+                    => string.Format("{0:N1}"
+                    , ie.ElapsedDays)
+                , ColumnAlignment.Right);
+
+            var remainingDaysColumn
+                = new LatexColumn<IssueEvaluation>
+                (Resources.Phrases.Remaining
                 , (IssueEvaluation ie)
                     => GetDaysRemainingText(ie.Average)
+                , ColumnAlignment.Right);
+
+            var totalDaysColumn
+                = new LatexColumn<IssueEvaluation>
+                (Resources.Phrases.Total
+                , (IssueEvaluation ie)
+                    => GetDaysRemainingText(ie.TotalDays)
                 , ColumnAlignment.Right);
 
             Func<IssueEvaluation, bool> showRow = null;
@@ -189,7 +214,9 @@ namespace Uncas.EBS.UI.Helpers
                    , priorityColumn
                    , projectColumn
                    , issueTitleColumn
-                   , averageDaysColumn
+                   , elapsedDaysColumn
+                   , remainingDaysColumn
+                   , totalDaysColumn
                    );
         }
 

@@ -291,4 +291,7 @@
   <data name="HoursPerDay" xml:space="preserve">
     <value>Hours per day</value>
   </data>
+  <data name="Total" xml:space="preserve">
+    <value>Total</value>
+  </data>
 </root>

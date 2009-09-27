@@ -291,4 +291,7 @@
   <data name="HoursPerDay" xml:space="preserve">
     <value>Timer pr. dag</value>
   </data>
+  <data name="Total" xml:space="preserve">
+    <value>Total</value>
+  </data>
 </root>
