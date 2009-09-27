@@ -33,7 +33,19 @@
                     </asp:ChartArea>
                 </ChartAreas>
             </asp:Chart>
-            <asp:GridView ID="gvClosedTasks" runat="server" DataSourceID="odsClosedTasks" Visible="false">
+            <asp:GridView ID="gvClosedTasks" runat="server" DataSourceID="odsClosedTasks" AutoGenerateColumns="false">
+                <Columns>
+                    <uncas:BoundFieldResource HeaderResourceName="Date" DataField="CreatedDate">
+                    </uncas:BoundFieldResource>
+                    <uncas:BoundFieldResource HeaderResourceName="Task" DataField="Description">
+                    </uncas:BoundFieldResource>
+                    <uncas:BoundFieldResource HeaderResourceName="Original" DataField="OriginalEstimate">
+                    </uncas:BoundFieldResource>
+                    <uncas:BoundFieldResource HeaderResourceName="Elapsed" DataField="Elapsed">
+                    </uncas:BoundFieldResource>
+                    <uncas:BoundFieldResource HeaderResourceName="Speed" DataField="Speed">
+                    </uncas:BoundFieldResource>
+                </Columns>
             </asp:GridView>
             <asp:ObjectDataSource ID="odsClosedTasks" runat="server" TypeName="Uncas.EBS.UI.Controllers.TaskController"
                 SelectMethod="GetClosedTasks">
