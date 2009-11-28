@@ -18,75 +18,77 @@ namespace Uncas.EBS.UI.Controllers
         private ITaskRepository _taskRepo
             = App.Repositories.TaskRepository;
 
-        public IList<TaskDetails> GetTasks(int issueId, Status status)
+        public IList<TaskDetails> GetTasks
+            (int issueId
+            , Status status)
         {
             var issueView = _issueRepo.GetIssueView
                 (issueId, status);
             return issueView.Tasks;
         }
 
-        public void InsertTask(string Description
-            , double OriginalEstimate
-            , double Elapsed
-            , DateTime? StartDate
-            , DateTime? EndDate
-            , int Sequence
-            , Status Status
-            , int RefIssueId
-            , int RefPersonId
+        public void InsertTask(string description
+            , double originalEstimate
+            , double elapsed
+            , DateTime? startDate
+            , DateTime? endDate
+            , int sequence
+            , Status status
+            , int refIssueId
+            , int refPersonId
             )
         {
             Task task = Task.ConstructTask
-                (RefIssueId
-                , Description
-                , Status
-                , Sequence
-                , OriginalEstimate
-                , Elapsed
-                , StartDate
-                , EndDate
-                , RefPersonId);
+                (refIssueId
+                , description
+                , status
+                , sequence
+                , originalEstimate
+                , elapsed
+                , startDate
+                , endDate
+                , refPersonId);
             _taskRepo.InsertTask(task);
         }
 
         public void UpdateTask(
-            int Original_TaskId
-            , string Description
-            , double CurrentEstimate
-            , double Elapsed
-            , DateTime? StartDate
-            , DateTime? EndDate
-            , int Sequence
-            , Status Status
-            , int RefPersonId
+            int taskId
+            , string description
+            , double currentEstimate
+            , double elapsed
+            , DateTime? startDate
+            , DateTime? endDate
+            , int sequence
+            , Status status
+            , int refPersonId
             )
         {
             Task task = Task.ReconstructTaskToUpdate
-                (Original_TaskId
-                , Description
-                , Status
-                , Sequence
-                , CurrentEstimate
-                , Elapsed
-                , StartDate
-                , EndDate
-                , RefPersonId);
+                (taskId
+                , description
+                , status
+                , sequence
+                , currentEstimate
+                , elapsed
+                , startDate
+                , endDate
+                , refPersonId);
             _taskRepo.UpdateTask(task);
         }
 
-        public void DeleteTask(int Original_TaskId)
+        public void DeleteTask(int taskId)
         {
-            _taskRepo.DeleteTask(Original_TaskId);
+            _taskRepo.DeleteTask(taskId);
         }
 
-        public IList<Task> GetClosedTasks(int? RefPersonId)
+        public IList<Task> GetClosedTasks(int? refPersonId)
         {
             // TODO: REFACTOR: Move this into repository:
             var result = _taskRepo.GetTasks(Status.Closed, null);
-            if (RefPersonId.HasValue)
+            if (refPersonId.HasValue)
             {
                 return result.Where
-                    (p => p.RefPersonId == RefPersonId.Value)
+                    (p => p.RefPersonId == refPersonId.Value)
                     .ToList();
             }
             else

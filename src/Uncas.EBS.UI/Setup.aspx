@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/EBSMaster.Master" AutoEventWireup="true"
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true"
     CodeBehind="Setup.aspx.cs" Inherits="Uncas.EBS.UI.Setup" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">

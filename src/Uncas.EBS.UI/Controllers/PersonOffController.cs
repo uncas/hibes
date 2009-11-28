@@ -10,34 +10,34 @@ namespace Uncas.EBS.UI.Controllers
         private IPersonOffRepository _personOffRepo =
             App.Repositories.PersonOffRepository;
 
-        public IList<PersonOff> GetPersonOffs(int RefPersonId)
+        public IList<PersonOff> GetPersonOffs(int refPersonId)
         {
-            return _personOffRepo.GetPersonOffs(RefPersonId);
+            return _personOffRepo.GetPersonOffs(refPersonId);
         }
 
         public void InsertPersonOff
-            (int RefPersonId
-            , DateTime FromDate
-            , DateTime ToDate)
+            (int refPersonId
+            , DateTime fromDate
+            , DateTime toDate)
         {
             _personOffRepo.InsertPersonOff
-                (new PersonOff(RefPersonId, FromDate, ToDate));
+                (new PersonOff(refPersonId, fromDate, toDate));
         }
 
         public void UpdatePersonOff
-            (DateTime FromDate
-            , DateTime ToDate
-            , int Original_PersonOffId)
+            (DateTime fromDate
+            , DateTime toDate
+            , int personOffId)
         {
             _personOffRepo.UpdatePersonOff
                 (PersonOff.ReconstructPersonOff
-                    (Original_PersonOffId
-                    , FromDate, ToDate, 1));
+                    (personOffId
+                    , fromDate, toDate, 1));
         }
 
-        public void DeletePersonOff(int Original_PersonOffId)
+        public void DeletePersonOff(int personOffId)
         {
-            _personOffRepo.DeletePersonOff(Original_PersonOffId);
+            _personOffRepo.DeletePersonOff(personOffId);
         }
     }
 }

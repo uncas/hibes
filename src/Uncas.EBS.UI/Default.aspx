@@ -1,4 +1,4 @@
-<%@ Page Title="" Language="C#" MasterPageFile="~/EBSMaster.Master" AutoEventWireup="true"
+<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true"
     CodeBehind="Default.aspx.cs" Inherits="Uncas.EBS.UI.Default" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
@@ -149,7 +149,7 @@
                 </asp:GridView>
                 <asp:ObjectDataSource ID="odsIssues" runat="server" TypeName="Uncas.EBS.UI.Controllers.IssueController"
                     SelectMethod="GetIssues" UpdateMethod="UpdateIssue" InsertMethod="InsertIssue"
-                    DeleteMethod="DeleteIssue" OldValuesParameterFormatString="Original_{0}">
+                    DeleteMethod="DeleteIssue">
                     <SelectParameters>
                         <asp:ControlParameter ControlID="pfProjects" Name="projectId" PropertyName="SelectedValue"
                             Type="Int32" />
@@ -157,10 +157,7 @@
                             Type="Object" />
                     </SelectParameters>
                     <UpdateParameters>
-                        <asp:Parameter Name="Original_IssueId" Type="Int32" />
-                        <asp:Parameter Name="Title" Type="String" />
                         <asp:Parameter Name="Status" Type="Object" />
-                        <asp:Parameter Name="Priority" Type="Int32" />
                     </UpdateParameters>
                 </asp:ObjectDataSource>
                 <uncas:ColorCodes ID="cc" runat="server" />

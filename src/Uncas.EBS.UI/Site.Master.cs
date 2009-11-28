@@ -2,7 +2,7 @@
 
 namespace Uncas.EBS.UI
 {
-    public partial class EBSMaster : System.Web.UI.MasterPage
+    public partial class Site : System.Web.UI.MasterPage
     {
         protected void Page_Load(object sender, EventArgs e)
         {

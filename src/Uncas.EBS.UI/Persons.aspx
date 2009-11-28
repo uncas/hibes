@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/EBSMaster.Master" AutoEventWireup="true"
+﻿<%@ Page Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true"
     CodeBehind="Persons.aspx.cs" Inherits="Uncas.EBS.UI.Persons" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
@@ -74,7 +74,7 @@
             </asp:GridView>
             <asp:ObjectDataSource ID="odsPersons" runat="server" TypeName="Uncas.EBS.UI.Controllers.PersonController"
                 SelectMethod="GetPersons" InsertMethod="InsertPerson" UpdateMethod="UpdatePerson"
-                DeleteMethod="DeletePerson" OldValuesParameterFormatString="Original_{0}">
+                DeleteMethod="DeletePerson">
                 <InsertParameters>
                     <asp:Parameter Name="HoursPerDay" Type="Double" />
                 </InsertParameters>

@@ -59,32 +59,32 @@ namespace Uncas.EBS.UI.Controllers
             _issueRepository.InsertIssue(issue);
         }
 
-        public void UpdateIssue(int Original_IssueId
+        public void UpdateIssue(int issueId
             , string title
             , Status status
             , int priority)
         {
             Issue issue = Issue.ReconstructIssue
-                (Original_IssueId
+                (issueId
                 , title
                 , status
                 , priority);
             _issueRepository.UpdateIssue(issue);
         }
 
-        public void DeleteIssue(int Original_IssueId)
+        public void DeleteIssue(int issueId)
         {
-            _issueRepository.DeleteIssue(Original_IssueId);
+            _issueRepository.DeleteIssue(issueId);
         }
 
-        public bool AddOneToPriority(int Original_IssueId)
+        public bool AddOneToPriority(int issueId)
         {
-            return _issueRepository.AddOneToPriority(Original_IssueId);
+            return _issueRepository.AddOneToPriority(issueId);
         }
 
-        public bool SubtractOneFromPriority(int Original_IssueId)
+        public bool SubtractOneFromPriority(int issueId)
         {
-            return _issueRepository.SubtractOneFromPriority(Original_IssueId);
+            return _issueRepository.SubtractOneFromPriority(issueId);
         }
 
         public bool PrioritizeAllOpenIssues(int? projectId)

@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/EBSMaster.Master" AutoEventWireup="true"
+﻿<%@ Page Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true"
     CodeBehind="PersonSetup.aspx.cs" Inherits="Uncas.EBS.UI.PersonSetup" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
@@ -67,7 +67,7 @@
             </asp:GridView>
             <asp:ObjectDataSource ID="odsPersonOffs" runat="server" TypeName="Uncas.EBS.UI.Controllers.PersonOffController"
                 SelectMethod="GetPersonOffs" UpdateMethod="UpdatePersonOff" InsertMethod="InsertPersonOff"
-                DeleteMethod="DeletePersonOff" OldValuesParameterFormatString="Original_{0}">
+                DeleteMethod="DeletePersonOff">
                 <SelectParameters>
                     <asp:QueryStringParameter Name="RefPersonId" QueryStringField="Person" Type="Int32" />
                 </SelectParameters>

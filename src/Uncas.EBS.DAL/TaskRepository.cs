@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Uncas.EBS.Domain.Repository;
 using Uncas.EBS.Domain.ViewModel;
@@ -87,7 +87,12 @@ namespace Uncas.EBS.DAL
             return result.Select(t => GetTaskDetailsFromDbTask(t));
         }
 
-        internal static TaskDetails GetTaskDetailsFromDbTask(Task dbTask)
+
+        [SuppressMessage("Microsoft.Performance"
+            , "CA1811:AvoidUncalledPrivateCode"
+            , Justification = "Called in Linq. Why not visible to FxCop?")]
+        internal static TaskDetails GetTaskDetailsFromDbTask
+            (Task dbTask)
         {
             return new TaskDetails
                 {
@@ -109,6 +114,9 @@ namespace Uncas.EBS.DAL
                 };
         }
 
+        [SuppressMessage("Microsoft.Performance"
+            , "CA1811:AvoidUncalledPrivateCode"
+            , Justification = "Called in Linq. Why not visible to FxCop?")]
         private static Model.Task GetModelTaskFromDbTask(Task dbTask)
         {
             return Model.Task.ReconstructTask

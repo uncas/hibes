@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Uncas.EBS.Domain.Model;
 
@@ -213,6 +214,8 @@ namespace Uncas.EBS.Domain.ViewModel
         /// Gets the completion date confidences.
         /// </summary>
         /// <value>The completion date confidences.</value>
+        [SuppressMessage("Microsoft.Design"
+            , "CA1024:UsePropertiesWhereAppropriate")]
         public IList<CompletionDateConfidence>
             GetCompletionDateConfidences()
         {
@@ -268,6 +271,8 @@ namespace Uncas.EBS.Domain.ViewModel
         /// Gets the issue evaluations.
         /// </summary>
         /// <returns></returns>
+        [SuppressMessage("Microsoft.Design"
+            , "CA1024:UsePropertiesWhereAppropriate")]
         public IList<IssueEvaluation> GetIssueEvaluations()
         {
             return _issueEvaluations.Select(i => i.Value).ToList();

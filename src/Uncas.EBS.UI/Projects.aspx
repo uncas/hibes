@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/EBSMaster.Master" AutoEventWireup="true"
+﻿<%@ Page Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true"
     CodeBehind="Projects.aspx.cs" Inherits="Uncas.EBS.UI.Projects" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
@@ -57,7 +57,7 @@
             </asp:GridView>
             <asp:ObjectDataSource ID="odsProjects" runat="server" TypeName="Uncas.EBS.UI.Controllers.ProjectController"
                 SelectMethod="GetProjects" InsertMethod="InsertProject" UpdateMethod="UpdateProject"
-                DeleteMethod="DeleteProject" OldValuesParameterFormatString="Original_{0}"></asp:ObjectDataSource>
+                DeleteMethod="DeleteProject"></asp:ObjectDataSource>
         </ContentTemplate>
     </asp:UpdatePanel>
 </asp:Content>

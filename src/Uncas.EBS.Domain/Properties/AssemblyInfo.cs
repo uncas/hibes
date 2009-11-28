@@ -2,6 +2,21 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System;
+using System.Diagnostics.CodeAnalysis;
+
+[module: SuppressMessage("Microsoft.Naming"
+    , "CA1709:IdentifiersShouldBeCasedCorrectly"
+    , MessageId = "EBS")]
+[module: SuppressMessage("Microsoft.Naming"
+    , "CA1709:IdentifiersShouldBeCasedCorrectly"
+    , Scope = "namespace"
+    , Target = "Uncas.EBS.Domain.Model"
+    , MessageId = "EBS")]
+[module: SuppressMessage("Microsoft.Naming"
+    , "CA1709:IdentifiersShouldBeCasedCorrectly"
+    , Scope = "namespace"
+    , Target = "Uncas.EBS.Domain.ViewModel"
+    , MessageId = "EBS")]
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information

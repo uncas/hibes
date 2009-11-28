@@ -183,7 +183,8 @@ namespace Uncas.EBS.UI.Helpers
                 = new LatexColumn<IssueEvaluation>
                 (Resources.Phrases.Elapsed
                 , (IssueEvaluation ie)
-                    => string.Format("{0:N1}"
+                    => string.Format(CultureInfo.CurrentCulture
+                    , "{0:N1}"
                     , ie.ElapsedDays)
                 , ColumnAlignment.Right);
 

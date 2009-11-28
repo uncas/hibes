@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Uncas.EBS.Domain.Model;
 using Uncas.EBS.Domain.Repository;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Uncas.EBS.UI.Controllers
 {
@@ -27,40 +28,43 @@ namespace Uncas.EBS.UI.Controllers
             this._repositories = repositories;
         }
 
+        [SuppressMessage("Microsoft.Design"
+            , "CA1024:UsePropertiesWhereAppropriate")]
         public IList<Person> GetPersons()
         {
             return _personRepo.GetPersons();
         }
 
-        public bool InsertPerson(string PersonName
-            , int DaysPerWeek
-            , double HoursPerDay)
+        public bool InsertPerson(string personName
+            , int daysPerWeek
+            , double hoursPerDay)
         {
-            Person person = new Person(PersonName
-                , DaysPerWeek
-                , HoursPerDay);
+            Person person = new Person(personName
+                , daysPerWeek
+                , hoursPerDay);
             _personRepo.InsertPerson(person);
             return true;
         }
 
-        public bool UpdatePerson(string PersonName
-            , int DaysPerWeek
-            , double HoursPerDay
-            , int Original_PersonId)
+        public bool UpdatePerson
+            (string personName
+            , int daysPerWeek
+            , double hoursPerDay
+            , int personId)
         {
             Person person = new Person
-                (Original_PersonId
-                , PersonName
-                , DaysPerWeek
-                , HoursPerDay);
+                (personId
+                , personName
+                , daysPerWeek
+                , hoursPerDay);
             _personRepo.UpdatePerson(person);
             return true;
         }
 
         public bool DeletePerson
-            (int Original_PersonId)
+            (int personId)
         {
-            _personRepo.DeletePerson(Original_PersonId);
+            _personRepo.DeletePerson(personId);
             return true;
         }
     }

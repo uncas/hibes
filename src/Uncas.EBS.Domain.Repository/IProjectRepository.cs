@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Uncas.EBS.Domain.Model;
 
 namespace Uncas.EBS.Domain.Repository
@@ -12,6 +13,8 @@ namespace Uncas.EBS.Domain.Repository
         /// Gets the projects.
         /// </summary>
         /// <returns></returns>
+        [SuppressMessage("Microsoft.Design"
+            , "CA1024:UsePropertiesWhereAppropriate")]
         IList<Project> GetProjects();
 
         /// <summary>

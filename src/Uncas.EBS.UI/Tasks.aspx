@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/EBSMaster.Master" AutoEventWireup="true"
+﻿<%@ Page Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true"
     CodeBehind="Tasks.aspx.cs" Inherits="Uncas.EBS.UI.Tasks" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
@@ -72,15 +72,12 @@
                     </Columns>
                 </asp:GridView>
                 <asp:ObjectDataSource ID="odsIssue" runat="server" TypeName="Uncas.EBS.UI.Controllers.IssueController"
-                    SelectMethod="GetIssue" UpdateMethod="UpdateIssue" OldValuesParameterFormatString="Original_{0}">
+                    SelectMethod="GetIssue" UpdateMethod="UpdateIssue">
                     <SelectParameters>
                         <asp:QueryStringParameter Name="IssueId" QueryStringField="Issue" Type="Int32" />
                     </SelectParameters>
                     <UpdateParameters>
-                        <asp:Parameter Name="Original_IssueId" Type="Int32" />
-                        <asp:Parameter Name="Title" Type="String" />
                         <asp:Parameter Name="Status" Type="Object" />
-                        <asp:Parameter Name="Priority" Type="Int32" />
                     </UpdateParameters>
                 </asp:ObjectDataSource>
             </div>
@@ -244,8 +241,7 @@
                     </Columns>
                 </asp:GridView>
                 <asp:ObjectDataSource ID="odsTasks" runat="server" TypeName="Uncas.EBS.UI.Controllers.TaskController"
-                    SelectMethod="GetTasks" UpdateMethod="UpdateTask" DeleteMethod="DeleteTask" InsertMethod="InsertTask"
-                    OldValuesParameterFormatString="Original_{0}">
+                    SelectMethod="GetTasks" UpdateMethod="UpdateTask" DeleteMethod="DeleteTask" InsertMethod="InsertTask">
                     <SelectParameters>
                         <asp:QueryStringParameter Name="IssueId" QueryStringField="Issue" Type="Int32" />
                         <asp:ControlParameter Name="Status" ControlID="soStatus" PropertyName="SelectedValue"

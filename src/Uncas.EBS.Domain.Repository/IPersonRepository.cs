@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
-using Uncas.EBS.Domain.ViewModel;
+using System.Diagnostics.CodeAnalysis;
 using Uncas.EBS.Domain.Model;
+using Uncas.EBS.Domain.ViewModel;
 
 namespace Uncas.EBS.Domain.Repository
 {
@@ -13,12 +14,16 @@ namespace Uncas.EBS.Domain.Repository
         /// Gets the person views.
         /// </summary>
         /// <returns></returns>
+        [SuppressMessage("Microsoft.Design"
+            , "CA1024:UsePropertiesWhereAppropriate")]
         IList<PersonView> GetPersonViews();
 
         /// <summary>
         /// Gets the persons.
         /// </summary>
         /// <returns></returns>
+        [SuppressMessage("Microsoft.Design"
+            , "CA1024:UsePropertiesWhereAppropriate")]
         IList<Person> GetPersons();
 
         /// <summary>

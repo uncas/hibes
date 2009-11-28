@@ -4,6 +4,7 @@ using System.Linq;
 using Uncas.EBS.Domain.Repository;
 using Uncas.EBS.Domain.ViewModel;
 using Model = Uncas.EBS.Domain.Model;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Uncas.EBS.DAL
 {
@@ -261,9 +262,7 @@ namespace Uncas.EBS.DAL
 
 
         private IssueDetails GetIssueDetails
-            (
-            int issueId
-            )
+            (int issueId)
         {
             return DB.Issues
                 .Where(i => i.IssueId == issueId)
@@ -271,11 +270,11 @@ namespace Uncas.EBS.DAL
                 .SingleOrDefault();
         }
 
-
+        [SuppressMessage("Microsoft.Performance"
+            , "CA1811:AvoidUncalledPrivateCode"
+            , Justification = "Called in Linq. Why not visible to FxCop?")]
         private static IssueDetails GetIssueDetailsFromDbIssue
-            (
-            Issue dbIssue
-            )
+            (Issue dbIssue)
         {
             int numberOfTasks
                 = dbIssue.Tasks.Count;

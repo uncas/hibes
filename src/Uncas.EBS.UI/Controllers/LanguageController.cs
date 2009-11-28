@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Uncas.EBS.UI.Controllers
 {
-    public class LanguageController
+    public static class LanguageController
     {
         private static IList<Language> _languages;
         private static IList<Language> Languages
@@ -21,7 +22,9 @@ namespace Uncas.EBS.UI.Controllers
             }
         }
 
-        public IList<Language> GetLanguages()
+        [SuppressMessage("Microsoft.Design"
+            , "CA1024:UsePropertiesWhereAppropriate")]
+        public static IList<Language> GetLanguages()
         {
             return Languages;
         }

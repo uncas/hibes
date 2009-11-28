@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Caching;
@@ -7,7 +9,6 @@ using Uncas.EBS.ApplicationServices;
 using Uncas.EBS.Domain.Model;
 using Uncas.EBS.Domain.Repository;
 using Uncas.EBS.Domain.ViewModel;
-using System.Globalization;
 
 namespace Uncas.EBS.UI.Controllers
 {
@@ -22,6 +23,8 @@ namespace Uncas.EBS.UI.Controllers
         private ProjectService _projectService
             = new ProjectService(App.Repositories);
 
+        [SuppressMessage("Microsoft.Design"
+            , "CA1024:UsePropertiesWhereAppropriate")]
         public IList<Project> GetProjects()
         {
             var result = _projectRepo.GetProjects(); ;
@@ -133,16 +136,16 @@ namespace Uncas.EBS.UI.Controllers
             _projectRepo.InsertProject(projectName);
         }
 
-        public void DeleteProject(int Original_ProjectId)
+        public void DeleteProject(int projectId)
         {
-            _projectRepo.DeleteProject(Original_ProjectId);
+            _projectRepo.DeleteProject(projectId);
         }
 
         public void UpdateProject(string projectName
-            , int Original_ProjectId)
+            , int projectId)
         {
             _projectRepo.UpdateProject(projectName
-                , Original_ProjectId);
+                , projectId);
         }
     }
 }

@@ -1,6 +1,17 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Runtime.InteropServices;
+
+[module: SuppressMessage("Microsoft.Naming"
+    , "CA1709:IdentifiersShouldBeCasedCorrectly"
+    , MessageId = "EBS")]
+
+[module: SuppressMessage("Microsoft.Naming"
+    , "CA1709:IdentifiersShouldBeCasedCorrectly"
+    , Scope = "namespace"
+    , Target = "Uncas.EBS.ApplicationServices"
+    , MessageId = "EBS")]
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
