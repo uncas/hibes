@@ -6,6 +6,7 @@ using Uncas.EBS.ApplicationServices;
 using Uncas.EBS.Domain.Model;
 using Uncas.EBS.Domain.Repository;
 using Uncas.EBS.Tests;
+using Uncas.EBS.Domain.ViewModel;
 
 namespace Uncas.EBS.IntegrationTests.RepositoryTests
 {
@@ -435,9 +436,9 @@ Indexes on all foreign keys:
         {
             FuncToSpeedTest tf = () =>
                 {
-                    _taskRepo.GetTasks(Status.Any, null);
-                    _taskRepo.GetTasks(Status.Closed, null);
-                    _taskRepo.GetTasks(Status.Open, null);
+                    _taskRepo.GetTasks(new TaskFilter { Status = Status.Any });
+                    _taskRepo.GetTasks(new TaskFilter { Status = Status.Closed });
+                    _taskRepo.GetTasks(new TaskFilter { Status = Status.Open });
                 };
             TestSpeed("GetTasks", tf);
         }

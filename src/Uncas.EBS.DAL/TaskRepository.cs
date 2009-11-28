@@ -44,20 +44,25 @@ namespace Uncas.EBS.DAL
             base.SubmitChanges();
         }
 
-        public IList<Model.Task> GetTasks
-            (Model.Status status
-            , int? maxCount)
+        public IList<Model.Task> GetTasks(TaskFilter filter)
         {
             var result = DB.Tasks.AsQueryable<Task>();
-            if (status != Model.Status.Any)
+            if (filter.Status != Model.Status.Any)
             {
                 result = result
-                    .Where(t => t.RefStatusId == (int)status);
+                    .Where(t => t.RefStatusId
+                        == (int)filter.Status);
+            }
+            if (filter.PersonId.HasValue)
+            {
+                result = result
+                    .Where(t => t.RefPersonId
+                        == filter.PersonId.Value);
             }
             result = result.OrderBy(t => t.Sequence);
-            if (maxCount.HasValue)
+            if (filter.MaxCount.HasValue)
             {
-                result = result.Take(maxCount.Value);
+                result = result.Take(filter.MaxCount.Value);
             }
             return result
                 .Select(t => GetModelTaskFromDbTask(t))

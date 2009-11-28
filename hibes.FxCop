@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<FxCopProject Version="1.36" Name="Econnector">
+<FxCopProject Version="1.36" Name="hibes">
  <ProjectOptions>
   <SharedProject>True</SharedProject>
   <Stylesheet Apply="False">c:\program files\microsoft fxcop 1.36\Xml\FxCopReport.xsl</Stylesheet>

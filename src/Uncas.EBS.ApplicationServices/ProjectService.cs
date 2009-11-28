@@ -54,10 +54,14 @@ namespace Uncas.EBS.ApplicationServices
             var openIssuesAndOpenTasks
                 = IssueRepository.GetOpenIssuesAndOpenTasks
                 (projectId, maxPriority);
+            var filter = new TaskFilter
+            {
+                Status = Status.Closed,
+                MaxCount = maxNumberOfHistoricalData
+            };
             var closedTasks
                 = TaskRepository.GetTasks
-                (Status.Closed
-                , maxNumberOfHistoricalData);
+                (filter);
             var personViews
                 = PersonRepository.GetPersonViews();
 

@@ -83,18 +83,12 @@ namespace Uncas.EBS.UI.Controllers
 
         public IList<Task> GetClosedTasks(int? refPersonId)
         {
-            // TODO: REFACTOR: Move this into repository:
-            var result = _taskRepo.GetTasks(Status.Closed, null);
-            if (refPersonId.HasValue)
+            TaskFilter filter = new TaskFilter
             {
-                return result.Where
-                    (p => p.RefPersonId == refPersonId.Value)
-                    .ToList();
-            }
-            else
-            {
-                return result;
-            }
+                PersonId = refPersonId,
+                Status = Status.Closed
+            };
+            return _taskRepo.GetTasks(filter);
         }
     }
 }

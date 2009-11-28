@@ -124,11 +124,6 @@ namespace Uncas.EBS.Utility.Simulation
         /// <returns></returns>
         private double GetTaskSimulation(Task task)
         {
-            // TODO: FEATURE: Look among similar historical tasks:
-            //       Improve this by getting a random historical task 
-            //       among the tasks that are most similar to the current task.
-            //       For example by comparing estimated remaining time.
-
             // Gets a random historical task:
             double speed = 1d;
 

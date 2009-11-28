@@ -71,6 +71,7 @@
     <Compile Include="ViewModel\Statistic.cs" />
     <Compile Include="ViewModel\IssueView.cs" />
     <Compile Include="ViewModel\TaskDetails.cs" />
+    <Compile Include="ViewModel\TaskFilter.cs" />
     <Compile Include="ViewModel\TeamEvaluation.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

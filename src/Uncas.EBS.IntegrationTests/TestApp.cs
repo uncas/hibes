@@ -3,6 +3,7 @@ using System.Linq;
 using NUnit.Framework;
 using Uncas.EBS.Domain.Model;
 using Uncas.EBS.Domain.Repository;
+using Uncas.EBS.Domain.ViewModel;
 
 namespace Uncas.EBS.IntegrationTests
 {
@@ -171,7 +172,7 @@ namespace Uncas.EBS.IntegrationTests
         {
             foreach (var task in
                 Repositories.TaskRepository.GetTasks
-                (Status.Any, 100000))
+                (TaskFilter.None))
             {
                 Repositories.TaskRepository.DeleteTask
                     (task.TaskId.Value);

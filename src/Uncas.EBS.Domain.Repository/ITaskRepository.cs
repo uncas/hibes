@@ -1,5 +1,7 @@
-﻿using Uncas.EBS.Domain.Model;
+﻿using System;
 using System.Collections.Generic;
+using Uncas.EBS.Domain.Model;
+using Uncas.EBS.Domain.ViewModel;
 
 namespace Uncas.EBS.Domain.Repository
 {
@@ -11,10 +13,8 @@ namespace Uncas.EBS.Domain.Repository
         /// <summary>
         /// Gets the tasks.
         /// </summary>
-        /// <param name="status">The status.</param>
-        /// <param name="maxCount">The max count.</param>
-        /// <returns></returns>
-        IList<Task> GetTasks(Status status, int? maxCount);
+        /// <param name="filter">The filter.</param>
+        IList<Task> GetTasks(TaskFilter filter);
 
         /// <summary>
         /// Inserts the task.
