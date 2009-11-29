@@ -3,6 +3,9 @@ using Uncas.EBS.Domain.Model;
 
 namespace Uncas.EBS.UI.Controls
 {
+    /// <summary>
+    /// A dropdownlist with the status options.
+    /// </summary>
     public class StatusSelection : DropDownList
     {
         protected override void CreateChildControls()

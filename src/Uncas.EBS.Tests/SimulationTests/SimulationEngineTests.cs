@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 using Uncas.EBS.Domain.Model;
 using Uncas.EBS.Domain.ViewModel;
 using Uncas.EBS.Utility.Simulation;
-using System;
 
 namespace Uncas.EBS.Tests.SimulationTests
 {

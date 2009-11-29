@@ -7,10 +7,17 @@ using Model = Uncas.EBS.Domain.Model;
 
 namespace Uncas.EBS.DAL
 {
+    /// <summary>
+    /// Handles storage of tasks.
+    /// </summary>
     public class TaskRepository : BaseRepository, ITaskRepository
     {
         #region ITaskRepository Members
 
+        /// <summary>
+        /// Inserts the task.
+        /// </summary>
+        /// <param name="task">The task.</param>
         public void InsertTask(Model.Task task)
         {
             if (string.IsNullOrEmpty(task.Description))
@@ -23,6 +30,10 @@ namespace Uncas.EBS.DAL
             task.TaskId = dbTask.TaskId;
         }
 
+        /// <summary>
+        /// Updates the task.
+        /// </summary>
+        /// <param name="task">The task.</param>
         public void UpdateTask(Model.Task task)
         {
             if (!task.TaskId.HasValue)
@@ -38,12 +49,21 @@ namespace Uncas.EBS.DAL
             base.SubmitChanges();
         }
 
+        /// <summary>
+        /// Deletes the task.
+        /// </summary>
+        /// <param name="taskId">The task id.</param>
         public void DeleteTask(int taskId)
         {
             DB.Tasks.DeleteOnSubmit(GetTask(taskId));
             base.SubmitChanges();
         }
 
+        /// <summary>
+        /// Gets the tasks.
+        /// </summary>
+        /// <param name="filter">The filter.</param>
+        /// <returns></returns>
         public IList<Model.Task> GetTasks(TaskFilter filter)
         {
             var result = DB.Tasks.AsQueryable<Task>();

@@ -2,6 +2,9 @@
 
 namespace Uncas.EBS.UI.Controls
 {
+    /// <summary>
+    /// A bound field with a resource string as the header text.
+    /// </summary>
     public class BoundFieldResource : BoundField
     {
         private string _headerResourceName;

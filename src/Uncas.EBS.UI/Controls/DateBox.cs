@@ -3,8 +3,15 @@ using System.Web.UI.WebControls;
 
 namespace Uncas.EBS.UI.Controls
 {
+    /// <summary>
+    /// Represents a textbox for entering a date.
+    /// </summary>
     public class DateBox : TextBox
     {
+        /// <summary>
+        /// Gets or sets the date object.
+        /// </summary>
+        /// <value>The date object.</value>
         public object DateObject
         {
             get
@@ -20,6 +27,10 @@ namespace Uncas.EBS.UI.Controls
             }
         }
 
+        /// <summary>
+        /// Gets or sets the selected date.
+        /// </summary>
+        /// <value>The selected date.</value>
         public DateTime? SelectedDate
         {
             get

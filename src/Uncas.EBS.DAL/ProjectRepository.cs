@@ -6,11 +6,18 @@ using Model = Uncas.EBS.Domain.Model;
 
 namespace Uncas.EBS.DAL
 {
+    /// <summary>
+    /// Handles storage of projects.
+    /// </summary>
     public class ProjectRepository : BaseRepository
         , IProjectRepository
     {
         #region IProjectRepository Members
 
+        /// <summary>
+        /// Gets the projects.
+        /// </summary>
+        /// <returns></returns>
         public IList<Model.Project> GetProjects()
         {
             var result = DB.Projects
@@ -24,6 +31,10 @@ namespace Uncas.EBS.DAL
             return result.ToList();
         }
 
+        /// <summary>
+        /// Inserts the project.
+        /// </summary>
+        /// <param name="projectName">Name of the project.</param>
         public void InsertProject(string projectName)
         {
             if (string.IsNullOrEmpty(projectName))
@@ -40,6 +51,10 @@ namespace Uncas.EBS.DAL
             base.SubmitChanges();
         }
 
+        /// <summary>
+        /// Deletes the project.
+        /// </summary>
+        /// <param name="projectId">The project id.</param>
         public void DeleteProject(int projectId)
         {
             var project = DB.Projects
@@ -49,6 +64,11 @@ namespace Uncas.EBS.DAL
             base.SubmitChanges();
         }
 
+        /// <summary>
+        /// Updates the project.
+        /// </summary>
+        /// <param name="projectName">Name of the project.</param>
+        /// <param name="projectId">The project id.</param>
         public void UpdateProject(string projectName, int projectId)
         {
             var project = DB.Projects

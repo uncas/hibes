@@ -2,6 +2,9 @@
 
 namespace Uncas.EBS.UI.Controls
 {
+    /// <summary>
+    /// A radio button list with the status options.
+    /// </summary>
     public class StatusOptions : RadioButtonList
     {
         protected override void CreateChildControls()

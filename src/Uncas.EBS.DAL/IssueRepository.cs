@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Uncas.EBS.Domain.Repository;
 using Uncas.EBS.Domain.ViewModel;
 using Model = Uncas.EBS.Domain.Model;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Uncas.EBS.DAL
 {
+    /// <summary>
+    /// Handles storage of issues.
+    /// </summary>
     public class IssueRepository
         : BaseRepository
         , IIssueRepository
@@ -16,11 +19,15 @@ namespace Uncas.EBS.DAL
         #region Public methods (IIssueRepository members)
 
 
+        /// <summary>
+        /// Gets the issues.
+        /// </summary>
+        /// <param name="projectId">The project id.</param>
+        /// <param name="status">The status.</param>
+        /// <returns></returns>
         public IList<IssueDetails> GetIssues
-            (
-            int? projectId
-            , Model.Status status
-            )
+            (int? projectId
+            , Model.Status status)
         {
             var dbIssues = DB.Issues.Select(i => i);
 
@@ -48,11 +55,15 @@ namespace Uncas.EBS.DAL
         }
 
 
+        /// <summary>
+        /// Gets the issue view.
+        /// </summary>
+        /// <param name="issueId">The issue id.</param>
+        /// <param name="taskStatus">The task status.</param>
+        /// <returns></returns>
         public IssueView GetIssueView
-            (
-            int issueId
-            , Model.Status taskStatus
-            )
+            (int issueId
+            , Model.Status taskStatus)
         {
             TaskRepository taskRepo = new TaskRepository();
             return new IssueView
@@ -64,11 +75,15 @@ namespace Uncas.EBS.DAL
         }
 
 
+        /// <summary>
+        /// Gets the open issues and open tasks.
+        /// </summary>
+        /// <param name="projectId">The project id.</param>
+        /// <param name="maxPriority">The max priority.</param>
+        /// <returns></returns>
         public IList<IssueView> GetOpenIssuesAndOpenTasks
-            (
-            int? projectId
-            , int? maxPriority
-            )
+            (int? projectId
+            , int? maxPriority)
         {
             var issues = DB.Issues.Where(i => i.RefStatusId == 1)
                 .OrderBy(i => i.Priority).AsQueryable<Issue>();
@@ -104,9 +119,7 @@ namespace Uncas.EBS.DAL
         /// <param name="issue">The issue.</param>
         /// <exception cref="RepositoryException"></exception>
         public void InsertIssue
-            (
-            Model.Issue issue
-            )
+            (Model.Issue issue)
         {
             if (string.IsNullOrEmpty(issue.Title))
             {
@@ -139,10 +152,12 @@ namespace Uncas.EBS.DAL
         }
 
 
+        /// <summary>
+        /// Updates the issue.
+        /// </summary>
+        /// <param name="issue">The issue.</param>
         public void UpdateIssue
-            (
-            Model.Issue issue
-            )
+            (Model.Issue issue)
         {
             if (!issue.IssueId.HasValue)
             {
@@ -158,6 +173,10 @@ namespace Uncas.EBS.DAL
         }
 
 
+        /// <summary>
+        /// Deletes the issue.
+        /// </summary>
+        /// <param name="issueId">The issue id.</param>
         public void DeleteIssue
             (
             int issueId
@@ -181,6 +200,11 @@ namespace Uncas.EBS.DAL
         }
 
 
+        /// <summary>
+        /// Adds one to the priority.
+        /// </summary>
+        /// <param name="issueId">The issue id.</param>
+        /// <returns></returns>
         public bool AddOneToPriority
             (
             int issueId
@@ -192,6 +216,11 @@ namespace Uncas.EBS.DAL
         }
 
 
+        /// <summary>
+        /// Subtracts one from the priority.
+        /// </summary>
+        /// <param name="issueId">The issue id.</param>
+        /// <returns></returns>
         public bool SubtractOneFromPriority
             (
             int issueId
@@ -202,6 +231,11 @@ namespace Uncas.EBS.DAL
         }
 
 
+        /// <summary>
+        /// Prioritizes all open issues.
+        /// </summary>
+        /// <param name="projectId">The project id.</param>
+        /// <returns></returns>
         public bool PrioritizeAllOpenIssues
             (
             int? projectId

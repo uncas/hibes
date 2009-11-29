@@ -6,6 +6,9 @@ using Uncas.EBS.Utility.Simulation;
 
 namespace Uncas.EBS.ApplicationServices
 {
+    /// <summary>
+    /// Handles projects.
+    /// </summary>
     public class ProjectService
     {
         #region Private fields and properties
@@ -38,11 +41,24 @@ namespace Uncas.EBS.ApplicationServices
 
         #endregion
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ProjectService"/> class.
+        /// </summary>
+        /// <param name="repositories">The repositories.</param>
         public ProjectService(IRepositoryFactory repositories)
         {
             _repositories = repositories;
         }
 
+        /// <summary>
+        /// Gets the team evaluation.
+        /// </summary>
+        /// <param name="projectId">The project id.</param>
+        /// <param name="maxPriority">The max priority.</param>
+        /// <param name="numberOfSimulations">The number of simulations.</param>
+        /// <param name="maxNumberOfHistoricalData">The max number of historical data.</param>
+        /// <param name="standardNumberOfHoursPerDay">The standard number of hours per day.</param>
+        /// <returns></returns>
         public TeamEvaluation GetTeamEvaluation
             (int? projectId
             , int? maxPriority
@@ -64,13 +80,18 @@ namespace Uncas.EBS.ApplicationServices
                 (filter);
             var personViews
                 = PersonRepository.GetPersonViews();
+            PersonView personView0 = null;
+            if (personViews != null)
+            {
+                personView0 = personViews.FirstOrDefault();
+            }
 
             var simulationEngine = new SimulationEngine(closedTasks);
 
             // Runs a simulation with all tasks:
             var projectEvaluation
                 = simulationEngine.GetProjectEvaluation
-                (personViews[0]
+                (personView0
                 , openIssuesAndOpenTasks
                 , numberOfSimulations
                 , standardNumberOfHoursPerDay);

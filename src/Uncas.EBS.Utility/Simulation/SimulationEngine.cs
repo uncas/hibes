@@ -20,9 +20,12 @@ namespace Uncas.EBS.Utility.Simulation
         /// <param name="historicalTasks">The historical tasks.</param>
         public SimulationEngine(IList<Task> historicalTasks)
         {
-            this.HistoricalTasks = historicalTasks
-                .OrderByDescending(t => t.EndDate)
-                .ToList();
+            if (historicalTasks != null)
+            {
+                this.HistoricalTasks = historicalTasks
+                    .OrderByDescending(t => t.EndDate)
+                    .ToList();
+            }
         }
 
         #endregion
@@ -111,7 +114,8 @@ namespace Uncas.EBS.Utility.Simulation
             {
                 // Get the statistical remaining time:
                 // Add this statistical remaining time to the sum:
-                statisticalRemainingForIssue += GetTaskSimulation(task);
+                statisticalRemainingForIssue
+                    += GetTaskSimulation(task);
             }
             return statisticalRemainingForIssue;
         }
@@ -124,46 +128,59 @@ namespace Uncas.EBS.Utility.Simulation
         /// <returns></returns>
         private double GetTaskSimulation(Task task)
         {
-            // Gets a random historical task:
-            double speed = 1d;
+            // Gets the speed to use in the simulation:
+            double speed = GetSpeedForSimulation(task);
 
+            // Calculates a statistical remaining time:
+
+            // Gets the current tasks's estimated remaining time:
+            double remaining = task.Remaining;
+
+            // Divides by the randomly picked historical speed:
+            return remaining / speed;
+        }
+
+        private double GetSpeedForSimulation(Task task)
+        {
+            // Historical tasks for the person in question:
+            var tasksForPerson
+                = this.HistoricalTasks
+                .Where(t => t.RefPersonId == task.RefPersonId)
+                .ToList();
+
+            // Gets the index to use:
+            int randomIndex
+                = GetRandomTaskIndex
+                (tasksForPerson.Count);
+
+            // If index is low enought we take a real historical speed:
+            if (randomIndex < tasksForPerson.Count)
+            {
+                // Gets the speed of the random historical task:
+                return tasksForPerson[randomIndex].Speed
+                    ?? GetRandomSpeed();
+            }
+            else
+            // Otherwise we take a random speed:
+            {
+                return GetRandomSpeed();
+            }
+        }
+
+        private int GetRandomTaskIndex
+            (int numberOfTasks)
+        {
             // We always generate at least minRandomCount random numbers:
             int minRandomCount = 2;
             // If we have less than minMaxIndex historical tasks
             // we generate some additional random numbers in between:
             int minMaxIndex = 10;
-            // Historical tasks for the person in question:
-            var historicalTasksForThisPerson = this.HistoricalTasks
-                .Where(t => t.RefPersonId == task.RefPersonId)
-                .ToList();
             // A random index to apply:
             int maxIndex
-                = Math.Max(historicalTasksForThisPerson.Count, minMaxIndex)
+                = Math.Max(numberOfTasks, minMaxIndex)
                 + minRandomCount;
             int randomIndex = _rnd.Next(maxIndex + 1);
-            if (randomIndex < historicalTasksForThisPerson.Count)
-            {
-                var randomHistoricalTask
-                    = historicalTasksForThisPerson[randomIndex];
-
-                // Gets the speed of the random historical task:
-                speed = randomHistoricalTask.Speed
-                    ?? GetRandomSpeed();
-            }
-            else
-            {
-                speed = GetRandomSpeed();
-            }
-
-            // Calculates a statistical remaining time by:
-
-            // Gets the current tasks's estimated remaining time:
-            var remaining = task.Remaining;
-
-            // Divides by the randomly picked historical speed:
-            double statisticalRemainingForTask = remaining / speed;
-
-            return statisticalRemainingForTask;
+            return randomIndex;
         }
 
 

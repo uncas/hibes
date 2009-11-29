@@ -45,8 +45,7 @@ namespace Uncas.EBS.UI.Helpers
         /// <param name="columns">The columns.</param>
         public void AppendTable<T>
                (IEnumerable<T> data
-               , params LatexColumn<T>[] columns
-               )
+               , params LatexColumn<T>[] columns)
         {
             AppendTable<T>
                 (data
@@ -68,20 +67,12 @@ namespace Uncas.EBS.UI.Helpers
             , params LatexColumn<T>[] columns
             )
         {
-            StringBuilder sb = new StringBuilder();
-
-            BeginTabular<T>(columns, sb);
-
-            MakeHeader<T>(columns, sb);
-
-            AddRowPerItem<T>(data
-                , columns
-                , sb
-                , showRow);
-
-            EndTabular(sb);
-
-            _content.Append(sb.ToString());
+            LatexTable table = new LatexTable();
+            table.AppendTable<T>
+                (data
+                , showRow
+                , _content
+                , columns);
         }
 
 
@@ -191,100 +182,6 @@ namespace Uncas.EBS.UI.Helpers
                 (oldString
                 , newString);
         }
-
-
-        private static void BeginTabular<T>
-            (LatexColumn<T>[] columns
-            , StringBuilder sb)
-        {
-            sb.Append(@"\begin{tabular}{");
-            int columnIndex = 0;
-            foreach (LatexColumn<T> column in columns)
-            {
-                if (columnIndex > 0)
-                {
-                    sb.Append(" | ");
-                }
-                switch (column.Alignment)
-                {
-                    case ColumnAlignment.Left:
-                        sb.Append("l");
-                        break;
-                    case ColumnAlignment.Center:
-                        sb.Append("c");
-                        break;
-                    case ColumnAlignment.Right:
-                        sb.Append("r");
-                        break;
-                    default:
-                        throw new NotImplementedException();
-                }
-                columnIndex++;
-            }
-            sb.AppendLine("}");
-        }
-
-
-        private static void MakeHeader<T>
-            (LatexColumn<T>[] columns
-            , StringBuilder sb)
-        {
-            // Makes header:
-            int headerFieldIndex = 0;
-            foreach (LatexColumn<T> column in columns)
-            {
-                if (headerFieldIndex > 0)
-                {
-                    sb.AppendLine("        &");
-                }
-                sb.AppendLine("        "
-                    + EncodeText(column.Title));
-                headerFieldIndex++;
-            }
-            sb.AppendLine(@"    \\
-    \hline");
-        }
-
-
-        private static void AddRowPerItem<T>
-            (IEnumerable<T> data
-            , LatexColumn<T>[] columns
-            , StringBuilder sb
-            , Func<T, bool> showRow
-            )
-        {
-            // Adds a row per item:
-            foreach (var item in data)
-            {
-                if (showRow != null
-                    && !showRow(item))
-                {
-                    continue;
-                }
-                int fieldIndex = 0;
-                foreach (LatexColumn<T> column in columns)
-                {
-                    if (fieldIndex > 0)
-                    {
-                        sb.AppendLine("        &");
-                    }
-                    sb.AppendLine("        "
-                        + EncodeText(column.Transform(item)));
-                    fieldIndex++;
-                }
-                sb.AppendLine(@"    \\");
-            }
-        }
-
-
-        private static void EndTabular
-            (StringBuilder sb)
-        {
-            sb.AppendLine(
-@"    \hline
-\end{tabular}");
-        }
-
 
         #endregion
 

@@ -3,6 +3,9 @@ using System.Resources;
 
 namespace Uncas.EBS.UI.Controls
 {
+    /// <summary>
+    /// A hyperlink field with a resource string as the header text and/or as the field text.
+    /// </summary>
     public class HyperLinkFieldResource : HyperLinkField
     {
         ResourceManager _resourceManager

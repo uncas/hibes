@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{40AECC36-94C1-4EE1-83D9-E7AFBFB868E2}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -49,8 +49,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Fakes\FakeIssueRepository.cs" />
+    <Compile Include="Fakes\FakePersonRepository.cs" />
+    <Compile Include="Fakes\FakeRepositoryFactory.cs" />
+    <Compile Include="Fakes\FakeTaskRepository.cs" />
     <Compile Include="ModelTests\IssueTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceTests\ProjectServiceTests.cs" />
     <Compile Include="SimulationTests\SimulationEngineTests.cs" />
     <Compile Include="SpeedTester.cs" />
     <Compile Include="UITests\LatexHelpersTests.cs" />
@@ -61,6 +66,10 @@
     <ProjectReference Include="..\Uncas.EBS.ApplicationServices\Uncas.EBS.ApplicationServices.csproj">
       <Project>{B8576674-7555-405B-96EE-3667A50EA1DE}</Project>
       <Name>Uncas.EBS.ApplicationServices</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Uncas.EBS.Domain.Repository\Uncas.EBS.Domain.Repository.csproj">
+      <Project>{DD70A58E-D0B3-45BC-9C4A-38EBA7420F46}</Project>
+      <Name>Uncas.EBS.Domain.Repository</Name>
     </ProjectReference>
     <ProjectReference Include="..\Uncas.EBS.Domain\Uncas.EBS.Domain.csproj">
       <Project>{6BF0F142-F718-4BF9-A7F6-9B36D1C091B4}</Project>

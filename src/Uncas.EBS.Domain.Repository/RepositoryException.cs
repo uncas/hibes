@@ -38,6 +38,7 @@ namespace Uncas.EBS.Domain.Repository
         /// <summary>
         /// Initializes a new instance of the <see cref="RepositoryException"/> class.
         /// </summary>
+        /// <param name="message">The message.</param>
         /// <param name="innerException">The inner exception.</param>
         public RepositoryException
             (string message

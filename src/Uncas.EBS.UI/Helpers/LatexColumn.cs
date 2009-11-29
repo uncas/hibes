@@ -2,6 +2,10 @@
 
 namespace Uncas.EBS.UI.Helpers
 {
+    /// <summary>
+    /// Represents a column in a latex document.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class LatexColumn<T>
     {
         public LatexColumn
