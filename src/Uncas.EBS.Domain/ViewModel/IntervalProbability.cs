@@ -34,11 +34,11 @@ namespace Uncas.EBS.Domain.ViewModel
         public override string ToString()
         {
             return string.Format
-                (
-                CultureInfo.CurrentCulture
+                (CultureInfo.CurrentCulture
                 , "{0}-{1}: {2:P1}"
-                , this.Lower, this.Upper, this.Probability
-                );
+                , this.Lower
+                , this.Upper
+                , this.Probability);
         }
     }
 }

@@ -27,17 +27,15 @@ namespace Uncas.EBS.Domain.ViewModel
         /// <param name="elapsed">The elapsed.</param>
         /// <returns></returns>
         public static IssueDetails ReconstructIssueDetails
-            (
-                int issueId
-                , DateTime createdDate
-                , int priority
-                , string projectName
-                , Status status
-                , string title
-                , int numberOfTasks
-                , double? remaining
-                , double? elapsed
-            )
+            (int issueId
+            , DateTime createdDate
+            , int priority
+            , string projectName
+            , Status status
+            , string title
+            , int numberOfTasks
+            , double? remaining
+            , double? elapsed)
         {
             return new IssueDetails
             {

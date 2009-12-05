@@ -4,8 +4,9 @@ hibes (HIstory Based EStimation)
 Contents
 ----
 1) Introduction
-2) File organization
-3) Requirements for development environment
+2) Quick start
+3) Files
+4) Requirements
 
 
 1) Introduction
@@ -15,14 +16,27 @@ tasks. It then uses the estimates from completed tasks to evaluate
 possible completion dates for future tasks.
 
 The user interface is a website. It is created with ASP.NET,
-programmed in C#, and the data is stored in a Microsoft Sql Server
+programmed in C#, and the data can be stored in a Microsoft Sql Server
 2005+ database.
 
 
-2) File organization
+2) Quick start
 ----
-The files are organised as follows:
+To setup website and database on a local machine:
+- Download the source code.
+- Install the requirements (see section 4).
+- Configure a new website with IIS Manager (e.g. c:\inetpub\wwwroot\hibes)
+- Copy local.properties.xml.template to local.properties.xml.
+- Open local.properties.xml and edit and save the following:
+    sqlServer: the server (e.g. . or .\SqlExpress)
+    database: the name of the database (e.g. hibes)
+    testFolder: the physical path to the IIS website from above
+- Run ClickToSetupDatabase.bat
+- Run ClickToPublishToTest.bat
 
+
+3) Files
+----
 /config:
     Templates for configuration files
 
@@ -89,15 +103,32 @@ Command-line:
       publishToProduction (see above)
 
 
-3) Requirements for development environment
+4) Requirements for compilation / development
 ----
-The following are required to compile the solution:
+The following are required to compile and test the solution:
+
     .NET 3.5 SP1
-    ASP.NET Charting control (http://weblogs.asp.net/scottgu/archive/2008/11/24/new-asp-net-charting-control-lt-asp-chart-runat-quot-server-quot-gt.aspx)
-    NUnit (for unit and integration tests)
+
+    Microsoft Sql Server (Only for database setup and integration
+    tests. The scripts have been tested with Sql Server 2005 and
+    2008. Free 'Express' versions are available here:
+    http://www.microsoft.com/Sqlserver/2005/en/us/express.aspx and
+    http://www.microsoft.com/express/sql.)
+
+    ASP.NET Charting control (Only for UI. Can be found here:
+    http://www.microsoft.com/downloads/details.aspx?FamilyID=130f7986-bf49-4fe5-9ca8-910ae6ea442c.
+    For more info, see this blog post:
+    http://weblogs.asp.net/scottgu/archive/2008/11/24/new-asp-net-charting-control-lt-asp-chart-runat-quot-server-quot-gt.aspx.)
+
+    NUnit (Only for unit and integration tests. Here is used version
+    2.4.8 with a reference in the project settings to the path
+    C:\Program Files\NUnit 2.4.8\bin\nunit.framework.dll, so that has
+    to be modified for other versions. Can be found here:
+    http://www.nunit.org.)
 
 The following is required for the batch files and build scripts:
-    NAnt
+
+    NAnt (Can be found here: http://nant.sourceforge.net.)
 
 
 Cheers,

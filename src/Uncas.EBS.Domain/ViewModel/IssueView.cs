@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using Uncas.EBS.Domain.Model;
-using System;
 
 namespace Uncas.EBS.Domain.ViewModel
 {
@@ -14,7 +12,8 @@ namespace Uncas.EBS.Domain.ViewModel
         /// </summary>
         /// <param name="issue">The issue.</param>
         /// <param name="tasks">The tasks.</param>
-        public IssueView(IssueDetails issue
+        public IssueView
+            (IssueDetails issue
             , IList<TaskDetails> tasks)
         {
             this.Issue = issue;
@@ -32,7 +31,7 @@ namespace Uncas.EBS.Domain.ViewModel
         public IssueDetails Issue { get; set; }
 
         /// <summary>
-        /// Gets or sets the tasks.
+        /// Gets the tasks.
         /// </summary>
         /// <value>The tasks.</value>
         public IList<TaskDetails> Tasks

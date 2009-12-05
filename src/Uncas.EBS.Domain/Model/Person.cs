@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Uncas.EBS.Domain.Model
+﻿namespace Uncas.EBS.Domain.Model
 {
     /// <summary>
     /// Represents info about a person.
@@ -10,7 +8,10 @@ namespace Uncas.EBS.Domain.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Person"/> class.
         /// </summary>
-        public Person(int id
+        /// <param name="id">The id of the person.</param>
+        /// <param name="name">The name of the person.</param>
+        public Person
+            (int id
             , string name)
             : this(id, name, 5, 7.5d)
         {
@@ -19,10 +20,11 @@ namespace Uncas.EBS.Domain.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Person"/> class.
         /// </summary>
-        /// <param name="name">The name.</param>
+        /// <param name="name">The name of the person.</param>
         /// <param name="daysPerWeek">The days per week.</param>
         /// <param name="hoursPerDay">The hours per day.</param>
-        public Person(string name
+        public Person
+            (string name
             , int daysPerWeek
             , double hoursPerDay)
         {
@@ -34,7 +36,12 @@ namespace Uncas.EBS.Domain.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Person"/> class.
         /// </summary>
-        public Person(int id
+        /// <param name="id">The id of the person.</param>
+        /// <param name="name">The name of the person.</param>
+        /// <param name="daysPerWeek">The days per week.</param>
+        /// <param name="hoursPerDay">The hours per day.</param>
+        public Person
+            (int id
             , string name
             , int daysPerWeek
             , double hoursPerDay)
@@ -105,35 +112,6 @@ namespace Uncas.EBS.Domain.Model
                 + this.PersonName.GetHashCode()
                 + this.DaysPerWeek.GetHashCode()
                 + this.HoursPerDay.GetHashCode();
-        }
-    }
-
-    /// <summary>
-    /// Extensions for the person class.
-    /// </summary>
-    public static class PersonExtensions
-    {
-        /// <summary>
-        /// Determines whether [is at work] [the specified person].
-        /// </summary>
-        /// <param name="person">The person.</param>
-        /// <param name="dayOfWeek">The day of week.</param>
-        /// <returns>
-        /// 	<c>true</c> if [is at work] [the specified person]; otherwise, <c>false</c>.
-        /// </returns>
-        public static bool IsAtWork
-            (this Person person
-            , DayOfWeek dayOfWeek)
-        {
-            int workDayNumber = (int)dayOfWeek;
-
-            // Sunday:
-            if (workDayNumber == 0)
-            {
-                workDayNumber = 7;
-            }
-
-            return workDayNumber <= person.DaysPerWeek;
         }
     }
 }

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Uncas.EBS.UI.Helpers
 {
-    public class LatexTable
+    public static class LatexTable
     {
         /// <summary>
         /// Appends the table.
@@ -12,7 +12,7 @@ namespace Uncas.EBS.UI.Helpers
         /// <typeparam name="T"></typeparam>
         /// <param name="data">The data.</param>
         /// <param name="columns">The columns.</param>
-        public void AppendTable<T>
+        public static void AppendTable<T>
             (IEnumerable<T> data
             , StringBuilder content
             , params LatexColumn<T>[] columns)
@@ -31,7 +31,7 @@ namespace Uncas.EBS.UI.Helpers
         /// <param name="data">The data.</param>
         /// <param name="showRow">The show row.</param>
         /// <param name="columns">The columns.</param>
-        public void AppendTable<T>
+        public static void AppendTable<T>
             (IEnumerable<T> data
             , Func<T, bool> showRow
             , StringBuilder content
@@ -52,6 +52,8 @@ namespace Uncas.EBS.UI.Helpers
 
             content.Append(sb.ToString());
         }
+
+        #region Private methods
 
         private static void BeginTabular<T>
            (LatexColumn<T>[] columns
@@ -91,8 +93,8 @@ namespace Uncas.EBS.UI.Helpers
         }
 
         private static void MakeHeader<T>
-    (LatexColumn<T>[] columns
-    , StringBuilder sb)
+            (LatexColumn<T>[] columns
+            , StringBuilder sb)
         {
             // Makes header:
             int headerFieldIndex = 0;
@@ -148,5 +150,7 @@ namespace Uncas.EBS.UI.Helpers
 @"    \hline
 \end{tabular}");
         }
+
+        #endregion
     }
 }

@@ -12,7 +12,8 @@ namespace Uncas.EBS.Domain.ViewModel
         /// </summary>
         public TeamEvaluation()
         {
-            this.EvaluationsPerPerson = new List<ProjectEvaluation>();
+            this.EvaluationsPerPerson
+                = new List<ProjectEvaluation>();
         }
 
         /// <summary>
@@ -20,19 +21,13 @@ namespace Uncas.EBS.Domain.ViewModel
         /// </summary>
         /// <value>The total evaluation.</value>
         public ProjectEvaluation TotalEvaluation
-        {
-            get;
-            set;
-        }
+        { get; set; }
 
         /// <summary>
-        /// Gets or sets the evaluations per person.
+        /// Gets the evaluations per person.
         /// </summary>
         /// <value>The evaluations per person.</value>
         public IList<ProjectEvaluation> EvaluationsPerPerson
-        {
-            get;
-            private set;
-        }
+        { get; private set; }
     }
 }

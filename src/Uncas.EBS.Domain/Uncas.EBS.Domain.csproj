@@ -12,9 +12,8 @@
     <AssemblyName>Uncas.EBS.Domain</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <SignAssembly>false</SignAssembly>
-    <AssemblyOriginatorKeyFile>
-    </AssemblyOriginatorKeyFile>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\hibesKey.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -54,7 +53,9 @@
   <ItemGroup>
     <Compile Include="Model\Issue.cs" />
     <Compile Include="Model\Person.cs" />
+    <Compile Include="Model\PersonExtensions.cs" />
     <Compile Include="Model\PersonOff.cs" />
+    <Compile Include="Model\PersonOffExtensions.cs" />
     <Compile Include="Model\Project.cs" />
     <Compile Include="Model\Status.cs" />
     <Compile Include="Model\Task.cs" />
@@ -73,6 +74,11 @@
     <Compile Include="ViewModel\TaskDetails.cs" />
     <Compile Include="ViewModel\TaskFilter.cs" />
     <Compile Include="ViewModel\TeamEvaluation.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\hibesKey.snk">
+      <Link>hibesKey.snk</Link>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

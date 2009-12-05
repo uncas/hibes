@@ -7,7 +7,6 @@ namespace Uncas.EBS.Domain.ViewModel
     /// </summary>
     public class IssueEvaluation
     {
-
         #region Constructors
 
 
@@ -19,7 +18,8 @@ namespace Uncas.EBS.Domain.ViewModel
         /// <param name="elapsed">The number of elapsed hours.</param>
         /// <param name="evaluation">The evaluation.</param>
         /// <param name="standardNumberOfHoursPerDay">The standard number of hours per day.</param>
-        public IssueEvaluation(IssueDetails issue
+        public IssueEvaluation
+            (IssueDetails issue
             , int numberOfOpenTasks
             , double? elapsed
             , double evaluation
@@ -50,13 +50,13 @@ namespace Uncas.EBS.Domain.ViewModel
 
 
         /// <summary>
-        /// Gets or sets the issue.
+        /// Gets the issue.
         /// </summary>
         /// <value>The issue.</value>
         public IssueDetails Issue { get; private set; }
 
         /// <summary>
-        /// Gets or sets the number of open tasks.
+        /// Gets the number of open tasks.
         /// </summary>
         /// <value>The number of open tasks.</value>
         public int NumberOfOpenTasks { get; private set; }
@@ -131,13 +131,13 @@ namespace Uncas.EBS.Domain.ViewModel
         }
 
         /// <summary>
-        /// Gets or sets the elapsed hours.
+        /// Gets the elapsed hours.
         /// </summary>
         /// <value>The elapsed hours.</value>
         public double? Elapsed { get; private set; }
 
         /// <summary>
-        /// Gets or sets the elapsed days.
+        /// Gets the elapsed days.
         /// </summary>
         /// <value>The elapsed days.</value>
         public double? ElapsedDays
@@ -173,8 +173,8 @@ namespace Uncas.EBS.Domain.ViewModel
                 {
                     return this.Elapsed
                         / (this.Elapsed
-                        + this.Average
-                        * this._standardNumberOfHoursPerDay);
+                        + (this.Average
+                        * this._standardNumberOfHoursPerDay));
                 }
                 else
                 {
@@ -216,6 +216,5 @@ namespace Uncas.EBS.Domain.ViewModel
 
 
         #endregion
-
     }
 }

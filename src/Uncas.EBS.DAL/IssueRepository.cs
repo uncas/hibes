@@ -178,9 +178,7 @@ namespace Uncas.EBS.DAL
         /// </summary>
         /// <param name="issueId">The issue id.</param>
         public void DeleteIssue
-            (
-            int issueId
-            )
+            (int issueId)
         {
             Issue issue = ReadIssue(issueId
                 , "Found no such issue to delete.");
@@ -206,9 +204,7 @@ namespace Uncas.EBS.DAL
         /// <param name="issueId">The issue id.</param>
         /// <returns></returns>
         public bool AddOneToPriority
-            (
-            int issueId
-            )
+            (int issueId)
         {
             ChangePriority(issueId, 1);
 
@@ -222,9 +218,7 @@ namespace Uncas.EBS.DAL
         /// <param name="issueId">The issue id.</param>
         /// <returns></returns>
         public bool SubtractOneFromPriority
-            (
-            int issueId
-            )
+            (int issueId)
         {
             ChangePriority(issueId, -1);
             return true;
@@ -237,9 +231,7 @@ namespace Uncas.EBS.DAL
         /// <param name="projectId">The project id.</param>
         /// <returns></returns>
         public bool PrioritizeAllOpenIssues
-            (
-            int? projectId
-            )
+            (int? projectId)
         {
             int priority = 1;
             var issues = DB.Issues.Where(i => i.RefStatusId == 1);
@@ -266,10 +258,8 @@ namespace Uncas.EBS.DAL
 
 
         private Issue ReadIssue
-            (
-            int issueId
-            , string message
-            )
+            (int issueId
+            , string message)
         {
             Issue issue = DB.Issues
                 .Where(i => i.IssueId == issueId)
@@ -283,10 +273,8 @@ namespace Uncas.EBS.DAL
 
 
         private void ChangePriority
-            (
-            int issueId
-            , int priorityChange
-            )
+            (int issueId
+            , int priorityChange)
         {
             Issue issue = ReadIssue(issueId
                 , "Found no such issue to change priority.");
@@ -335,9 +323,7 @@ namespace Uncas.EBS.DAL
 
 
         private static Issue GetDbIssueFromModelIssue
-            (
-            Model.Issue issue
-            )
+            (Model.Issue issue)
         {
             var dbIssue = new Issue
                 {

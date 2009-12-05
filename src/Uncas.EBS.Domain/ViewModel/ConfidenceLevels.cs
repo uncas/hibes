@@ -8,9 +8,9 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="ConfidenceLevels"/> class.
         /// </summary>
-        /// <param name="low">The low.</param>
-        /// <param name="medium">The medium.</param>
-        /// <param name="high">The high.</param>
+        /// <param name="low">The lower fraction.</param>
+        /// <param name="medium">The medium fraction.</param>
+        /// <param name="high">The higher fraction.</param>
         public ConfidenceLevels
             (double low
             , double medium
@@ -24,19 +24,19 @@
         /// <summary>
         /// Gets or sets the low.
         /// </summary>
-        /// <value>The low.</value>
+        /// <value>The lower level.</value>
         public double Low { get; set; }
 
         /// <summary>
         /// Gets or sets the medium.
         /// </summary>
-        /// <value>The medium.</value>
+        /// <value>The medium level.</value>
         public double Medium { get; set; }
 
         /// <summary>
         /// Gets or sets the high.
         /// </summary>
-        /// <value>The high.</value>
+        /// <value>The higher level.</value>
         public double High { get; set; }
     }
 }

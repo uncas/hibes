@@ -1,5 +1,5 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true"
-    CodeBehind="Estimates.aspx.cs" Inherits="Uncas.EBS.UI.Estimates" EnableEventValidation="false" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Estimates.aspx.cs"
+    Inherits="Uncas.EBS.UI.Estimates" EnableEventValidation="false" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
@@ -32,15 +32,6 @@
                 <div class="parts">
                     <div class="part">
                         <div>
-                            <asp:ObjectDataSource ID="odsEvaluationsPerPerson" runat="server" TypeName="Uncas.EBS.UI.Controllers.ProjectController"
-                                SelectMethod="GetConfidenceDatesPerPerson">
-                                <SelectParameters>
-                                    <asp:ControlParameter ControlID="psProjects" Name="projectId" PropertyName="SelectedValue"
-                                        Type="Int32" />
-                                    <asp:ControlParameter ControlID="nbMaxPriority" Name="maxPriority" PropertyName="Text"
-                                        Type="Int32" />
-                                </SelectParameters>
-                            </asp:ObjectDataSource>
                             <asp:GridView ID="gvEvaluationsPerPerson" runat="server" DataSourceID="odsEvaluationsPerPerson"
                                 AutoGenerateColumns="false">
                                 <Columns>
@@ -54,18 +45,18 @@
                                         HeaderStyle-HorizontalAlign="Right"></asp:BoundField>
                                 </Columns>
                             </asp:GridView>
+                            <asp:ObjectDataSource ID="odsEvaluationsPerPerson" runat="server" TypeName="Uncas.EBS.UI.Controllers.ProjectController"
+                                SelectMethod="GetConfidenceDatesPerPerson">
+                                <SelectParameters>
+                                    <asp:ControlParameter ControlID="psProjects" Name="projectId" PropertyName="SelectedValue"
+                                        Type="Int32" />
+                                    <asp:ControlParameter ControlID="nbMaxPriority" Name="maxPriority" PropertyName="Text"
+                                        Type="Int32" />
+                                </SelectParameters>
+                            </asp:ObjectDataSource>
                         </div>
                     </div>
                     <div class="part">
-                        <asp:ObjectDataSource ID="odsCompletionDateConfidences" runat="server" TypeName="Uncas.EBS.UI.Controllers.ProjectController"
-                            SelectMethod="GetCompletionDateConfidences">
-                            <SelectParameters>
-                                <asp:ControlParameter ControlID="psProjects" Name="projectId" PropertyName="SelectedValue"
-                                    Type="Int32" />
-                                <asp:ControlParameter ControlID="nbMaxPriority" Name="maxPriority" PropertyName="Text"
-                                    Type="Int32" />
-                            </SelectParameters>
-                        </asp:ObjectDataSource>
                         <asp:Chart ID="chartDateRanges" runat="server">
                             <Series>
                                 <asp:Series Name="Tasks" ChartType="RangeBar" YValuesPerPoint="2">
@@ -97,15 +88,6 @@
                 </h3>
                 <div class="parts" id="divSummary">
                     <div class="part">
-                        <asp:ObjectDataSource ID="odsSummary" runat="server" TypeName="Uncas.EBS.UI.Controllers.ProjectController"
-                            SelectMethod="GetProjectEstimate">
-                            <SelectParameters>
-                                <asp:ControlParameter ControlID="psProjects" Name="projectId" PropertyName="SelectedValue"
-                                    Type="Int32" />
-                                <asp:ControlParameter ControlID="nbMaxPriority" Name="maxPriority" PropertyName="Text"
-                                    Type="Int32" />
-                            </SelectParameters>
-                        </asp:ObjectDataSource>
                         <asp:GridView ID="gvSummary" runat="server" DataSourceID="odsSummary" AutoGenerateColumns="false">
                             <HeaderStyle HorizontalAlign="Right" />
                             <RowStyle HorizontalAlign="Right" />
@@ -120,18 +102,18 @@
                                 <uncas:BoundFieldResource HeaderResourceName="Days" DataField="DaysRemaining" />
                             </Columns>
                         </asp:GridView>
+                        <asp:ObjectDataSource ID="odsSummary" runat="server" TypeName="Uncas.EBS.UI.Controllers.ProjectController"
+                            SelectMethod="GetProjectEstimate">
+                            <SelectParameters>
+                                <asp:ControlParameter ControlID="psProjects" Name="projectId" PropertyName="SelectedValue"
+                                    Type="Int32" />
+                                <asp:ControlParameter ControlID="nbMaxPriority" Name="maxPriority" PropertyName="Text"
+                                    Type="Int32" />
+                            </SelectParameters>
+                        </asp:ObjectDataSource>
                     </div>
                 </div>
                 <div class="parts">
-                    <asp:ObjectDataSource ID="odsProbabilities" runat="server" TypeName="Uncas.EBS.UI.Controllers.ProjectController"
-                        SelectMethod="GetIntervalProbabilities">
-                        <SelectParameters>
-                            <asp:ControlParameter ControlID="psProjects" Name="projectId" PropertyName="SelectedValue"
-                                Type="Int32" />
-                            <asp:ControlParameter ControlID="nbMaxPriority" Name="maxPriority" PropertyName="Text"
-                                Type="Int32" />
-                        </SelectParameters>
-                    </asp:ObjectDataSource>
                     <div class="part" id="divDistribution">
                         <asp:GridView ID="gvProbabilities" runat="server" DataSourceID="odsProbabilities"
                             AutoGenerateColumns="false">
@@ -158,21 +140,21 @@
                             </ChartAreas>
                         </asp:Chart>
                     </div>
+                    <asp:ObjectDataSource ID="odsProbabilities" runat="server" TypeName="Uncas.EBS.UI.Controllers.ProjectController"
+                        SelectMethod="GetIntervalProbabilities">
+                        <SelectParameters>
+                            <asp:ControlParameter ControlID="psProjects" Name="projectId" PropertyName="SelectedValue"
+                                Type="Int32" />
+                            <asp:ControlParameter ControlID="nbMaxPriority" Name="maxPriority" PropertyName="Text"
+                                Type="Int32" />
+                        </SelectParameters>
+                    </asp:ObjectDataSource>
                 </div>
                 <h3>
                     <uncas:ResourceLabel ID="rlIssues" runat="server" ResourceName="Issues"></uncas:ResourceLabel>
                 </h3>
                 <div class="parts">
                     <div id="divIssues" class="part">
-                        <asp:ObjectDataSource ID="odsIssues" runat="server" TypeName="Uncas.EBS.UI.Controllers.ProjectController"
-                            SelectMethod="GetIssueEstimates">
-                            <SelectParameters>
-                                <asp:ControlParameter ControlID="psProjects" Name="projectId" PropertyName="SelectedValue"
-                                    Type="Int32" />
-                                <asp:ControlParameter ControlID="nbMaxPriority" Name="maxPriority" PropertyName="Text"
-                                    Type="Int32" />
-                            </SelectParameters>
-                        </asp:ObjectDataSource>
                         <asp:GridView ID="gvIssues" runat="server" DataSourceID="odsIssues" AutoGenerateColumns="false"
                             AllowSorting="false">
                             <Columns>
@@ -191,6 +173,15 @@
                                     ItemStyle-HorizontalAlign="Right" HeaderStyle-HorizontalAlign="Right" />
                             </Columns>
                         </asp:GridView>
+                        <asp:ObjectDataSource ID="odsIssues" runat="server" TypeName="Uncas.EBS.UI.Controllers.ProjectController"
+                            SelectMethod="GetIssueEstimates">
+                            <SelectParameters>
+                                <asp:ControlParameter ControlID="psProjects" Name="projectId" PropertyName="SelectedValue"
+                                    Type="Int32" />
+                                <asp:ControlParameter ControlID="nbMaxPriority" Name="maxPriority" PropertyName="Text"
+                                    Type="Int32" />
+                            </SelectParameters>
+                        </asp:ObjectDataSource>
                     </div>
                 </div>
             </asp:PlaceHolder>

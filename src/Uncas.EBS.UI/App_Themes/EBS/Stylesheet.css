@@ -168,30 +168,3 @@ ul a:hover
 	background-color: inherit;
 	color: red;
 }
-
-.obsolete
-{
-	padding: 0.5em;
-}
-
-.obsolete, .obsolete th
-{
-	background-color: #CCC;
-	color: #999;
-}
-
-.obsolete:before, .obsolete:after
-{
-	background-color: inherit;
-	color: #F66;
-}
-
-.obsolete:before
-{
-	content: "<obsolete>";
-}
-
-.obsolete:after
-{
-	content: "</obsolete>";
-}

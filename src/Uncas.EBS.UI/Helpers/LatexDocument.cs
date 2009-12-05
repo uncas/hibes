@@ -67,8 +67,7 @@ namespace Uncas.EBS.UI.Helpers
             , params LatexColumn<T>[] columns
             )
         {
-            LatexTable table = new LatexTable();
-            table.AppendTable<T>
+            LatexTable.AppendTable<T>
                 (data
                 , showRow
                 , _content

@@ -1,6 +1,5 @@
 ﻿using System.Threading;
 using System.Web.UI;
-using System;
 
 namespace Uncas.EBS.UI
 {

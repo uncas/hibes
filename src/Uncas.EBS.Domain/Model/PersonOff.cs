@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Uncas.EBS.Domain.Model
 {
@@ -13,9 +11,12 @@ namespace Uncas.EBS.Domain.Model
         /// Initializes a new instance of the <see cref="PersonOff"/> class.
         /// </summary>
         /// <param name="refPersonId">The person id.</param>
-        /// <param name="from">From.</param>
-        /// <param name="to">To.</param>
-        public PersonOff(int refPersonId, DateTime from, DateTime to)
+        /// <param name="from">The from date.</param>
+        /// <param name="to">The to date.</param>
+        public PersonOff
+            (int refPersonId
+            , DateTime from
+            , DateTime to)
         {
             if (from.Date > to.Date)
             {
@@ -32,16 +33,15 @@ namespace Uncas.EBS.Domain.Model
         /// Reconstructs the person off.
         /// </summary>
         /// <param name="personOffId">The person off id.</param>
-        /// <param name="from">From.</param>
-        /// <param name="to">To.</param>
-        /// <param name="refPersonId">The ref person id.</param>
+        /// <param name="from">The from date.</param>
+        /// <param name="to">The to date.</param>
+        /// <param name="refPersonId">The person id.</param>
         /// <returns></returns>
         public static PersonOff ReconstructPersonOff
             (int personOffId
             , DateTime from
             , DateTime to
-            , int refPersonId
-            )
+            , int refPersonId)
         {
             var personOff = new PersonOff(refPersonId, from, to);
             personOff.PersonOffId = personOffId;
@@ -55,23 +55,23 @@ namespace Uncas.EBS.Domain.Model
         public int? PersonOffId { get; set; }
 
         /// <summary>
-        /// Gets or sets from date.
+        /// Gets the from date.
         /// </summary>
         /// <value>From date.</value>
         public DateTime FromDate { get; private set; }
 
         /// <summary>
-        /// Gets or sets to date.
+        /// Gets the to date.
         /// </summary>
-        /// <value>To date.</value>
+        /// <value>The to date.</value>
         public DateTime ToDate { get; private set; }
 
         /// <summary>
         /// Determines whether the person is off on the specified date.
         /// </summary>
-        /// <param name="date">The date.</param>
+        /// <param name="date">The date to check.</param>
         /// <returns>
-        /// 	<c>true</c> if person is off on the specified date; otherwise, <c>false</c>.
+        ///     <c>true</c> if person is off on the specified date; otherwise, <c>false</c>.
         /// </returns>
         public bool IsPersonOff(DateTime date)
         {
@@ -84,26 +84,5 @@ namespace Uncas.EBS.Domain.Model
         /// </summary>
         /// <value>The person id.</value>
         public int RefPersonId { get; set; }
-    }
-
-    /// <summary>
-    /// Extension methods for the person off class.
-    /// </summary>
-    public static class PersonOffExtensions
-    {
-        /// <summary>
-        /// Determines whether [is person off] [the specified person offs].
-        /// </summary>
-        /// <param name="personOffs">The person offs.</param>
-        /// <param name="date">The date.</param>
-        /// <returns>
-        /// 	<c>true</c> if [is person off] [the specified person offs]; otherwise, <c>false</c>.
-        /// </returns>
-        public static bool IsPersonOff(this IList<PersonOff> personOffs
-            , DateTime date)
-        {
-            return personOffs != null
-                && personOffs.Any(po => po.IsPersonOff(date));
-        }
     }
 }

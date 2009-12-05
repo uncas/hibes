@@ -13,8 +13,6 @@
     
     <property name="msbuild"
         value="C:\Windows\Microsoft.NET\Framework\v3.5\msbuild.exe" />
-    <property name="devenv" 
-        value="C:\Program Files\Microsoft Visual Studio 9.0\Common7\IDE\devenv.exe" />
     <property name="sqlcmd" 
         value="C:\Program Files\Microsoft SQL Server\100\Tools\Binn\SqlCmd.exe" />
 
@@ -42,7 +40,6 @@
 
     <property name="connectionString"
         value="Server=${sqlServer};Database=${database};Integrated Security=true;" />
-
 
 
 
@@ -171,7 +168,7 @@
             commandline="${sqlcmdCredentials} -d ${database} -i sql\schema-001.0001-change.sql" />
     </target>
 
-    <target name="move-for-test" depends="compile">
+    <target name="moveForTest" depends="compile">
         <copy todir="${build.dir}" flatten="true">
             <fileset basedir="${solution.dir}">
                 <include name="/**/bin/${configuration}/**" />
@@ -179,7 +176,7 @@
         </copy>
     </target>    
 
-    <target name="unitTest" depends="move-for-test">
+    <target name="unitTest" depends="moveForTest">
         <property name="test.assembly" value="Uncas.EBS.Tests.dll" />
         <call target="basetest" />
     </target>

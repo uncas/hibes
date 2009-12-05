@@ -22,7 +22,7 @@ namespace Uncas.EBS.UI.Controllers
             this._repositories = repositories;
         }
 
-        private IRepositoryFactory _repositories;
+        private readonly IRepositoryFactory _repositories;
 
         private IIssueRepository _issueRepository
         {

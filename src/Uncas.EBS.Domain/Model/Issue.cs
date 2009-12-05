@@ -13,7 +13,7 @@ namespace Uncas.EBS.Domain.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Issue"/> class.
         /// </summary>
-        internal protected Issue()
+        protected internal Issue()
         {
             this.CreatedDate = DateTime.Now;
             this.Status = Status.Open;
@@ -103,6 +103,7 @@ namespace Uncas.EBS.Domain.Model
         public int Priority { get; set; }
 
         private Status _status = Status.Open;
+
         /// <summary>
         /// Gets or sets the status.
         /// </summary>
@@ -133,8 +134,7 @@ namespace Uncas.EBS.Domain.Model
         public override string ToString()
         {
             return string.Format
-                (
-                CultureInfo.CurrentCulture
+                (CultureInfo.CurrentCulture
                 , "{0} - {1} - {2} - {3} - {4}"
                 , this.IssueId
                 , this.CreatedDate

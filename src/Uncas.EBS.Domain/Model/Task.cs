@@ -7,7 +7,6 @@ namespace Uncas.EBS.Domain.Model
     /// </summary>
     public class Task
     {
-
         #region Constructors and factory methods
 
         /// <summary>
@@ -43,8 +42,7 @@ namespace Uncas.EBS.Domain.Model
             , double elapsed
             , DateTime? startDate
             , DateTime? endDate
-            , int refPersonId
-            )
+            , int refPersonId)
         {
             Task task = new Task();
             task.CurrentEstimate
@@ -90,8 +88,7 @@ namespace Uncas.EBS.Domain.Model
             , DateTime? startDate
             , DateTime? endDate
             , DateTime createdDate
-            , int refPersonId
-            )
+            , int refPersonId)
         {
             Task task = new Task();
             task.TaskId = taskId;
@@ -133,8 +130,7 @@ namespace Uncas.EBS.Domain.Model
             , double elapsed
             , DateTime? startDate
             , DateTime? endDate
-            , int refPersonId
-            )
+            , int refPersonId)
         {
             Task task = new Task();
             task.TaskId = taskId;
@@ -208,6 +204,7 @@ namespace Uncas.EBS.Domain.Model
         public int Sequence { get; set; }
 
         private Status _status = Status.Open;
+
         /// <summary>
         /// Gets or sets the status.
         /// </summary>
@@ -233,6 +230,7 @@ namespace Uncas.EBS.Domain.Model
         #region Estimates (2)
 
         private double _originalEstimate;
+
         /// <summary>
         /// Gets or sets the original estimate in hours.
         /// </summary>
@@ -246,11 +244,15 @@ namespace Uncas.EBS.Domain.Model
             set
             {
                 if (value <= 0d)
+                {
                     throw new ArgumentOutOfRangeException
                         ("value"
                         , "Original estimate must be non-negative");
+                }
                 else
+                {
                     _originalEstimate = value;
+                }
             }
         }
 
@@ -264,13 +266,13 @@ namespace Uncas.EBS.Domain.Model
 
 
         // TODO: REFACTOR: Put action properties in TaskDetails.
-
         #region Action aggregates (5)
 
 
         #region Progress (3)
 
         private double _elapsed;
+
         /// <summary>
         /// Gets or sets the elapsed hours.
         /// </summary>
@@ -324,9 +326,13 @@ namespace Uncas.EBS.Domain.Model
             {
                 if (this.Status == Status.Closed
                     && this.Elapsed > 0d)
+                {
                     return this.OriginalEstimate / this.Elapsed;
+                }
                 else
+                {
                     return null;
+                }
             }
         }
 
@@ -349,6 +355,5 @@ namespace Uncas.EBS.Domain.Model
 
 
         #endregion
-
     }
 }

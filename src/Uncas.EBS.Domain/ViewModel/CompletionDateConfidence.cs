@@ -10,7 +10,7 @@ namespace Uncas.EBS.Domain.ViewModel
         /// <summary>
         /// Gets or sets the date.
         /// </summary>
-        /// <value>The date.</value>
+        /// <value>The completion date.</value>
         public DateTime Date { get; set; }
 
         /// <summary>

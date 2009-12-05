@@ -8,15 +8,16 @@ namespace Uncas.EBS.Domain.ViewModel
     /// <summary>
     /// Handles statistic for an iterator of some data.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">The type of the data elements.</typeparam>
     public class Statistic<T>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Statistic&lt;T&gt;"/> class.
         /// </summary>
-        /// <param name="data">The data.</param>
+        /// <param name="data">The data for the statistic.</param>
         /// <param name="transformToQuantity">The transform to quantity.</param>
-        public Statistic(IEnumerable<T> data
+        public Statistic
+            (IEnumerable<T> data
             , Func<T, double> transformToQuantity)
         {
             this.Data = data;
@@ -26,9 +27,9 @@ namespace Uncas.EBS.Domain.ViewModel
         private Func<T, double> _transformToQuantity;
 
         /// <summary>
-        /// Gets or sets the data.
+        /// Gets the data.
         /// </summary>
-        /// <value>The data.</value>
+        /// <value>The data for the statistic.</value>
         public IEnumerable<T> Data { get; private set; }
 
         /// <summary>
@@ -102,7 +103,8 @@ namespace Uncas.EBS.Domain.ViewModel
                 double average = this.Average;
                 double sumOfSquareDifferences
                     = this.Data.Sum
-                    (ps => Math.Pow(_transformToQuantity(ps) - average
+                    (ps => Math.Pow
+                        (_transformToQuantity(ps) - average
                         , 2d));
                 double standardDeviation
                     = Math.Sqrt(sumOfSquareDifferences
@@ -114,7 +116,7 @@ namespace Uncas.EBS.Domain.ViewModel
         /// <summary>
         /// Gets the min.
         /// </summary>
-        /// <value>The min.</value>
+        /// <value>The minimum value.</value>
         public double Min
         {
             get
@@ -127,7 +129,7 @@ namespace Uncas.EBS.Domain.ViewModel
         /// <summary>
         /// Gets the max.
         /// </summary>
-        /// <value>The max.</value>
+        /// <value>The maximum value.</value>
         public double Max
         {
             get
@@ -158,8 +160,10 @@ namespace Uncas.EBS.Domain.ViewModel
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            sb.AppendFormat("Average={0}\nStandardDeviation={1}\n"
-                , this.Average, this.StandardDeviation);
+            sb.AppendFormat
+                ("Average={0}\nStandardDeviation={1}\n"
+                , this.Average
+                , this.StandardDeviation);
             foreach (var ip in this.Probabilities)
             {
                 sb.AppendLine(ip.ToString());

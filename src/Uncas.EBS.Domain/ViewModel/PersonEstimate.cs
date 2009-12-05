@@ -11,7 +11,6 @@ namespace Uncas.EBS.Domain.ViewModel
     /// </summary>
     public class PersonEstimate
     {
-
         #region Constructors
 
         /// <summary>
@@ -19,7 +18,8 @@ namespace Uncas.EBS.Domain.ViewModel
         /// </summary>
         /// <param name="personView">The person view.</param>
         /// <param name="evaluations">The evaluations.</param>
-        public PersonEstimate(PersonView personView
+        public PersonEstimate
+            (PersonView personView
             , IList<double> evaluations)
         {
             this._personView = personView;
@@ -53,9 +53,11 @@ namespace Uncas.EBS.Domain.ViewModel
         /// <summary>
         /// Gets the completion date confidences.
         /// </summary>
+        /// <returns></returns>
         /// <value>The completion date confidences.</value>
         [SuppressMessage("Microsoft.Design"
-            , "CA1024:UsePropertiesWhereAppropriate")]
+            , "CA1024:UsePropertiesWhereAppropriate"
+            , Justification = "This is a relatively complex calculation...")]
         public IList<CompletionDateConfidence>
             GetCompletionDateConfidences()
         {
@@ -119,6 +121,5 @@ namespace Uncas.EBS.Domain.ViewModel
 
 
         #endregion
-
     }
 }

@@ -77,15 +77,6 @@ namespace Uncas.EBS.UI {
         protected global::Uncas.EBS.UI.Controls.ResourceLabel rlDate;
         
         /// <summary>
-        /// odsEvaluationsPerPerson control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ObjectDataSource odsEvaluationsPerPerson;
-        
-        /// <summary>
         /// gvEvaluationsPerPerson control.
         /// </summary>
         /// <remarks>
@@ -95,13 +86,13 @@ namespace Uncas.EBS.UI {
         protected global::System.Web.UI.WebControls.GridView gvEvaluationsPerPerson;
         
         /// <summary>
-        /// odsCompletionDateConfidences control.
+        /// odsEvaluationsPerPerson control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ObjectDataSource odsCompletionDateConfidences;
+        protected global::System.Web.UI.WebControls.ObjectDataSource odsEvaluationsPerPerson;
         
         /// <summary>
         /// chartDateRanges control.
@@ -131,15 +122,6 @@ namespace Uncas.EBS.UI {
         protected global::Uncas.EBS.UI.Controls.ResourceLabel rlDays;
         
         /// <summary>
-        /// odsSummary control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ObjectDataSource odsSummary;
-        
-        /// <summary>
         /// gvSummary control.
         /// </summary>
         /// <remarks>
@@ -149,13 +131,13 @@ namespace Uncas.EBS.UI {
         protected global::System.Web.UI.WebControls.GridView gvSummary;
         
         /// <summary>
-        /// odsProbabilities control.
+        /// odsSummary control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ObjectDataSource odsProbabilities;
+        protected global::System.Web.UI.WebControls.ObjectDataSource odsSummary;
         
         /// <summary>
         /// gvProbabilities control.
@@ -176,6 +158,15 @@ namespace Uncas.EBS.UI {
         protected global::System.Web.UI.DataVisualization.Charting.Chart chartProbabilities;
         
         /// <summary>
+        /// odsProbabilities control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ObjectDataSource odsProbabilities;
+        
+        /// <summary>
         /// rlIssues control.
         /// </summary>
         /// <remarks>
@@ -185,15 +176,6 @@ namespace Uncas.EBS.UI {
         protected global::Uncas.EBS.UI.Controls.ResourceLabel rlIssues;
         
         /// <summary>
-        /// odsIssues control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ObjectDataSource odsIssues;
-        
-        /// <summary>
         /// gvIssues control.
         /// </summary>
         /// <remarks>
@@ -201,6 +183,15 @@ namespace Uncas.EBS.UI {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView gvIssues;
+        
+        /// <summary>
+        /// odsIssues control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ObjectDataSource odsIssues;
         
         /// <summary>
         /// cc control.

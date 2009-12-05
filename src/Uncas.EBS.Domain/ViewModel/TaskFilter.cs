@@ -8,6 +8,7 @@ namespace Uncas.EBS.Domain.ViewModel
     public class TaskFilter
     {
         private static TaskFilter _none = new TaskFilter();
+
         /// <summary>
         /// Gets a filter that does not filter...
         /// </summary>
@@ -20,17 +21,18 @@ namespace Uncas.EBS.Domain.ViewModel
         }
 
         /// <summary>
-        /// The status.
+        /// Gets or sets the status.
         /// </summary>
+        /// <value>The status.</value>
         public Status Status { get; set; }
 
         /// <summary>
-        /// The id of the person.
+        /// Gets or sets the id of the person.
         /// </summary>
         public int? PersonId { get; set; }
 
         /// <summary>
-        /// The maximum number to retrieve.
+        /// Gets or sets the maximum number to retrieve.
         /// </summary>
         public int? MaxCount { get; set; }
     }

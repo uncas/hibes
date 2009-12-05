@@ -1,5 +1,5 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true"
-    CodeBehind="Tasks.aspx.cs" Inherits="Uncas.EBS.UI.Tasks" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Tasks.aspx.cs"
+    Inherits="Uncas.EBS.UI.Tasks" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
@@ -218,10 +218,6 @@
                                 <asp:Label ID="lblPerson" runat="server" Text='<%# Eval("PersonName") %>'></asp:Label>
                             </ItemTemplate>
                         </asp:TemplateField>
-                        <uncas:DateField HeaderResourceName="Begin" DataField="StartDate" Visible="false">
-                        </uncas:DateField>
-                        <uncas:DateField HeaderResourceName="End" DataField="EndDate" Visible="false">
-                        </uncas:DateField>
                         <uncas:BoundFieldResource HeaderResourceName="Created" DataField="CreatedDate" HtmlEncode="false"
                             DataFormatString="{0:d}" ReadOnly="true" />
                         <asp:TemplateField>

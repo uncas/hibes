@@ -18,6 +18,7 @@ namespace Uncas.EBS.DAL
         private bool _disposed;
 
         private EBSDataContext _db;
+
         /// <summary>
         /// Gets the DB.
         /// </summary>

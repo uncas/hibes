@@ -22,7 +22,9 @@ namespace Uncas.EBS.Utility.Simulation
         {
             if (historicalTasks != null)
             {
-                this.HistoricalTasks = historicalTasks
+                // Sorts the tasks with the newest first:
+                this._historicalTasks
+                    = historicalTasks
                     .OrderByDescending(t => t.EndDate)
                     .ToList();
             }
@@ -36,35 +38,40 @@ namespace Uncas.EBS.Utility.Simulation
 
 
         /// <summary>
-        /// Gets the project evaluation.
+        /// Gets a project evaluation
+        /// with statistical remaining days
+        /// based on a number of simulations.
         /// </summary>
         /// <param name="person">The person.</param>
-        /// <param name="issueViews">The issue views.</param>
-        /// <param name="numberOfSimulations">
-        /// The number of simulations.</param>
-        /// <param name="standardNumberOfHoursPerDay">
-        /// The standard number of hours per day.</param>
-        /// <returns></returns>
+        /// <param name="issues">The issues.</param>
+        /// <param name="numberOfSimulations">The number of simulations.</param>
+        /// <param name="standardNumberOfHoursPerDay">The standard number of hours per day.</param>
+        /// <returns>
+        /// The total project evaluation from the simulations.
+        /// </returns>
         public ProjectEvaluation GetProjectEvaluation
             (PersonView person
-            , IList<IssueView> issueViews
+            , IList<IssueView> issues
             , int numberOfSimulations
             , double standardNumberOfHoursPerDay)
         {
+            // Prepares the container for the simulation results:
             ProjectEvaluation result
                 = new ProjectEvaluation
                     (person
                     , standardNumberOfHoursPerDay);
 
-            // For a list of issues:
-            // Do a simulation N times:
+            // Runs through a number of simulations for the given issues:
             for (int simulationNumber = 1
                 ; simulationNumber <= numberOfSimulations
                 ; simulationNumber++)
             {
-                RunSimulation(issueViews, result);
+                // In each simulation the container for simulation results
+                // is passed along in order to collect the result:
+                RunSimulation(issues, result);
             }
 
+            // Returns the container with the simulation results:
             return result;
         }
 
@@ -77,83 +84,118 @@ namespace Uncas.EBS.Utility.Simulation
 
 
         /// <summary>
-        /// Runs the simulation.
+        /// Runs one simulation.
         /// </summary>
-        /// <param name="issueViews">The issue views.</param>
-        /// <param name="evaluation">The evaluation.</param>
-        private void RunSimulation(IList<IssueView> issueViews
+        /// <param name="issues">The issues.</param>
+        /// <param name="evaluation">The evaluation container with simulation results.</param>
+        private void RunSimulation
+            (IList<IssueView> issues
             , ProjectEvaluation evaluation)
         {
+            // In this simulation the remaining hours for the project is calculated:
             double statisticalRemainingForProject = 0d;
-            // For each issue:
-            foreach (IssueView issueView in issueViews)
+
+            // In one simulation all issues are treated individually:
+            foreach (IssueView issue in issues)
             {
+                // Gets the simulated remaining hours for the issue:
                 double issueDuration
-                    = GetIssueSimulation(issueView);
-                evaluation.AddIssueEvaluation(issueView.Issue
-                    , issueView.Tasks.Count
-                    , issueView.Issue.Elapsed
-                    , issueDuration
-                    );
-                statisticalRemainingForProject += issueDuration;
+                    = GetSimulatedRemainingHoursForIssue(issue);
+
+                // The simulated remaining hours for the issue 
+                // is added to the container of the simulation results:
+                // TODO: Obey Law of Demeter...
+                evaluation.AddIssueEvaluation
+                    (issue.Issue
+                    , issue.Tasks.Count
+                    , issue.Issue.Elapsed
+                    , issueDuration);
+
+                // The simulated remaining hours for the issue
+                // is added to the remaining hours for the entire project:
+                statisticalRemainingForProject
+                    += issueDuration;
             }
-            evaluation.AddEvaluation(statisticalRemainingForProject);
+
+            // The total simulated remaining hours for the entire project
+            // is added to the container of simulation results:
+            evaluation.AddEvaluation
+                (statisticalRemainingForProject);
         }
 
 
         /// <summary>
-        /// Gets the issue simulation.
+        /// Gets the simulated remaining hours for a given issue.
         /// </summary>
-        /// <param name="issueView">The issue view.</param>
-        /// <returns></returns>
-        private double GetIssueSimulation(IssueView issueView)
+        /// <param name="issue">The issue.</param>
+        /// <returns>
+        /// The simulated remaining hours for the issue.
+        /// </returns>
+        private double GetSimulatedRemainingHoursForIssue
+            (IssueView issue)
         {
+            // For this issue the simulated remaining hours is calculated:
             double statisticalRemainingForIssue = 0d;
-            // For each of the current tasks:
-            foreach (Task task in issueView.Tasks)
+
+            // For this issue all associated tasks are treated individually:
+            foreach (Task task in issue.Tasks)
             {
-                // Get the statistical remaining time:
-                // Add this statistical remaining time to the sum:
+                // Gets the simulated remaining hours for the task:
+                // and adds it to the sum for the issue:
                 statisticalRemainingForIssue
-                    += GetTaskSimulation(task);
+                    += GetSimulatedRemainingHoursForTask(task);
             }
+
+            // Returns the total simulated remaining hours for the issue:
             return statisticalRemainingForIssue;
         }
 
 
         /// <summary>
-        /// Gets the task simulation.
+        /// Gets the simulated remaining hours for a given task.
         /// </summary>
         /// <param name="task">The task.</param>
         /// <returns></returns>
-        private double GetTaskSimulation(Task task)
+        private double GetSimulatedRemainingHoursForTask
+            (Task task)
         {
             // Gets the speed to use in the simulation:
             double speed = GetSpeedForSimulation(task);
 
-            // Calculates a statistical remaining time:
-
             // Gets the current tasks's estimated remaining time:
             double remaining = task.Remaining;
 
-            // Divides by the randomly picked historical speed:
+            // Calculates a statistical remaining time:
+            // by dividing by the randomly picked historical speed:
             return remaining / speed;
         }
 
+        /// <summary>
+        /// Gets the speed for the simulation of a given task.
+        /// </summary>
+        /// <param name="task">The given task.</param>
+        /// <returns>The speed.</returns>
         private double GetSpeedForSimulation(Task task)
         {
-            // Historical tasks for the person in question:
+            // Historical tasks for the person that is responsible for the given task:
             var tasksForPerson
-                = this.HistoricalTasks
+                = this._historicalTasks
                 .Where(t => t.RefPersonId == task.RefPersonId)
                 .ToList();
 
-            // Gets the index to use:
+            // We need a random historical task in order to get a random historical speed.
+            // Therefore we first calculate a random index that depends on the number of historical tasks.
+            // However, we would also like to take in some completely random speeds
+            // that do not depend on historical tasks.
+            // So the random index might be larger than the number of historical tasks.
+            // Tricksy master...
+
+            // First we gets the indexeses to use:
             int randomIndex
                 = GetRandomTaskIndex
                 (tasksForPerson.Count);
 
-            // If index is low enought we take a real historical speed:
+            // If the index is low enought we take a real historical speed:
             if (randomIndex < tasksForPerson.Count)
             {
                 // Gets the speed of the random historical task:
@@ -161,26 +203,34 @@ namespace Uncas.EBS.Utility.Simulation
                     ?? GetRandomSpeed();
             }
             else
-            // Otherwise we take a random speed:
             {
+                // Otherwise we take a random speed:
                 return GetRandomSpeed();
             }
         }
 
-        private int GetRandomTaskIndex
-            (int numberOfTasks)
+        /// <summary>
+        /// Gets a random index that might be larger than the length of the list...
+        /// </summary>
+        /// <param name="numberOfTasks">The number of tasks.</param>
+        /// <returns>The random index.</returns>
+        private int GetRandomTaskIndex(int numberOfTasks)
         {
             // We always generate at least minRandomCount random numbers:
             int minRandomCount = 2;
+
             // If we have less than minMaxIndex historical tasks
             // we generate some additional random numbers in between:
             int minMaxIndex = 10;
-            // A random index to apply:
+
+            // So the largest index is minRandomCount
+            // plus the larger of the number of tasks or minMaxIndex:
             int maxIndex
                 = Math.Max(numberOfTasks, minMaxIndex)
                 + minRandomCount;
-            int randomIndex = _rnd.Next(maxIndex + 1);
-            return randomIndex;
+
+            // A random index to apply:
+            return _random.Next(maxIndex + 1);
         }
 
 
@@ -210,7 +260,7 @@ namespace Uncas.EBS.Utility.Simulation
             , double deltaSpeed)
         {
             // A random number between -1 and +1:
-            double randomBase = 2d * _rnd.NextDouble() - 1d;
+            double randomBase = 2d * _random.NextDouble() - 1d;
 
             // A power that should be an odd number (1,3,5,etc.)
             const double power = 3d;
@@ -232,10 +282,10 @@ namespace Uncas.EBS.Utility.Simulation
         #region Private fields and properties
 
 
-        private IList<Task> HistoricalTasks { get; set; }
+        private readonly IList<Task> _historicalTasks;
 
 
-        private Random _rnd = new Random();
+        private Random _random = new Random();
 
 
         #endregion

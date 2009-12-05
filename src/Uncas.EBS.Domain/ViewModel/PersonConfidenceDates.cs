@@ -12,8 +12,8 @@ namespace Uncas.EBS.Domain.ViewModel
         /// Initializes a new instance of the 
         /// <see cref="PersonConfidenceDates"/> class.
         /// </summary>
-        /// <param name="id">The id.</param>
-        /// <param name="name">The name.</param>
+        /// <param name="id">The id of the person.</param>
+        /// <param name="name">The name of the person.</param>
         /// <param name="completionDateLow">
         /// The completion date with low probability.</param>
         /// <param name="completionDateMedium">
@@ -25,8 +25,7 @@ namespace Uncas.EBS.Domain.ViewModel
             , string name
             , DateTime completionDateLow
             , DateTime completionDateMedium
-            , DateTime completionDateHigh
-            )
+            , DateTime completionDateHigh)
             : base(id, name)
         {
             this.CompletionDateLow = completionDateLow;

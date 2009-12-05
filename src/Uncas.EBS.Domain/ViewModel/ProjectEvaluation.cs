@@ -11,21 +11,17 @@ namespace Uncas.EBS.Domain.ViewModel
     /// </summary>
     public class ProjectEvaluation
     {
-
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the 
+        /// Initializes a new instance of the
         /// <see cref="ProjectEvaluation"/> class.
         /// </summary>
         /// <param name="person">The person.</param>
-        /// <param name="standardNumberOfHoursPerDay">
-        /// The standard number of hours per day.</param>
+        /// <param name="standardNumberOfHoursPerDay">The standard number of hours per day.</param>
         public ProjectEvaluation
-            (
-                PersonView person
-                , double standardNumberOfHoursPerDay
-            )
+            (PersonView person
+            , double standardNumberOfHoursPerDay)
         {
             this.Person = person;
             this._standardNumberOfHoursPerDay
@@ -34,29 +30,23 @@ namespace Uncas.EBS.Domain.ViewModel
 
         #endregion
 
-
-
         #region Public properties
 
-
         /// <summary>
-        /// Gets the statistics.
+        /// Gets the statistics for days remaining.
         /// </summary>
-        /// <value>The statistics.</value>
+        /// <value>The statistics for days remaining.</value>
         public Statistic<double> Statistics
         {
             get
             {
                 return new Statistic<double>
-                    (
-                    _evaluations
+                    (_evaluations
                     , (double evaluation)
                         => evaluation
-                        / _standardNumberOfHoursPerDay
-                    );
+                        / _standardNumberOfHoursPerDay);
             }
         }
-
 
         /// <summary>
         /// Gets the average number of remaining days.
@@ -78,8 +68,6 @@ namespace Uncas.EBS.Domain.ViewModel
                 }
             }
         }
-
-
         /// <summary>
         /// Gets the standard deviation of remaining days.
         /// </summary>
@@ -108,7 +96,6 @@ namespace Uncas.EBS.Domain.ViewModel
             }
         }
 
-
         /// <summary>
         /// Gets the progressed fraction.
         /// </summary>
@@ -123,7 +110,6 @@ namespace Uncas.EBS.Domain.ViewModel
             }
         }
 
-
         /// <summary>
         /// Gets the number of open issues.
         /// </summary>
@@ -135,7 +121,6 @@ namespace Uncas.EBS.Domain.ViewModel
                 return this._issueEvaluations.Count;
             }
         }
-
 
         /// <summary>
         /// Gets the number of open tasks.
@@ -150,7 +135,6 @@ namespace Uncas.EBS.Domain.ViewModel
             }
         }
 
-
         /// <summary>
         /// Gets the days remaining.
         /// </summary>
@@ -159,11 +143,13 @@ namespace Uncas.EBS.Domain.ViewModel
         {
             get
             {
+                // Takes the estimate for the medium completion date:
                 DateTime mediumCompletionDate =
                     GetCompletionDateConfidences()
                     .Where(cdc => cdc.Probability == 0.5d)
                     .FirstOrDefault()
                     .Date;
+                // And rounds up the number of days till that medium completion date:
                 return (int)Math.Ceiling
                     (mediumCompletionDate
                     .Subtract(DateTime.Now)
@@ -171,29 +157,69 @@ namespace Uncas.EBS.Domain.ViewModel
             }
         }
 
-
         #endregion
-
-
 
         #region Public methods
 
+        /// <summary>
+        /// Adds the evaluation.
+        /// </summary>
+        /// <param name="evaluation">The evaluation.</param>
+        public void AddEvaluation(double evaluation)
+        {
+            this._evaluations.Add(evaluation);
+        }
+
+        /// <summary>
+        /// Adds the issue evaluation.
+        /// </summary>
+        /// <param name="issue">The issue.</param>
+        /// <param name="numberOfOpenTasksForThisIssue">
+        /// The number of open tasks for this issue.</param>
+        /// <param name="elapsed">The number of elapsed hours.</param>
+        /// <param name="evaluation">The evaluation.</param>
+        public void AddIssueEvaluation
+            (IssueDetails issue
+            , int numberOfOpenTasksForThisIssue
+            , double? elapsed
+            , double evaluation)
+        {
+            if (_issueEvaluations.ContainsKey(issue))
+            {
+                _issueEvaluations[issue].AddEvaluation(evaluation);
+            }
+            else
+            {
+                var issueEvaluation
+                    = new IssueEvaluation
+                        (issue
+                        , numberOfOpenTasksForThisIssue
+                        , elapsed
+                        , evaluation
+                        , this._standardNumberOfHoursPerDay);
+                _issueEvaluations.Add
+                    (issue
+                    , issueEvaluation);
+            }
+        }
 
         /// <summary>
         /// Gets the selected completion date confidences.
         /// </summary>
+        /// <param name="levels">The levels.</param>
         /// <returns></returns>
         public IList<CompletionDateConfidence>
-            GetSelectedCompletionDateConfidences(ConfidenceLevels levels)
+            GetSelectedCompletionDateConfidences
+            (ConfidenceLevels levels)
         {
             return PersonEstimate
                 .GetSelectedCompletionDateConfidences(levels);
         }
 
-
         /// <summary>
         /// Gets the person confidence dates.
         /// </summary>
+        /// <param name="levels">The levels.</param>
         /// <returns></returns>
         public PersonConfidenceDates GetPersonConfidenceDates
             (ConfidenceLevels levels)
@@ -209,13 +235,14 @@ namespace Uncas.EBS.Domain.ViewModel
                 , selectedCompletionDateConfidences[2].Date);
         }
 
-
         /// <summary>
         /// Gets the completion date confidences.
         /// </summary>
+        /// <returns></returns>
         /// <value>The completion date confidences.</value>
         [SuppressMessage("Microsoft.Design"
-            , "CA1024:UsePropertiesWhereAppropriate")]
+            , "CA1024:UsePropertiesWhereAppropriate"
+            , Justification = "This is a relatively complex calculation...")]
         public IList<CompletionDateConfidence>
             GetCompletionDateConfidences()
         {
@@ -223,61 +250,17 @@ namespace Uncas.EBS.Domain.ViewModel
                 .GetCompletionDateConfidences();
         }
 
-
-        /// <summary>
-        /// Adds the evaluation.
-        /// </summary>
-        /// <param name="evaluation">The evaluation.</param>
-        public void AddEvaluation(double evaluation)
-        {
-            this._evaluations.Add(evaluation);
-        }
-
-
-        /// <summary>
-        /// Adds the issue evaluation.
-        /// </summary>
-        /// <param name="issue">The issue.</param>
-        /// <param name="numberOfOpenTasksForThisIssue">
-        /// The number of open tasks for this issue.</param>
-        /// <param name="elapsed">The number of elapsed hours.</param>
-        /// <param name="evaluation">The evaluation.</param>
-        public void AddIssueEvaluation
-            (
-            IssueDetails issue
-            , int numberOfOpenTasksForThisIssue
-            , double? elapsed
-            , double evaluation
-            )
-        {
-            if (_issueEvaluations.ContainsKey(issue))
-            {
-                _issueEvaluations[issue].AddEvaluation(evaluation);
-            }
-            else
-            {
-                _issueEvaluations.Add(issue
-                    , new IssueEvaluation(issue
-                        , numberOfOpenTasksForThisIssue
-                        , elapsed
-                        , evaluation
-                        , this._standardNumberOfHoursPerDay
-                        ));
-            }
-        }
-
-
         /// <summary>
         /// Gets the issue evaluations.
         /// </summary>
         /// <returns></returns>
         [SuppressMessage("Microsoft.Design"
-            , "CA1024:UsePropertiesWhereAppropriate")]
+            , "CA1024:UsePropertiesWhereAppropriate"
+            , Justification = "This is a relatively complex calculation...")]
         public IList<IssueEvaluation> GetIssueEvaluations()
         {
             return _issueEvaluations.Select(i => i.Value).ToList();
         }
-
 
         /// <summary>
         /// Gets the name of the person.
@@ -291,10 +274,7 @@ namespace Uncas.EBS.Domain.ViewModel
             }
         }
 
-
         #endregion
-
-
 
         #region Private fields and properties
 
@@ -331,6 +311,5 @@ namespace Uncas.EBS.Domain.ViewModel
 
 
         #endregion
-
     }
 }

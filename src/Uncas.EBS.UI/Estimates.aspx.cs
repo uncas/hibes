@@ -170,14 +170,14 @@ namespace Uncas.EBS.UI
             }
         }
 
-        OfficeHelpers _officeHelpers = new OfficeHelpers();
+        private OfficeHelpers _officeHelpers = new OfficeHelpers();
 
-        void lbDownloadWord_Click(object sender, EventArgs e)
+        private void lbDownloadWord_Click(object sender, EventArgs e)
         {
             _officeHelpers.DownloadWord(ph1, "estimates", Response);
         }
 
-        void lbDownloadExcel_Click(object sender, EventArgs e)
+        private void lbDownloadExcel_Click(object sender, EventArgs e)
         {
             _officeHelpers.DownloadExcel(ph1, "estimates", Response);
         }
