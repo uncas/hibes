@@ -1,7 +1,16 @@
 <?xml version="1.0"?>
 <properties>
-    <property name="connectionString"
-        value="Server=.\SqlExpress;Database=EBS;Integrated Security=true;" />
+
+    <!-- The development sql server and database: -->
+    <property name="sqlServer" value=".\SqlExpress" />
+    <property name="database" value="hibes" />
+
     <property name="testFolder"
         value="c:\inetpub\wwwroot\hibes\" />
+
+    <property name="productionConnectionString"
+        value="Server=hibesSql\SqlExpress;Database=hibes;User Id=*;Pwd=*;" />
+    <property name="productionFolder"
+        value="\\hibesWeb\wwwroot\hibes\" />
+
 </properties>

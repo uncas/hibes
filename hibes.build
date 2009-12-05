@@ -1,38 +1,53 @@
 <?xml version="1.0"?>
 <project name="hibes" default="all">
 
+    <!-- Initializing properties.
+         Customize these by copying local.properties.xml.template
+         to local.properties.xml and editing or adding values. -->
+
     <property name="configuration" value="release" />
 
     <property name="build.dir" value="build" />
     <property name="solution.dir" value="src"/>
-    <property name="solution.file" value="hibes.sln"/>
     <property name="results.dir" value="${build.dir}\results" />
     
     <property name="msbuild"
         value="C:\Windows\Microsoft.NET\Framework\v3.5\msbuild.exe" />
-
     <property name="devenv" 
         value="C:\Program Files\Microsoft Visual Studio 9.0\Common7\IDE\devenv.exe" />
     <property name="sqlcmd" 
         value="C:\Program Files\Microsoft SQL Server\100\Tools\Binn\SqlCmd.exe" />
 
+    <!-- The development sql server and database: -->
     <property name="sqlServer" value=".\SqlExpress" />
-    <property name="database" value="hibes_test" />
-    <property name="connectionString"
-        value="Server=${sqlServer};Database=EBS;Integrated Security=true;" />
-    <property name="productionConnectionString"
-        value="${connectionString}" />
+    <property name="database" value="hibes" />
+
     <property name="testFolder"
         value="c:\inetpub\wwwroot\hibes\" />
-    <property name="sqlcmdCredentials"
-        value="-S {sqlServer} -E" />
-    <property name="websiteFolder" value="${testFolder}" />
+
+    <property name="productionConnectionString"
+        value="NO DEFAULT! Has to be specified in local.properties.xml!" />
+    <property name="productionFolder"
+        value="NO DEFAULT! Has to be specified in local.properties.xml!" />
 
     <if test="${file::exists('local.properties.xml')}">
         <echo message="Loading local.properties.xml" />
         <include buildfile="local.properties.xml" />
     </if>
     
+    <property name="websiteFolder" value="${testFolder}" />
+
+    <property name="sqlcmdCredentials"
+        value="-S ${sqlServer} -E" />
+
+    <property name="connectionString"
+        value="Server=${sqlServer};Database=${database};Integrated Security=true;" />
+
+
+
+
+    <!-- The targets -->
+
     <target name="all"/>
 
     <target name="cleanFolder">
@@ -149,17 +164,11 @@
         <property name="target" value="database.sql" />
         <call target="convert.template" />
         <exec program="${sqlcmd}"
-            commandline="${sqlcmdCredentials} -d master -i build\database.sql" />
-        <exec program="${sqlcmd}"
-            commandline="${sqlcmdCredentials} -d ${database} -i sql\schema.sql" />
+            commandline="${sqlcmdCredentials} -d master -i build\WebSite\database.sql" />
         <exec program="${sqlcmd}"
             commandline="${sqlcmdCredentials} -d ${database} -i sql\schema-001.0000-base.sql" />
         <exec program="${sqlcmd}"
             commandline="${sqlcmdCredentials} -d ${database} -i sql\schema-001.0001-change.sql" />
-    </target>
-
-    <target name="xyz">
-        <echo message="${msbuild}" />
     </target>
 
     <target name="move-for-test" depends="compile">
