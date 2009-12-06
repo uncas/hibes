@@ -13,4 +13,7 @@
     <property name="productionFolder"
         value="\\hibesWeb\wwwroot\hibes\" />
 
+    <property name="NUnitBinFolder"
+        value="C:\Program Files\NUnit 2.4.8\bin" />
+
 </properties>

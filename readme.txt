@@ -25,12 +25,15 @@ programmed in C#, and the data can be stored in a Microsoft Sql Server
 To setup website and database on a local machine:
 - Download the source code.
 - Install the requirements (see section 4).
+- Copy the contents of NAnt's bin folder to a folder named lib\NAnt
 - Configure a new website with IIS Manager (e.g. c:\inetpub\wwwroot\hibes)
 - Copy local.properties.xml.template to local.properties.xml.
 - Open local.properties.xml and edit and save the following:
     sqlServer: the server (e.g. . or .\SqlExpress)
     database: the name of the database (e.g. hibes)
     testFolder: the physical path to the IIS website from above
+    NUnitBinFolder: the path to the NUnit bin folder (to run tests)
+- Run build importLib
 - Run ClickToSetupDatabase.bat
 - Run ClickToPublishToTest.bat
 

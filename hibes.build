@@ -15,6 +15,8 @@
         value="C:\Windows\Microsoft.NET\Framework\v3.5\msbuild.exe" />
     <property name="sqlcmd" 
         value="C:\Program Files\Microsoft SQL Server\100\Tools\Binn\SqlCmd.exe" />
+    <property name="NUnitBinFolder"
+        value="C:\Program Files\NUnit 2.4.8\bin" />
 
     <!-- The development sql server and database: -->
     <property name="sqlServer" value=".\SqlExpress" />
@@ -196,6 +198,16 @@
             <formatter type="Plain" />
             <test assemblyname="${build.dir}/${test.assembly}" />
         </nunit2>
+    </target>
+
+    <target name="importLib">
+        <copy file="C:\Windows\assembly\GAC_MSIL\System.Web.DataVisualization\3.5.0.0__31bf3856ad364e35\System.Web.DataVisualization.dll" todir="lib">
+        </copy>
+        <copy todir="lib\NUnit">
+            <fileset basedir="${NUnitBinFolder}">
+                <include name="**\*" />
+            </fileset>
+        </copy>
     </target>
 
 </project>
