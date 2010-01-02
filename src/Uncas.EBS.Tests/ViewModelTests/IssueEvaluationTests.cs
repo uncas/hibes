@@ -1,14 +1,14 @@
-﻿using NUnit.Framework;
+﻿using System;
+using NUnit.Framework;
 using Uncas.EBS.Domain.Model;
 using Uncas.EBS.Domain.ViewModel;
-using System;
 
 namespace Uncas.EBS.Tests.ViewModelTests
 {
     [TestFixture]
     public class IssueEvaluationTests
     {
-        private const double _standardNumberOfHoursPerDay = 7.5d;
+        private const double StandardNumberOfHoursPerDay = 7.5d;
 
         private IssueDetails GetIssue()
         {
@@ -23,10 +23,10 @@ namespace Uncas.EBS.Tests.ViewModelTests
             IssueEvaluation ie
                 = new IssueEvaluation
                 (GetIssue()
-                , 2, 3d, 4d, _standardNumberOfHoursPerDay);
+                , 2, 3d, 4d, StandardNumberOfHoursPerDay);
             Assert.AreEqual(2, ie.NumberOfOpenTasks);
             Assert.AreEqual(3d, ie.Elapsed);
-            Assert.AreEqual(4d / _standardNumberOfHoursPerDay
+            Assert.AreEqual(4d / StandardNumberOfHoursPerDay
                 , ie.Average);
         }
 
@@ -38,7 +38,7 @@ namespace Uncas.EBS.Tests.ViewModelTests
                 = new IssueEvaluation
                     (GetIssue()
                     , 2, -1d, 0d
-                    , _standardNumberOfHoursPerDay);
+                    , StandardNumberOfHoursPerDay);
         }
 
         [Test]
@@ -53,7 +53,7 @@ namespace Uncas.EBS.Tests.ViewModelTests
                         , 2
                         , 1d
                         , evaluation1
-                        , _standardNumberOfHoursPerDay
+                        , StandardNumberOfHoursPerDay
                     );
             double evaluation2 = 6.5d;
             issueEvaluation.AddEvaluation(evaluation2);
@@ -62,7 +62,7 @@ namespace Uncas.EBS.Tests.ViewModelTests
             Assert.AreEqual
                 (
                 (evaluation1 + evaluation2)
-                    / (2d * _standardNumberOfHoursPerDay)
+                    / (2d * StandardNumberOfHoursPerDay)
                 , issueEvaluation.Average
                 );
         }

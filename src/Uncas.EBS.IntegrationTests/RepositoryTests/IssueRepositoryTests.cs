@@ -5,8 +5,8 @@ using NUnit.Framework;
 using Uncas.EBS.ApplicationServices;
 using Uncas.EBS.Domain.Model;
 using Uncas.EBS.Domain.Repository;
-using Uncas.EBS.Tests;
 using Uncas.EBS.Domain.ViewModel;
+using Uncas.EBS.Tests;
 
 namespace Uncas.EBS.IntegrationTests.RepositoryTests
 {
@@ -35,7 +35,6 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
         public void GetIssues_All()
         {
             // TODO: REFACTOR: Reduce number of asserts.
-
             int projectId = _projectRepo
                 .GetProjects().FirstOrDefault()
                 .ProjectId;
@@ -46,16 +45,16 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
                 , "GetIssues_All-Closed"
                 , Status.Closed
                 , _rnd.Next(100));
-            _issueRepo.InsertIssue(issueClosed);
+            this._issueRepo.InsertIssue(issueClosed);
             Issue issueOpen = Issue.ConstructIssue
                 (projectId
                 , "GetIssues_All-Open"
                 , Status.Open
                 , _rnd.Next(100));
-            _issueRepo.InsertIssue(issueOpen);
+            this._issueRepo.InsertIssue(issueOpen);
 
             // Testing:
-            var issues = _issueRepo.GetIssues(null, Status.Any);
+            var issues = this._issueRepo.GetIssues(null, Status.Any);
 
             // Checking:
             Assert.IsNotNull(issues);
@@ -65,7 +64,7 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
                 .Any(i => i.IssueId == issueOpen.IssueId.Value));
 
             // Testing:
-            issues = _issueRepo.GetIssues(null, Status.Closed);
+            issues = this._issueRepo.GetIssues(null, Status.Closed);
 
             // Checking:
             Assert.IsNotNull(issues);
@@ -75,7 +74,7 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
                 .Any(i => i.IssueId == issueOpen.IssueId.Value));
 
             // Testing:
-            issues = _issueRepo.GetIssues(null, Status.Open);
+            issues = this._issueRepo.GetIssues(null, Status.Open);
 
             // Checking:
             Assert.IsNotNull(issues);
@@ -93,7 +92,6 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
         public void GetIssueView()
         {
             // TODO: REFACTOR: Reduce number of asserts.
-
             int projectId = _projectRepo
                 .GetProjects().FirstOrDefault()
                 .ProjectId;
@@ -104,14 +102,14 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
                 , "GetIssueView"
                 , Status.Open
                 , 15);
-            _issueRepo.InsertIssue(issue);
+            this._issueRepo.InsertIssue(issue);
             Task task = GetTask(issue, Status.Open);
-            _taskRepo.InsertTask(task);
+            this._taskRepo.InsertTask(task);
             Task taskClosed = GetTask(issue, Status.Closed);
-            _taskRepo.InsertTask(taskClosed);
+            this._taskRepo.InsertTask(taskClosed);
 
             // Testing:
-            var issueView = _issueRepo.GetIssueView
+            var issueView = this._issueRepo.GetIssueView
                 (issue.IssueId.Value, Status.Any);
 
             // Checking:
@@ -125,7 +123,7 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
                 , issueView.Tasks[1].TaskId.Value);
 
             // Testing:
-            issueView = _issueRepo.GetIssueView
+            issueView = this._issueRepo.GetIssueView
                 (issue.IssueId.Value, Status.Closed);
 
             // Checking:
@@ -171,11 +169,11 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
                 , _rnd.Next(100));
 
             // Testing:
-            _issueRepo.InsertIssue(issue);
+            this._issueRepo.InsertIssue(issue);
 
             // Checking:
             Assert.IsNotNull(issue.IssueId);
-            var issueView = _issueRepo.GetIssueView
+            var issueView = this._issueRepo.GetIssueView
                 (issue.IssueId.Value, Status.Open);
             Assert.AreEqual(issue.IssueId, issueView.Issue.IssueId);
             Assert.AreEqual(issue.Status, issueView.Issue.Status);
@@ -193,7 +191,7 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
                 , 20);
 
             // Testing:
-            _issueRepo.InsertIssue(issue);
+            this._issueRepo.InsertIssue(issue);
         }
 
         [Test]
@@ -208,11 +206,10 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
                 , _rnd.Next(100));
 
             // Testing:
-            _issueRepo.InsertIssue(issue);
+            this._issueRepo.InsertIssue(issue);
         }
 
         [Test]
-        //[ExpectedException(typeof(RepositoryException))]
         public void InsertIssueTest_MissingTitle_Retry()
         {
             int projectId = _projectRepo
@@ -229,12 +226,12 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
             // Testing:
             try
             {
-                _issueRepo.InsertIssue(issue);
+                this._issueRepo.InsertIssue(issue);
             }
             catch
             {
                 issue.Title = "Remmeber title now";
-                _issueRepo.InsertIssue(issue);
+                this._issueRepo.InsertIssue(issue);
             }
         }
 
@@ -246,7 +243,6 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
         public void UpdateIssue()
         {
             // TODO: REFACTOR: Reduce number of asserts.
-
             int projectId = _projectRepo
                 .GetProjects().FirstOrDefault()
                 .ProjectId;
@@ -261,7 +257,7 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
                 , oldStatus
                 , oldPriority);
             Trace.WriteLine(issue);
-            _issueRepo.InsertIssue(issue);
+            this._issueRepo.InsertIssue(issue);
             int newPriority = oldPriority + 2;
             string newTitle = "New title";
             Status newStatus = Status.Closed;
@@ -270,11 +266,11 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
             issue.Priority = newPriority;
 
             // Testing:
-            _issueRepo.UpdateIssue(issue);
+            this._issueRepo.UpdateIssue(issue);
 
             // Checking:
             Assert.IsNotNull(issue.IssueId);
-            var retrievedIssue = _issueRepo.GetIssueView
+            var retrievedIssue = this._issueRepo.GetIssueView
                 (issue.IssueId.Value, Status.Closed)
                 .Issue;
             Assert.AreEqual(newPriority, retrievedIssue.Priority);
@@ -288,6 +284,7 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
             int projectId = _projectRepo
                 .GetProjects().FirstOrDefault()
                 .ProjectId;
+            
             // Setting up:
             Issue issue = Issue.ConstructIssue
                 (projectId
@@ -383,6 +380,7 @@ Indexes on all foreign keys:
             {
                 return;
             }
+
             int issueId = issue.IssueId.Value;
             FuncToSpeedTest tf = () =>
             {

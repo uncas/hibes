@@ -77,10 +77,13 @@ namespace Uncas.EBS.IntegrationTests.ApplicationServicesTests
                 RunSimulation(numberOfSimulations
                     , maxNumberOfHistoricalData);
                 long endTicks = DateTime.Now.Ticks;
-                Trace.WriteLine(string.Format("{0}: {1:N0}"
+                string message
+                    = string.Format
+                    ("{0}: {1:N0}"
                     , numberOfSimulations
                     , TimeSpan.FromTicks(endTicks - startTicks)
-                    .TotalMilliseconds));
+                    .TotalMilliseconds);
+                Trace.WriteLine(message);
             }
         }
 
@@ -96,10 +99,10 @@ namespace Uncas.EBS.IntegrationTests.ApplicationServicesTests
                     , maxNumberOfHistoricalData
                     , StandardNumberOfHoursPerDay)
                     .TotalEvaluation;
-                //Trace.WriteLine(projectEstimate);
+                Trace.WriteLine(projectEstimate);
                 foreach (var ie in projectEstimate.GetIssueEvaluations())
                 {
-                    //Trace.WriteLine(ie.ToString());
+                    Trace.WriteLine(ie.ToString());
                     break;
                 }
             }

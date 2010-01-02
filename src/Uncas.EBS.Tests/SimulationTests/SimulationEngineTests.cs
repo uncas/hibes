@@ -65,14 +65,12 @@ namespace Uncas.EBS.Tests.SimulationTests
                 openTasks
             ));
 
-
             // Testing:
             SimulationEngine simulationEngine
                 = new SimulationEngine(closedTasks);
             var result = simulationEngine.GetProjectEvaluation
                 (new PersonView(1, null, null), issueViews, 100
                 , DefaultStandardNumberOfHoursPerDay);
-
 
             // Checking results:
             Assert.Less(0d, result.Statistics.Average);

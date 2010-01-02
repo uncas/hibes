@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using NUnit.Framework;
-using Uncas.EBS.Domain.Repository;
 using Uncas.EBS.Domain.Model;
-using Uncas.EBS.Domain.ViewModel;
+using Uncas.EBS.Domain.Repository;
 
 namespace Uncas.EBS.IntegrationTests.RepositoryTests
 {

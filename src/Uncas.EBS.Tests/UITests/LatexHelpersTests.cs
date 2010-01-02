@@ -8,8 +8,11 @@ namespace Uncas.EBS.Tests.UITests
     [TestFixture]
     public class LatexHelpersTests
     {
-        LatexHelpers _latexHelpers = new LatexHelpers();
-        LatexDocument _document = new LatexDocument();
+        private LatexHelpers _latexHelpers
+            = new LatexHelpers();
+
+        private LatexDocument _document
+            = new LatexDocument();
 
         [Test]
         public void GetLatexTable()
@@ -47,6 +50,7 @@ namespace Uncas.EBS.Tests.UITests
     public class TestObject
     {
         public int ID { get; set; }
+
         public string Name { get; set; }
     }
 }

@@ -21,6 +21,7 @@ namespace Uncas.EBS.Tests
             {
                 func();
             }
+
             long end = DateTime.Now.Ticks;
 
             // Writes some output:

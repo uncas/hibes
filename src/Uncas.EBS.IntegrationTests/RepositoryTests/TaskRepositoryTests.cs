@@ -61,7 +61,7 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
             _issueRepo.InsertIssue(issue);
             Task task = Task.ConstructTask
                 (issue.IssueId.Value
-                , ""
+                , string.Empty
                 , Status.Open
                 , 13
                 , 1d

@@ -23,7 +23,8 @@ namespace Uncas.EBS.UI
             }
         }
 
-        private const string _languageCookieKey = "Language";
+        private const string LanguageCookieKey = "Language";
+        
         /// <summary>
         /// Gets or sets the selected language.
         /// </summary>
@@ -36,10 +37,10 @@ namespace Uncas.EBS.UI
                 var context = HttpContext.Current;
                 if (context != null
                     && context.Request != null
-                    && context.Request.Cookies[_languageCookieKey] != null)
+                    && context.Request.Cookies[LanguageCookieKey] != null)
                 {
                     return context.Request
-                        .Cookies[_languageCookieKey].Value;
+                        .Cookies[LanguageCookieKey].Value;
                 }
                 else
                 {
@@ -47,19 +48,28 @@ namespace Uncas.EBS.UI
                     return "da-DK";
                 }
             }
+
             set
             {
                 // Sets the cookie value here:
-                HttpCookie cookie = new HttpCookie(_languageCookieKey, value);
+                HttpCookie cookie = new HttpCookie(LanguageCookieKey, value);
                 HttpContext.Current.Response.Cookies.Add(cookie);
             }
         }
 
-        internal static ConfidenceLevels ConfidenceLevels
+        private static ConfidenceLevels _confidenceLevels
             = new ConfidenceLevels
                 (ConfidenceLow
                 , ConfidenceMedium
                 , ConfidenceHigh);
+
+        internal static ConfidenceLevels ConfidenceLevels
+        {
+            get
+            {
+                return _confidenceLevels;
+            }
+        }
 
         public const double ConfidenceLowDefault = 0.1d;
 
@@ -97,10 +107,9 @@ namespace Uncas.EBS.UI
             }
         }
 
-
-
         internal const double StandardNumberOfHoursPerDayDefault
             = 7.5d;
+
         internal static double StandardNumberOfHoursPerDay
         {
             get

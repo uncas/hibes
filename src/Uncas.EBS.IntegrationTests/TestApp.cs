@@ -10,17 +10,25 @@ namespace Uncas.EBS.IntegrationTests
     [SetUpFixture]
     public class TestApp
     {
-        internal static IRepositoryFactory Repositories
+        private static IRepositoryFactory _repositories
             = new DAL.RepositoryFactory();
 
+        internal static IRepositoryFactory Repositories
+        {
+            get
+            {
+                return _repositories;
+            }
+        }
+
         private ITaskRepository _taskRepo
-            = TestApp.Repositories.TaskRepository;
+            = Repositories.TaskRepository;
 
         private IIssueRepository _issueRepo
-            = TestApp.Repositories.IssueRepository;
+            = Repositories.IssueRepository;
 
         private IProjectRepository _projectRepo
-            = TestApp.Repositories.ProjectRepository;
+            = Repositories.ProjectRepository;
 
         [SetUp]
         public void SetUpIntegratedComponents()
@@ -83,9 +91,10 @@ namespace Uncas.EBS.IntegrationTests
 
             int sequence = _rnd.Next(50);
 
-            Status status = issueStatus == Status.Closed
+            Status status
+                = (issueStatus == Status.Closed
                 ? Status.Closed
-                : GetStatus(sequence);
+                : GetStatus(sequence));
 
             double elapsed = 0d;
             if (status == Status.Closed)
@@ -95,9 +104,9 @@ namespace Uncas.EBS.IntegrationTests
                 elapsed
                     = originalEstimate / speed;
             }
-            // Some open tasks are in progress:
             else if (_rnd.Next(10) < 1)
             {
+                // Some open tasks are in progress:
                 elapsed = _rnd.NextDouble() * 20d;
             }
 
