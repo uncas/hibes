@@ -7,8 +7,8 @@ namespace Uncas.EBS.UI
     {
         protected void Page_Init(object sender, EventArgs e)
         {
-            fvNewTask.ItemInserted += new FormViewInsertedEventHandler(fvNewTask_ItemInserted);
-            gvTasks.RowUpdated += new GridViewUpdatedEventHandler(gvTasks_RowUpdated);
+            fvNewTask.ItemInserted += new FormViewInsertedEventHandler(NewTaskForm_ItemInserted);
+            gvTasks.RowUpdated += new GridViewUpdatedEventHandler(TasksGridView_RowUpdated);
         }
 
         protected void Page_Load(object sender, EventArgs e)
@@ -16,12 +16,16 @@ namespace Uncas.EBS.UI
             gvTasks.EmptyDataText = Resources.Phrases.NoTasks;
         }
 
-        void fvNewTask_ItemInserted(object sender, FormViewInsertedEventArgs e)
+        private void NewTaskForm_ItemInserted
+            (object sender
+            , FormViewInsertedEventArgs e)
         {
             gvIssue.DataBind();
         }
 
-        void gvTasks_RowUpdated(object sender, GridViewUpdatedEventArgs e)
+        private void TasksGridView_RowUpdated
+            (object sender
+            , GridViewUpdatedEventArgs e)
         {
             gvIssue.DataBind();
         }

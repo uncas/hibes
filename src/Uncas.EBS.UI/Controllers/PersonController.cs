@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Uncas.EBS.Domain.Model;
 using Uncas.EBS.Domain.Repository;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Uncas.EBS.UI.Controllers
 {
@@ -20,7 +20,6 @@ namespace Uncas.EBS.UI.Controllers
         public PersonController()
             : this(App.Repositories)
         {
-
         }
 
         public PersonController(IRepositoryFactory repositories)
@@ -29,7 +28,8 @@ namespace Uncas.EBS.UI.Controllers
         }
 
         [SuppressMessage("Microsoft.Design"
-            , "CA1024:UsePropertiesWhereAppropriate")]
+            , "CA1024:UsePropertiesWhereAppropriate"
+            , Justification = "Read from database")]
         public IList<Person> GetPersons()
         {
             return _personRepo.GetPersons();

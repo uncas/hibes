@@ -1,6 +1,6 @@
-﻿using System.Web.UI;
+﻿using System.Globalization;
+using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Globalization;
 
 namespace Uncas.EBS.UI.Controls
 {
@@ -8,36 +8,38 @@ namespace Uncas.EBS.UI.Controls
     [ToolboxData("<{0}:NumberBox runat=server></{0}:NumberBox>")]
     public class NumberBox : CompositeControl, ITextControl
     {
-        protected TextBox tbNumber;
-        protected RegularExpressionValidator revNumber;
+        private TextBox numberTextBox;
+        
+        private RegularExpressionValidator revNumber;
 
         public bool AutoPostBack
         {
             get
             {
                 EnsureChildControls();
-                return tbNumber.AutoPostBack;
+                return numberTextBox.AutoPostBack;
             }
+            
             set
             {
                 EnsureChildControls();
-                tbNumber.AutoPostBack = value;
+                numberTextBox.AutoPostBack = value;
             }
         }
 
         protected override void CreateChildControls()
         {
-            tbNumber = new TextBox();
-            tbNumber.ID = "tbNumber";
+            numberTextBox = new TextBox();
+            numberTextBox.ID = "tbNumber";
 
             revNumber = new RegularExpressionValidator();
-            revNumber.ControlToValidate = tbNumber.ID;
+            revNumber.ControlToValidate = numberTextBox.ID;
             revNumber.Text = "?";
             revNumber.ToolTip = "Indtast et gyldigt tal";
 
             SetValidationExpression();
 
-            this.Controls.Add(tbNumber);
+            this.Controls.Add(numberTextBox);
 
             base.CreateChildControls();
         }
@@ -45,6 +47,7 @@ namespace Uncas.EBS.UI.Controls
         #region Properties
 
         private int maxValue = int.MaxValue;
+        
         public int MaxValue
         {
             get
@@ -52,6 +55,7 @@ namespace Uncas.EBS.UI.Controls
                 EnsureChildControls();
                 return maxValue;
             }
+
             set
             {
                 EnsureChildControls();
@@ -60,6 +64,7 @@ namespace Uncas.EBS.UI.Controls
         }
 
         private int minValue = int.MinValue;
+        
         public int MinValue
         {
             get
@@ -67,6 +72,7 @@ namespace Uncas.EBS.UI.Controls
                 EnsureChildControls();
                 return minValue;
             }
+
             set
             {
                 EnsureChildControls();
@@ -75,6 +81,7 @@ namespace Uncas.EBS.UI.Controls
         }
 
         private int numberOfDigits = 9;
+
         public int NumberOfDigits
         {
             get
@@ -82,6 +89,7 @@ namespace Uncas.EBS.UI.Controls
                 EnsureChildControls();
                 return numberOfDigits;
             }
+
             set
             {
                 EnsureChildControls();
@@ -96,13 +104,19 @@ namespace Uncas.EBS.UI.Controls
             {
                 EnsureChildControls();
                 if (Number.HasValue)
-                    return tbNumber.Text;
-                else return string.Empty;
+                {
+                    return numberTextBox.Text;
+                }
+                else
+                {
+                    return string.Empty;
+                }
             }
+
             set
             {
                 EnsureChildControls();
-                tbNumber.Text = value;
+                numberTextBox.Text = value;
             }
         }
 
@@ -111,18 +125,28 @@ namespace Uncas.EBS.UI.Controls
             get
             {
                 EnsureChildControls();
-                int iOut = 0;
-                if (!int.TryParse(tbNumber.Text, out iOut))
+                int result = 0;
+                if (!int.TryParse(numberTextBox.Text, out result))
                 {
                     return null;
                 }
                 else
                 {
-                    if (iOut > maxValue) return maxValue;
-                    else if (iOut < minValue) return minValue;
-                    else return iOut;
+                    if (result > maxValue)
+                    {
+                        return maxValue;
+                    }
+                    else if (result < minValue)
+                    {
+                        return minValue;
+                    }
+                    else
+                    {
+                        return result;
+                    }
                 }
             }
+
             set
             {
                 EnsureChildControls();
@@ -130,24 +154,27 @@ namespace Uncas.EBS.UI.Controls
                 {
                     if (value.Value > maxValue)
                     {
-                        tbNumber.Text
+                        numberTextBox.Text
                             = maxValue.ToString
                             (CultureInfo.CurrentCulture);
                     }
                     else if (value.Value < minValue)
                     {
-                        tbNumber.Text
+                        numberTextBox.Text
                             = minValue.ToString
                             (CultureInfo.CurrentCulture);
                     }
                     else
                     {
-                        tbNumber.Text
+                        numberTextBox.Text
                             = value.Value.ToString
                             (CultureInfo.CurrentCulture);
                     }
                 }
-                else tbNumber.Text = string.Empty;
+                else
+                {
+                    numberTextBox.Text = string.Empty;
+                }
             }
         }
 
@@ -164,7 +191,7 @@ namespace Uncas.EBS.UI.Controls
 
         private void SetWidth()
         {
-            tbNumber.Width = new Unit((numberOfDigits + 1) * 7);
+            numberTextBox.Width = new Unit((numberOfDigits + 1) * 7);
         }
 
         #endregion

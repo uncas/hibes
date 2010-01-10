@@ -17,36 +17,36 @@ namespace Uncas.EBS.DAL
         /// <summary>
         /// Inserts the task.
         /// </summary>
-        /// <param name="task">The task.</param>
+        /// <param name="task">The task to be inserted.</param>
         public void InsertTask(Model.Task task)
         {
             if (string.IsNullOrEmpty(task.Description))
             {
                 throw new RepositoryException("Task description required.");
             }
-            var dbTask = GetDbTaskFromModelTask(task);
-            DB.Tasks.InsertOnSubmit(dbTask);
-            base.SubmitChanges();
-            task.TaskId = dbTask.TaskId;
+            var databaseTask = GetDbTaskFromModelTask(task);
+            DB.Tasks.InsertOnSubmit(databaseTask);
+            this.SubmitChanges();
+            task.TaskId = databaseTask.TaskId;
         }
 
         /// <summary>
         /// Updates the task.
         /// </summary>
-        /// <param name="task">The task.</param>
+        /// <param name="task">The task to update.</param>
         public void UpdateTask(Model.Task task)
         {
             if (!task.TaskId.HasValue)
             {
                 throw new RepositoryException("TaskId must have a value");
             }
-            var dbTask = GetTask(task.TaskId.Value);
-            if (dbTask == null)
+            var databaseTask = GetTask(task.TaskId.Value);
+            if (databaseTask == null)
             {
                 throw new RepositoryException("Task not found in database");
             }
-            UpdateValuesToDbTask(dbTask, task);
-            base.SubmitChanges();
+            UpdateValuesToDbTask(databaseTask, task);
+            this.SubmitChanges();
         }
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace Uncas.EBS.DAL
         public void DeleteTask(int taskId)
         {
             DB.Tasks.DeleteOnSubmit(GetTask(taskId));
-            base.SubmitChanges();
+            this.SubmitChanges();
         }
 
         /// <summary>
@@ -91,11 +91,30 @@ namespace Uncas.EBS.DAL
 
         #endregion
 
-        private Task GetTask(int taskId)
+        [SuppressMessage("Microsoft.Performance"
+            , "CA1811:AvoidUncalledPrivateCode"
+            , Justification = "Called in Linq. Why not visible to FxCop?")]
+        internal static TaskDetails GetTaskDetailsFromDbTask
+            (Task databaseTask)
         {
-            return DB.Tasks
-                .Where(t => t.TaskId == taskId)
-                .SingleOrDefault();
+            return new TaskDetails
+            {
+                TaskId = databaseTask.TaskId,
+                RefIssueId = databaseTask.RefIssueId,
+                Description = databaseTask.Description,
+                Status = (Model.Status)databaseTask.RefStatusId,
+                Sequence = databaseTask.Sequence,
+                OriginalEstimate
+                    = (double)databaseTask.OriginalEstimateInHours,
+                CurrentEstimate
+                    = (double)databaseTask.CurrentEstimateInHours,
+                Elapsed = (double)databaseTask.ElapsedHours,
+                StartDate = databaseTask.StartDate,
+                EndDate = databaseTask.EndDate,
+                CreatedDate = databaseTask.CreatedDate,
+                RefPersonId = databaseTask.RefPersonId,
+                PersonName = databaseTask.Person.PersonName
+            };
         }
 
         internal IQueryable<TaskDetails> GetTasks(int issueId
@@ -112,91 +131,71 @@ namespace Uncas.EBS.DAL
             return result.Select(t => GetTaskDetailsFromDbTask(t));
         }
 
-
         [SuppressMessage("Microsoft.Performance"
             , "CA1811:AvoidUncalledPrivateCode"
             , Justification = "Called in Linq. Why not visible to FxCop?")]
-        internal static TaskDetails GetTaskDetailsFromDbTask
-            (Task dbTask)
-        {
-            return new TaskDetails
-                {
-                    TaskId = dbTask.TaskId,
-                    RefIssueId = dbTask.RefIssueId,
-                    Description = dbTask.Description,
-                    Status = (Model.Status)dbTask.RefStatusId,
-                    Sequence = dbTask.Sequence,
-                    OriginalEstimate
-                        = (double)dbTask.OriginalEstimateInHours,
-                    CurrentEstimate
-                        = (double)dbTask.CurrentEstimateInHours,
-                    Elapsed = (double)dbTask.ElapsedHours,
-                    StartDate = dbTask.StartDate,
-                    EndDate = dbTask.EndDate,
-                    CreatedDate = dbTask.CreatedDate,
-                    RefPersonId = dbTask.RefPersonId,
-                    PersonName = dbTask.Person.PersonName
-                };
-        }
-
-        [SuppressMessage("Microsoft.Performance"
-            , "CA1811:AvoidUncalledPrivateCode"
-            , Justification = "Called in Linq. Why not visible to FxCop?")]
-        private static Model.Task GetModelTaskFromDbTask(Task dbTask)
+        private static Model.Task GetModelTaskFromDbTask(Task databaseTask)
         {
             return Model.Task.ReconstructTask
-                (dbTask.TaskId
-                , dbTask.RefIssueId
-                , dbTask.Description
-                , (Model.Status)dbTask.RefStatusId
-                , dbTask.Sequence
-                , (double)dbTask.OriginalEstimateInHours
-                , (double)dbTask.CurrentEstimateInHours
-                , (double)dbTask.ElapsedHours
-                , dbTask.StartDate
-                , dbTask.EndDate
-                , dbTask.CreatedDate
-                , dbTask.RefPersonId
-                );
+                (databaseTask.TaskId
+                , databaseTask.RefIssueId
+                , databaseTask.Description
+                , (Model.Status)databaseTask.RefStatusId
+                , databaseTask.Sequence
+                , (double)databaseTask.OriginalEstimateInHours
+                , (double)databaseTask.CurrentEstimateInHours
+                , (double)databaseTask.ElapsedHours
+                , databaseTask.StartDate
+                , databaseTask.EndDate
+                , databaseTask.CreatedDate
+                , databaseTask.RefPersonId);
         }
 
         private static Task GetDbTaskFromModelTask(Model.Task task)
         {
-            Task dbTask = new Task();
-            AssignValuesToDbTask(dbTask, task);
+            var databaseTask = new Task();
+            AssignValuesToDbTask(databaseTask, task);
             if (task.TaskId.HasValue)
             {
-                dbTask.TaskId = task.TaskId.Value;
+                databaseTask.TaskId = task.TaskId.Value;
             }
-            return dbTask;
+            return databaseTask;
         }
 
-        private static void AssignValuesToDbTask(Task dbTask
+        private static void AssignValuesToDbTask
+            (Task databaseTask
             , Model.Task task)
         {
             // Never changed:
-            dbTask.OriginalEstimateInHours
+            databaseTask.OriginalEstimateInHours
                 = (decimal)task.OriginalEstimate;
-            dbTask.RefIssueId = task.RefIssueId;
-            dbTask.CreatedDate = task.CreatedDate;
+            databaseTask.RefIssueId = task.RefIssueId;
+            databaseTask.CreatedDate = task.CreatedDate;
 
             // These might change later:
-            UpdateValuesToDbTask(dbTask, task);
+            UpdateValuesToDbTask(databaseTask, task);
         }
 
         private static void UpdateValuesToDbTask
-            (Task dbTask
+            (Task databaseTask
             , Model.Task task)
         {
-            dbTask.CurrentEstimateInHours
+            databaseTask.CurrentEstimateInHours
                 = (decimal)task.CurrentEstimate;
-            dbTask.Description = task.Description;
-            dbTask.ElapsedHours = (decimal)task.Elapsed;
-            dbTask.EndDate = task.EndDate;
-            dbTask.Sequence = task.Sequence;
-            dbTask.StartDate = task.StartDate;
-            dbTask.RefStatusId = (int)task.Status;
-            dbTask.RefPersonId = task.RefPersonId;
+            databaseTask.Description = task.Description;
+            databaseTask.ElapsedHours = (decimal)task.Elapsed;
+            databaseTask.EndDate = task.EndDate;
+            databaseTask.Sequence = task.Sequence;
+            databaseTask.StartDate = task.StartDate;
+            databaseTask.RefStatusId = (int)task.Status;
+            databaseTask.RefPersonId = task.RefPersonId;
+        }
+
+        private Task GetTask(int taskId)
+        {
+            return DB.Tasks
+                .Where(t => t.TaskId == taskId)
+                .SingleOrDefault();
         }
     }
 }

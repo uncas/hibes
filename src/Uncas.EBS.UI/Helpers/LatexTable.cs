@@ -9,8 +9,9 @@ namespace Uncas.EBS.UI.Helpers
         /// <summary>
         /// Appends the table.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="data">The data.</param>
+        /// <typeparam name="T">The type of the data for the latex table.</typeparam>
+        /// <param name="data">The data for the table.</param>
+        /// <param name="content">The content.</param>
         /// <param name="columns">The columns.</param>
         public static void AppendTable<T>
             (IEnumerable<T> data
@@ -27,9 +28,10 @@ namespace Uncas.EBS.UI.Helpers
         /// <summary>
         /// Appends the table.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="data">The data.</param>
+        /// <typeparam name="T">The type of the data for the latex table.</typeparam>
+        /// <param name="data">The data for the table.</param>
         /// <param name="showRow">The show row.</param>
+        /// <param name="content">The content.</param>
         /// <param name="columns">The columns.</param>
         public static void AppendTable<T>
             (IEnumerable<T> data
@@ -69,8 +71,7 @@ namespace Uncas.EBS.UI.Helpers
                 }
                 sb.Append
                     (GetColumnAlignment<T>
-                        (column.Alignment)
-                    );
+                        (column.Alignment));
                 columnIndex++;
             }
             sb.AppendLine("}");
@@ -116,8 +117,7 @@ namespace Uncas.EBS.UI.Helpers
            (IEnumerable<T> data
            , LatexColumn<T>[] columns
            , StringBuilder sb
-           , Func<T, bool> showRow
-           )
+           , Func<T, bool> showRow)
         {
             // Adds a row per item:
             foreach (var item in data)

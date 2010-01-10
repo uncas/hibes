@@ -1,12 +1,12 @@
 ﻿using System.Collections.Specialized;
+using System.Globalization;
 using System.Web;
 using Uncas.EBS.UI.Helpers;
-using System.Globalization;
 
 namespace Uncas.EBS.UI
 {
     /// <summary>
-    /// Summary description for $codebehindclassname$
+    /// Class that presents the estimate as latex.
     /// </summary>
     public class EstimateAsLatex : IHttpHandler
     {
@@ -34,9 +34,9 @@ namespace Uncas.EBS.UI
             {
                 result = int.Parse
                     (queryString[field]
-                    , CultureInfo.InvariantCulture
-                    );
+                    , CultureInfo.InvariantCulture);
             }
+
             return result;
         }
 

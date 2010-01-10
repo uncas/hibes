@@ -22,8 +22,8 @@ namespace Uncas.EBS.DAL
         /// <summary>
         /// Gets the DB.
         /// </summary>
-        /// <value>The DB.</value>
-        internal protected EBSDataContext DB
+        /// <value>The data context.</value>
+        protected internal EBSDataContext DB
         {
             get
             {
@@ -32,33 +32,33 @@ namespace Uncas.EBS.DAL
         }
 
         /// <summary>
-        /// Submits the changes.
-        /// </summary>
-        internal protected void SubmitChanges()
-        {
-            if (_disposed)
-            {
-                throw new ObjectDisposedException("Resource was disposed.");
-            }
-            DB.SubmitChanges();
-        }
-
-        /// <summary>
         /// Gets the double from decimal.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns></returns>
-        internal protected static double? GetDoubleFromDecimal
-            (
-            decimal? value
-            )
+        protected internal static double? GetDoubleFromDecimal
+            (decimal? value)
         {
             double? result = null;
             if (value.HasValue)
             {
                 result = (double)value.Value;
             }
+
             return result;
+        }
+
+        /// <summary>
+        /// Submits the changes.
+        /// </summary>
+        protected internal void SubmitChanges()
+        {
+            if (_disposed)
+            {
+                throw new ObjectDisposedException("Resource was disposed.");
+            }
+
+            DB.SubmitChanges();
         }
 
         #region IDisposable Members
@@ -78,9 +78,9 @@ namespace Uncas.EBS.DAL
         #endregion
 
         /// <summary>
-        /// Releases unmanaged and - optionally - managed resources
+        /// Releases unmanaged and - optionally - managed resources.
         /// </summary>
-        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+        /// <param name="disposing"><c>True</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
         protected virtual void Dispose(bool disposing)
         {
             // If you need thread safety, use a lock around these 

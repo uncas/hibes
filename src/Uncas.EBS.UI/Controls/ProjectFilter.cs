@@ -13,16 +13,14 @@ namespace Uncas.EBS.UI.Controls
                     (CultureInfo.CurrentCulture
                     , "- {0} -"
                     , Resources.Phrases.AllProjects);
-            this.Items.Add(new ListItem(allProjectsText, ""));
+            this.Items.Add(new ListItem(allProjectsText, string.Empty));
             ProjectController projRepo = new ProjectController();
             foreach (var project in projRepo.GetProjects())
             {
                 this.Items.Add
                     (new ListItem
                         (project.ProjectName
-                        , project.ProjectId.ToString
-                            (CultureInfo.InvariantCulture))
-                    );
+                        , project.ProjectId.ToString(CultureInfo.InvariantCulture)));
             }
             this.AutoPostBack = true;
             this.DataTextField = "ProjectName";

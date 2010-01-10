@@ -12,13 +12,13 @@ namespace Uncas.EBS.UI
         protected void Page_Init(object sender, EventArgs e)
         {
             gvIssues.RowDataBound
-                += new GridViewRowEventHandler(gvIssues_RowDataBound);
+                += new GridViewRowEventHandler(IssuesGridView_RowDataBound);
             gvIssues.RowCommand
-                += new GridViewCommandEventHandler(gvIssues_RowCommand);
+                += new GridViewCommandEventHandler(IssuesGridView_RowCommand);
             odsIssues.Deleted
-                += new ObjectDataSourceStatusEventHandler(odsIssues_Deleted);
+                += new ObjectDataSourceStatusEventHandler(IssuesDataSource_Deleted);
             lbPrioritizeAllOpenIssues.Click
-                += new EventHandler(lbPrioritizeAllOpenIssues_Click);
+                += new EventHandler(PrioritizeAllOpenIssuesButton_Click);
         }
 
         protected void Page_Load(object sender, EventArgs e)
@@ -30,7 +30,9 @@ namespace Uncas.EBS.UI
         private IssueController _issueController
             = new IssueController();
 
-        void gvIssues_RowDataBound(object sender, GridViewRowEventArgs e)
+        private void IssuesGridView_RowDataBound
+            (object sender
+            , GridViewRowEventArgs e)
         {
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
@@ -40,7 +42,9 @@ namespace Uncas.EBS.UI
             }
         }
 
-        void gvIssues_RowCommand(object sender, GridViewCommandEventArgs e)
+        private void IssuesGridView_RowCommand
+            (object sender
+            , GridViewCommandEventArgs e)
         {
             switch (e.CommandName)
             {
@@ -77,7 +81,8 @@ namespace Uncas.EBS.UI
             gvIssues.DataBind();
         }
 
-        void odsIssues_Deleted(object sender
+        private void IssuesDataSource_Deleted
+            (object sender
             , ObjectDataSourceStatusEventArgs e)
         {
             if (e.Exception != null)
@@ -87,7 +92,9 @@ namespace Uncas.EBS.UI
             }
         }
 
-        void lbPrioritizeAllOpenIssues_Click(object sender, EventArgs e)
+        private void PrioritizeAllOpenIssuesButton_Click
+            (object sender
+            , EventArgs e)
         {
             _issueController.PrioritizeAllOpenIssues(pfProjects.ProjectId);
             gvIssues.DataBind();

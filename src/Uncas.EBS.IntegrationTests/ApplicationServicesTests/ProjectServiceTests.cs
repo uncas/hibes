@@ -37,9 +37,14 @@ namespace Uncas.EBS.IntegrationTests.ApplicationServicesTests
         [Test]
         public void GetProjectEstimate_NonExistingProject()
         {
-            var projectEstimate = _projectService.GetTeamEvaluation
-                (0, 0, 100, 100
-                , StandardNumberOfHoursPerDay).TotalEvaluation;
+            var projectEstimate
+                = _projectService.GetTeamEvaluation
+                (0
+                , 0
+                , 100
+                , 100
+                , StandardNumberOfHoursPerDay)
+                .TotalEvaluation;
             Trace.WriteLine(projectEstimate);
             foreach (var ie in projectEstimate.GetIssueEvaluations())
             {
@@ -54,8 +59,12 @@ namespace Uncas.EBS.IntegrationTests.ApplicationServicesTests
             var projId = _projectRepository.GetProjects()
                 .Min(p => p.ProjectId);
             var projectEstimate = _projectService.GetTeamEvaluation
-                (projId, null, 100, 20
-                , StandardNumberOfHoursPerDay).TotalEvaluation;
+                (projId
+                , null
+                , 100
+                , 20
+                , StandardNumberOfHoursPerDay)
+                .TotalEvaluation;
             Trace.WriteLine(projectEstimate);
             foreach (var ie in projectEstimate.GetIssueEvaluations())
             {
@@ -69,9 +78,9 @@ namespace Uncas.EBS.IntegrationTests.ApplicationServicesTests
         {
             int maxNumberOfHistoricalData = 20;
             RunSimulation(10, maxNumberOfHistoricalData);
-            for (int numberOfSimulations = 100
-                ; numberOfSimulations <= 16 * 100
-                ; numberOfSimulations *= 2)
+            for (int numberOfSimulations = 100;
+                numberOfSimulations <= 16 * 100;
+                numberOfSimulations *= 2)
             {
                 long startTicks = DateTime.Now.Ticks;
                 RunSimulation(numberOfSimulations
@@ -81,8 +90,7 @@ namespace Uncas.EBS.IntegrationTests.ApplicationServicesTests
                     = string.Format
                     ("{0}: {1:N0}"
                     , numberOfSimulations
-                    , TimeSpan.FromTicks(endTicks - startTicks)
-                    .TotalMilliseconds);
+                    , TimeSpan.FromTicks(endTicks - startTicks).TotalMilliseconds);
                 Trace.WriteLine(message);
             }
         }

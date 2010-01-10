@@ -15,24 +15,26 @@ namespace Uncas.EBS.UI.Controls
         {
             get
             {
-                int? PersonId = null;
+                int? personId = null;
                 if (!string.IsNullOrEmpty(this.SelectedValue))
                 {
-                    PersonId = int.Parse
+                    personId = int.Parse
                         (this.SelectedValue
                         , CultureInfo.InvariantCulture);
                 }
-                return PersonId;
+                return personId;
             }
         }
 
         private bool _showAllOption;
+
         public bool ShowAllOption
         {
             get
             {
                 return _showAllOption;
             }
+
             set
             {
                 _showAllOption = value;
@@ -51,18 +53,14 @@ namespace Uncas.EBS.UI.Controls
                 this.Items.Add
                     (new ListItem
                         (" - " + Resources.Phrases.All + " - "
-                        , "")
-                    );
+                        , string.Empty));
             }
-            foreach (var Person in projRepo.GetPersons())
+            foreach (var person in projRepo.GetPersons())
             {
                 this.Items.Add
                     (new ListItem
-                        (Person.PersonName
-                        , Person.PersonId.ToString
-                            (CultureInfo.InvariantCulture)
-                        )
-                    );
+                        (person.PersonName
+                        , person.PersonId.ToString(CultureInfo.InvariantCulture)));
             }
         }
     }

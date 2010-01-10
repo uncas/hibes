@@ -54,9 +54,9 @@ namespace Uncas.EBS.Domain.ViewModel
                         / (1d * (maxIntervals - 1)));
                 }
                 var probabilities = new List<IntervalProbability>();
-                for (int interval = min
-                    ; interval <= max
-                    ; interval += intervalWidth)
+                for (int interval = min;
+                    interval <= max;
+                    interval += intervalWidth)
                 {
                     int lower = interval;
                     int upper = lower + intervalWidth - 1;

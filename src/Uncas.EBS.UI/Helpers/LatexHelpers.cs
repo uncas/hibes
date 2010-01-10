@@ -9,9 +9,7 @@ namespace Uncas.EBS.UI.Helpers
 {
     public class LatexHelpers
     {
-
         #region Public methods
-
 
         public void DownloadLatexFromEstimate
             (int? projectId
@@ -29,10 +27,7 @@ namespace Uncas.EBS.UI.Helpers
             response.End();
         }
 
-
         #endregion
-
-
 
         #region Private fields and properties
 
@@ -41,10 +36,125 @@ namespace Uncas.EBS.UI.Helpers
 
         #endregion
 
-
-
         #region Private methods
 
+        private static void AppendIssueEstimateTable
+            (IEnumerable<IssueEvaluation> issueEstimates
+            , bool showEmptyRows
+            , LatexDocument document)
+        {
+            var priorityColumn
+                = new LatexColumn<IssueEvaluation>
+                (Resources.Phrases.Priority
+                , (IssueEvaluation ie)
+                    => ie.Priority.ToString
+                    (CultureInfo.CurrentCulture)
+                , ColumnAlignment.Center);
+
+            var projectColumn
+                = new LatexColumn<IssueEvaluation>
+                (Resources.Phrases.Project
+                , (IssueEvaluation ie)
+                    => ie.ProjectName);
+
+            int maxCharactersInIssueTitle = 45;
+
+            var issueTitleColumn
+                = new LatexColumn<IssueEvaluation>
+                (Resources.Phrases.Issue
+                , (IssueEvaluation ie)
+                    => ShortenText(ie.IssueTitle
+                        , maxCharactersInIssueTitle));
+
+            var elapsedDaysColumn
+                = new LatexColumn<IssueEvaluation>
+                (Resources.Phrases.Elapsed
+                , (IssueEvaluation ie)
+                    => string.Format(CultureInfo.CurrentCulture
+                    , "{0:N1}"
+                    , ie.ElapsedDays)
+                , ColumnAlignment.Right);
+
+            var remainingDaysColumn
+                = new LatexColumn<IssueEvaluation>
+                (Resources.Phrases.Remaining
+                , (IssueEvaluation ie)
+                    => GetDaysRemainingText(ie.Average)
+                , ColumnAlignment.Right);
+
+            var totalDaysColumn
+                = new LatexColumn<IssueEvaluation>
+                (Resources.Phrases.Total
+                , (IssueEvaluation ie)
+                    => GetDaysRemainingText(ie.TotalDays)
+                , ColumnAlignment.Right);
+
+            Func<IssueEvaluation, bool> showRow = null;
+            if (!showEmptyRows)
+            {
+                showRow = (IssueEvaluation ie)
+                    => ie.Average.HasValue;
+            }
+
+            document.AppendTable<IssueEvaluation>
+               (issueEstimates
+               , showRow
+               , priorityColumn
+               , projectColumn
+               , issueTitleColumn
+               , elapsedDaysColumn
+               , remainingDaysColumn
+               , totalDaysColumn);
+        }
+
+        /// <summary>
+        /// Gets the days remaining text.
+        /// </summary>
+        /// <param name="daysRemaining">The days remaining.</param>
+        /// <example>
+        ///     daysRemaining  returnValue
+        ///        0.4             ½
+        ///        0.6             1
+        ///        1.1             2
+        ///        3.9             4
+        /// </example>
+        /// <returns></returns>
+        private static string GetDaysRemainingText(double? daysRemaining)
+        {
+            if (!daysRemaining.HasValue)
+            {
+                return "?";
+            }
+            else if (daysRemaining.Value < 0.5d)
+            {
+                return @"\textonehalf";
+            }
+            else
+            {
+                return ((int)Math.Ceiling(daysRemaining.Value))
+                    .ToString(CultureInfo.CurrentCulture);
+            }
+        }
+
+        private static string LatexPercentageStringFromDouble
+            (double number)
+        {
+            return number
+                .ToString("P0", CultureInfo.CurrentCulture)
+                .Replace("%", @"\%");
+        }
+
+        private static string ShortenText(string text, int maxLength)
+        {
+            if (text.Length <= maxLength)
+            {
+                return text;
+            }
+            else
+            {
+                return text.Substring(0, maxLength) + "...";
+            }
+        }
 
         private string GetLatexFromEstimate
             (int? projectId
@@ -70,7 +180,6 @@ namespace Uncas.EBS.UI.Helpers
 
             return document.ToString();
         }
-
 
         private void AppendPersonConfidenceDateTable
             (int? projectId
@@ -119,7 +228,6 @@ namespace Uncas.EBS.UI.Helpers
                 , highColumn);
         }
 
-
         private void AppendIssueEstimateTables
             (int? projectId
             , int? maxPriority
@@ -144,137 +252,10 @@ namespace Uncas.EBS.UI.Helpers
                 AppendIssueEstimateTable
                     (personEvaluation.GetIssueEvaluations()
                     , false
-                    , document
-                    );
+                    , document);
             }
         }
-
-
-        private static void AppendIssueEstimateTable
-            (IEnumerable<IssueEvaluation> issueEstimates
-            , bool showEmptyRows
-            , LatexDocument document)
-        {
-            var priorityColumn
-                = new LatexColumn<IssueEvaluation>
-                (Resources.Phrases.Priority
-                , (IssueEvaluation ie)
-                    => ie.Priority.ToString
-                    (CultureInfo.CurrentCulture)
-                , ColumnAlignment.Center);
-
-            var projectColumn
-                = new LatexColumn<IssueEvaluation>
-                (Resources.Phrases.Project
-                , (IssueEvaluation ie)
-                    => ie.ProjectName);
-
-            int maxCharactersInIssueTitle = 45;
-
-            var issueTitleColumn
-                = new LatexColumn<IssueEvaluation>
-                (Resources.Phrases.Issue
-                , (IssueEvaluation ie)
-                    => ShortenText(ie.IssueTitle
-                        , maxCharactersInIssueTitle)
-                );
-
-            var elapsedDaysColumn
-                = new LatexColumn<IssueEvaluation>
-                (Resources.Phrases.Elapsed
-                , (IssueEvaluation ie)
-                    => string.Format(CultureInfo.CurrentCulture
-                    , "{0:N1}"
-                    , ie.ElapsedDays)
-                , ColumnAlignment.Right);
-
-            var remainingDaysColumn
-                = new LatexColumn<IssueEvaluation>
-                (Resources.Phrases.Remaining
-                , (IssueEvaluation ie)
-                    => GetDaysRemainingText(ie.Average)
-                , ColumnAlignment.Right);
-
-            var totalDaysColumn
-                = new LatexColumn<IssueEvaluation>
-                (Resources.Phrases.Total
-                , (IssueEvaluation ie)
-                    => GetDaysRemainingText(ie.TotalDays)
-                , ColumnAlignment.Right);
-
-            Func<IssueEvaluation, bool> showRow = null;
-            if (!showEmptyRows)
-            {
-                showRow = (IssueEvaluation ie)
-                    => ie.Average.HasValue;
-            }
-
-            document.AppendTable<IssueEvaluation>
-                   (issueEstimates
-                   , showRow
-                   , priorityColumn
-                   , projectColumn
-                   , issueTitleColumn
-                   , elapsedDaysColumn
-                   , remainingDaysColumn
-                   , totalDaysColumn
-                   );
-        }
-
-
-        /// <summary>
-        /// Gets the days remaining text.
-        /// </summary>
-        /// <param name="daysRemaining">The days remaining.</param>
-        /// <example>
-        ///     daysRemaining  returnValue
-        ///        0.4             ½
-        ///        0.6             1
-        ///        1.1             2
-        ///        3.9             4
-        /// </example>
-        /// <returns></returns>
-        private static string GetDaysRemainingText(double? daysRemaining)
-        {
-            if (!daysRemaining.HasValue)
-            {
-                return "?";
-            }
-            else if (daysRemaining.Value < 0.5d)
-            {
-                return @"\textonehalf";
-            }
-            else
-            {
-                return ((int)Math.Ceiling(daysRemaining.Value))
-                    .ToString(CultureInfo.CurrentCulture);
-            }
-        }
-
-
-        private static string LatexPercentageStringFromDouble
-            (double number)
-        {
-            return number
-                .ToString("P0", CultureInfo.CurrentCulture)
-                .Replace("%", @"\%");
-        }
-
-
-        private static string ShortenText(string text, int maxLength)
-        {
-            if (text.Length <= maxLength)
-            {
-                return text;
-            }
-            else
-            {
-                return text.Substring(0, maxLength) + "...";
-            }
-        }
-
 
         #endregion
-
     }
 }

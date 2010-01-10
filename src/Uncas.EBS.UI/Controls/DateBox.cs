@@ -18,6 +18,7 @@ namespace Uncas.EBS.UI.Controls
             {
                 return this.SelectedDate;
             }
+            
             set
             {
                 if (!(value is DBNull))
@@ -45,6 +46,7 @@ namespace Uncas.EBS.UI.Controls
                     return null;
                 }
             }
+
             set
             {
                 if (value.HasValue)

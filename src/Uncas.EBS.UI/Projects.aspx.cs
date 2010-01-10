@@ -7,10 +7,12 @@ namespace Uncas.EBS.UI
     {
         protected void Page_Init(object sender, EventArgs e)
         {
-            odsProjects.Deleted += new ObjectDataSourceStatusEventHandler(odsProjects_Deleted);
+            odsProjects.Deleted += new ObjectDataSourceStatusEventHandler(ProjectsDataSource_Deleted);
         }
 
-        void odsProjects_Deleted(object sender, ObjectDataSourceStatusEventArgs e)
+        private void ProjectsDataSource_Deleted
+            (object sender
+            , ObjectDataSourceStatusEventArgs e)
         {
             if (e.Exception != null)
             {

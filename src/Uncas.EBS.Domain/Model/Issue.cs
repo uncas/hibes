@@ -114,6 +114,7 @@ namespace Uncas.EBS.Domain.Model
             {
                 return _status;
             }
+            
             set
             {
                 if (value != Status.Any)

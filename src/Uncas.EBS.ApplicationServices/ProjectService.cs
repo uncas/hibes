@@ -106,28 +106,34 @@ namespace Uncas.EBS.ApplicationServices
             {
                 var issuesWithTasksForPerson =
                     openIssuesAndOpenTasks
-                    .Select(i =>
-                        new IssueView
-                        (
-                            i.Issue,
-                            i.Tasks
-                                .Where(t =>
-                                    t.RefPersonId
-                                    == personView.PersonId)
-                                .ToList()
-                        )).ToList();
+                    .Select(i => GetIssueViewPerPerson(i, personView))
+                    .ToList();
                 var evaluationForPerson
                     = simulationEngine.GetProjectEvaluation
                     (personView
                     , issuesWithTasksForPerson
                     , numberOfSimulations
                     , standardNumberOfHoursPerDay);
-
                 teamEvaluation.EvaluationsPerPerson.Add
                     (evaluationForPerson);
             }
 
             return teamEvaluation;
+        }
+
+        private static IssueView GetIssueViewPerPerson
+            (IssueView originalIssueView
+            , PersonView personView)
+        {
+            var taskDetails
+                = originalIssueView.Tasks
+                .Where(t =>
+                    t.RefPersonId
+                    == personView.PersonId)
+                .ToList();
+            return new IssueView
+                (originalIssueView.Issue
+                , taskDetails);
         }
     }
 }

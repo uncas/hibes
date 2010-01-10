@@ -6,7 +6,7 @@ using Model = Uncas.EBS.Domain.Model;
 
 namespace Uncas.EBS.DAL
 {
-    class PersonOffRepository : BaseRepository
+    internal class PersonOffRepository : BaseRepository
         , IPersonOffRepository
     {
         #region IPersonOffRepository Members
@@ -35,7 +35,7 @@ namespace Uncas.EBS.DAL
                     ToDate = personOff.ToDate,
                     RefPersonId = personOff.RefPersonId
                 });
-            base.SubmitChanges();
+            this.SubmitChanges();
         }
 
         public void DeletePersonOff(int personOffId)

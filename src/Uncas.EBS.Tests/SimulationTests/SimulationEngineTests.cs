@@ -50,26 +50,27 @@ namespace Uncas.EBS.Tests.SimulationTests
             });
 
             var issueViews = new List<IssueView>();
-            issueViews.Add(new IssueView
-            (
-                IssueDetails.ReconstructIssueDetails
-                    (1
-                    , DateTime.Now
-                    , 1
-                    , null
-                    , Status.Closed
-                    , null
-                    , 0
-                    , null
-                    , null),
-                openTasks
-            ));
+            issueViews.Add
+                (new IssueView
+                    (IssueDetails.ReconstructIssueDetails
+                        (1
+                        , DateTime.Now
+                        , 1
+                        , null
+                        , Status.Closed
+                        , null
+                        , 0
+                        , null
+                        , null)
+                    , openTasks));
 
             // Testing:
             SimulationEngine simulationEngine
                 = new SimulationEngine(closedTasks);
             var result = simulationEngine.GetProjectEvaluation
-                (new PersonView(1, null, null), issueViews, 100
+                (new PersonView(1, null, null)
+                , issueViews
+                , 100
                 , DefaultStandardNumberOfHoursPerDay);
 
             // Checking results:
@@ -89,7 +90,9 @@ namespace Uncas.EBS.Tests.SimulationTests
             // Testing:
             SimulationEngine evals = new SimulationEngine(closedTasks);
             var result = evals.GetProjectEvaluation
-                (new PersonView(1, null, null), issueViews, 1000
+                (new PersonView(1, null, null)
+                , issueViews
+                , 1000
                 , DefaultStandardNumberOfHoursPerDay);
 
             // Checking (a lot of things):
@@ -121,8 +124,7 @@ namespace Uncas.EBS.Tests.SimulationTests
 
             issueViews = new List<IssueView>();
             issueViews.Add(new IssueView
-            (
-                IssueDetails.ReconstructIssueDetails
+                (IssueDetails.ReconstructIssueDetails
                     (1
                     , DateTime.Now
                     , 1
@@ -131,9 +133,8 @@ namespace Uncas.EBS.Tests.SimulationTests
                     , null
                     , 0
                     , null
-                    , null),
-                openTasks
-            ));
+                    , null)
+                , openTasks));
         }
 
         [Test]

@@ -57,12 +57,14 @@ namespace Uncas.EBS.Domain.Repository
         /// Adds one to the priority.
         /// </summary>
         /// <param name="issueId">The issue id.</param>
+        /// <returns>True if succesful.</returns>
         bool AddOneToPriority(int issueId);
 
         /// <summary>
         /// Subtracts one from the priority.
         /// </summary>
         /// <param name="issueId">The issue id.</param>
+        /// <returns>True if succesful.</returns>
         bool SubtractOneFromPriority(int issueId);
 
         /// <summary>

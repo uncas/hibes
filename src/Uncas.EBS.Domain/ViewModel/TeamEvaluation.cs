@@ -20,14 +20,16 @@ namespace Uncas.EBS.Domain.ViewModel
         /// Gets or sets the total evaluation.
         /// </summary>
         /// <value>The total evaluation.</value>
-        public ProjectEvaluation TotalEvaluation
-        { get; set; }
+        public ProjectEvaluation TotalEvaluation { get; set; }
 
         /// <summary>
         /// Gets the evaluations per person.
         /// </summary>
         /// <value>The evaluations per person.</value>
         public IList<ProjectEvaluation> EvaluationsPerPerson
-        { get; private set; }
+        {
+            get;
+            private set;
+        }
     }
 }

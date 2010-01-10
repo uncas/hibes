@@ -6,7 +6,8 @@ using Model = Uncas.EBS.Domain.Model;
 
 namespace Uncas.EBS.DAL
 {
-    class PersonRepository : BaseRepository, IPersonRepository
+    internal class PersonRepository : BaseRepository
+        , IPersonRepository
     {
         #region IPersonRepository Members
 
@@ -17,16 +18,20 @@ namespace Uncas.EBS.DAL
                     new PersonView
                         (p.PersonId
                         , p.PersonName
-                        , p.PersonOffs.Select
-                            (po => new Model.PersonOff
-                                (po.RefPersonId
-                                , po.FromDate
-                                , po.ToDate)
-                            ).ToList()
-                        )
-                        );
+                        , GetPersonOffs(p)));
 
             return result.ToList();
+        }
+
+        private static List<Model.PersonOff> GetPersonOffs
+            (Person person)
+        {
+            return person.PersonOffs.Select
+                (po => new Model.PersonOff
+                    (po.RefPersonId
+                    , po.FromDate
+                    , po.ToDate))
+                .ToList();
         }
 
         public IList<Model.Person> GetPersons()
@@ -37,40 +42,38 @@ namespace Uncas.EBS.DAL
                         (p.PersonId
                         , p.PersonName
                         , p.DaysPerWeek
-                        , (double)p.HoursPerDay
-                        )
-                        );
+                        , (double)p.HoursPerDay));
 
             return result.ToList();
         }
 
         public void InsertPerson(Model.Person person)
         {
-            var dbPerson = new Person
+            var databasePerson = new Person
             {
                 DaysPerWeek = person.DaysPerWeek,
                 HoursPerDay = (decimal)person.HoursPerDay,
                 PersonName = person.PersonName,
             };
 
-            DB.Persons.InsertOnSubmit(dbPerson);
+            DB.Persons.InsertOnSubmit(databasePerson);
 
-            base.SubmitChanges();
+            this.SubmitChanges();
 
-            person.PersonId = dbPerson.PersonId;
+            person.PersonId = databasePerson.PersonId;
         }
 
         public void UpdatePerson(Model.Person person)
         {
-            Person dbPerson = GetDbPerson(person.PersonId);
-            if (dbPerson == null)
+            var databasePerson = GetDbPerson(person.PersonId);
+            if (databasePerson == null)
             {
                 throw new RepositoryException("No such person.");
             }
 
-            dbPerson.DaysPerWeek = person.DaysPerWeek;
-            dbPerson.HoursPerDay = (decimal)person.HoursPerDay;
-            dbPerson.PersonName = person.PersonName;
+            databasePerson.DaysPerWeek = person.DaysPerWeek;
+            databasePerson.HoursPerDay = (decimal)person.HoursPerDay;
+            databasePerson.PersonName = person.PersonName;
 
             DB.SubmitChanges();
         }

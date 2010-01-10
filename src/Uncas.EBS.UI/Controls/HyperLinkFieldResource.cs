@@ -1,5 +1,5 @@
-﻿using System.Web.UI.WebControls;
-using System.Resources;
+﻿using System.Resources;
+using System.Web.UI.WebControls;
 
 namespace Uncas.EBS.UI.Controls
 {
@@ -8,16 +8,18 @@ namespace Uncas.EBS.UI.Controls
     /// </summary>
     public class HyperLinkFieldResource : HyperLinkField
     {
-        ResourceManager _resourceManager
+        private ResourceManager _resourceManager
             = Resources.Phrases.ResourceManager;
 
         private string _headerResourceName;
+        
         public string HeaderResourceName
         {
             get
             {
                 return this._headerResourceName;
             }
+
             set
             {
                 this._headerResourceName = value;
@@ -26,12 +28,14 @@ namespace Uncas.EBS.UI.Controls
         }
 
         private string _textResourceName;
+
         public string TextResourceName
         {
             get
             {
                 return this._textResourceName;
             }
+
             set
             {
                 this._textResourceName = value;

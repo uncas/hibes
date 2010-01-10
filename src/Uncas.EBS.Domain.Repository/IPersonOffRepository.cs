@@ -11,7 +11,8 @@ namespace Uncas.EBS.Domain.Repository
         /// <summary>
         /// Gets the person offs.
         /// </summary>
-        /// <returns></returns>
+        /// <param name="personId">The person id.</param>
+        /// <returns>A list of person off information.</returns>
         IList<PersonOff> GetPersonOffs(int personId);
 
         /// <summary>

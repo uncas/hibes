@@ -27,7 +27,8 @@ namespace Uncas.EBS.UI.Controllers
             return issueView.Tasks;
         }
 
-        public void InsertTask(string description
+        public void InsertTask
+            (string description
             , double originalEstimate
             , double elapsed
             , DateTime? startDate
@@ -35,8 +36,7 @@ namespace Uncas.EBS.UI.Controllers
             , int sequence
             , Status status
             , int refIssueId
-            , int refPersonId
-            )
+            , int refPersonId)
         {
             Task task = Task.ConstructTask
                 (refIssueId
@@ -51,8 +51,8 @@ namespace Uncas.EBS.UI.Controllers
             _taskRepo.InsertTask(task);
         }
 
-        public void UpdateTask(
-            int taskId
+        public void UpdateTask
+            (int taskId
             , string description
             , double currentEstimate
             , double elapsed
@@ -60,8 +60,7 @@ namespace Uncas.EBS.UI.Controllers
             , DateTime? endDate
             , int sequence
             , Status status
-            , int refPersonId
-            )
+            , int refPersonId)
         {
             Task task = Task.ReconstructTaskToUpdate
                 (taskId

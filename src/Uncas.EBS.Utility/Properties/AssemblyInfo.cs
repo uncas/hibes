@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Diagnostics.CodeAnalysis;
 
 [module: SuppressMessage("Microsoft.Naming"
     , "CA1709:IdentifiersShouldBeCasedCorrectly"

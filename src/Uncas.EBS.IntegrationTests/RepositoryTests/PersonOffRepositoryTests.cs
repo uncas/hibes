@@ -28,9 +28,9 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
             {
                 IList<PersonOff> po1 = personOffLists[0];
                 IList<PersonOff> po2 = personOffLists[1];
-                for (int i = 0
-                    ; i < personOffLists.Max(pol => pol.Count)
-                    ; i++)
+                for (int i = 0;
+                    i < personOffLists.Max(pol => pol.Count);
+                    i++)
                 {
                     if (i < po1.Count && i < po2.Count)
                     {

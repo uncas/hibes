@@ -12,6 +12,7 @@ namespace Uncas.EBS.Domain.ViewModel
         /// <summary>
         /// Gets a filter that does not filter...
         /// </summary>
+        /// <value>A filter that does not filter.</value>
         public static TaskFilter None
         {
             get
@@ -29,11 +30,13 @@ namespace Uncas.EBS.Domain.ViewModel
         /// <summary>
         /// Gets or sets the id of the person.
         /// </summary>
+        /// <value>The person id.</value>
         public int? PersonId { get; set; }
 
         /// <summary>
         /// Gets or sets the maximum number to retrieve.
         /// </summary>
+        /// <value>The max count.</value>
         public int? MaxCount { get; set; }
     }
 }

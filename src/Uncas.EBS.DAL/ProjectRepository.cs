@@ -48,7 +48,7 @@ namespace Uncas.EBS.DAL
                 CreatedDate = DateTime.Now
             };
             DB.Projects.InsertOnSubmit(project);
-            base.SubmitChanges();
+            this.SubmitChanges();
         }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace Uncas.EBS.DAL
                 .Where(p => p.ProjectId == projectId)
                 .SingleOrDefault();
             DB.Projects.DeleteOnSubmit(project);
-            base.SubmitChanges();
+            this.SubmitChanges();
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace Uncas.EBS.DAL
                 .Where(p => p.ProjectId == projectId)
                 .SingleOrDefault();
             project.ProjectName = projectName;
-            base.SubmitChanges();
+            this.SubmitChanges();
         }
 
         #endregion

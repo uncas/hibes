@@ -9,17 +9,13 @@ namespace Uncas.EBS.Domain.ViewModel
     public class PersonConfidenceDates : Person
     {
         /// <summary>
-        /// Initializes a new instance of the 
-        /// <see cref="PersonConfidenceDates"/> class.
+        /// Initializes a new instance of the <see cref="PersonConfidenceDates"/> class.
         /// </summary>
         /// <param name="id">The id of the person.</param>
         /// <param name="name">The name of the person.</param>
-        /// <param name="completionDateLow">
-        /// The completion date with low probability.</param>
-        /// <param name="completionDateMedium">
-        /// The completion date with medium probability.</param>
-        /// <param name="completionDateHigh">
-        /// The completion date with high probability.</param>
+        /// <param name="completionDateLow">The completion date with low probability.</param>
+        /// <param name="completionDateMedium">The completion date with medium probability.</param>
+        /// <param name="completionDateHigh">The completion date with high probability.</param>
         public PersonConfidenceDates
             (int id
             , string name

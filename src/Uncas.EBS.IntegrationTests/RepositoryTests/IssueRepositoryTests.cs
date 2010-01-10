@@ -135,21 +135,6 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
                 , issueView.Tasks[0].TaskId.Value);
         }
 
-        private Task GetTask(Issue issue, Status taskStatus)
-        {
-            Task task = Task.ConstructTask
-                (issue.IssueId.Value
-                , "GetIssueView1"
-                , taskStatus
-                , 1
-                , 1d
-                , 0d
-                , null
-                , null
-                , 1);
-            return task;
-        }
-
         #endregion
 
         #region Insert
@@ -400,15 +385,21 @@ Indexes on all foreign keys:
             FuncToSpeedTest tf = () =>
             {
                 _projectService.GetTeamEvaluation
-                    (null, null, numberOfSimulations
+                    (null
+                    , null
+                    , numberOfSimulations
                     , maxNumberOfHistoricalData
                     , StandardNumberOfHoursPerDay);
                 _projectService.GetTeamEvaluation
-                    (null, null, numberOfSimulations
+                    (null
+                    , null
+                    , numberOfSimulations
                     , maxNumberOfHistoricalData
                     , StandardNumberOfHoursPerDay);
                 _projectService.GetTeamEvaluation
-                    (null, null, numberOfSimulations
+                    (null
+                    , null
+                    , numberOfSimulations
                     , maxNumberOfHistoricalData
                     , StandardNumberOfHoursPerDay);
             };
@@ -458,5 +449,20 @@ Indexes on all foreign keys:
         }
 
         #endregion
+
+        private Task GetTask(Issue issue, Status taskStatus)
+        {
+            Task task = Task.ConstructTask
+                (issue.IssueId.Value
+                , "GetIssueView1"
+                , taskStatus
+                , 1
+                , 1d
+                , 0d
+                , null
+                , null
+                , 1);
+            return task;
+        }
     }
 }

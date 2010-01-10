@@ -13,8 +13,15 @@ namespace Uncas.EBS.Tests.ViewModelTests
         private IssueDetails GetIssue()
         {
             return IssueDetails.ReconstructIssueDetails
-                (1, DateTime.Now, 1, "A", Status.Open, "B"
-                , 0, null, null);
+                (1
+                , DateTime.Now
+                , 1
+                , "A"
+                , Status.Open
+                , "B"
+                , 0
+                , null
+                , null);
         }
 
         [Test]
@@ -23,10 +30,14 @@ namespace Uncas.EBS.Tests.ViewModelTests
             IssueEvaluation ie
                 = new IssueEvaluation
                 (GetIssue()
-                , 2, 3d, 4d, StandardNumberOfHoursPerDay);
+                , 2
+                , 3d
+                , 4d
+                , StandardNumberOfHoursPerDay);
             Assert.AreEqual(2, ie.NumberOfOpenTasks);
             Assert.AreEqual(3d, ie.Elapsed);
-            Assert.AreEqual(4d / StandardNumberOfHoursPerDay
+            Assert.AreEqual
+                (4d / StandardNumberOfHoursPerDay
                 , ie.Average);
         }
 
@@ -37,7 +48,9 @@ namespace Uncas.EBS.Tests.ViewModelTests
             IssueEvaluation ie
                 = new IssueEvaluation
                     (GetIssue()
-                    , 2, -1d, 0d
+                    , 2
+                    , -1d
+                    , 0d
                     , StandardNumberOfHoursPerDay);
         }
 
@@ -48,23 +61,19 @@ namespace Uncas.EBS.Tests.ViewModelTests
             double evaluation1 = 1d;
             IssueEvaluation issueEvaluation
                 = new IssueEvaluation
-                    (
-                        GetIssue()
-                        , 2
-                        , 1d
-                        , evaluation1
-                        , StandardNumberOfHoursPerDay
-                    );
+                    (GetIssue()
+                    , 2
+                    , 1d
+                    , evaluation1
+                    , StandardNumberOfHoursPerDay);
             double evaluation2 = 6.5d;
             issueEvaluation.AddEvaluation(evaluation2);
 
             // Checking the resulting average in days:
             Assert.AreEqual
-                (
-                (evaluation1 + evaluation2)
+                ((evaluation1 + evaluation2)
                     / (2d * StandardNumberOfHoursPerDay)
-                , issueEvaluation.Average
-                );
+                , issueEvaluation.Average);
         }
     }
 }

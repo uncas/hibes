@@ -15,7 +15,8 @@ namespace Uncas.EBS.Domain.Repository
         /// </summary>
         /// <returns></returns>
         [SuppressMessage("Microsoft.Design"
-            , "CA1024:UsePropertiesWhereAppropriate")]
+            , "CA1024:UsePropertiesWhereAppropriate"
+            , Justification = "Read from database")]
         IList<PersonView> GetPersonViews();
 
         /// <summary>
@@ -23,7 +24,8 @@ namespace Uncas.EBS.Domain.Repository
         /// </summary>
         /// <returns></returns>
         [SuppressMessage("Microsoft.Design"
-            , "CA1024:UsePropertiesWhereAppropriate")]
+            , "CA1024:UsePropertiesWhereAppropriate"
+            , Justification = "Read from database")]
         IList<Person> GetPersons();
 
         /// <summary>

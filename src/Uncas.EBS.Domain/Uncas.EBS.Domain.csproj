@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\Issue.cs" />
+    <Compile Include="Model\Language.cs" />
     <Compile Include="Model\Person.cs" />
     <Compile Include="Model\PersonExtensions.cs" />
     <Compile Include="Model\PersonOff.cs" />

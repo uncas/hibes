@@ -9,7 +9,6 @@ namespace Uncas.EBS.UI.Helpers
     /// </summary>
     public class LatexDocument
     {
-
         #region Constructors
 
 
@@ -21,64 +20,12 @@ namespace Uncas.EBS.UI.Helpers
 
         #endregion
 
-
-
         #region Public methods
-
-
-        /// <summary>
-        /// Appends the section.
-        /// </summary>
-        /// <param name="sectionTitle">The section title.</param>
-        public void AppendSection
-            (string sectionTitle)
-        {
-            _content.AppendLine(@"\section*{" + EncodeText(sectionTitle) + "}");
-        }
-
-
-        /// <summary>
-        /// Appends the table.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="data">The data.</param>
-        /// <param name="columns">The columns.</param>
-        public void AppendTable<T>
-               (IEnumerable<T> data
-               , params LatexColumn<T>[] columns)
-        {
-            AppendTable<T>
-                (data
-                , null
-                , columns);
-        }
-
-
-        /// <summary>
-        /// Appends the table.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="data">The data.</param>
-        /// <param name="showRow">The show row.</param>
-        /// <param name="columns">The columns.</param>
-        public void AppendTable<T>
-            (IEnumerable<T> data
-            , Func<T, bool> showRow
-            , params LatexColumn<T>[] columns
-            )
-        {
-            LatexTable.AppendTable<T>
-                (data
-                , showRow
-                , _content
-                , columns);
-        }
-
 
         /// <summary>
         /// Encodes the text.
         /// </summary>
-        /// <param name="text">The text.</param>
+        /// <param name="text">The text to be encoded.</param>
         /// <returns></returns>
         public static string EncodeText(string text)
         {
@@ -101,6 +48,50 @@ namespace Uncas.EBS.UI.Helpers
             return result;
         }
 
+        /// <summary>
+        /// Appends the section.
+        /// </summary>
+        /// <param name="sectionTitle">The section title.</param>
+        public void AppendSection
+            (string sectionTitle)
+        {
+            _content.AppendLine(@"\section*{" + EncodeText(sectionTitle) + "}");
+        }
+
+        /// <summary>
+        /// Appends the table.
+        /// </summary>
+        /// <typeparam name="T">The type of the data for the latex table.</typeparam>
+        /// <param name="data">The data for the table.</param>
+        /// <param name="columns">The columns.</param>
+        public void AppendTable<T>
+               (IEnumerable<T> data
+               , params LatexColumn<T>[] columns)
+        {
+            AppendTable<T>
+                (data
+                , null
+                , columns);
+        }
+
+        /// <summary>
+        /// Appends the table.
+        /// </summary>
+        /// <typeparam name="T">The type of the data for the latex table.</typeparam>
+        /// <param name="data">The data for the table.</param>
+        /// <param name="showRow">The show row.</param>
+        /// <param name="columns">The columns.</param>
+        public void AppendTable<T>
+            (IEnumerable<T> data
+            , Func<T, bool> showRow
+            , params LatexColumn<T>[] columns)
+        {
+            LatexTable.AppendTable<T>
+                (data
+                , showRow
+                , _content
+                , columns);
+        }
 
         /// <summary>
         /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
@@ -117,10 +108,7 @@ namespace Uncas.EBS.UI.Helpers
             return sb.ToString();
         }
 
-
         #endregion
-
-
 
         #region Private fields and properties
 
@@ -130,10 +118,7 @@ namespace Uncas.EBS.UI.Helpers
 
         #endregion
 
-
-
         #region Private methods
-
 
         private static void AppendBegin
             (StringBuilder sb)
@@ -157,13 +142,11 @@ namespace Uncas.EBS.UI.Helpers
 ");
         }
 
-
         private static void AppendEnd
             (StringBuilder sb)
         {
             sb.Append(@"\end{document}");
         }
-
 
         private static void TransformString
             (ref string result
@@ -183,7 +166,6 @@ namespace Uncas.EBS.UI.Helpers
         }
 
         #endregion
-
 
         internal void AppendText(string text)
         {

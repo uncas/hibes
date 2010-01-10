@@ -215,6 +215,7 @@ namespace Uncas.EBS.Domain.Model
             {
                 return _status;
             }
+            
             set
             {
                 if (value != Status.Any)
@@ -241,6 +242,7 @@ namespace Uncas.EBS.Domain.Model
             {
                 return _originalEstimate;
             }
+
             set
             {
                 if (value <= 0d)
@@ -283,6 +285,7 @@ namespace Uncas.EBS.Domain.Model
             {
                 return _elapsed;
             }
+
             set
             {
                 _elapsed = value;

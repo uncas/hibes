@@ -14,10 +14,7 @@ namespace Uncas.EBS.UI.Controls
                 this.Items.Add
                     (new ListItem
                         (project.ProjectName
-                        , project.ProjectId.ToString
-                            (CultureInfo.InvariantCulture)
-                        )
-                    );
+                        , project.ProjectId.ToString(CultureInfo.InvariantCulture)));
             }
             this.DataTextField = "ProjectName";
             this.DataValueField = "ProjectId";

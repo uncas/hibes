@@ -14,15 +14,21 @@ namespace Uncas.EBS.Tests.ViewModelTests
         private IssueDetails GetIssue()
         {
             return IssueDetails.ReconstructIssueDetails
-                (1, DateTime.Now, 1, "A", Status.Open, "B"
-                , 0, null, null);
+                (1
+                , DateTime.Now
+                , 1
+                , "A"
+                , Status.Open
+                , "B"
+                , 0
+                , null
+                , null);
         }
 
         [Test]
         public void ProjectEvaluationTest()
         {
             // TODO: REFACTOR: Reduce number of asserts.
-
             ProjectEvaluation projEval = new ProjectEvaluation
                 (new PersonView(1, "A", null)
                 , StandardNumberOfHoursPerDay);

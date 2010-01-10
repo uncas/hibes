@@ -9,6 +9,7 @@ namespace Uncas.EBS.UI.Controls
     public class StatusLabel : Label
     {
         private Status _status;
+        
         /// <summary>
         /// Gets or sets the status.
         /// </summary>
@@ -19,6 +20,7 @@ namespace Uncas.EBS.UI.Controls
             {
                 return this._status;
             }
+            
             set
             {
                 this._status = value;

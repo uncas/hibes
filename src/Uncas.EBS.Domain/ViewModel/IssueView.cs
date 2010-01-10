@@ -3,7 +3,7 @@
 namespace Uncas.EBS.Domain.ViewModel
 {
     /// <summary>
-    /// Represents a view of an issue
+    /// Represents a view of an issue.
     /// </summary>
     public class IssueView
     {

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics;
 using NUnit.Framework;
 using Uncas.EBS.UI.Helpers;
 
@@ -45,12 +44,12 @@ namespace Uncas.EBS.Tests.UITests
                 (@"\AE g r\o d p\aa\ tr\ae\ \AA ben \O r"
                 , result);
         }
-    }
+    
+        private class TestObject
+        {
+            public int ID { get; set; }
 
-    public class TestObject
-    {
-        public int ID { get; set; }
-
-        public string Name { get; set; }
+            public string Name { get; set; }
+        }
     }
 }

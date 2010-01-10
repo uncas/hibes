@@ -11,15 +11,31 @@ namespace Uncas.EBS.UI
 {
     public partial class Estimates : BasePage
     {
+        private OfficeHelpers _officeHelpers = new OfficeHelpers();
+
+        private int? SelectedProjectId
+        {
+            get
+            {
+                return psProjects.ProjectId;
+            }
+        }
+
+        private int? SelectedMaxPriority
+        {
+            get
+            {
+                return nbMaxPriority.Number;
+            }
+        }
 
         protected void Page_Init(object sender, EventArgs e)
         {
-            lbDownloadWord.Click += new EventHandler(lbDownloadWord_Click);
-            lbDownloadExcel.Click += new EventHandler(lbDownloadExcel_Click);
+            lbDownloadWord.Click += new EventHandler(DownloadWordButton_Click);
+            lbDownloadExcel.Click += new EventHandler(DownloadExcelButton_Click);
             gvIssues.RowDataBound
-                += new GridViewRowEventHandler(gvIssues_RowDataBound);
+                += new GridViewRowEventHandler(IssuesGridView_RowDataBound);
         }
-
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -57,7 +73,21 @@ namespace Uncas.EBS.UI
                 , this.SelectedMaxPriority);
         }
 
-        void gvIssues_RowDataBound(object sender, GridViewRowEventArgs e)
+        private static string GetShortenedPersonName(string name)
+        {
+            if (name.Length <= 10)
+            {
+                return name;
+            }
+            else
+            {
+                return name.Substring(0, 10);
+            }
+        }
+
+        private void IssuesGridView_RowDataBound
+            (object sender
+            , GridViewRowEventArgs e)
         {
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
@@ -67,18 +97,14 @@ namespace Uncas.EBS.UI
             }
         }
 
-
         private void ShowCompletionDateConfidences()
         {
             var projectController = new Controllers.ProjectController();
             var evaluationsPerPerson
                 = projectController
                 .GetEvaluationsPerPerson
-                (
-                this.SelectedProjectId
-                , this.SelectedMaxPriority
-                )
-                ;
+                (this.SelectedProjectId
+                , this.SelectedMaxPriority);
 
             foreach (var evaluationPerPerson in evaluationsPerPerson)
             {
@@ -109,19 +135,15 @@ namespace Uncas.EBS.UI
             }
         }
 
-
         private void ShowDateRanges()
         {
             var projectController = new Controllers.ProjectController();
             var completionDatesPerPerson
                 = projectController
                 .GetConfidenceDatesPerPerson
-                (
-                this.SelectedProjectId
-                , this.SelectedMaxPriority
-                )
-                .OrderBy(epp => epp.CompletionDateHigh)
-                ;
+                (this.SelectedProjectId
+                , this.SelectedMaxPriority)
+                .OrderBy(epp => epp.CompletionDateHigh);
 
             int personNumber = 1;
             foreach (var datePerPerson in completionDatesPerPerson)
@@ -133,51 +155,19 @@ namespace Uncas.EBS.UI
                 }
 
                 chartDateRanges.Series["Tasks"].Points.AddXY
-                    (
-                    GetShortenedPersonName(datePerPerson.PersonName)
+                    (GetShortenedPersonName(datePerPerson.PersonName)
                     , datePerPerson.CompletionDateLow
-                    , datePerPerson.CompletionDateHigh
-                    );
+                    , datePerPerson.CompletionDateHigh);
                 personNumber++;
             }
         }
 
-        private static string GetShortenedPersonName(string name)
-        {
-            if (name.Length <= 10)
-            {
-                return name;
-            }
-            else
-            {
-                return name.Substring(0, 10);
-            }
-        }
-
-        private int? SelectedProjectId
-        {
-            get
-            {
-                return psProjects.ProjectId;
-            }
-        }
-
-        private int? SelectedMaxPriority
-        {
-            get
-            {
-                return nbMaxPriority.Number;
-            }
-        }
-
-        private OfficeHelpers _officeHelpers = new OfficeHelpers();
-
-        private void lbDownloadWord_Click(object sender, EventArgs e)
+        private void DownloadWordButton_Click(object sender, EventArgs e)
         {
             _officeHelpers.DownloadWord(ph1, "estimates", Response);
         }
 
-        private void lbDownloadExcel_Click(object sender, EventArgs e)
+        private void DownloadExcelButton_Click(object sender, EventArgs e)
         {
             _officeHelpers.DownloadExcel(ph1, "estimates", Response);
         }

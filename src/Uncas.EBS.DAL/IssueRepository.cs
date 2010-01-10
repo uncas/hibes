@@ -15,9 +15,7 @@ namespace Uncas.EBS.DAL
         : BaseRepository
         , IIssueRepository
     {
-
         #region Public methods (IIssueRepository members)
-
 
         /// <summary>
         /// Gets the issues.
@@ -29,31 +27,30 @@ namespace Uncas.EBS.DAL
             (int? projectId
             , Model.Status status)
         {
-            var dbIssues = DB.Issues.Select(i => i);
+            var databaseIssues = DB.Issues.Select(i => i);
 
             // Filters on status:
             if (status != Model.Status.Any)
             {
-                dbIssues = dbIssues
+                databaseIssues = databaseIssues
                     .Where(i => i.RefStatusId == (int)status);
             }
 
             // Filters on project:
             if (projectId.HasValue)
             {
-                dbIssues = dbIssues
+                databaseIssues = databaseIssues
                     .Where(i => i.RefProjectId == projectId.Value);
             }
 
             // Ordering:
-            dbIssues = dbIssues.OrderByDescending(i => i.CreatedDate)
+            databaseIssues = databaseIssues.OrderByDescending(i => i.CreatedDate)
                 .OrderBy(i => i.Priority);
 
-            return dbIssues
+            return databaseIssues
                 .Select(i => GetIssueDetailsFromDbIssue(i))
                 .ToList();
         }
-
 
         /// <summary>
         /// Gets the issue view.
@@ -67,13 +64,9 @@ namespace Uncas.EBS.DAL
         {
             TaskRepository taskRepo = new TaskRepository();
             return new IssueView
-                (
-                    GetIssueDetails(issueId),
-                    taskRepo.GetTasks(issueId, taskStatus)
-                        .ToList()
-                );
+                (GetIssueDetails(issueId)
+                , taskRepo.GetTasks(issueId, taskStatus).ToList());
         }
-
 
         /// <summary>
         /// Gets the open issues and open tasks.
@@ -100,18 +93,20 @@ namespace Uncas.EBS.DAL
 
             var result = issues.Select
                 (issue => new IssueView
-                (
-                    GetIssueDetailsFromDbIssue(issue),
-                    issue.Tasks
-                        .Where(t => t.RefStatusId == 1)
-                        .Select(t => TaskRepository
-                            .GetTaskDetailsFromDbTask(t))
-                        .ToList()
-                ));
+                    (GetIssueDetailsFromDbIssue(issue)
+                    , GetTaskDetails(issue)));
 
             return result.ToList();
         }
 
+        private static List<TaskDetails> GetTaskDetails(Issue issue)
+        {
+            return issue.Tasks
+                .Where(t => t.RefStatusId == 1)
+                .Select(t => TaskRepository
+                    .GetTaskDetailsFromDbTask(t))
+                .ToList();
+        }
 
         /// <summary>
         /// Inserts the issue.
@@ -136,21 +131,22 @@ namespace Uncas.EBS.DAL
                 throw new RepositoryException
                     ("Project does not exist.");
             }
+
             // Saves the changes:
             try
             {
-                Issue dbIssue = GetDbIssueFromModelIssue(issue);
-                DB.Issues.InsertOnSubmit(dbIssue);
-                base.SubmitChanges();
+                Issue databaseIssue = GetDbIssueFromModelIssue(issue);
+                DB.Issues.InsertOnSubmit(databaseIssue);
+                this.SubmitChanges();
+
                 // Reads auto-generated id from the database:
-                issue.IssueId = dbIssue.IssueId;
+                issue.IssueId = databaseIssue.IssueId;
             }
             catch (Exception ex)
             {
                 throw new RepositoryException(ex);
             }
         }
-
 
         /// <summary>
         /// Updates the issue.
@@ -163,15 +159,14 @@ namespace Uncas.EBS.DAL
             {
                 throw new RepositoryException("Invalid issue");
             }
-            var dbIssue = DB.Issues
+            var databaseIssue = DB.Issues
                 .Where(i => i.IssueId == issue.IssueId.Value)
                 .SingleOrDefault();
-            dbIssue.Priority = issue.Priority;
-            dbIssue.RefStatusId = (int)issue.Status;
-            dbIssue.Title = issue.Title;
-            base.SubmitChanges();
+            databaseIssue.Priority = issue.Priority;
+            databaseIssue.RefStatusId = (int)issue.Status;
+            databaseIssue.Title = issue.Title;
+            this.SubmitChanges();
         }
-
 
         /// <summary>
         /// Deletes the issue.
@@ -189,14 +184,13 @@ namespace Uncas.EBS.DAL
             DB.Issues.DeleteOnSubmit(issue);
             try
             {
-                base.SubmitChanges();
+                this.SubmitChanges();
             }
             catch (Exception ex)
             {
                 throw new RepositoryException(ex);
             }
         }
-
 
         /// <summary>
         /// Adds one to the priority.
@@ -211,7 +205,6 @@ namespace Uncas.EBS.DAL
             return true;
         }
 
-
         /// <summary>
         /// Subtracts one from the priority.
         /// </summary>
@@ -223,7 +216,6 @@ namespace Uncas.EBS.DAL
             ChangePriority(issueId, -1);
             return true;
         }
-
 
         /// <summary>
         /// Prioritizes all open issues.
@@ -246,16 +238,60 @@ namespace Uncas.EBS.DAL
             {
                 issue.Priority = priority++;
             }
-            base.SubmitChanges();
+            this.SubmitChanges();
             return true;
         }
 
-
         #endregion
-
 
         #region Private methods
 
+        [SuppressMessage("Microsoft.Performance"
+            , "CA1811:AvoidUncalledPrivateCode"
+            , Justification = "Called in Linq. Why not visible to FxCop?")]
+        private static IssueDetails GetIssueDetailsFromDbIssue
+            (Issue databaseIssue)
+        {
+            int numberOfTasks
+                = databaseIssue.Tasks.Count;
+            decimal? remaining
+                = databaseIssue.Tasks
+                 .Where(t => t.RefStatusId == 1)
+                 .Sum(t => t.CurrentEstimateInHours
+                     - t.ElapsedHours);
+            decimal? elapsed
+                = databaseIssue.Tasks.Sum(t => t.ElapsedHours);
+
+            return IssueDetails.ReconstructIssueDetails
+                (databaseIssue.IssueId
+                , databaseIssue.CreatedDate
+                , databaseIssue.Priority
+                , databaseIssue.Project.ProjectName
+                , (Model.Status)databaseIssue.RefStatusId
+                , databaseIssue.Title
+                , numberOfTasks
+                , GetDoubleFromDecimal(remaining)
+                , GetDoubleFromDecimal(elapsed));
+        }
+
+        private static Issue GetDbIssueFromModelIssue
+            (Model.Issue issue)
+        {
+            var databaseIssue = new Issue
+            {
+                CreatedDate = issue.CreatedDate,
+                Priority = issue.Priority,
+                RefProjectId = issue.RefProjectId,
+                RefStatusId = (int)issue.Status,
+                Title = issue.Title,
+            };
+            if (issue.IssueId.HasValue)
+            {
+                databaseIssue.IssueId = issue.IssueId.Value;
+            }
+
+            return databaseIssue;
+        }
 
         private Issue ReadIssue
             (int issueId
@@ -271,7 +307,6 @@ namespace Uncas.EBS.DAL
             return issue;
         }
 
-
         private void ChangePriority
             (int issueId
             , int priorityChange)
@@ -279,9 +314,8 @@ namespace Uncas.EBS.DAL
             Issue issue = ReadIssue(issueId
                 , "Found no such issue to change priority.");
             issue.Priority += priorityChange;
-            base.SubmitChanges();
+            this.SubmitChanges();
         }
-
 
         private IssueDetails GetIssueDetails
             (int issueId)
@@ -292,54 +326,6 @@ namespace Uncas.EBS.DAL
                 .SingleOrDefault();
         }
 
-        [SuppressMessage("Microsoft.Performance"
-            , "CA1811:AvoidUncalledPrivateCode"
-            , Justification = "Called in Linq. Why not visible to FxCop?")]
-        private static IssueDetails GetIssueDetailsFromDbIssue
-            (Issue dbIssue)
-        {
-            int numberOfTasks
-                = dbIssue.Tasks.Count;
-            decimal? remaining
-                = dbIssue.Tasks
-                 .Where(t => t.RefStatusId == 1)
-                 .Sum(t => t.CurrentEstimateInHours
-                     - t.ElapsedHours);
-            decimal? elapsed
-                = dbIssue.Tasks.Sum(t => t.ElapsedHours);
-
-            return IssueDetails.ReconstructIssueDetails
-                (dbIssue.IssueId
-                , dbIssue.CreatedDate
-                , dbIssue.Priority
-                , dbIssue.Project.ProjectName
-                , (Model.Status)dbIssue.RefStatusId
-                , dbIssue.Title
-                , numberOfTasks
-                , GetDoubleFromDecimal(remaining)
-                , GetDoubleFromDecimal(elapsed)
-                );
-        }
-
-
-        private static Issue GetDbIssueFromModelIssue
-            (Model.Issue issue)
-        {
-            var dbIssue = new Issue
-                {
-                    CreatedDate = issue.CreatedDate,
-                    Priority = issue.Priority,
-                    RefProjectId = issue.RefProjectId,
-                    RefStatusId = (int)issue.Status,
-                    Title = issue.Title,
-                };
-            if (issue.IssueId.HasValue)
-                dbIssue.IssueId = issue.IssueId.Value;
-            return dbIssue;
-        }
-
-
         #endregion
-
     }
 }

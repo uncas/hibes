@@ -11,7 +11,6 @@ namespace Uncas.EBS.Utility.Simulation
     /// </summary>
     public class SimulationEngine
     {
-
         #region Constructors
 
         /// <summary>
@@ -32,10 +31,7 @@ namespace Uncas.EBS.Utility.Simulation
 
         #endregion
 
-
-
         #region Public method
-
 
         /// <summary>
         /// Gets a project evaluation
@@ -62,9 +58,9 @@ namespace Uncas.EBS.Utility.Simulation
                     , standardNumberOfHoursPerDay);
 
             // Runs through a number of simulations for the given issues:
-            for (int simulationNumber = 1
-                ; simulationNumber <= numberOfSimulations
-                ; simulationNumber++)
+            for (int simulationNumber = 1;
+                simulationNumber <= numberOfSimulations;
+                simulationNumber++)
             {
                 // In each simulation the container for simulation results
                 // is passed along in order to collect the result:
@@ -75,13 +71,9 @@ namespace Uncas.EBS.Utility.Simulation
             return result;
         }
 
-
         #endregion
 
-
-
         #region Private methods
-
 
         /// <summary>
         /// Runs one simulation.
@@ -123,7 +115,6 @@ namespace Uncas.EBS.Utility.Simulation
                 (statisticalRemainingForProject);
         }
 
-
         /// <summary>
         /// Gets the simulated remaining hours for a given issue.
         /// </summary>
@@ -150,11 +141,10 @@ namespace Uncas.EBS.Utility.Simulation
             return statisticalRemainingForIssue;
         }
 
-
         /// <summary>
         /// Gets the simulated remaining hours for a given task.
         /// </summary>
-        /// <param name="task">The task.</param>
+        /// <param name="task">The open task.</param>
         /// <returns></returns>
         private double GetSimulatedRemainingHoursForTask
             (Task task)
@@ -233,15 +223,14 @@ namespace Uncas.EBS.Utility.Simulation
             return _random.Next(maxIndex + 1);
         }
 
-
         private double GetRandomSpeed()
         {
-            const double averageSpeed = 1d;
-            const double deltaSpeed = 0.8d;
+            const double AverageSpeed = 1d;
+            const double DeltaSpeed = 0.8d;
 
             return GetRandomSpeedConcentratedAroundAverage
-                (averageSpeed
-                , deltaSpeed);
+                (AverageSpeed
+                , DeltaSpeed);
 
             // Speed of execution 
             // (5000 runs with 1000 simulations each; 
@@ -254,41 +243,33 @@ namespace Uncas.EBS.Utility.Simulation
             // 7.35, 7.66, 7.84, 7.56
         }
 
-
         private double GetRandomSpeedConcentratedAroundAverage
             (double averageSpeed
             , double deltaSpeed)
         {
             // A random number between -1 and +1:
-            double randomBase = 2d * _random.NextDouble() - 1d;
+            double randomBase = (2d * _random.NextDouble()) - 1d;
 
             // A power that should be an odd number (1,3,5,etc.)
-            const double power = 3d;
+            const double Power = 3d;
 
             // Random speed between 
             //      averageSpeed - deltaSpeed 
             // and 
             //      averageSpeed + deltaSpeed:
             double speed = averageSpeed
-                + deltaSpeed * Math.Pow(randomBase, power);
+                + (deltaSpeed * Math.Pow(randomBase, Power));
             return speed;
         }
 
-
         #endregion
-
-
 
         #region Private fields and properties
 
-
         private readonly IList<Task> _historicalTasks;
-
 
         private Random _random = new Random();
 
-
         #endregion
-
     }
 }

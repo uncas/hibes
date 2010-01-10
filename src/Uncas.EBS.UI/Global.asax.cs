@@ -7,7 +7,8 @@ namespace Uncas.EBS.UI
     public class Global : System.Web.HttpApplication
     {
         [SuppressMessage("Microsoft.Security"
-            , "CA2109:ReviewVisibleEventHandlers")]
+            , "CA2109:ReviewVisibleEventHandlers"
+            , Justification = "Standard ASP.NET")]
         protected void Application_Start(object sender, EventArgs e)
         {
             // Sets the connection string in the data access layer:
@@ -17,42 +18,43 @@ namespace Uncas.EBS.UI
         }
 
         [SuppressMessage("Microsoft.Security"
-            , "CA2109:ReviewVisibleEventHandlers")]
+            , "CA2109:ReviewVisibleEventHandlers"
+            , Justification = "Standard ASP.NET")]
         protected void Session_Start(object sender, EventArgs e)
         {
-
         }
 
         [SuppressMessage("Microsoft.Security"
-            , "CA2109:ReviewVisibleEventHandlers")]
+            , "CA2109:ReviewVisibleEventHandlers"
+            , Justification = "Standard ASP.NET")]
         protected void Application_BeginRequest(object sender, EventArgs e)
         {
-
         }
 
         [SuppressMessage("Microsoft.Security"
-            , "CA2109:ReviewVisibleEventHandlers")]
+            , "CA2109:ReviewVisibleEventHandlers"
+            , Justification = "Standard ASP.NET")]
         protected void Application_AuthenticateRequest(object sender, EventArgs e)
         {
-
         }
 
         [SuppressMessage("Microsoft.Security"
-            , "CA2109:ReviewVisibleEventHandlers")]
+            , "CA2109:ReviewVisibleEventHandlers"
+            , Justification = "Standard ASP.NET")]
         protected void Application_Error(object sender, EventArgs e)
         {
-
         }
 
         [SuppressMessage("Microsoft.Security"
-            , "CA2109:ReviewVisibleEventHandlers")]
+            , "CA2109:ReviewVisibleEventHandlers"
+            , Justification = "Standard ASP.NET")]
         protected void Session_End(object sender, EventArgs e)
         {
-
-        }
+}
 
         [SuppressMessage("Microsoft.Security"
-            , "CA2109:ReviewVisibleEventHandlers")]
+            , "CA2109:ReviewVisibleEventHandlers"
+            , Justification = "Standard ASP.NET")]
         protected void Application_End(object sender, EventArgs e)
         {
         }

@@ -14,18 +14,19 @@ namespace Uncas.EBS.Domain.Repository
         /// Gets the tasks.
         /// </summary>
         /// <param name="filter">The filter.</param>
+        /// <returns>A list of tasks.</returns>
         IList<Task> GetTasks(TaskFilter filter);
 
         /// <summary>
         /// Inserts the task.
         /// </summary>
-        /// <param name="task">The task.</param>
+        /// <param name="task">The task to insert.</param>
         void InsertTask(Task task);
 
         /// <summary>
         /// Updates the task.
         /// </summary>
-        /// <param name="task">The task.</param>
+        /// <param name="task">The task to update.</param>
         void UpdateTask(Task task);
 
         /// <summary>

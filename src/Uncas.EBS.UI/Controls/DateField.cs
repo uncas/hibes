@@ -13,12 +13,14 @@ namespace Uncas.EBS.UI.Controls
     public class DateField : BoundField
     {
         private string _headerResourceName;
+        
         public string HeaderResourceName
         {
             get
             {
                 return this._headerResourceName;
             }
+
             set
             {
                 this._headerResourceName = value;
@@ -49,7 +51,7 @@ namespace Uncas.EBS.UI.Controls
             if (control != null && this.Visible)
             {
                 control.DataBinding
-                    += new EventHandler(control_DataBinding);
+                    += new EventHandler(Control_DataBinding);
             }
         }
 
@@ -72,7 +74,7 @@ namespace Uncas.EBS.UI.Controls
                     DateBox box = new DateBox();
                     cell.Controls.Add(box);
 
-                    //If data field, use datebox:
+                    // If data field, use datebox:
                     if (!string.IsNullOrEmpty(this.DataField))
                     {
                         control = box;
@@ -82,7 +84,9 @@ namespace Uncas.EBS.UI.Controls
             return control;
         }
 
-        void control_DataBinding(object sender, EventArgs e)
+        private void Control_DataBinding
+            (object sender
+            , EventArgs e)
         {
             TableCell cell = sender as TableCell;
             if (cell != null)
@@ -120,8 +124,11 @@ namespace Uncas.EBS.UI.Controls
             , DataControlRowState rowState
             , bool includeReadOnly)
         {
-            base.ExtractValuesFromCell(dictionary
-                , cell, rowState, includeReadOnly);
+            base.ExtractValuesFromCell
+                (dictionary
+                , cell
+                , rowState
+                , includeReadOnly);
             DateTime? value = null;
 
             int index = 0;
@@ -134,7 +141,7 @@ namespace Uncas.EBS.UI.Controls
                     throw new InvalidOperationException
                         ("The control cannot be extracted");
                 }
-                DateBox box = ((DateBox)control);
+                DateBox box = (DateBox)control;
                 value = box.SelectedDate;
             }
 

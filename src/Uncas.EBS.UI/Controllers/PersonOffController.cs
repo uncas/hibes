@@ -32,7 +32,9 @@ namespace Uncas.EBS.UI.Controllers
             _personOffRepo.UpdatePersonOff
                 (PersonOff.ReconstructPersonOff
                     (personOffId
-                    , fromDate, toDate, 1));
+                    , fromDate
+                    , toDate
+                    , 1));
         }
 
         public void DeletePersonOff(int personOffId)

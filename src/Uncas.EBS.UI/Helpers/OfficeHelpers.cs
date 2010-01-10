@@ -11,7 +11,6 @@ namespace Uncas.EBS.UI.Helpers
 {
     public class OfficeHelpers
     {
-
         public void DownloadWord(Control control
             , string fileName
             , HttpResponse response)
@@ -25,7 +24,6 @@ namespace Uncas.EBS.UI.Helpers
                 , fileExtension
                 , contentType);
         }
-
 
         public void DownloadExcel(Control control
             , string fileName
@@ -41,7 +39,6 @@ namespace Uncas.EBS.UI.Helpers
                 , contentType);
         }
 
-
         private void DownloadToProgram
             (Control control
             , string fileName
@@ -51,14 +48,15 @@ namespace Uncas.EBS.UI.Helpers
         {
             response.Clear();
 
-            response.AddHeader
-                ("Content-Disposition"
-                , string.Format
+            string headerValue
+                = string.Format
                     (CultureInfo.InvariantCulture
                     , "attachment;filename={0}{1}"
                     , fileName
-                    , fileExtension)
-                );
+                    , fileExtension);
+            response.AddHeader
+                ("Content-Disposition"
+                , headerValue);
             response.ContentType = contentType;
 
             using (StringWriter sw
@@ -75,11 +73,10 @@ namespace Uncas.EBS.UI.Helpers
             response.End();
         }
 
-
         /// <summary>
-        /// Replace any of the contained controls with literals
+        /// Replace any of the contained controls with literals.
         /// </summary>
-        /// <param name="control"></param>
+        /// <param name="control">The control.</param>
         /// <see cref="http://forums.asp.net/p/1362432/2817931.aspx"/>
         private void PrepareControlForExport
             (Control control)
@@ -98,8 +95,7 @@ namespace Uncas.EBS.UI.Helpers
                         current.Visible = false;
                         control.Controls.AddAt
                             (i
-                            , new LiteralControl
-                                (transform.ControlToString(current)));
+                            , new LiteralControl(transform.ControlToString(current)));
                         i++;
                     }
                 }
@@ -111,15 +107,10 @@ namespace Uncas.EBS.UI.Helpers
             }
         }
 
-
-
         #region Private classes
-
 
         private abstract class ControlTransformBase
         {
-            internal abstract bool IsT(Control c);
-
             internal Func<Control, string> ControlToString { get; set; }
 
             internal static IEnumerable<ControlTransformBase>
@@ -127,58 +118,50 @@ namespace Uncas.EBS.UI.Helpers
             {
                 var transforms = new ControlTransformBase[]
                 {
-
-                    new ControlTransform
-                        <Chart>
+                    new ControlTransform<Chart>
                         ((Control c) 
-                            => ""),
+                            => string.Empty),
                     
-                    new ControlTransform
-                        <DropDownList>
+                    new ControlTransform<DropDownList>
                         ((Control c) 
                             => (c as DropDownList).SelectedItem.Text),
                     
-                    new ControlTransform
-                        <CheckBox>
+                    new ControlTransform<CheckBox>
                         ((Control c)
                             => (c as CheckBox).Checked
                             ? "True"
                             : "False"),
 
-                    new ControlTransform
-                        <HyperLink>
+                    new ControlTransform<HyperLink>
                         ((Control c)
                             => HttpContext.Current.Server.HtmlEncode
                             ((c as HyperLink).Text)),
 
-                    new ControlTransform
-                        <ImageButton>
+                    new ControlTransform<ImageButton>
                         ((Control c)
                             => (c as ImageButton).AlternateText),
 
-                    new ControlTransform
-                        <LinkButton>
+                    new ControlTransform<LinkButton>
                         ((Control c)
                             => (c as LinkButton).Text),
 
-                    new ControlTransform
-                        <TextBox>
+                    new ControlTransform<TextBox>
                         ((Control c)
                             => (c as TextBox).Text)
-
                 };
 
                 return transforms;
             }
-        }
 
+            internal abstract bool IsT(Control c);
+        }
 
         private class ControlTransform<T> : ControlTransformBase
             where T : Control
         {
             internal ControlTransform(Func<Control, string> toString)
             {
-                base.ControlToString = toString;
+                this.ControlToString = toString;
             }
 
             internal override bool IsT(Control c)
@@ -187,8 +170,6 @@ namespace Uncas.EBS.UI.Helpers
             }
         }
 
-
         #endregion
-
     }
 }

@@ -14,7 +14,8 @@ namespace Uncas.EBS.Domain.Repository
         /// </summary>
         /// <returns></returns>
         [SuppressMessage("Microsoft.Design"
-            , "CA1024:UsePropertiesWhereAppropriate")]
+            , "CA1024:UsePropertiesWhereAppropriate"
+            , Justification = "Read from database")]
         IList<Project> GetProjects();
 
         /// <summary>

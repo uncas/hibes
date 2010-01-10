@@ -48,6 +48,15 @@ namespace Uncas.EBS.IntegrationTests
 
         private Random _rnd = new Random();
 
+        private static Status GetStatus(int priority)
+        {
+            Status status
+                = priority % 2 == 0
+                ? Status.Open
+                : Status.Closed;
+            return status;
+        }
+
         private void AddIssue()
         {
             var project = _projectRepo.GetProjects().FirstOrDefault();
@@ -66,22 +75,13 @@ namespace Uncas.EBS.IntegrationTests
 
             if (issue.IssueId.HasValue)
             {
-                for (int taskIndex = 0
-                    ; taskIndex < 2 + _rnd.Next(3)
-                    ; taskIndex++)
+                for (int taskIndex = 0;
+                    taskIndex < 2 + _rnd.Next(3);
+                    taskIndex++)
                 {
                     AddTask(issue.IssueId.Value, status);
                 }
             }
-        }
-
-        private static Status GetStatus(int priority)
-        {
-            Status status
-                = priority % 2 == 0
-                ? Status.Open
-                : Status.Closed;
-            return status;
         }
 
         private void AddTask(int issueId, Status issueStatus)
@@ -92,15 +92,15 @@ namespace Uncas.EBS.IntegrationTests
             int sequence = _rnd.Next(50);
 
             Status status
-                = (issueStatus == Status.Closed
+                = issueStatus == Status.Closed
                 ? Status.Closed
-                : GetStatus(sequence));
+                : GetStatus(sequence);
 
             double elapsed = 0d;
             if (status == Status.Closed)
             {
                 double speed
-                    = 1d + 0.95d * (2d * _rnd.NextDouble() - 1d);
+                    = 1d + (0.95d * ((2d * _rnd.NextDouble()) - 1d));
                 elapsed
                     = originalEstimate / speed;
             }
@@ -158,8 +158,7 @@ namespace Uncas.EBS.IntegrationTests
                 , elapsed
                 , null
                 , null
-                , personId
-                );
+                , personId);
             return task;
         }
 
@@ -169,9 +168,9 @@ namespace Uncas.EBS.IntegrationTests
 
             var project = _projectRepo.GetProjects().FirstOrDefault();
 
-            for (int issueIndex = 0
-                ; issueIndex < 15
-                ; issueIndex++)
+            for (int issueIndex = 0;
+                issueIndex < 15;
+                issueIndex++)
             {
                 AddIssue();
             }

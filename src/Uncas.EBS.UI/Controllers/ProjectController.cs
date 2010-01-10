@@ -24,10 +24,11 @@ namespace Uncas.EBS.UI.Controllers
             = new ProjectService(App.Repositories);
 
         [SuppressMessage("Microsoft.Design"
-            , "CA1024:UsePropertiesWhereAppropriate")]
+            , "CA1024:UsePropertiesWhereAppropriate"
+            , Justification = "Read from database")]
         public IList<Project> GetProjects()
         {
-            var result = _projectRepo.GetProjects(); ;
+            var result = _projectRepo.GetProjects();
             return result;
         }
 
@@ -50,7 +51,9 @@ namespace Uncas.EBS.UI.Controllers
                     , App.NumberOfSimulations
                     , App.MaxNumberOfHistoricalTasks
                     , App.StandardNumberOfHoursPerDay);
-                cache.Add(cacheKey, teamEvaluation, null
+                cache.Add(cacheKey
+                    , teamEvaluation
+                    , null
                     , DateTime.Now.AddSeconds(30d)
                     , TimeSpan.Zero
                     , CacheItemPriority.Normal

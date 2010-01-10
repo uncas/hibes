@@ -68,6 +68,7 @@ namespace Uncas.EBS.Domain.ViewModel
                 }
             }
         }
+        
         /// <summary>
         /// Gets the standard deviation of remaining days.
         /// </summary>
@@ -149,6 +150,7 @@ namespace Uncas.EBS.Domain.ViewModel
                     .Where(cdc => cdc.Probability == 0.5d)
                     .FirstOrDefault()
                     .Date;
+
                 // And rounds up the number of days till that medium completion date:
                 return (int)Math.Ceiling
                     (mediumCompletionDate
