@@ -22,7 +22,7 @@ namespace Uncas.EBS.Utility.Simulation
             if (historicalTasks != null)
             {
                 // Sorts the tasks with the newest first:
-                this._historicalTasks
+                this.historicalTasks
                     = historicalTasks
                     .OrderByDescending(t => t.EndDate)
                     .ToList();
@@ -145,7 +145,7 @@ namespace Uncas.EBS.Utility.Simulation
         /// Gets the simulated remaining hours for a given task.
         /// </summary>
         /// <param name="task">The open task.</param>
-        /// <returns></returns>
+        /// <returns>The remaining hours.</returns>
         private double GetSimulatedRemainingHoursForTask
             (Task task)
         {
@@ -169,7 +169,7 @@ namespace Uncas.EBS.Utility.Simulation
         {
             // Historical tasks for the person that is responsible for the given task:
             var tasksForPerson
-                = this._historicalTasks
+                = this.historicalTasks
                 .Where(t => t.RefPersonId == task.RefPersonId)
                 .ToList();
 
@@ -220,7 +220,7 @@ namespace Uncas.EBS.Utility.Simulation
                 + minRandomCount;
 
             // A random index to apply:
-            return _random.Next(maxIndex + 1);
+            return random.Next(maxIndex + 1);
         }
 
         private double GetRandomSpeed()
@@ -248,7 +248,7 @@ namespace Uncas.EBS.Utility.Simulation
             , double deltaSpeed)
         {
             // A random number between -1 and +1:
-            double randomBase = (2d * _random.NextDouble()) - 1d;
+            double randomBase = (2d * random.NextDouble()) - 1d;
 
             // A power that should be an odd number (1,3,5,etc.)
             const double Power = 3d;
@@ -266,9 +266,9 @@ namespace Uncas.EBS.Utility.Simulation
 
         #region Private fields and properties
 
-        private readonly IList<Task> _historicalTasks;
+        private readonly IList<Task> historicalTasks;
 
-        private Random _random = new Random();
+        private Random random = new Random();
 
         #endregion
     }

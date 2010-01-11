@@ -7,6 +7,9 @@ namespace Uncas.EBS.UI.Controls
     /// </summary>
     public class StatusOptions : RadioButtonList
     {
+        /// <summary>
+        /// Called by the ASP.NET page framework to notify server controls that use composition-based implementation to create any child controls they contain in preparation for posting back or rendering.
+        /// </summary>
         protected override void CreateChildControls()
         {
             base.CreateChildControls();
@@ -22,6 +25,7 @@ namespace Uncas.EBS.UI.Controls
                 this.Items.Add(new ListItem
                     (Resources.Phrases.All, "0"));
             }
+
             this.AutoPostBack = true;
             this.RepeatDirection = RepeatDirection.Horizontal;
         }

@@ -10,11 +10,11 @@
 
 namespace Uncas.EBS.UI
 {
-
-
+    /// <summary>
+    /// Code behind for the language page.
+    /// </summary>
     public partial class Language
     {
-
         /// <summary>
         /// form1 control.
         /// </summary>

@@ -21,10 +21,10 @@ namespace Uncas.EBS.Domain.ViewModel
             , Func<T, double> transformToQuantity)
         {
             this.Data = data;
-            this._transformToQuantity = transformToQuantity;
+            this.transformToQuantity = transformToQuantity;
         }
 
-        private Func<T, double> _transformToQuantity;
+        private Func<T, double> transformToQuantity;
 
         /// <summary>
         /// Gets the data.
@@ -53,6 +53,7 @@ namespace Uncas.EBS.Domain.ViewModel
                         ((1d * (max - min))
                         / (1d * (maxIntervals - 1)));
                 }
+
                 var probabilities = new List<IntervalProbability>();
                 for (int interval = min;
                     interval <= max;
@@ -62,8 +63,8 @@ namespace Uncas.EBS.Domain.ViewModel
                     int upper = lower + intervalWidth - 1;
                     int numberInInterval = this.Data.Count
                         (ps => lower
-                            <= toInt(_transformToQuantity(ps))
-                        && toInt(_transformToQuantity(ps))
+                            <= toInt(transformToQuantity(ps))
+                        && toInt(transformToQuantity(ps))
                             <= upper);
                     double probability = (1d * numberInInterval)
                         / (1d * this.Count);
@@ -74,6 +75,7 @@ namespace Uncas.EBS.Domain.ViewModel
                         Probability = probability
                     });
                 }
+
                 return probabilities;
             }
         }
@@ -86,7 +88,7 @@ namespace Uncas.EBS.Domain.ViewModel
         {
             get
             {
-                return this.Data.Average(ps => _transformToQuantity(ps));
+                return this.Data.Average(ps => transformToQuantity(ps));
             }
         }
 
@@ -104,7 +106,7 @@ namespace Uncas.EBS.Domain.ViewModel
                 double sumOfSquareDifferences
                     = this.Data.Sum
                     (ps => Math.Pow
-                        (_transformToQuantity(ps) - average
+                        (transformToQuantity(ps) - average
                         , 2d));
                 double standardDeviation
                     = Math.Sqrt(sumOfSquareDifferences
@@ -122,7 +124,7 @@ namespace Uncas.EBS.Domain.ViewModel
             get
             {
                 return this.Data
-                    .Min(ps => _transformToQuantity(ps));
+                    .Min(ps => transformToQuantity(ps));
             }
         }
 
@@ -135,7 +137,7 @@ namespace Uncas.EBS.Domain.ViewModel
             get
             {
                 return this.Data
-                    .Max(ps => _transformToQuantity(ps));
+                    .Max(ps => transformToQuantity(ps));
             }
         }
 
@@ -168,6 +170,7 @@ namespace Uncas.EBS.Domain.ViewModel
             {
                 sb.AppendLine(ip.ToString());
             }
+
             return sb.ToString();
         }
     }

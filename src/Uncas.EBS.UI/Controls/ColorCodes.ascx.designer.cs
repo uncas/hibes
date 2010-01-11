@@ -9,8 +9,11 @@
 //------------------------------------------------------------------------------
 
 namespace Uncas.EBS.UI.Controls {
-    
-    
+
+
+    /// <summary>
+    /// Designer class for the color code control.
+    /// </summary>
     public partial class ColorCodes {
         
         /// <summary>

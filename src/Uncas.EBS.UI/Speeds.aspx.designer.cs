@@ -9,8 +9,11 @@
 //------------------------------------------------------------------------------
 
 namespace Uncas.EBS.UI {
-    
-    
+
+
+    /// <summary>
+    /// Code behind for speeds page.
+    /// </summary>
     public partial class Speeds {
         
         /// <summary>

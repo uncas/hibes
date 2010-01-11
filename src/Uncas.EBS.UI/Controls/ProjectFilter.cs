@@ -4,8 +4,14 @@ using Uncas.EBS.UI.Controllers;
 
 namespace Uncas.EBS.UI.Controls
 {
+    /// <summary>
+    /// Dropdownlist with project filter.
+    /// </summary>
     public class ProjectFilter : DropDownList
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ProjectFilter"/> class.
+        /// </summary>
         public ProjectFilter()
         {
             string allProjectsText
@@ -22,11 +28,16 @@ namespace Uncas.EBS.UI.Controls
                         (project.ProjectName
                         , project.ProjectId.ToString(CultureInfo.InvariantCulture)));
             }
+
             this.AutoPostBack = true;
             this.DataTextField = "ProjectName";
             this.DataValueField = "ProjectId";
         }
 
+        /// <summary>
+        /// Gets the project id.
+        /// </summary>
+        /// <value>The project id.</value>
         public int? ProjectId
         {
             get
@@ -38,6 +49,7 @@ namespace Uncas.EBS.UI.Controls
                         (this.SelectedValue
                         , CultureInfo.InvariantCulture);
                 }
+
                 return projectId;
             }
         }

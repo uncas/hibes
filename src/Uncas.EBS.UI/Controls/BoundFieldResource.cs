@@ -7,18 +7,22 @@ namespace Uncas.EBS.UI.Controls
     /// </summary>
     public class BoundFieldResource : BoundField
     {
-        private string _headerResourceName;
-        
+        private string headerResourceName;
+
+        /// <summary>
+        /// Gets or sets the name of the header resource.
+        /// </summary>
+        /// <value>The name of the header resource.</value>
         public string HeaderResourceName
         {
             get
             {
-                return this._headerResourceName;
+                return this.headerResourceName;
             }
 
             set
             {
-                this._headerResourceName = value;
+                this.headerResourceName = value;
                 var resourceManager
                     = Resources.Phrases.ResourceManager;
                 string headerText = resourceManager.GetString(value);
@@ -26,6 +30,7 @@ namespace Uncas.EBS.UI.Controls
                 {
                     headerText = value;
                 }
+
                 this.HeaderText = headerText;
             }
         }

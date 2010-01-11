@@ -17,18 +17,22 @@ namespace Uncas.EBS.UI.Controllers
     /// </summary>
     public class ProjectController
     {
-        private IProjectRepository _projectRepo
+        private IProjectRepository projectRepo
             = App.Repositories.ProjectRepository;
 
-        private ProjectService _projectService
+        private ProjectService projectService
             = new ProjectService(App.Repositories);
 
+        /// <summary>
+        /// Gets the projects.
+        /// </summary>
+        /// <returns>A list of projects.</returns>
         [SuppressMessage("Microsoft.Design"
             , "CA1024:UsePropertiesWhereAppropriate"
             , Justification = "Read from database")]
         public IList<Project> GetProjects()
         {
-            var result = _projectRepo.GetProjects();
+            var result = projectRepo.GetProjects();
             return result;
         }
 
@@ -45,7 +49,7 @@ namespace Uncas.EBS.UI.Controllers
                 = (TeamEvaluation)cache[cacheKey];
             if (teamEvaluation == null)
             {
-                teamEvaluation = _projectService.GetTeamEvaluation
+                teamEvaluation = projectService.GetTeamEvaluation
                     (projectId
                     , maxPriority
                     , App.NumberOfSimulations
@@ -59,9 +63,16 @@ namespace Uncas.EBS.UI.Controllers
                     , CacheItemPriority.Normal
                     , null);
             }
+
             return teamEvaluation;
         }
 
+        /// <summary>
+        /// Gets the project estimate.
+        /// </summary>
+        /// <param name="projectId">The project id.</param>
+        /// <param name="maxPriority">The max priority.</param>
+        /// <returns>A list of project evaluations.</returns>
         public IList<ProjectEvaluation> GetProjectEstimate
             (int? projectId, int? maxPriority)
         {
@@ -71,6 +82,12 @@ namespace Uncas.EBS.UI.Controllers
             return result;
         }
 
+        /// <summary>
+        /// Gets the interval probabilities.
+        /// </summary>
+        /// <param name="projectId">The project id.</param>
+        /// <param name="maxPriority">The max priority.</param>
+        /// <returns>A list of interval probabilities.</returns>
         public IList<IntervalProbability> GetIntervalProbabilities
             (int? projectId, int? maxPriority)
         {
@@ -79,6 +96,12 @@ namespace Uncas.EBS.UI.Controllers
             return result;
         }
 
+        /// <summary>
+        /// Gets the issue estimates.
+        /// </summary>
+        /// <param name="projectId">The project id.</param>
+        /// <param name="maxPriority">The max priority.</param>
+        /// <returns>A list of issue evaluations.</returns>
         public IEnumerable<IssueEvaluation> GetIssueEstimates
             (int? projectId, int? maxPriority)
         {
@@ -87,6 +110,12 @@ namespace Uncas.EBS.UI.Controllers
             return result;
         }
 
+        /// <summary>
+        /// Gets the completion date confidences.
+        /// </summary>
+        /// <param name="projectId">The project id.</param>
+        /// <param name="maxPriority">The max priority.</param>
+        /// <returns>A list of completion date confidences.</returns>
         public IEnumerable<CompletionDateConfidence>
             GetCompletionDateConfidences
             (int? projectId, int? maxPriority)
@@ -98,6 +127,12 @@ namespace Uncas.EBS.UI.Controllers
             return result;
         }
 
+        /// <summary>
+        /// Gets the selected completion date confidences.
+        /// </summary>
+        /// <param name="projectId">The project id.</param>
+        /// <param name="maxPriority">The max priority.</param>
+        /// <returns>A list of completion date confidences.</returns>
         public IEnumerable<CompletionDateConfidence>
             GetSelectedCompletionDateConfidences
             (int? projectId, int? maxPriority)
@@ -111,6 +146,12 @@ namespace Uncas.EBS.UI.Controllers
             return result;
         }
 
+        /// <summary>
+        /// Gets the confidence dates per person.
+        /// </summary>
+        /// <param name="projectId">The project id.</param>
+        /// <param name="maxPriority">The max priority.</param>
+        /// <returns>A list of completion date confidences.</returns>
         public IEnumerable<PersonConfidenceDates>
             GetConfidenceDatesPerPerson
             (int? projectId, int? maxPriority)
@@ -124,6 +165,12 @@ namespace Uncas.EBS.UI.Controllers
             return result;
         }
 
+        /// <summary>
+        /// Gets the evaluations per person.
+        /// </summary>
+        /// <param name="projectId">The project id.</param>
+        /// <param name="maxPriority">The max priority.</param>
+        /// <returns>A list of project evaluations.</returns>
         public IList<ProjectEvaluation> GetEvaluationsPerPerson
             (int? projectId, int? maxPriority)
         {
@@ -134,20 +181,33 @@ namespace Uncas.EBS.UI.Controllers
             return result;
         }
 
+        /// <summary>
+        /// Inserts the project.
+        /// </summary>
+        /// <param name="projectName">Name of the project.</param>
         public void InsertProject(string projectName)
         {
-            _projectRepo.InsertProject(projectName);
+            projectRepo.InsertProject(projectName);
         }
 
+        /// <summary>
+        /// Deletes the project.
+        /// </summary>
+        /// <param name="projectId">The project id.</param>
         public void DeleteProject(int projectId)
         {
-            _projectRepo.DeleteProject(projectId);
+            projectRepo.DeleteProject(projectId);
         }
 
+        /// <summary>
+        /// Updates the project.
+        /// </summary>
+        /// <param name="projectName">Name of the project.</param>
+        /// <param name="projectId">The project id.</param>
         public void UpdateProject(string projectName
             , int projectId)
         {
-            _projectRepo.UpdateProject(projectName
+            projectRepo.UpdateProject(projectName
                 , projectId);
         }
     }

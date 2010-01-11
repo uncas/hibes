@@ -33,11 +33,12 @@ namespace Uncas.EBS.Domain.ViewModel
                 throw new ArgumentException
                     ("Invalid issue evaluation");
             }
+
             this.Issue = issue;
             this.NumberOfOpenTasks = numberOfOpenTasks;
             this.Elapsed = elapsed;
             this.AddEvaluation(evaluation);
-            this._standardNumberOfHoursPerDay
+            this.standardNumberOfHoursPerDay
                 = standardNumberOfHoursPerDay;
         }
 
@@ -119,8 +120,8 @@ namespace Uncas.EBS.Domain.ViewModel
             {
                 if (this.NumberOfOpenTasks > 0)
                 {
-                    return this._sum / this._count
-                        / this._standardNumberOfHoursPerDay;
+                    return this.sum / this.count
+                        / this.standardNumberOfHoursPerDay;
                 }
                 else
                 {
@@ -145,7 +146,7 @@ namespace Uncas.EBS.Domain.ViewModel
             get
             {
                 return this.Elapsed
-                    / this._standardNumberOfHoursPerDay;
+                    / this.standardNumberOfHoursPerDay;
             }
         }
 
@@ -174,7 +175,7 @@ namespace Uncas.EBS.Domain.ViewModel
                     return this.Elapsed
                         / (this.Elapsed
                         + (this.Average
-                        * this._standardNumberOfHoursPerDay));
+                        * this.standardNumberOfHoursPerDay));
                 }
                 else
                 {
@@ -196,8 +197,8 @@ namespace Uncas.EBS.Domain.ViewModel
         /// <param name="evaluation">The evaluation.</param>
         public void AddEvaluation(double evaluation)
         {
-            this._count++;
-            this._sum += evaluation;
+            this.count++;
+            this.sum += evaluation;
         }
 
 
@@ -208,11 +209,11 @@ namespace Uncas.EBS.Domain.ViewModel
         #region Private fields and properties
 
 
-        private double _standardNumberOfHoursPerDay;
+        private double standardNumberOfHoursPerDay;
 
-        private double _sum;
+        private double sum;
 
-        private int _count;
+        private int count;
 
 
         #endregion

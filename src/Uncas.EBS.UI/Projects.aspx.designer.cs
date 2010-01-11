@@ -9,8 +9,11 @@
 //------------------------------------------------------------------------------
 
 namespace Uncas.EBS.UI {
-    
-    
+
+
+    /// <summary>
+    /// Code behind for projects page.
+    /// </summary>
     public partial class Projects {
         
         /// <summary>

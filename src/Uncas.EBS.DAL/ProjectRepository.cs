@@ -17,7 +17,7 @@ namespace Uncas.EBS.DAL
         /// <summary>
         /// Gets the projects.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A list of projects.</returns>
         public IList<Model.Project> GetProjects()
         {
             var result = DB.Projects

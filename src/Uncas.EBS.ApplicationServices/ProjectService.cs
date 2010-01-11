@@ -13,13 +13,13 @@ namespace Uncas.EBS.ApplicationServices
     {
         #region Private fields and properties
 
-        private IRepositoryFactory _repositories;
+        private IRepositoryFactory repositories;
 
         private IIssueRepository IssueRepository
         {
             get
             {
-                return _repositories.IssueRepository;
+                return repositories.IssueRepository;
             }
         }
 
@@ -27,7 +27,7 @@ namespace Uncas.EBS.ApplicationServices
         {
             get
             {
-                return _repositories.TaskRepository;
+                return repositories.TaskRepository;
             }
         }
 
@@ -35,7 +35,7 @@ namespace Uncas.EBS.ApplicationServices
         {
             get
             {
-                return _repositories.PersonRepository;
+                return repositories.PersonRepository;
             }
         }
 
@@ -47,7 +47,7 @@ namespace Uncas.EBS.ApplicationServices
         /// <param name="repositories">The repositories.</param>
         public ProjectService(IRepositoryFactory repositories)
         {
-            _repositories = repositories;
+            this.repositories = repositories;
         }
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace Uncas.EBS.ApplicationServices
         /// <param name="numberOfSimulations">The number of simulations.</param>
         /// <param name="maxNumberOfHistoricalData">The max number of historical data.</param>
         /// <param name="standardNumberOfHoursPerDay">The standard number of hours per day.</param>
-        /// <returns></returns>
+        /// <returns>The team evaluation.</returns>
         public TeamEvaluation GetTeamEvaluation
             (int? projectId
             , int? maxPriority

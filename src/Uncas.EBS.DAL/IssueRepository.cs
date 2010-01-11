@@ -22,7 +22,7 @@ namespace Uncas.EBS.DAL
         /// </summary>
         /// <param name="projectId">The project id.</param>
         /// <param name="status">The status.</param>
-        /// <returns></returns>
+        /// <returns>A list of issues.</returns>
         public IList<IssueDetails> GetIssues
             (int? projectId
             , Model.Status status)
@@ -57,7 +57,7 @@ namespace Uncas.EBS.DAL
         /// </summary>
         /// <param name="issueId">The issue id.</param>
         /// <param name="taskStatus">The task status.</param>
-        /// <returns></returns>
+        /// <returns>An issue view.</returns>
         public IssueView GetIssueView
             (int issueId
             , Model.Status taskStatus)
@@ -73,7 +73,7 @@ namespace Uncas.EBS.DAL
         /// </summary>
         /// <param name="projectId">The project id.</param>
         /// <param name="maxPriority">The max priority.</param>
-        /// <returns></returns>
+        /// <returns>A list of issues.</returns>
         public IList<IssueView> GetOpenIssuesAndOpenTasks
             (int? projectId
             , int? maxPriority)
@@ -85,6 +85,7 @@ namespace Uncas.EBS.DAL
                 issues = issues.Where
                     (i => i.RefProjectId == projectId.Value);
             }
+
             if (maxPriority.HasValue)
             {
                 issues = issues.Where
@@ -120,10 +121,12 @@ namespace Uncas.EBS.DAL
             {
                 throw new RepositoryException("Issue must have a title.");
             }
+
             if (issue.RefProjectId <= 0)
             {
                 throw new RepositoryException("Project Id must be larger than zero.");
             }
+
             ProjectRepository projRepo = new ProjectRepository();
             if (!projRepo.GetProjects()
                 .Any(p => p.ProjectId == issue.RefProjectId))
@@ -159,6 +162,7 @@ namespace Uncas.EBS.DAL
             {
                 throw new RepositoryException("Invalid issue");
             }
+
             var databaseIssue = DB.Issues
                 .Where(i => i.IssueId == issue.IssueId.Value)
                 .SingleOrDefault();
@@ -181,6 +185,7 @@ namespace Uncas.EBS.DAL
             {
                 throw new RepositoryException("Issue cannot be deleted when there are still tasks attached.");
             }
+
             DB.Issues.DeleteOnSubmit(issue);
             try
             {
@@ -196,7 +201,7 @@ namespace Uncas.EBS.DAL
         /// Adds one to the priority.
         /// </summary>
         /// <param name="issueId">The issue id.</param>
-        /// <returns></returns>
+        /// <returns>True if succesful.</returns>
         public bool AddOneToPriority
             (int issueId)
         {
@@ -209,7 +214,7 @@ namespace Uncas.EBS.DAL
         /// Subtracts one from the priority.
         /// </summary>
         /// <param name="issueId">The issue id.</param>
-        /// <returns></returns>
+        /// <returns>True if succesful.</returns>
         public bool SubtractOneFromPriority
             (int issueId)
         {
@@ -221,7 +226,7 @@ namespace Uncas.EBS.DAL
         /// Prioritizes all open issues.
         /// </summary>
         /// <param name="projectId">The project id.</param>
-        /// <returns></returns>
+        /// <returns>True if succesful.</returns>
         public bool PrioritizeAllOpenIssues
             (int? projectId)
         {
@@ -231,6 +236,7 @@ namespace Uncas.EBS.DAL
             {
                 issues = issues.Where(i => i.RefProjectId == projectId.Value);
             }
+
             issues = issues
                 .OrderBy(i => i.Title)
                 .OrderBy(i => i.Priority);
@@ -238,6 +244,7 @@ namespace Uncas.EBS.DAL
             {
                 issue.Priority = priority++;
             }
+
             this.SubmitChanges();
             return true;
         }
@@ -304,6 +311,7 @@ namespace Uncas.EBS.DAL
             {
                 throw new RepositoryException(message);
             }
+
             return issue;
         }
 

@@ -32,7 +32,7 @@ namespace Uncas.EBS.Domain.Model
         /// <param name="startDate">The start date.</param>
         /// <param name="endDate">The end date.</param>
         /// <param name="refPersonId">The person id.</param>
-        /// <returns></returns>
+        /// <returns>The constructed task.</returns>
         public static Task ConstructTask
             (int refIssueId
             , string description
@@ -75,7 +75,7 @@ namespace Uncas.EBS.Domain.Model
         /// <param name="endDate">The end date.</param>
         /// <param name="createdDate">The created date.</param>
         /// <param name="refPersonId">The person id.</param>
-        /// <returns></returns>
+        /// <returns>The reconstructed task.</returns>
         public static Task ReconstructTask
             (int taskId
             , int refIssueId
@@ -120,7 +120,7 @@ namespace Uncas.EBS.Domain.Model
         /// <param name="startDate">The start date.</param>
         /// <param name="endDate">The end date.</param>
         /// <param name="refPersonId">The person id.</param>
-        /// <returns></returns>
+        /// <returns>The reconstructed task.</returns>
         public static Task ReconstructTaskToUpdate
             (int taskId
             , string description
@@ -203,7 +203,7 @@ namespace Uncas.EBS.Domain.Model
         /// <value>The sequence.</value>
         public int Sequence { get; set; }
 
-        private Status _status = Status.Open;
+        private Status status = Status.Open;
 
         /// <summary>
         /// Gets or sets the status.
@@ -213,14 +213,14 @@ namespace Uncas.EBS.Domain.Model
         {
             get
             {
-                return _status;
+                return status;
             }
             
             set
             {
                 if (value != Status.Any)
                 {
-                    _status = value;
+                    status = value;
                 }
             }
         }
@@ -230,7 +230,7 @@ namespace Uncas.EBS.Domain.Model
 
         #region Estimates (2)
 
-        private double _originalEstimate;
+        private double originalEstimate;
 
         /// <summary>
         /// Gets or sets the original estimate in hours.
@@ -240,7 +240,7 @@ namespace Uncas.EBS.Domain.Model
         {
             get
             {
-                return _originalEstimate;
+                return originalEstimate;
             }
 
             set
@@ -253,7 +253,7 @@ namespace Uncas.EBS.Domain.Model
                 }
                 else
                 {
-                    _originalEstimate = value;
+                    originalEstimate = value;
                 }
             }
         }
@@ -273,7 +273,7 @@ namespace Uncas.EBS.Domain.Model
 
         #region Progress (3)
 
-        private double _elapsed;
+        private double elapsed;
 
         /// <summary>
         /// Gets or sets the elapsed hours.
@@ -283,12 +283,12 @@ namespace Uncas.EBS.Domain.Model
         {
             get
             {
-                return _elapsed;
+                return elapsed;
             }
 
             set
             {
-                _elapsed = value;
+                elapsed = value;
 
                 // Estimate cannot be lower than the elapsed time:
                 if (this.CurrentEstimate < this.Elapsed)

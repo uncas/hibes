@@ -7,8 +7,16 @@ using Uncas.EBS.UI.Helpers;
 
 namespace Uncas.EBS.UI
 {
+    /// <summary>
+    /// Code behind for front page.
+    /// </summary>
     public partial class Default : BasePage
     {
+        /// <summary>
+        /// Handles the Init event of the Page control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         protected void Page_Init(object sender, EventArgs e)
         {
             gvIssues.RowDataBound
@@ -21,13 +29,18 @@ namespace Uncas.EBS.UI
                 += new EventHandler(PrioritizeAllOpenIssuesButton_Click);
         }
 
+        /// <summary>
+        /// Handles the Load event of the Page control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         protected void Page_Load(object sender, EventArgs e)
         {
             lblInfo.Text = string.Empty;
             gvIssues.EmptyDataText = Resources.Phrases.NoIssues;
         }
 
-        private IssueController _issueController
+        private IssueController issueController
             = new IssueController();
 
         private void IssuesGridView_RowDataBound
@@ -52,18 +65,20 @@ namespace Uncas.EBS.UI
                     {
                         Func<int, bool> func =
                             (int _issueId)
-                                => _issueController.AddOneToPriority(_issueId);
+                                => issueController.AddOneToPriority(_issueId);
                         ModifyIssue(e, func);
                         break;
                     }
+
                 case "SubtractOneFromPriority":
                     {
                         Func<int, bool> func =
                             (int _issueId)
-                                => _issueController.SubtractOneFromPriority(_issueId);
+                                => issueController.SubtractOneFromPriority(_issueId);
                         ModifyIssue(e, func);
                         break;
                     }
+
                 default:
                     {
                         break;
@@ -96,7 +111,7 @@ namespace Uncas.EBS.UI
             (object sender
             , EventArgs e)
         {
-            _issueController.PrioritizeAllOpenIssues(pfProjects.ProjectId);
+            issueController.PrioritizeAllOpenIssues(pfProjects.ProjectId);
             gvIssues.DataBind();
         }
     }

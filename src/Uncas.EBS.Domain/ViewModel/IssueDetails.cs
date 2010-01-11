@@ -25,7 +25,7 @@ namespace Uncas.EBS.Domain.ViewModel
         /// <param name="numberOfTasks">The number of tasks.</param>
         /// <param name="remaining">The remaining.</param>
         /// <param name="elapsed">The elapsed.</param>
-        /// <returns></returns>
+        /// <returns>The issue details.</returns>
         public static IssueDetails ReconstructIssueDetails
             (int issueId
             , DateTime createdDate
@@ -94,6 +94,7 @@ namespace Uncas.EBS.Domain.ViewModel
                     {
                         total += this.Remaining.Value;
                     }
+
                     return total;
                 }
                 else

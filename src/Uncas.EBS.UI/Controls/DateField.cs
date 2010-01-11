@@ -8,27 +8,41 @@ using System.Web.UI.WebControls;
 
 namespace Uncas.EBS.UI.Controls
 {
+    /// <summary>
+    /// Represents a bound field that handles datetime.
+    /// </summary>
     [AspNetHostingPermission(SecurityAction.Demand,
         Level = AspNetHostingPermissionLevel.Minimal)]
     public class DateField : BoundField
     {
-        private string _headerResourceName;
-        
+        private string headerResourceName;
+
+        /// <summary>
+        /// Gets or sets the name of the header resource.
+        /// </summary>
+        /// <value>The name of the header resource.</value>
         public string HeaderResourceName
         {
             get
             {
-                return this._headerResourceName;
+                return this.headerResourceName;
             }
 
             set
             {
-                this._headerResourceName = value;
+                this.headerResourceName = value;
                 var resourceManager = Resources.Phrases.ResourceManager;
                 this.HeaderText = resourceManager.GetString(value);
             }
         }
 
+        /// <summary>
+        /// Initializes the specified <see cref="T:System.Web.UI.WebControls.TableCell"/> object to the specified row state.
+        /// </summary>
+        /// <param name="cell">The <see cref="T:System.Web.UI.WebControls.TableCell"/> to initialize.</param>
+        /// <param name="cellType">One of the <see cref="T:System.Web.UI.WebControls.DataControlCellType"/> values.</param>
+        /// <param name="rowState">One of the <see cref="T:System.Web.UI.WebControls.DataControlRowState"/> values.</param>
+        /// <param name="rowIndex">The zero-based index of the row.</param>
         public override void InitializeCell
             (DataControlFieldCell cell
             , DataControlCellType cellType
@@ -81,6 +95,7 @@ namespace Uncas.EBS.UI.Controls
                     }
                 }
             }
+
             return control;
         }
 
@@ -118,6 +133,13 @@ namespace Uncas.EBS.UI.Controls
             }
         }
 
+        /// <summary>
+        /// Fills the specified <see cref="T:System.Collections.IDictionary"/> object with the values from the specified <see cref="T:System.Web.UI.WebControls.TableCell"/> object.
+        /// </summary>
+        /// <param name="dictionary">A <see cref="T:System.Collections.IDictionary"/> used to store the values of the specified cell.</param>
+        /// <param name="cell">The <see cref="T:System.Web.UI.WebControls.TableCell"/> that contains the values to retrieve.</param>
+        /// <param name="rowState">One of the <see cref="T:System.Web.UI.WebControls.DataControlRowState"/> values.</param>
+        /// <param name="includeReadOnly">True to include the values of read-only fields; otherwise, false.</param>
         public override void ExtractValuesFromCell
             (IOrderedDictionary dictionary
             , DataControlFieldCell cell
@@ -141,6 +163,7 @@ namespace Uncas.EBS.UI.Controls
                     throw new InvalidOperationException
                         ("The control cannot be extracted");
                 }
+
                 DateBox box = (DateBox)control;
                 value = box.SelectedDate;
             }

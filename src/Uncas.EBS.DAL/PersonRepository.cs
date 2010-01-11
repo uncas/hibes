@@ -6,11 +6,18 @@ using Model = Uncas.EBS.Domain.Model;
 
 namespace Uncas.EBS.DAL
 {
+    /// <summary>
+    /// Repository for person info.
+    /// </summary>
     internal class PersonRepository : BaseRepository
         , IPersonRepository
     {
         #region IPersonRepository Members
 
+        /// <summary>
+        /// Gets the person views.
+        /// </summary>
+        /// <returns>A list of persons.</returns>
         public IList<PersonView> GetPersonViews()
         {
             var result = DB.Persons
@@ -34,6 +41,10 @@ namespace Uncas.EBS.DAL
                 .ToList();
         }
 
+        /// <summary>
+        /// Gets the persons.
+        /// </summary>
+        /// <returns>A list of persons.</returns>
         public IList<Model.Person> GetPersons()
         {
             var result = DB.Persons
@@ -47,6 +58,10 @@ namespace Uncas.EBS.DAL
             return result.ToList();
         }
 
+        /// <summary>
+        /// Inserts the person.
+        /// </summary>
+        /// <param name="person">The person.</param>
         public void InsertPerson(Model.Person person)
         {
             var databasePerson = new Person
@@ -63,6 +78,10 @@ namespace Uncas.EBS.DAL
             person.PersonId = databasePerson.PersonId;
         }
 
+        /// <summary>
+        /// Updates the person.
+        /// </summary>
+        /// <param name="person">The person.</param>
         public void UpdatePerson(Model.Person person)
         {
             var databasePerson = GetDbPerson(person.PersonId);
@@ -78,6 +97,10 @@ namespace Uncas.EBS.DAL
             DB.SubmitChanges();
         }
 
+        /// <summary>
+        /// Deletes the person.
+        /// </summary>
+        /// <param name="personId">The person id.</param>
         public void DeletePerson(int personId)
         {
             Person person = GetDbPerson(personId);
@@ -85,6 +108,7 @@ namespace Uncas.EBS.DAL
             {
                 throw new RepositoryException("No such person.");
             }
+
             DB.Persons.DeleteOnSubmit(person);
             DB.SubmitChanges();
         }

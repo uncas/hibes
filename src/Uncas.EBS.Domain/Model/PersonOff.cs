@@ -24,6 +24,7 @@ namespace Uncas.EBS.Domain.Model
                     ("From date must be smaller than to date."
                     , "from");
             }
+
             this.FromDate = from;
             this.ToDate = to;
             this.RefPersonId = refPersonId;
@@ -36,7 +37,7 @@ namespace Uncas.EBS.Domain.Model
         /// <param name="from">The from date.</param>
         /// <param name="to">The to date.</param>
         /// <param name="refPersonId">The person id.</param>
-        /// <returns></returns>
+        /// <returns>The person off.</returns>
         public static PersonOff ReconstructPersonOff
             (int personOffId
             , DateTime from

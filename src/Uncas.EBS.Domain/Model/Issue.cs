@@ -27,7 +27,7 @@ namespace Uncas.EBS.Domain.Model
         /// <param name="title">The title.</param>
         /// <param name="status">The status.</param>
         /// <param name="priority">The priority.</param>
-        /// <returns></returns>
+        /// <returns>The issue.</returns>
         public static Issue ConstructIssue
             (int refProjectId
             , string title
@@ -51,7 +51,7 @@ namespace Uncas.EBS.Domain.Model
         /// <param name="title">The title.</param>
         /// <param name="status">The status.</param>
         /// <param name="priority">The priority.</param>
-        /// <returns></returns>
+        /// <returns>The issue.</returns>
         public static Issue ReconstructIssue
             (int issueId
             , string title
@@ -102,7 +102,7 @@ namespace Uncas.EBS.Domain.Model
         /// <value>The priority.</value>
         public int Priority { get; set; }
 
-        private Status _status = Status.Open;
+        private Status status = Status.Open;
 
         /// <summary>
         /// Gets or sets the status.
@@ -112,14 +112,14 @@ namespace Uncas.EBS.Domain.Model
         {
             get
             {
-                return _status;
+                return status;
             }
             
             set
             {
                 if (value != Status.Any)
                 {
-                    _status = value;
+                    status = value;
                 }
             }
         }

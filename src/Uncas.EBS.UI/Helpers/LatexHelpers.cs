@@ -7,10 +7,19 @@ using Uncas.EBS.UI.Controllers;
 
 namespace Uncas.EBS.UI.Helpers
 {
+    /// <summary>
+    /// Helpers for handling LaTeX.
+    /// </summary>
     public class LatexHelpers
     {
         #region Public methods
 
+        /// <summary>
+        /// Downloads the latex from estimate.
+        /// </summary>
+        /// <param name="projectId">The project id.</param>
+        /// <param name="maxPriority">The max priority.</param>
+        /// <param name="response">The response.</param>
         public void DownloadLatexFromEstimate
             (int? projectId
             , int? maxPriority
@@ -31,7 +40,7 @@ namespace Uncas.EBS.UI.Helpers
 
         #region Private fields and properties
 
-        private ProjectController _projectController
+        private ProjectController projectController
             = new ProjectController();
 
         #endregion
@@ -118,7 +127,7 @@ namespace Uncas.EBS.UI.Helpers
         ///        1.1             2
         ///        3.9             4
         /// </example>
-        /// <returns></returns>
+        /// <returns>The remaining days.</returns>
         private static string GetDaysRemainingText(double? daysRemaining)
         {
             if (!daysRemaining.HasValue)
@@ -187,7 +196,7 @@ namespace Uncas.EBS.UI.Helpers
             , LatexDocument document)
         {
             var personConfidenceDates
-                = _projectController.GetConfidenceDatesPerPerson
+                = projectController.GetConfidenceDatesPerPerson
                 (projectId, maxPriority);
 
             var nameColumn
@@ -234,7 +243,7 @@ namespace Uncas.EBS.UI.Helpers
             , LatexDocument document)
         {
             var issueEstimates
-                = _projectController.GetIssueEstimates
+                = projectController.GetIssueEstimates
                 (projectId, maxPriority);
 
             document.AppendSection(Resources.Phrases.Issues);
@@ -244,7 +253,7 @@ namespace Uncas.EBS.UI.Helpers
                 , document);
 
             foreach (var personEvaluation
-                in _projectController.GetEvaluationsPerPerson
+                in projectController.GetEvaluationsPerPerson
                 (projectId, maxPriority))
             {
                 document.AppendSection

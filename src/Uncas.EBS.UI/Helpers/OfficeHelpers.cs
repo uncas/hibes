@@ -9,8 +9,17 @@ using System.Web.UI.WebControls;
 
 namespace Uncas.EBS.UI.Helpers
 {
+    /// <summary>
+    /// Helpers for handling download to Office.
+    /// </summary>
     public class OfficeHelpers
     {
+        /// <summary>
+        /// Downloads the word.
+        /// </summary>
+        /// <param name="control">The control.</param>
+        /// <param name="fileName">Name of the file.</param>
+        /// <param name="response">The response.</param>
         public void DownloadWord(Control control
             , string fileName
             , HttpResponse response)
@@ -25,6 +34,12 @@ namespace Uncas.EBS.UI.Helpers
                 , contentType);
         }
 
+        /// <summary>
+        /// Downloads the excel.
+        /// </summary>
+        /// <param name="control">The control.</param>
+        /// <param name="fileName">Name of the file.</param>
+        /// <param name="response">The response.</param>
         public void DownloadExcel(Control control
             , string fileName
             , HttpResponse response)
@@ -67,6 +82,7 @@ namespace Uncas.EBS.UI.Helpers
                     PrepareControlForExport(control);
                     control.RenderControl(writer);
                 }
+
                 response.Write(sw.ToString());
             }
 
@@ -77,7 +93,7 @@ namespace Uncas.EBS.UI.Helpers
         /// Replace any of the contained controls with literals.
         /// </summary>
         /// <param name="control">The control.</param>
-        /// <see cref="http://forums.asp.net/p/1362432/2817931.aspx"/>
+        /// <see>http://forums.asp.net/p/1362432/2817931.aspx</see>
         private void PrepareControlForExport
             (Control control)
         {
@@ -109,6 +125,9 @@ namespace Uncas.EBS.UI.Helpers
 
         #region Private classes
 
+        /// <summary>
+        /// Represents a control to transform.
+        /// </summary>
         private abstract class ControlTransformBase
         {
             internal Func<Control, string> ControlToString { get; set; }
@@ -156,6 +175,10 @@ namespace Uncas.EBS.UI.Helpers
             internal abstract bool IsT(Control c);
         }
 
+        /// <summary>
+        /// Represents a control of type T to transform.
+        /// </summary>
+        /// <typeparam name="T">The type of the control.</typeparam>
         private class ControlTransform<T> : ControlTransformBase
             where T : Control
         {

@@ -4,13 +4,23 @@ using Uncas.EBS.UI.Controllers;
 
 namespace Uncas.EBS.UI.Controls
 {
+    /// <summary>
+    /// Dropdownlist with person selection.
+    /// </summary>
     public class PersonSelection : DropDownList
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PersonSelection"/> class.
+        /// </summary>
         public PersonSelection()
         {
             AddPersonItems();
         }
 
+        /// <summary>
+        /// Gets the person id.
+        /// </summary>
+        /// <value>The person id.</value>
         public int? PersonId
         {
             get
@@ -22,22 +32,27 @@ namespace Uncas.EBS.UI.Controls
                         (this.SelectedValue
                         , CultureInfo.InvariantCulture);
                 }
+
                 return personId;
             }
         }
 
-        private bool _showAllOption;
+        private bool showAllOption;
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [show all option].
+        /// </summary>
+        /// <value><c>True</c> if [show all option]; otherwise, <c>false</c>.</value>
         public bool ShowAllOption
         {
             get
             {
-                return _showAllOption;
+                return showAllOption;
             }
 
             set
             {
-                _showAllOption = value;
+                showAllOption = value;
                 EnsureChildControls();
                 AddPersonItems();
             }
@@ -55,6 +70,7 @@ namespace Uncas.EBS.UI.Controls
                         (" - " + Resources.Phrases.All + " - "
                         , string.Empty));
             }
+
             foreach (var person in projRepo.GetPersons())
             {
                 this.Items.Add

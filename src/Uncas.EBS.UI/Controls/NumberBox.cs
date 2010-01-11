@@ -4,6 +4,9 @@ using System.Web.UI.WebControls;
 
 namespace Uncas.EBS.UI.Controls
 {
+    /// <summary>
+    /// Represents a number box.
+    /// </summary>
     [ValidationProperty("Text")]
     [ToolboxData("<{0}:NumberBox runat=server></{0}:NumberBox>")]
     public class NumberBox : CompositeControl, ITextControl
@@ -12,6 +15,10 @@ namespace Uncas.EBS.UI.Controls
         
         private RegularExpressionValidator revNumber;
 
+        /// <summary>
+        /// Gets or sets a value indicating whether [auto post back].
+        /// </summary>
+        /// <value><c>True</c> if [auto post back]; otherwise, <c>false</c>.</value>
         public bool AutoPostBack
         {
             get
@@ -27,6 +34,9 @@ namespace Uncas.EBS.UI.Controls
             }
         }
 
+        /// <summary>
+        /// Called by the ASP.NET page framework to notify server controls that use composition-based implementation to create any child controls they contain in preparation for posting back or rendering.
+        /// </summary>
         protected override void CreateChildControls()
         {
             numberTextBox = new TextBox();
@@ -47,7 +57,11 @@ namespace Uncas.EBS.UI.Controls
         #region Properties
 
         private int maxValue = int.MaxValue;
-        
+
+        /// <summary>
+        /// Gets or sets the max value.
+        /// </summary>
+        /// <value>The max value.</value>
         public int MaxValue
         {
             get
@@ -64,7 +78,11 @@ namespace Uncas.EBS.UI.Controls
         }
 
         private int minValue = int.MinValue;
-        
+
+        /// <summary>
+        /// Gets or sets the min value.
+        /// </summary>
+        /// <value>The min value.</value>
         public int MinValue
         {
             get
@@ -82,6 +100,10 @@ namespace Uncas.EBS.UI.Controls
 
         private int numberOfDigits = 9;
 
+        /// <summary>
+        /// Gets or sets the number of digits.
+        /// </summary>
+        /// <value>The number of digits.</value>
         public int NumberOfDigits
         {
             get
@@ -98,6 +120,13 @@ namespace Uncas.EBS.UI.Controls
             }
         }
 
+        /// <summary>
+        /// Gets or sets the text content of a control.
+        /// </summary>
+        /// <value>The text content of a control.</value>
+        /// <returns>
+        /// The text content of a control.
+        /// </returns>
         public string Text
         {
             get
@@ -120,6 +149,10 @@ namespace Uncas.EBS.UI.Controls
             }
         }
 
+        /// <summary>
+        /// Gets or sets the number.
+        /// </summary>
+        /// <value>The number.</value>
         public int? Number
         {
             get

@@ -8,38 +8,46 @@ namespace Uncas.EBS.UI.Controls
     /// </summary>
     public class HyperLinkFieldResource : HyperLinkField
     {
-        private ResourceManager _resourceManager
+        private ResourceManager resourceManager
             = Resources.Phrases.ResourceManager;
 
-        private string _headerResourceName;
-        
+        private string headerResourceName;
+
+        /// <summary>
+        /// Gets or sets the name of the header resource.
+        /// </summary>
+        /// <value>The name of the header resource.</value>
         public string HeaderResourceName
         {
             get
             {
-                return this._headerResourceName;
+                return this.headerResourceName;
             }
 
             set
             {
-                this._headerResourceName = value;
-                this.HeaderText = _resourceManager.GetString(value);
+                this.headerResourceName = value;
+                this.HeaderText = resourceManager.GetString(value);
             }
         }
 
-        private string _textResourceName;
+        private string textResourceName;
 
+        /// <summary>
+        /// Gets or sets the name of the text resource.
+        /// </summary>
+        /// <value>The name of the text resource.</value>
         public string TextResourceName
         {
             get
             {
-                return this._textResourceName;
+                return this.textResourceName;
             }
 
             set
             {
-                this._textResourceName = value;
-                this.Text = _resourceManager.GetString(value);
+                this.textResourceName = value;
+                this.Text = resourceManager.GetString(value);
             }
         }
     }

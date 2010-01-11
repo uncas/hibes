@@ -9,8 +9,11 @@
 //------------------------------------------------------------------------------
 
 namespace Uncas.EBS.UI {
-    
-    
+
+
+    /// <summary>
+    /// Code behind for the front page.
+    /// </summary>
     public partial class Default {
         
         /// <summary>

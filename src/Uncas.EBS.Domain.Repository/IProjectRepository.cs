@@ -12,7 +12,7 @@ namespace Uncas.EBS.Domain.Repository
         /// <summary>
         /// Gets the projects.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A list of projects.</returns>
         [SuppressMessage("Microsoft.Design"
             , "CA1024:UsePropertiesWhereAppropriate"
             , Justification = "Read from database")]

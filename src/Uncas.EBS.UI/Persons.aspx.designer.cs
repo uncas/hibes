@@ -9,8 +9,11 @@
 //------------------------------------------------------------------------------
 
 namespace Uncas.EBS.UI {
-    
-    
+
+
+    /// <summary>
+    /// Code behind for person list page.
+    /// </summary>
     public partial class Persons {
         
         /// <summary>

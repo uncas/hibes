@@ -4,6 +4,9 @@ using System.Text;
 
 namespace Uncas.EBS.UI.Helpers
 {
+    /// <summary>
+    /// Represents a table in LaTeX.
+    /// </summary>
     public static class LatexTable
     {
         /// <summary>
@@ -69,11 +72,13 @@ namespace Uncas.EBS.UI.Helpers
                 {
                     sb.Append(" | ");
                 }
+
                 sb.Append
                     (GetColumnAlignment<T>
                         (column.Alignment));
                 columnIndex++;
             }
+
             sb.AppendLine("}");
         }
 
@@ -105,10 +110,12 @@ namespace Uncas.EBS.UI.Helpers
                 {
                     sb.AppendLine("        &");
                 }
+
                 sb.AppendLine("        "
                     + LatexDocument.EncodeText(column.Title));
                 headerFieldIndex++;
             }
+
             sb.AppendLine(@"    \\
     \hline");
         }
@@ -127,6 +134,7 @@ namespace Uncas.EBS.UI.Helpers
                 {
                     continue;
                 }
+
                 int fieldIndex = 0;
                 foreach (LatexColumn<T> column in columns)
                 {
@@ -134,10 +142,12 @@ namespace Uncas.EBS.UI.Helpers
                     {
                         sb.AppendLine("        &");
                     }
+
                     sb.AppendLine("        "
                         + LatexDocument.EncodeText(column.Transform(item)));
                     fieldIndex++;
                 }
+
                 sb.AppendLine(@"    \\");
             }
         }

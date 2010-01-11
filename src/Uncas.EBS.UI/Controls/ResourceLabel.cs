@@ -7,18 +7,22 @@ namespace Uncas.EBS.UI.Controls
     /// </summary>
     public class ResourceLabel : Label
     {
-        private string _resourceName;
-        
+        private string resourceName;
+
+        /// <summary>
+        /// Gets or sets the name of the resource.
+        /// </summary>
+        /// <value>The name of the resource.</value>
         public string ResourceName
         {
             get
             {
-                return this._resourceName;
+                return this.resourceName;
             }
         
             set
             {
-                this._resourceName = value;
+                this.resourceName = value;
                 var resourceManager = Resources.Phrases.ResourceManager;
                 this.Text = resourceManager.GetString(value);
             }

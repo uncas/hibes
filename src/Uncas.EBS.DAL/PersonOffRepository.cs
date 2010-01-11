@@ -6,11 +6,19 @@ using Model = Uncas.EBS.Domain.Model;
 
 namespace Uncas.EBS.DAL
 {
+    /// <summary>
+    /// Repository for person off info.
+    /// </summary>
     internal class PersonOffRepository : BaseRepository
         , IPersonOffRepository
     {
         #region IPersonOffRepository Members
 
+        /// <summary>
+        /// Gets the person offs.
+        /// </summary>
+        /// <param name="personId">The person id.</param>
+        /// <returns>A list of person off information.</returns>
         public IList<Model.PersonOff> GetPersonOffs(int personId)
         {
             return DB.PersonOffs
@@ -26,6 +34,10 @@ namespace Uncas.EBS.DAL
                 .ToList();
         }
 
+        /// <summary>
+        /// Inserts the person off.
+        /// </summary>
+        /// <param name="personOff">The person off.</param>
         public void InsertPersonOff(Model.PersonOff personOff)
         {
             DB.PersonOffs.InsertOnSubmit
@@ -38,6 +50,10 @@ namespace Uncas.EBS.DAL
             this.SubmitChanges();
         }
 
+        /// <summary>
+        /// Deletes the person off.
+        /// </summary>
+        /// <param name="personOffId">The person off id.</param>
         public void DeletePersonOff(int personOffId)
         {
             DB.PersonOffs.DeleteOnSubmit
@@ -45,12 +61,17 @@ namespace Uncas.EBS.DAL
             DB.SubmitChanges();
         }
 
+        /// <summary>
+        /// Updates the person off.
+        /// </summary>
+        /// <param name="personOff">The person off.</param>
         public void UpdatePersonOff(Model.PersonOff personOff)
         {
             if (!personOff.PersonOffId.HasValue)
             {
                 return;
             }
+
             var dbpo = GetPersonOff(personOff.PersonOffId.Value);
             dbpo.FromDate = personOff.FromDate;
             dbpo.ToDate = personOff.ToDate;

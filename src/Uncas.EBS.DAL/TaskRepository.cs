@@ -24,6 +24,7 @@ namespace Uncas.EBS.DAL
             {
                 throw new RepositoryException("Task description required.");
             }
+
             var databaseTask = GetDbTaskFromModelTask(task);
             DB.Tasks.InsertOnSubmit(databaseTask);
             this.SubmitChanges();
@@ -40,11 +41,13 @@ namespace Uncas.EBS.DAL
             {
                 throw new RepositoryException("TaskId must have a value");
             }
+
             var databaseTask = GetTask(task.TaskId.Value);
             if (databaseTask == null)
             {
                 throw new RepositoryException("Task not found in database");
             }
+
             UpdateValuesToDbTask(databaseTask, task);
             this.SubmitChanges();
         }
@@ -63,7 +66,7 @@ namespace Uncas.EBS.DAL
         /// Gets the tasks.
         /// </summary>
         /// <param name="filter">The filter.</param>
-        /// <returns></returns>
+        /// <returns>A list of tasks.</returns>
         public IList<Model.Task> GetTasks(TaskFilter filter)
         {
             var result = DB.Tasks.AsQueryable<Task>();
@@ -73,17 +76,20 @@ namespace Uncas.EBS.DAL
                     .Where(t => t.RefStatusId
                         == (int)filter.Status);
             }
+
             if (filter.PersonId.HasValue)
             {
                 result = result
                     .Where(t => t.RefPersonId
                         == filter.PersonId.Value);
             }
+
             result = result.OrderBy(t => t.Sequence);
             if (filter.MaxCount.HasValue)
             {
                 result = result.Take(filter.MaxCount.Value);
             }
+
             return result
                 .Select(t => GetModelTaskFromDbTask(t))
                 .ToList();
@@ -127,6 +133,7 @@ namespace Uncas.EBS.DAL
                 result = result
                     .Where(t => t.RefStatusId == (int)status);
             }
+
             result = result.OrderBy(t => t.Sequence);
             return result.Select(t => GetTaskDetailsFromDbTask(t));
         }
@@ -159,6 +166,7 @@ namespace Uncas.EBS.DAL
             {
                 databaseTask.TaskId = task.TaskId.Value;
             }
+
             return databaseTask;
         }
 

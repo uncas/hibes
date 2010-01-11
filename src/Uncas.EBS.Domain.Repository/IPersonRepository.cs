@@ -13,7 +13,7 @@ namespace Uncas.EBS.Domain.Repository
         /// <summary>
         /// Gets the person views.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A list of persons.</returns>
         [SuppressMessage("Microsoft.Design"
             , "CA1024:UsePropertiesWhereAppropriate"
             , Justification = "Read from database")]
@@ -22,7 +22,7 @@ namespace Uncas.EBS.Domain.Repository
         /// <summary>
         /// Gets the persons.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A list of persons.</returns>
         [SuppressMessage("Microsoft.Design"
             , "CA1024:UsePropertiesWhereAppropriate"
             , Justification = "Read from database")]

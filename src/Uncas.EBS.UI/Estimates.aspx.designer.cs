@@ -9,8 +9,11 @@
 //------------------------------------------------------------------------------
 
 namespace Uncas.EBS.UI {
-    
-    
+
+
+    /// <summary>
+    /// Code behind for the estimate page.
+    /// </summary>
     public partial class Estimates {
         
         /// <summary>

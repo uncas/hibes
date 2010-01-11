@@ -5,36 +5,57 @@ using Uncas.EBS.Domain.Repository;
 
 namespace Uncas.EBS.UI.Controllers
 {
+    /// <summary>
+    /// Controller for person info.
+    /// </summary>
     public class PersonController
     {
-        private IRepositoryFactory _repositories;
+        private IRepositoryFactory repositories;
 
-        private IPersonRepository _personRepo
+        private IPersonRepository PersonRepository
         {
             get
             {
-                return _repositories.PersonRepository;
+                return repositories.PersonRepository;
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PersonController"/> class.
+        /// </summary>
         public PersonController()
             : this(App.Repositories)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PersonController"/> class.
+        /// </summary>
+        /// <param name="repositories">The repositories.</param>
         public PersonController(IRepositoryFactory repositories)
         {
-            this._repositories = repositories;
+            this.repositories = repositories;
         }
 
+        /// <summary>
+        /// Gets the persons.
+        /// </summary>
+        /// <returns>A list of persons.</returns>
         [SuppressMessage("Microsoft.Design"
             , "CA1024:UsePropertiesWhereAppropriate"
             , Justification = "Read from database")]
         public IList<Person> GetPersons()
         {
-            return _personRepo.GetPersons();
+            return PersonRepository.GetPersons();
         }
 
+        /// <summary>
+        /// Inserts the person.
+        /// </summary>
+        /// <param name="personName">Name of the person.</param>
+        /// <param name="daysPerWeek">The days per week.</param>
+        /// <param name="hoursPerDay">The hours per day.</param>
+        /// <returns>True if succesful.</returns>
         public bool InsertPerson(string personName
             , int daysPerWeek
             , double hoursPerDay)
@@ -42,10 +63,18 @@ namespace Uncas.EBS.UI.Controllers
             Person person = new Person(personName
                 , daysPerWeek
                 , hoursPerDay);
-            _personRepo.InsertPerson(person);
+            PersonRepository.InsertPerson(person);
             return true;
         }
 
+        /// <summary>
+        /// Updates the person.
+        /// </summary>
+        /// <param name="personName">Name of the person.</param>
+        /// <param name="daysPerWeek">The days per week.</param>
+        /// <param name="hoursPerDay">The hours per day.</param>
+        /// <param name="personId">The person id.</param>
+        /// <returns>True if succesful.</returns>
         public bool UpdatePerson
             (string personName
             , int daysPerWeek
@@ -57,14 +86,19 @@ namespace Uncas.EBS.UI.Controllers
                 , personName
                 , daysPerWeek
                 , hoursPerDay);
-            _personRepo.UpdatePerson(person);
+            PersonRepository.UpdatePerson(person);
             return true;
         }
 
+        /// <summary>
+        /// Deletes the person.
+        /// </summary>
+        /// <param name="personId">The person id.</param>
+        /// <returns>True if succesful.</returns>
         public bool DeletePerson
             (int personId)
         {
-            _personRepo.DeletePerson(personId);
+            PersonRepository.DeletePerson(personId);
             return true;
         }
     }

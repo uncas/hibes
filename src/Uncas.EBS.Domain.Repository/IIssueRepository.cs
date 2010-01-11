@@ -14,7 +14,7 @@ namespace Uncas.EBS.Domain.Repository
         /// </summary>
         /// <param name="projectId">The project id.</param>
         /// <param name="status">The status.</param>
-        /// <returns></returns>
+        /// <returns>A list of issues.</returns>
         IList<IssueDetails> GetIssues(int? projectId, Status status);
 
         /// <summary>
@@ -22,7 +22,7 @@ namespace Uncas.EBS.Domain.Repository
         /// </summary>
         /// <param name="projectId">The project id.</param>
         /// <param name="maxPriority">The max priority.</param>
-        /// <returns></returns>
+        /// <returns>A list of issues.</returns>
         IList<IssueView> GetOpenIssuesAndOpenTasks
             (int? projectId, int? maxPriority);
 
@@ -31,7 +31,7 @@ namespace Uncas.EBS.Domain.Repository
         /// </summary>
         /// <param name="issueId">The issue id.</param>
         /// <param name="taskStatus">The task status.</param>
-        /// <returns></returns>
+        /// <returns>An issue view.</returns>
         IssueView GetIssueView(int issueId, Status taskStatus);
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace Uncas.EBS.Domain.Repository
         /// Prioritizes all open issues.
         /// </summary>
         /// <param name="projectId">The project id.</param>
-        /// <returns></returns>
+        /// <returns>True if succesful.</returns>
         bool PrioritizeAllOpenIssues(int? projectId);
     }
 }

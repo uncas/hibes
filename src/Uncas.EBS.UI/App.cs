@@ -11,6 +11,84 @@ namespace Uncas.EBS.UI
     /// </summary>
     public static class App
     {
+        #region Private fields
+
+        internal const double StandardNumberOfHoursPerDayDefault
+            = 7.5d;
+
+        internal const int NumberOfSimulations = 1000;
+
+        internal const int MaxNumberOfHistoricalTasks = 50;
+
+        /// <summary>
+        /// The defailt lower confidence level.
+        /// </summary>
+        private const double ConfidenceLowDefault = 0.1d;
+
+        /// <summary>
+        /// The default medium confidence level.
+        /// </summary>
+        private const double ConfidenceMediumDefault = 0.5d;
+
+        /// <summary>
+        /// The default high confidence level.
+        /// </summary>
+        private const double ConfidenceHighDefault = 0.9d;
+
+        private const string LanguageCookieKey = "Language";
+
+        private static ConfidenceLevels confidenceLevels
+            = new ConfidenceLevels
+                (ConfidenceLow
+                , ConfidenceMedium
+                , ConfidenceHigh);
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the confidence low.
+        /// </summary>
+        /// <value>The confidence low.</value>
+        public static double ConfidenceLow
+        {
+            get
+            {
+                return GetDoubleFromAppSettings
+                    ("ConfidenceLow",
+                    ConfidenceLowDefault);
+            }
+        }
+
+        /// <summary>
+        /// Gets the confidence medium.
+        /// </summary>
+        /// <value>The confidence medium.</value>
+        public static double ConfidenceMedium
+        {
+            get
+            {
+                return GetDoubleFromAppSettings
+                    ("ConfidenceMedium"
+                    , ConfidenceMediumDefault);
+            }
+        }
+
+        /// <summary>
+        /// Gets the confidence high.
+        /// </summary>
+        /// <value>The confidence high.</value>
+        public static double ConfidenceHigh
+        {
+            get
+            {
+                return GetDoubleFromAppSettings
+                    ("ConfidenceHigh"
+                    , ConfidenceHighDefault);
+            }
+        }
+
         /// <summary>
         /// Gets the repositories for the web application.
         /// </summary>
@@ -23,8 +101,6 @@ namespace Uncas.EBS.UI
             }
         }
 
-        private const string LanguageCookieKey = "Language";
-        
         /// <summary>
         /// Gets or sets the selected language.
         /// </summary>
@@ -57,58 +133,13 @@ namespace Uncas.EBS.UI
             }
         }
 
-        private static ConfidenceLevels _confidenceLevels
-            = new ConfidenceLevels
-                (ConfidenceLow
-                , ConfidenceMedium
-                , ConfidenceHigh);
-
         internal static ConfidenceLevels ConfidenceLevels
         {
             get
             {
-                return _confidenceLevels;
+                return confidenceLevels;
             }
         }
-
-        public const double ConfidenceLowDefault = 0.1d;
-
-        public static double ConfidenceLow
-        {
-            get
-            {
-                return GetDoubleFromAppSettings
-                    ("ConfidenceLow",
-                    ConfidenceLowDefault);
-            }
-        }
-
-        public const double ConfidenceMediumDefault = 0.5d;
-
-        public static double ConfidenceMedium
-        {
-            get
-            {
-                return GetDoubleFromAppSettings
-                    ("ConfidenceMedium"
-                    , ConfidenceMediumDefault);
-            }
-        }
-
-        public const double ConfidenceHighDefault = 0.9d;
-
-        public static double ConfidenceHigh
-        {
-            get
-            {
-                return GetDoubleFromAppSettings
-                    ("ConfidenceHigh"
-                    , ConfidenceHighDefault);
-            }
-        }
-
-        internal const double StandardNumberOfHoursPerDayDefault
-            = 7.5d;
 
         internal static double StandardNumberOfHoursPerDay
         {
@@ -120,10 +151,9 @@ namespace Uncas.EBS.UI
             }
         }
 
-        internal const int NumberOfSimulations = 1000;
+        #endregion
 
-        internal const int MaxNumberOfHistoricalTasks = 50;
-
+        #region Private methods
 
         private static double GetDoubleFromAppSettings
             (string key
@@ -143,5 +173,7 @@ namespace Uncas.EBS.UI
                 return defaultValue;
             }
         }
+
+        #endregion
     }
 }

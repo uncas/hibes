@@ -8,7 +8,7 @@ namespace Uncas.EBS.UI.Controls
     /// </summary>
     public class StatusLabel : Label
     {
-        private Status _status;
+        private Status status;
         
         /// <summary>
         /// Gets or sets the status.
@@ -18,12 +18,12 @@ namespace Uncas.EBS.UI.Controls
         {
             get
             {
-                return this._status;
+                return this.status;
             }
             
             set
             {
-                this._status = value;
+                this.status = value;
                 this.Text = value == Status.Open
                     ? Resources.Phrases.Open
                     : Resources.Phrases.Closed;

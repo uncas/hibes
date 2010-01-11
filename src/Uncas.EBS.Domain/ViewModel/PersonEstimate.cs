@@ -37,7 +37,7 @@ namespace Uncas.EBS.Domain.ViewModel
         /// Gets the selected completion date confidences.
         /// </summary>
         /// <param name="levels">The confidence levels.</param>
-        /// <returns></returns>
+        /// <returns>A list of completion date confidences.</returns>
         public IList<CompletionDateConfidence>
             GetSelectedCompletionDateConfidences
             (ConfidenceLevels levels)
@@ -53,7 +53,7 @@ namespace Uncas.EBS.Domain.ViewModel
         /// <summary>
         /// Gets the completion date confidences.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A list of completion date confidences.</returns>
         /// <value>The completion date confidences.</value>
         [SuppressMessage("Microsoft.Design"
             , "CA1024:UsePropertiesWhereAppropriate"

@@ -9,9 +9,12 @@ using Uncas.EBS.UI.Helpers;
 
 namespace Uncas.EBS.UI
 {
+    /// <summary>
+    /// Code behind for estimates page.
+    /// </summary>
     public partial class Estimates : BasePage
     {
-        private OfficeHelpers _officeHelpers = new OfficeHelpers();
+        private OfficeHelpers officeHelpers = new OfficeHelpers();
 
         private int? SelectedProjectId
         {
@@ -29,6 +32,11 @@ namespace Uncas.EBS.UI
             }
         }
 
+        /// <summary>
+        /// Handles the Init event of the Page control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         protected void Page_Init(object sender, EventArgs e)
         {
             lbDownloadWord.Click += new EventHandler(DownloadWordButton_Click);
@@ -37,6 +45,11 @@ namespace Uncas.EBS.UI
                 += new GridViewRowEventHandler(IssuesGridView_RowDataBound);
         }
 
+        /// <summary>
+        /// Handles the Load event of the Page control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         protected void Page_Load(object sender, EventArgs e)
         {
             var chartArea = chartProbabilities.ChartAreas[0];
@@ -130,6 +143,7 @@ namespace Uncas.EBS.UI
                     seriesConfidence.Points.AddXY(dateConf.Date
                         , dateConf.Probability);
                 }
+
                 chartDateConfidencesPerPerson.Series
                     .Add(seriesConfidence);
             }
@@ -164,14 +178,24 @@ namespace Uncas.EBS.UI
 
         private void DownloadWordButton_Click(object sender, EventArgs e)
         {
-            _officeHelpers.DownloadWord(ph1, "estimates", Response);
+            officeHelpers.DownloadWord(ph1, "estimates", Response);
         }
 
         private void DownloadExcelButton_Click(object sender, EventArgs e)
         {
-            _officeHelpers.DownloadExcel(ph1, "estimates", Response);
+            officeHelpers.DownloadExcel(ph1, "estimates", Response);
         }
 
+        /// <summary>
+        /// Confirms that an <see cref="T:System.Web.UI.HtmlControls.HtmlForm"/> control is rendered for the specified ASP.NET server control at run time.
+        /// </summary>
+        /// <param name="control">The ASP.NET server control that is required in the <see cref="T:System.Web.UI.HtmlControls.HtmlForm"/> control.</param>
+        /// <exception cref="T:System.Web.HttpException">
+        /// The specified server control is not contained between the opening and closing tags of the <see cref="T:System.Web.UI.HtmlControls.HtmlForm"/> server control at run time.
+        /// </exception>
+        /// <exception cref="T:System.ArgumentNullException">
+        /// The control to verify is null.
+        /// </exception>
         public override void VerifyRenderingInServerForm(Control control)
         {
         }

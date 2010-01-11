@@ -10,6 +10,10 @@ namespace Uncas.EBS.UI
     /// </summary>
     public class EstimateAsLatex : IHttpHandler
     {
+        /// <summary>
+        /// Enables processing of HTTP Web requests by a custom HttpHandler that implements the <see cref="T:System.Web.IHttpHandler"/> interface.
+        /// </summary>
+        /// <param name="context">An <see cref="T:System.Web.HttpContext"/> object that provides references to the intrinsic server objects (for example, Request, Response, Session, and Server) used to service HTTP requests.</param>
         public void ProcessRequest(HttpContext context)
         {
             LatexHelpers lh = new LatexHelpers();
@@ -40,6 +44,12 @@ namespace Uncas.EBS.UI
             return result;
         }
 
+        /// <summary>
+        /// Gets a value indicating whether another request can use the <see cref="T:System.Web.IHttpHandler"/> instance.
+        /// </summary>
+        /// <value>A value indicating whether it is reusable.</value>
+        /// <returns>True if the <see cref="T:System.Web.IHttpHandler"/> instance is reusable; otherwise, false.
+        /// </returns>
         public bool IsReusable
         {
             get

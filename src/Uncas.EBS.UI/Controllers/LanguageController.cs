@@ -9,28 +9,29 @@ namespace Uncas.EBS.UI.Controllers
     /// </summary>
     public static class LanguageController
     {
-        private static IList<Model.Language> _languages;
+        private static IList<Model.Language> languages;
         
         private static IList<Model.Language> Languages
         {
             get
             {
-                if (_languages == null)
+                if (languages == null)
                 {
-                    _languages = new List<Model.Language>();
-                    _languages.Add
+                    languages = new List<Model.Language>();
+                    languages.Add
                         (new Model.Language("da-DK", "dansk"));
-                    _languages.Add
+                    languages.Add
                         (new Model.Language("en-US", "English"));
                 }
-                return _languages;
+
+                return languages;
             }
         }
 
         /// <summary>
         /// Gets the languages.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A list of languages.</returns>
         [SuppressMessage("Microsoft.Design"
             , "CA1024:UsePropertiesWhereAppropriate"
             , Justification = "Read from database")]

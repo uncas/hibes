@@ -7,7 +7,7 @@ namespace Uncas.EBS.Domain.ViewModel
     /// </summary>
     public class TaskFilter
     {
-        private static TaskFilter _none = new TaskFilter();
+        private static TaskFilter none = new TaskFilter();
 
         /// <summary>
         /// Gets a filter that does not filter...
@@ -17,7 +17,7 @@ namespace Uncas.EBS.Domain.ViewModel
         {
             get
             {
-                return _none;
+                return none;
             }
         }
 

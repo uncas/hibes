@@ -11,12 +11,13 @@ namespace Uncas.EBS.UI.Helpers
     {
         #region Constructors
 
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LatexDocument"/> class.
+        /// </summary>
         public LatexDocument()
         {
-            _content = new StringBuilder();
+            content = new StringBuilder();
         }
-
 
         #endregion
 
@@ -26,7 +27,7 @@ namespace Uncas.EBS.UI.Helpers
         /// Encodes the text.
         /// </summary>
         /// <param name="text">The text to be encoded.</param>
-        /// <returns></returns>
+        /// <returns>The encoded text.</returns>
         public static string EncodeText(string text)
         {
             var transforms = new Dictionary<string, string>();
@@ -55,7 +56,7 @@ namespace Uncas.EBS.UI.Helpers
         public void AppendSection
             (string sectionTitle)
         {
-            _content.AppendLine(@"\section*{" + EncodeText(sectionTitle) + "}");
+            content.AppendLine(@"\section*{" + EncodeText(sectionTitle) + "}");
         }
 
         /// <summary>
@@ -89,7 +90,7 @@ namespace Uncas.EBS.UI.Helpers
             LatexTable.AppendTable<T>
                 (data
                 , showRow
-                , _content
+                , content
                 , columns);
         }
 
@@ -103,7 +104,7 @@ namespace Uncas.EBS.UI.Helpers
         {
             StringBuilder sb = new StringBuilder();
             AppendBegin(sb);
-            sb.Append(_content.ToString());
+            sb.Append(content.ToString());
             AppendEnd(sb);
             return sb.ToString();
         }
@@ -113,7 +114,7 @@ namespace Uncas.EBS.UI.Helpers
         #region Private fields and properties
 
 
-        private StringBuilder _content;
+        private StringBuilder content;
 
 
         #endregion
@@ -169,9 +170,9 @@ namespace Uncas.EBS.UI.Helpers
 
         internal void AppendText(string text)
         {
-            _content.AppendLine();
-            _content.AppendLine(text);
-            _content.AppendLine();
+            content.AppendLine();
+            content.AppendLine(text);
+            content.AppendLine();
         }
     }
 }

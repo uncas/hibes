@@ -12,12 +12,12 @@ namespace Uncas.EBS.DAL
         /// </summary>
         protected BaseRepository()
         {
-            _db = new EBSDataContext();
+            db = new EBSDataContext();
         }
 
-        private bool _disposed;
+        private bool disposed;
 
-        private EBSDataContext _db;
+        private EBSDataContext db;
 
         /// <summary>
         /// Gets the DB.
@@ -27,7 +27,7 @@ namespace Uncas.EBS.DAL
         {
             get
             {
-                return _db;
+                return db;
             }
         }
 
@@ -35,7 +35,7 @@ namespace Uncas.EBS.DAL
         /// Gets the double from decimal.
         /// </summary>
         /// <param name="value">The value.</param>
-        /// <returns></returns>
+        /// <returns>The double.</returns>
         protected internal static double? GetDoubleFromDecimal
             (decimal? value)
         {
@@ -53,7 +53,7 @@ namespace Uncas.EBS.DAL
         /// </summary>
         protected internal void SubmitChanges()
         {
-            if (_disposed)
+            if (disposed)
             {
                 throw new ObjectDisposedException("Resource was disposed.");
             }
@@ -85,19 +85,19 @@ namespace Uncas.EBS.DAL
         {
             // If you need thread safety, use a lock around these 
             // operations, as well as in your methods that use the resource.
-            if (!_disposed)
+            if (!disposed)
             {
                 if (disposing)
                 {
-                    if (_db != null)
+                    if (db != null)
                     {
-                        _db.Dispose();
+                        db.Dispose();
                     }
                 }
 
                 // Indicate that the instance has been disposed.
-                _db = null;
-                _disposed = true;
+                db = null;
+                disposed = true;
             }
         }
     }

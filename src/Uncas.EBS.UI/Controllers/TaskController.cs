@@ -12,21 +12,39 @@ namespace Uncas.EBS.UI.Controllers
     /// </summary>
     public class TaskController
     {
-        private IIssueRepository _issueRepo
+        private IIssueRepository issueRepo
             = App.Repositories.IssueRepository;
 
-        private ITaskRepository _taskRepo
+        private ITaskRepository taskRepo
             = App.Repositories.TaskRepository;
 
+        /// <summary>
+        /// Gets the tasks.
+        /// </summary>
+        /// <param name="issueId">The issue id.</param>
+        /// <param name="status">The status.</param>
+        /// <returns>A list of task details.</returns>
         public IList<TaskDetails> GetTasks
             (int issueId
             , Status status)
         {
-            var issueView = _issueRepo.GetIssueView
+            var issueView = issueRepo.GetIssueView
                 (issueId, status);
             return issueView.Tasks;
         }
 
+        /// <summary>
+        /// Inserts the task.
+        /// </summary>
+        /// <param name="description">The description.</param>
+        /// <param name="originalEstimate">The original estimate.</param>
+        /// <param name="elapsed">The elapsed.</param>
+        /// <param name="startDate">The start date.</param>
+        /// <param name="endDate">The end date.</param>
+        /// <param name="sequence">The sequence.</param>
+        /// <param name="status">The status.</param>
+        /// <param name="refIssueId">The ref issue id.</param>
+        /// <param name="refPersonId">The ref person id.</param>
         public void InsertTask
             (string description
             , double originalEstimate
@@ -48,9 +66,21 @@ namespace Uncas.EBS.UI.Controllers
                 , startDate
                 , endDate
                 , refPersonId);
-            _taskRepo.InsertTask(task);
+            taskRepo.InsertTask(task);
         }
 
+        /// <summary>
+        /// Updates the task.
+        /// </summary>
+        /// <param name="taskId">The task id.</param>
+        /// <param name="description">The description.</param>
+        /// <param name="currentEstimate">The current estimate.</param>
+        /// <param name="elapsed">The elapsed.</param>
+        /// <param name="startDate">The start date.</param>
+        /// <param name="endDate">The end date.</param>
+        /// <param name="sequence">The sequence.</param>
+        /// <param name="status">The status.</param>
+        /// <param name="refPersonId">The ref person id.</param>
         public void UpdateTask
             (int taskId
             , string description
@@ -72,14 +102,23 @@ namespace Uncas.EBS.UI.Controllers
                 , startDate
                 , endDate
                 , refPersonId);
-            _taskRepo.UpdateTask(task);
+            taskRepo.UpdateTask(task);
         }
 
+        /// <summary>
+        /// Deletes the task.
+        /// </summary>
+        /// <param name="taskId">The task id.</param>
         public void DeleteTask(int taskId)
         {
-            _taskRepo.DeleteTask(taskId);
+            taskRepo.DeleteTask(taskId);
         }
 
+        /// <summary>
+        /// Gets the closed tasks.
+        /// </summary>
+        /// <param name="refPersonId">The ref person id.</param>
+        /// <returns>A list of tasks.</returns>
         public IList<Task> GetClosedTasks(int? refPersonId)
         {
             TaskFilter filter = new TaskFilter
@@ -87,7 +126,7 @@ namespace Uncas.EBS.UI.Controllers
                 PersonId = refPersonId,
                 Status = Status.Closed
             };
-            return _taskRepo.GetTasks(filter);
+            return taskRepo.GetTasks(filter);
         }
     }
 }
