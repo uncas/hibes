@@ -12,17 +12,17 @@ namespace Uncas.EBS.IntegrationTests.ApplicationServicesTests
     {
         private const double StandardNumberOfHoursPerDay = 7.5d;
 
-        private ProjectService _projectService
+        private ProjectService projectService
              = new ProjectService(TestApp.Repositories);
 
-        private IProjectRepository _projectRepository
+        private IProjectRepository projectRepository
             = TestApp.Repositories.ProjectRepository;
 
         [Test]
         public void GetProjectEvaluation_All_PositiveAverage()
         {
             var projectEvaluation
-                = _projectService.GetTeamEvaluation
+                = projectService.GetTeamEvaluation
                     (null
                     , null
                     , 100
@@ -38,7 +38,7 @@ namespace Uncas.EBS.IntegrationTests.ApplicationServicesTests
         public void GetProjectEstimate_NonExistingProject()
         {
             var projectEstimate
-                = _projectService.GetTeamEvaluation
+                = projectService.GetTeamEvaluation
                 (0
                 , 0
                 , 100
@@ -56,9 +56,9 @@ namespace Uncas.EBS.IntegrationTests.ApplicationServicesTests
         [Test]
         public void GetProjectEstimate_FirstProject()
         {
-            var projId = _projectRepository.GetProjects()
+            var projId = projectRepository.GetProjects()
                 .Min(p => p.ProjectId);
-            var projectEstimate = _projectService.GetTeamEvaluation
+            var projectEstimate = projectService.GetTeamEvaluation
                 (projId
                 , null
                 , 100
@@ -97,10 +97,10 @@ namespace Uncas.EBS.IntegrationTests.ApplicationServicesTests
 
         private void RunSimulation(int numberOfSimulations, int maxNumberOfHistoricalData)
         {
-            foreach (var project in _projectRepository.GetProjects())
+            foreach (var project in projectRepository.GetProjects())
             {
                 var projId = project.ProjectId;
-                var projectEstimate = _projectService.GetTeamEvaluation
+                var projectEstimate = projectService.GetTeamEvaluation
                     (projId
                     , null
                     , numberOfSimulations

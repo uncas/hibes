@@ -7,10 +7,10 @@ namespace Uncas.EBS.Tests.UITests
     [TestFixture]
     public class LatexHelpersTests
     {
-        private LatexHelpers _latexHelpers
+        private LatexHelpers latexHelpers
             = new LatexHelpers();
 
-        private LatexDocument _document
+        private LatexDocument document
             = new LatexDocument();
 
         [Test]
@@ -28,7 +28,7 @@ namespace Uncas.EBS.Tests.UITests
             var nameColumn = new LatexColumn<TestObject>
                 ("Name", (TestObject to) => to.Name);
 
-            /*string result =_document.GetLatexTable<TestObject>
+            /*string result =document.GetLatexTable<TestObject>
                 (data, idColumn, nameColumn);
 
             Trace.Write(result);*/

@@ -8,19 +8,19 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
     [TestFixture]
     public class TaskRepositoryTests
     {
-        private ITaskRepository _taskRepo
+        private ITaskRepository taskRepo
             = TestApp.Repositories.TaskRepository;
 
-        private IIssueRepository _issueRepo
+        private IIssueRepository issueRepo
             = TestApp.Repositories.IssueRepository;
 
-        private IProjectRepository _projectRepo
+        private IProjectRepository projectRepo
             = TestApp.Repositories.ProjectRepository;
 
         [Test]
         public void InsertTask()
         {
-            int projectId = _projectRepo
+            int projectId = projectRepo
                 .GetProjects().FirstOrDefault()
                 .ProjectId;
 
@@ -30,7 +30,7 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
                 , "InsertTask"
                 , Status.Open
                 , 1);
-            _issueRepo.InsertIssue(issue);
+            issueRepo.InsertIssue(issue);
             Task task = TestApp.GetTask
                 (issue.IssueId.Value
                 , 1d
@@ -40,7 +40,7 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
                 , 1);
 
             // Testing:
-            _taskRepo.InsertTask(task);
+            taskRepo.InsertTask(task);
 
             // Checking:
             Assert.IsNotNull(task.TaskId);
@@ -50,7 +50,7 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
         [ExpectedException(typeof(RepositoryException))]
         public void InsertTask_EmptyDescription()
         {
-            var project = _projectRepo.GetProjects().FirstOrDefault();
+            var project = projectRepo.GetProjects().FirstOrDefault();
 
             // Setting up:
             Issue issue = Issue.ConstructIssue
@@ -58,7 +58,7 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
                 , "InsertTask_EmptyDescription"
                 , Status.Open
                 , 13);
-            _issueRepo.InsertIssue(issue);
+            issueRepo.InsertIssue(issue);
             Task task = Task.ConstructTask
                 (issue.IssueId.Value
                 , string.Empty
@@ -71,7 +71,7 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
                 , 1);
 
             // Testing:
-            _taskRepo.InsertTask(task);
+            taskRepo.InsertTask(task);
 
             // Checking:
             Assert.IsNotNull(task.TaskId);
@@ -80,7 +80,7 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
         [Test]
         public void UpdateTask_ChangedDescription_ChangedOK()
         {
-            var project = _projectRepo.GetProjects().FirstOrDefault();
+            var project = projectRepo.GetProjects().FirstOrDefault();
 
             // Setting up:
             Issue issue = Issue.ConstructIssue
@@ -88,7 +88,7 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
                 , "UpdateTask_ChangedDescription_ChangedOK"
                 , Status.Open
                 , 14);
-            _issueRepo.InsertIssue(issue);
+            issueRepo.InsertIssue(issue);
             Task task = Task.ConstructTask
                 (issue.IssueId.Value
                 , "ASD"
@@ -99,14 +99,14 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
                 , null
                 , null
                 , 1);
-            _taskRepo.InsertTask(task);
+            taskRepo.InsertTask(task);
             task.Description = "New description";
 
             // Testing:
-            _taskRepo.UpdateTask(task);
+            taskRepo.UpdateTask(task);
 
             // Checking:
-            var issueView = _issueRepo.GetIssueView
+            var issueView = issueRepo.GetIssueView
                 (issue.IssueId.Value, Status.Any);
             var retrievedTask = issueView.Tasks
                 .Where(t => t.TaskId.Value == task.TaskId.Value);
@@ -116,7 +116,7 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
         [Test]
         public void UpdateTask_NullIssue()
         {
-            var project = _projectRepo.GetProjects().FirstOrDefault();
+            var project = projectRepo.GetProjects().FirstOrDefault();
 
             // Setting up:
             Issue issue = Issue.ConstructIssue
@@ -124,7 +124,7 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
                 , "UpdateTask_NullIssue"
                 , Status.Open
                 , 16);
-            _issueRepo.InsertIssue(issue);
+            issueRepo.InsertIssue(issue);
             Task task = Task.ConstructTask
                 (issue.IssueId.Value
                 , "ASD"
@@ -135,14 +135,14 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
                 , null
                 , null
                 , 1);
-            _taskRepo.InsertTask(task);
+            taskRepo.InsertTask(task);
             task.Description = "New description";
 
             // Testing:
-            _taskRepo.UpdateTask(task);
+            taskRepo.UpdateTask(task);
 
             // Checking:
-            var issueView = _issueRepo.GetIssueView
+            var issueView = issueRepo.GetIssueView
                 (issue.IssueId.Value, Status.Any);
             var retrievedTask = issueView.Tasks
                 .Where(t => t.TaskId.Value == task.TaskId.Value);
@@ -152,7 +152,7 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
         [Test]
         public void DeleteTask_Default_OK()
         {
-            int projectId = _projectRepo
+            int projectId = projectRepo
                 .GetProjects().FirstOrDefault()
                 .ProjectId;
 
@@ -162,7 +162,7 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
                 , "DeleteTask"
                 , Status.Open
                 , 19);
-            _issueRepo.InsertIssue(issue);
+            issueRepo.InsertIssue(issue);
             Task task = Task.ConstructTask
                 (issue.IssueId.Value
                 , "ASD"
@@ -173,13 +173,13 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
                 , null
                 , null
                 , 1);
-            _taskRepo.InsertTask(task);
+            taskRepo.InsertTask(task);
 
             // Testing:
-            _taskRepo.DeleteTask(task.TaskId.Value);
+            taskRepo.DeleteTask(task.TaskId.Value);
 
             // Checking:
-            var issueView = _issueRepo.GetIssueView
+            var issueView = issueRepo.GetIssueView
                 (issue.IssueId.Value, Status.Any);
             var retrievedTask = issueView.Tasks
                 .Where(t => t.TaskId.Value == task.TaskId.Value)

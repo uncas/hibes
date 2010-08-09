@@ -17,9 +17,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uncas.EBS.UI", "src\Uncas.E
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uncas.EBS.DAL", "src\Uncas.EBS.DAL\Uncas.EBS.DAL.csproj", "{19212C86-A667-4FB9-A59A-36C928B3AE95}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uncas.EBS.Tests", "src\Uncas.EBS.Tests\Uncas.EBS.Tests.csproj", "{40AECC36-94C1-4EE1-83D9-E7AFBFB868E2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uncas.EBS.Tests", "test\Uncas.EBS.Tests\Uncas.EBS.Tests.csproj", "{40AECC36-94C1-4EE1-83D9-E7AFBFB868E2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uncas.EBS.IntegrationTests", "src\Uncas.EBS.IntegrationTests\Uncas.EBS.IntegrationTests.csproj", "{B7FA4055-C329-4691-90C6-166EDC3C5A24}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uncas.EBS.IntegrationTests", "test\Uncas.EBS.IntegrationTests\Uncas.EBS.IntegrationTests.csproj", "{B7FA4055-C329-4691-90C6-166EDC3C5A24}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uncas.EBS.ApplicationServices", "src\Uncas.EBS.ApplicationServices\Uncas.EBS.ApplicationServices.csproj", "{B8576674-7555-405B-96EE-3667A50EA1DE}"
 EndProject

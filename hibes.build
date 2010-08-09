@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<project name="hibes" default="all">
+<project name="hibes" default="compile">
 
     <!-- Initializing properties.
          Customize these by copying local.properties.xml.template
@@ -8,15 +8,15 @@
     <property name="configuration" value="release" />
 
     <property name="build.dir" value="build" />
-    <property name="solution.dir" value="src"/>
+    <property name="test.dir" value="test"/>
+    <property name="source.dir" value="src"/>
     <property name="results.dir" value="${build.dir}\results" />
     
     <property name="msbuild"
-        value="C:\Windows\Microsoft.NET\Framework\v3.5\msbuild.exe" />
+        value="C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe" />
     <property name="sqlcmd" 
         value="C:\Program Files\Microsoft SQL Server\100\Tools\Binn\SqlCmd.exe" />
-    <property name="NUnitBinFolder"
-        value="C:\Program Files\NUnit 2.4.8\bin" />
+    <property name="nunit.executable" value="lib\NUnit\nunit-console.exe" />
 
     <!-- The development sql server and database: -->
     <property name="sqlServer" value=".\SqlExpress" />
@@ -79,12 +79,6 @@
         <call target="cleanFolder" />
 
         <property name="folderToClean" value="Utility" />
-        <call target="cleanFolder" />
-
-        <property name="folderToClean" value="IntegrationTests" />
-        <call target="cleanFolder" />
-
-        <property name="folderToClean" value="Tests" />
         <call target="cleanFolder" />
 
 	<delete file="hibes.sln.cache" />
@@ -172,7 +166,12 @@
 
     <target name="moveForTest" depends="compile">
         <copy todir="${build.dir}" flatten="true">
-            <fileset basedir="${solution.dir}">
+            <fileset basedir="${source.dir}">
+                <include name="/**/bin/${configuration}/**" />
+            </fileset>
+        </copy>
+        <copy todir="${build.dir}" flatten="true">
+            <fileset basedir="${test.dir}">
                 <include name="/**/bin/${configuration}/**" />
             </fileset>
         </copy>
@@ -192,22 +191,9 @@
     </target>
 
     <target name="basetest">
-        <echo message="Testing ${test.assembly}:" />
-        <nunit2 failonerror="true" verbose="true">
-            <formatter type="Xml" outputdir="${results.dir}" usefile="true" extension=".xml"/>
-            <formatter type="Plain" />
-            <test assemblyname="${build.dir}/${test.assembly}" />
-        </nunit2>
-    </target>
-
-    <target name="importLib">
-        <copy file="C:\Windows\assembly\GAC_MSIL\System.Web.DataVisualization\3.5.0.0__31bf3856ad364e35\System.Web.DataVisualization.dll" todir="lib">
-        </copy>
-        <copy todir="lib\NUnit">
-            <fileset basedir="${NUnitBinFolder}">
-                <include name="**\*" />
-            </fileset>
-        </copy>
+      <echo message="Testing ${test.assembly}:" />
+      <exec program="${nunit.executable}"
+        commandline="${build.dir}\${test.assembly} /framework=4.0.30319" />
     </target>
 
 </project>

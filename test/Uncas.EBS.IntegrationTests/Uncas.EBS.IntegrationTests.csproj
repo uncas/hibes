@@ -51,9 +51,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="nunit.framework, Version=2.4.8.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+    <Reference Include="nunit.framework, Version=2.5.5.10112, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\NUnit\nunit.framework.dll</HintPath>
+      <HintPath>..\..\lib\NUnit\framework\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -79,19 +79,19 @@
     <Compile Include="TestApp.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Uncas.EBS.ApplicationServices\Uncas.EBS.ApplicationServices.csproj">
+    <ProjectReference Include="..\..\src\Uncas.EBS.ApplicationServices\Uncas.EBS.ApplicationServices.csproj">
       <Project>{B8576674-7555-405B-96EE-3667A50EA1DE}</Project>
       <Name>Uncas.EBS.ApplicationServices</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Uncas.EBS.DAL\Uncas.EBS.DAL.csproj">
+    <ProjectReference Include="..\..\src\Uncas.EBS.DAL\Uncas.EBS.DAL.csproj">
       <Project>{19212C86-A667-4FB9-A59A-36C928B3AE95}</Project>
       <Name>Uncas.EBS.DAL</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Uncas.EBS.Domain.Repository\Uncas.EBS.Domain.Repository.csproj">
+    <ProjectReference Include="..\..\src\Uncas.EBS.Domain.Repository\Uncas.EBS.Domain.Repository.csproj">
       <Project>{DD70A58E-D0B3-45BC-9C4A-38EBA7420F46}</Project>
       <Name>Uncas.EBS.Domain.Repository</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Uncas.EBS.Domain\Uncas.EBS.Domain.csproj">
+    <ProjectReference Include="..\..\src\Uncas.EBS.Domain\Uncas.EBS.Domain.csproj">
       <Project>{6BF0F142-F718-4BF9-A7F6-9B36D1C091B4}</Project>
       <Name>Uncas.EBS.Domain</Name>
     </ProjectReference>
@@ -99,7 +99,7 @@
       <Project>{40AECC36-94C1-4EE1-83D9-E7AFBFB868E2}</Project>
       <Name>Uncas.EBS.Tests</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Uncas.EBS.UI\Uncas.EBS.UI.csproj">
+    <ProjectReference Include="..\..\src\Uncas.EBS.UI\Uncas.EBS.UI.csproj">
       <Project>{1449B0B0-AE43-46B7-9C12-6951C196F1E9}</Project>
       <Name>Uncas.EBS.UI</Name>
     </ProjectReference>

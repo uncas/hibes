@@ -15,19 +15,19 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
     {
         private const double StandardNumberOfHoursPerDay = 7.5d;
 
-        private IIssueRepository _issueRepo
+        private IIssueRepository issueRepo
             = TestApp.Repositories.IssueRepository;
 
-        private ITaskRepository _taskRepo
+        private ITaskRepository taskRepo
             = TestApp.Repositories.TaskRepository;
 
-        private IProjectRepository _projectRepo
+        private IProjectRepository projectRepo
             = TestApp.Repositories.ProjectRepository;
 
-        private ProjectService _projectService
+        private ProjectService projectService
             = new ProjectService(TestApp.Repositories);
 
-        private Random _rnd = new Random();
+        private Random random = new Random();
 
         #region GetIssues
 
@@ -35,7 +35,7 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
         public void GetIssues_All()
         {
             // TODO: REFACTOR: Reduce number of asserts.
-            int projectId = _projectRepo
+            int projectId = projectRepo
                 .GetProjects().FirstOrDefault()
                 .ProjectId;
 
@@ -44,17 +44,17 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
                 (projectId
                 , "GetIssues_All-Closed"
                 , Status.Closed
-                , _rnd.Next(100));
-            this._issueRepo.InsertIssue(issueClosed);
+                , random.Next(100));
+            this.issueRepo.InsertIssue(issueClosed);
             Issue issueOpen = Issue.ConstructIssue
                 (projectId
                 , "GetIssues_All-Open"
                 , Status.Open
-                , _rnd.Next(100));
-            this._issueRepo.InsertIssue(issueOpen);
+                , random.Next(100));
+            this.issueRepo.InsertIssue(issueOpen);
 
             // Testing:
-            var issues = this._issueRepo.GetIssues(null, Status.Any);
+            var issues = this.issueRepo.GetIssues(null, Status.Any);
 
             // Checking:
             Assert.IsNotNull(issues);
@@ -64,7 +64,7 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
                 .Any(i => i.IssueId == issueOpen.IssueId.Value));
 
             // Testing:
-            issues = this._issueRepo.GetIssues(null, Status.Closed);
+            issues = this.issueRepo.GetIssues(null, Status.Closed);
 
             // Checking:
             Assert.IsNotNull(issues);
@@ -74,7 +74,7 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
                 .Any(i => i.IssueId == issueOpen.IssueId.Value));
 
             // Testing:
-            issues = this._issueRepo.GetIssues(null, Status.Open);
+            issues = this.issueRepo.GetIssues(null, Status.Open);
 
             // Checking:
             Assert.IsNotNull(issues);
@@ -92,7 +92,7 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
         public void GetIssueView()
         {
             // TODO: REFACTOR: Reduce number of asserts.
-            int projectId = _projectRepo
+            int projectId = projectRepo
                 .GetProjects().FirstOrDefault()
                 .ProjectId;
 
@@ -102,14 +102,14 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
                 , "GetIssueView"
                 , Status.Open
                 , 15);
-            this._issueRepo.InsertIssue(issue);
+            this.issueRepo.InsertIssue(issue);
             Task task = GetTask(issue, Status.Open);
-            this._taskRepo.InsertTask(task);
+            this.taskRepo.InsertTask(task);
             Task taskClosed = GetTask(issue, Status.Closed);
-            this._taskRepo.InsertTask(taskClosed);
+            this.taskRepo.InsertTask(taskClosed);
 
             // Testing:
-            var issueView = this._issueRepo.GetIssueView
+            var issueView = this.issueRepo.GetIssueView
                 (issue.IssueId.Value, Status.Any);
 
             // Checking:
@@ -123,7 +123,7 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
                 , issueView.Tasks[1].TaskId.Value);
 
             // Testing:
-            issueView = this._issueRepo.GetIssueView
+            issueView = this.issueRepo.GetIssueView
                 (issue.IssueId.Value, Status.Closed);
 
             // Checking:
@@ -142,7 +142,7 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
         [Test]
         public void InsertIssue_Default_OK()
         {
-            int projectId = _projectRepo
+            int projectId = projectRepo
                 .GetProjects().FirstOrDefault()
                 .ProjectId;
 
@@ -151,14 +151,14 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
                 (projectId
                 , "InsertIssue_Default_OK"
                 , Status.Closed
-                , _rnd.Next(100));
+                , random.Next(100));
 
             // Testing:
-            this._issueRepo.InsertIssue(issue);
+            this.issueRepo.InsertIssue(issue);
 
             // Checking:
             Assert.IsNotNull(issue.IssueId);
-            var issueView = this._issueRepo.GetIssueView
+            var issueView = this.issueRepo.GetIssueView
                 (issue.IssueId.Value, Status.Open);
             Assert.AreEqual(issue.IssueId, issueView.Issue.IssueId);
             Assert.AreEqual(issue.Status, issueView.Issue.Status);
@@ -176,7 +176,7 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
                 , 20);
 
             // Testing:
-            this._issueRepo.InsertIssue(issue);
+            this.issueRepo.InsertIssue(issue);
         }
 
         [Test]
@@ -188,16 +188,16 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
                 (1
                 , null
                 , Status.Closed
-                , _rnd.Next(100));
+                , random.Next(100));
 
             // Testing:
-            this._issueRepo.InsertIssue(issue);
+            this.issueRepo.InsertIssue(issue);
         }
 
         [Test]
         public void InsertIssueTest_MissingTitle_Retry()
         {
-            int projectId = _projectRepo
+            int projectId = projectRepo
                 .GetProjects().FirstOrDefault()
                 .ProjectId;
 
@@ -206,17 +206,17 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
                 (projectId
                 , null
                 , Status.Closed
-                , _rnd.Next(100));
+                , random.Next(100));
 
             // Testing:
             try
             {
-                this._issueRepo.InsertIssue(issue);
+                this.issueRepo.InsertIssue(issue);
             }
             catch
             {
                 issue.Title = "Remmeber title now";
-                this._issueRepo.InsertIssue(issue);
+                this.issueRepo.InsertIssue(issue);
             }
         }
 
@@ -228,12 +228,12 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
         public void UpdateIssue()
         {
             // TODO: REFACTOR: Reduce number of asserts.
-            int projectId = _projectRepo
+            int projectId = projectRepo
                 .GetProjects().FirstOrDefault()
                 .ProjectId;
 
             // Setting up:
-            int oldPriority = _rnd.Next(100);
+            int oldPriority = random.Next(100);
             string oldTitle = "OriginalTitle";
             Status oldStatus = Status.Open;
             Issue issue = Issue.ConstructIssue
@@ -242,7 +242,7 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
                 , oldStatus
                 , oldPriority);
             Trace.WriteLine(issue);
-            this._issueRepo.InsertIssue(issue);
+            this.issueRepo.InsertIssue(issue);
             int newPriority = oldPriority + 2;
             string newTitle = "New title";
             Status newStatus = Status.Closed;
@@ -251,11 +251,11 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
             issue.Priority = newPriority;
 
             // Testing:
-            this._issueRepo.UpdateIssue(issue);
+            this.issueRepo.UpdateIssue(issue);
 
             // Checking:
             Assert.IsNotNull(issue.IssueId);
-            var retrievedIssue = this._issueRepo.GetIssueView
+            var retrievedIssue = this.issueRepo.GetIssueView
                 (issue.IssueId.Value, Status.Closed)
                 .Issue;
             Assert.AreEqual(newPriority, retrievedIssue.Priority);
@@ -266,7 +266,7 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
         [Test]
         public void DeleteIssue_Default_OK()
         {
-            int projectId = _projectRepo
+            int projectId = projectRepo
                 .GetProjects().FirstOrDefault()
                 .ProjectId;
             
@@ -275,15 +275,15 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
                 (projectId
                 , "DeleteIssue"
                 , Status.Closed
-                , _rnd.Next(100));
-            _issueRepo.InsertIssue(issue);
+                , random.Next(100));
+            issueRepo.InsertIssue(issue);
             Assert.IsNotNull(issue.IssueId);
 
             // Testing:
-            _issueRepo.DeleteIssue(issue.IssueId.Value);
+            issueRepo.DeleteIssue(issue.IssueId.Value);
 
             // Checking:
-            var retrievedIssue = _issueRepo.GetIssueView
+            var retrievedIssue = issueRepo.GetIssueView
                 (issue.IssueId.Value, Status.Closed)
                 .Issue;
             Assert.IsNull(retrievedIssue);
@@ -294,7 +294,7 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
         public void DeleteIssue_NonExisting()
         {
             // Testing:
-            _issueRepo.DeleteIssue(-1);
+            issueRepo.DeleteIssue(-1);
         }
 
         [Test]
@@ -306,18 +306,18 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
                 (3
                 , "DeleteIssue"
                 , Status.Closed
-                , _rnd.Next(100));
-            _issueRepo.InsertIssue(issue);
+                , random.Next(100));
+            issueRepo.InsertIssue(issue);
             Assert.IsNotNull(issue.IssueId);
             Task task = GetTask(issue, Status.Open);
-            _taskRepo.InsertTask(task);
+            taskRepo.InsertTask(task);
             Assert.IsNotNull(task.TaskId);
 
             // Testing:
-            _issueRepo.DeleteIssue(issue.IssueId.Value);
+            issueRepo.DeleteIssue(issue.IssueId.Value);
 
             // Checking:
-            var retrievedIssue = _issueRepo.GetIssueView
+            var retrievedIssue = issueRepo.GetIssueView
                 (issue.IssueId.Value, Status.Closed)
                 .Issue;
             Assert.IsNull(retrievedIssue);
@@ -359,7 +359,7 @@ Indexes on all foreign keys:
 
         public void GetIssueView_Speed(Status status)
         {
-            var issue = _issueRepo.GetIssues
+            var issue = issueRepo.GetIssues
                 (null, status).FirstOrDefault();
             if (issue == null)
             {
@@ -369,9 +369,9 @@ Indexes on all foreign keys:
             int issueId = issue.IssueId.Value;
             FuncToSpeedTest tf = () =>
             {
-                _issueRepo.GetIssueView(issueId, status);
-                _issueRepo.GetIssueView(issueId, status);
-                _issueRepo.GetIssueView(issueId, status);
+                issueRepo.GetIssueView(issueId, status);
+                issueRepo.GetIssueView(issueId, status);
+                issueRepo.GetIssueView(issueId, status);
             };
             string testTitle = string.Format("GetIssueView-{0}"
                 , status);
@@ -384,19 +384,19 @@ Indexes on all foreign keys:
         {
             FuncToSpeedTest tf = () =>
             {
-                _projectService.GetTeamEvaluation
+                projectService.GetTeamEvaluation
                     (null
                     , null
                     , numberOfSimulations
                     , maxNumberOfHistoricalData
                     , StandardNumberOfHoursPerDay);
-                _projectService.GetTeamEvaluation
+                projectService.GetTeamEvaluation
                     (null
                     , null
                     , numberOfSimulations
                     , maxNumberOfHistoricalData
                     , StandardNumberOfHoursPerDay);
-                _projectService.GetTeamEvaluation
+                projectService.GetTeamEvaluation
                     (null
                     , null
                     , numberOfSimulations
@@ -411,12 +411,12 @@ Indexes on all foreign keys:
 
         public void GetIssues_Speed()
         {
-            int projectId = _projectRepo.GetProjects().First().ProjectId;
+            int projectId = projectRepo.GetProjects().First().ProjectId;
             FuncToSpeedTest tf = () =>
             {
-                _issueRepo.GetIssues(null, Status.Any);
-                _issueRepo.GetIssues(null, Status.Closed);
-                _issueRepo.GetIssues(projectId, Status.Any);
+                issueRepo.GetIssues(null, Status.Any);
+                issueRepo.GetIssues(null, Status.Closed);
+                issueRepo.GetIssues(projectId, Status.Any);
             };
             TestSpeed("GetIssues", tf);
         }
@@ -425,9 +425,9 @@ Indexes on all foreign keys:
         {
             FuncToSpeedTest tf = () =>
                 {
-                    _taskRepo.GetTasks(new TaskFilter { Status = Status.Any });
-                    _taskRepo.GetTasks(new TaskFilter { Status = Status.Closed });
-                    _taskRepo.GetTasks(new TaskFilter { Status = Status.Open });
+                    taskRepo.GetTasks(new TaskFilter { Status = Status.Any });
+                    taskRepo.GetTasks(new TaskFilter { Status = Status.Closed });
+                    taskRepo.GetTasks(new TaskFilter { Status = Status.Open });
                 };
             TestSpeed("GetTasks", tf);
         }
@@ -436,9 +436,9 @@ Indexes on all foreign keys:
         {
             FuncToSpeedTest tf = () =>
             {
-                _projectRepo.GetProjects();
-                _projectRepo.GetProjects();
-                _projectRepo.GetProjects();
+                projectRepo.GetProjects();
+                projectRepo.GetProjects();
+                projectRepo.GetProjects();
             };
             TestSpeed("GetProjects", tf);
         }

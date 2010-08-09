@@ -9,7 +9,7 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
     [TestFixture]
     public class PersonRepositoryTests
     {
-        private IPersonRepository _personRepo =
+        private IPersonRepository personRepo =
             TestApp.Repositories.PersonRepository;
 
         [Test]
@@ -19,7 +19,7 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
                 (Guid.NewGuid().ToString()
                 , 1
                 , 2);
-            _personRepo.InsertPerson(person);
+            personRepo.InsertPerson(person);
 
             int newDays = 2;
             double newHours = 3d;
@@ -28,10 +28,10 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
             person.DaysPerWeek = newDays;
             person.HoursPerDay = newHours;
 
-            _personRepo.UpdatePerson(person);
+            personRepo.UpdatePerson(person);
 
             Person retrievedPerson
-                = _personRepo.GetPersons()
+                = personRepo.GetPersons()
                 .Where(p => p.PersonId == person.PersonId)
                 .SingleOrDefault();
 

@@ -10,24 +10,24 @@ namespace Uncas.EBS.IntegrationTests
     [SetUpFixture]
     public class TestApp
     {
-        private static IRepositoryFactory _repositories
+        private static IRepositoryFactory repositories
             = new DAL.RepositoryFactory();
 
         internal static IRepositoryFactory Repositories
         {
             get
             {
-                return _repositories;
+                return repositories;
             }
         }
 
-        private ITaskRepository _taskRepo
+        private ITaskRepository taskRepo
             = Repositories.TaskRepository;
 
-        private IIssueRepository _issueRepo
+        private IIssueRepository issueRepo
             = Repositories.IssueRepository;
 
-        private IProjectRepository _projectRepo
+        private IProjectRepository projectRepo
             = Repositories.ProjectRepository;
 
         [SetUp]
@@ -46,7 +46,7 @@ namespace Uncas.EBS.IntegrationTests
             SetUpDatabase();
         }
 
-        private Random _rnd = new Random();
+        private Random random = new Random();
 
         private static Status GetStatus(int priority)
         {
@@ -59,9 +59,9 @@ namespace Uncas.EBS.IntegrationTests
 
         private void AddIssue()
         {
-            var project = _projectRepo.GetProjects().FirstOrDefault();
+            var project = projectRepo.GetProjects().FirstOrDefault();
 
-            int priority = _rnd.Next(100);
+            int priority = random.Next(100);
 
             Status status = GetStatus(priority);
 
@@ -71,12 +71,12 @@ namespace Uncas.EBS.IntegrationTests
                 , status
                 , priority);
 
-            _issueRepo.InsertIssue(issue);
+            issueRepo.InsertIssue(issue);
 
             if (issue.IssueId.HasValue)
             {
                 for (int taskIndex = 0;
-                    taskIndex < 2 + _rnd.Next(3);
+                    taskIndex < 2 + random.Next(3);
                     taskIndex++)
                 {
                     AddTask(issue.IssueId.Value, status);
@@ -87,9 +87,9 @@ namespace Uncas.EBS.IntegrationTests
         private void AddTask(int issueId, Status issueStatus)
         {
             double originalEstimate
-                = Math.Ceiling(_rnd.NextDouble() * 15d);
+                = Math.Ceiling(random.NextDouble() * 15d);
 
-            int sequence = _rnd.Next(50);
+            int sequence = random.Next(50);
 
             Status status
                 = issueStatus == Status.Closed
@@ -100,21 +100,21 @@ namespace Uncas.EBS.IntegrationTests
             if (status == Status.Closed)
             {
                 double speed
-                    = 1d + (0.95d * ((2d * _rnd.NextDouble()) - 1d));
+                    = 1d + (0.95d * ((2d * random.NextDouble()) - 1d));
                 elapsed
                     = originalEstimate / speed;
             }
-            else if (_rnd.Next(10) < 1)
+            else if (random.Next(10) < 1)
             {
                 // Some open tasks are in progress:
-                elapsed = _rnd.NextDouble() * 20d;
+                elapsed = random.NextDouble() * 20d;
             }
 
             double currentEstimate = elapsed;
 
             if (status == Status.Open)
             {
-                currentEstimate += _rnd.NextDouble() * 10d;
+                currentEstimate += random.NextDouble() * 10d;
             }
 
             int personId = GetPersonId();
@@ -129,7 +129,7 @@ namespace Uncas.EBS.IntegrationTests
 
             task.CurrentEstimate = currentEstimate;
 
-            _taskRepo.InsertTask(task);
+            taskRepo.InsertTask(task);
         }
 
         private int GetPersonId()
@@ -166,7 +166,7 @@ namespace Uncas.EBS.IntegrationTests
         {
             Repositories.ProjectRepository.InsertProject("My project");
 
-            var project = _projectRepo.GetProjects().FirstOrDefault();
+            var project = projectRepo.GetProjects().FirstOrDefault();
 
             for (int issueIndex = 0;
                 issueIndex < 15;

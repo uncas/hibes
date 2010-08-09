@@ -8,16 +8,16 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
     [TestFixture]
     public class ProjectRepositoryTests
     {
-        private IProjectRepository _projRepo
+        private IProjectRepository projRepo
             = TestApp.Repositories.ProjectRepository;
 
-        private IIssueRepository _issueRepo
+        private IIssueRepository issueRepo
             = TestApp.Repositories.IssueRepository;
 
         [Test]
         public void GetProjects()
         {
-            var project = _projRepo
+            var project = projRepo
                 .GetProjects().FirstOrDefault();
             int projectId = project.ProjectId;
 
@@ -27,10 +27,10 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
                 , "GetProjects"
                 , Status.Open
                 , 1);
-            _issueRepo.InsertIssue(issue);
+            issueRepo.InsertIssue(issue);
 
             // Testing:
-            var projects = _projRepo.GetProjects();
+            var projects = projRepo.GetProjects();
 
             // Checking:
             Assert.IsNotNull(projects);

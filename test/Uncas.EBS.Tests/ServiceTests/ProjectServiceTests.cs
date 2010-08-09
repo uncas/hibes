@@ -7,13 +7,13 @@ namespace Uncas.EBS.Tests.ServiceTests
     [TestFixture]
     public class ProjectServiceTests
     {
-        private readonly ProjectService _service
+        private readonly ProjectService service
             = new ProjectService(new FakeRepositoryFactory());
 
         [Test]
         public void GetTeamEvaluation()
         {
-            _service.GetTeamEvaluation
+            service.GetTeamEvaluation
                 (null
                 , null
                 , 100
