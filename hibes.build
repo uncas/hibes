@@ -122,6 +122,16 @@
     </copy>
   </target>
 
+  <target name="package" depends="getBuildProducts,getSubversionRevision">
+    <property name="zipfile.name" value="hibes.${svn.revision}.zip" />
+    <property name="zipfile.path" value="build\${zipfile.name}" />
+    <zip zipfile="${zipfile.path}">
+      <fileset basedir="build\WebSite">
+        <include name="**/*" />
+      </fileset>
+    </zip>
+  </target>
+
   <target name="publishToTest">
     <property name="websiteFolder" value="${testFolder}" />
     <property name="connectionString" value="${connectionString}" />
@@ -207,8 +217,6 @@
     <!-- Retrieve subversion revision number -->
     <echo message="Retrieving Subversion revision number" />
     <property name="svn.revision" value="0" />
-  </target>
-  <target name="getSubversionRevisionRest">
     <exec
       program="${svn}"
       commandline='log --xml --limit 1'
