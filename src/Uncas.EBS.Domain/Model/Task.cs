@@ -45,10 +45,8 @@ namespace Uncas.EBS.Domain.Model
             , int refPersonId)
         {
             Task task = new Task();
-            task.CurrentEstimate
-                = originalEstimate;
-            task.OriginalEstimate
-                = originalEstimate;
+            task.CurrentEstimate = originalEstimate;
+            task.OriginalEstimate = originalEstimate;
             task.Description = description;
             task.Elapsed = elapsed;
             task.EndDate = endDate;
@@ -93,13 +91,11 @@ namespace Uncas.EBS.Domain.Model
             Task task = new Task();
             task.TaskId = taskId;
             task.CreatedDate = createdDate;
-            task.CurrentEstimate
-                = currentEstimate;
+            task.CurrentEstimate = currentEstimate;
             task.Description = description;
             task.Elapsed = elapsed;
             task.EndDate = endDate;
-            task.OriginalEstimate
-                = originalEstimate;
+            task.OriginalEstimate = originalEstimate;
             task.RefIssueId = refIssueId;
             task.Sequence = sequence;
             task.StartDate = startDate;
@@ -134,8 +130,7 @@ namespace Uncas.EBS.Domain.Model
         {
             Task task = new Task();
             task.TaskId = taskId;
-            task.CurrentEstimate
-                = currentEstimate;
+            task.CurrentEstimate = currentEstimate;
             task.Description = description;
             task.Elapsed = elapsed;
             task.EndDate = endDate;
@@ -148,9 +143,7 @@ namespace Uncas.EBS.Domain.Model
 
         #endregion
 
-
         #region Properties (14)
-
 
         #region Administrative properties (2)
 
@@ -168,9 +161,7 @@ namespace Uncas.EBS.Domain.Model
 
         #endregion
 
-
         #region Attributes (2)
-
 
         /// <summary>
         /// Gets or sets the description.
@@ -184,12 +175,9 @@ namespace Uncas.EBS.Domain.Model
         /// <value>The issue id.</value>
         public int RefIssueId { get; set; }
 
-
         #endregion
 
-
         #region Work on the task (3)
-
 
         /// <summary>
         /// Gets or sets the person id.
@@ -215,7 +203,7 @@ namespace Uncas.EBS.Domain.Model
             {
                 return status;
             }
-            
+
             set
             {
                 if (value != Status.Any)
@@ -226,7 +214,6 @@ namespace Uncas.EBS.Domain.Model
         }
 
         #endregion
-
 
         #region Estimates (2)
 
@@ -266,10 +253,8 @@ namespace Uncas.EBS.Domain.Model
 
         #endregion
 
-
         // TODO: REFACTOR: Put action properties in TaskDetails.
         #region Action aggregates (5)
-
 
         #region Progress (3)
 
@@ -312,7 +297,6 @@ namespace Uncas.EBS.Domain.Model
 
         #endregion
 
-
         #region Derived properties (2)
 
         /// <summary>
@@ -353,9 +337,7 @@ namespace Uncas.EBS.Domain.Model
 
         #endregion
 
-
         #endregion
-
 
         #endregion
     }

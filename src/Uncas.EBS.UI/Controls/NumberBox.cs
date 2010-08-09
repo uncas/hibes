@@ -12,7 +12,7 @@ namespace Uncas.EBS.UI.Controls
     public class NumberBox : CompositeControl, ITextControl
     {
         private TextBox numberTextBox;
-        
+
         private RegularExpressionValidator revNumber;
 
         /// <summary>
@@ -26,7 +26,7 @@ namespace Uncas.EBS.UI.Controls
                 EnsureChildControls();
                 return numberTextBox.AutoPostBack;
             }
-            
+
             set
             {
                 EnsureChildControls();
@@ -163,50 +163,46 @@ namespace Uncas.EBS.UI.Controls
                 {
                     return null;
                 }
-                else
+
+                if (result > maxValue)
                 {
-                    if (result > maxValue)
-                    {
-                        return maxValue;
-                    }
-                    else if (result < minValue)
-                    {
-                        return minValue;
-                    }
-                    else
-                    {
-                        return result;
-                    }
+                    return maxValue;
                 }
+
+                if (result < minValue)
+                {
+                    return minValue;
+                }
+
+                return result;
             }
 
             set
             {
                 EnsureChildControls();
-                if (value.HasValue)
+                if (!value.HasValue)
                 {
-                    if (value.Value > maxValue)
-                    {
-                        numberTextBox.Text
-                            = maxValue.ToString
-                            (CultureInfo.CurrentCulture);
-                    }
-                    else if (value.Value < minValue)
-                    {
-                        numberTextBox.Text
-                            = minValue.ToString
-                            (CultureInfo.CurrentCulture);
-                    }
-                    else
-                    {
-                        numberTextBox.Text
-                            = value.Value.ToString
-                            (CultureInfo.CurrentCulture);
-                    }
+                    numberTextBox.Text = string.Empty;
+                    return;
+                }
+
+                if (value.Value > maxValue)
+                {
+                    numberTextBox.Text
+                        = maxValue.ToString
+                        (CultureInfo.CurrentCulture);
+                }
+                else if (value.Value < minValue)
+                {
+                    numberTextBox.Text
+                        = minValue.ToString
+                        (CultureInfo.CurrentCulture);
                 }
                 else
                 {
-                    numberTextBox.Text = string.Empty;
+                    numberTextBox.Text
+                        = value.Value.ToString
+                        (CultureInfo.CurrentCulture);
                 }
             }
         }

@@ -74,26 +74,34 @@ namespace Uncas.EBS.UI.Controls
             , DataControlCellType cellType
             , DataControlRowState rowState)
         {
-            Control control = null;
-
-            if (cellType == DataControlCellType.DataCell)
+            if (cellType != DataControlCellType.DataCell)
             {
-                if (rowState == DataControlRowState.Normal
-                    || rowState == DataControlRowState.Alternate)
-                {
-                    control = cell;
-                }
-                else
-                {
-                    DateBox box = new DateBox();
-                    cell.Controls.Add(box);
+                return null;
+            }
 
-                    // If data field, use datebox:
-                    if (!string.IsNullOrEmpty(this.DataField))
-                    {
-                        control = box;
-                    }
-                }
+            Control control = null;
+            if (rowState == DataControlRowState.Normal
+                || rowState == DataControlRowState.Alternate)
+            {
+                control = cell;
+            }
+            else
+            {
+                control = GetControl(cell, control);
+            }
+
+            return control;
+        }
+
+        private Control GetControl(DataControlFieldCell cell, Control control)
+        {
+            DateBox box = new DateBox();
+            cell.Controls.Add(box);
+
+            // If data field, use datebox:
+            if (!string.IsNullOrEmpty(this.DataField))
+            {
+                control = box;
             }
 
             return control;

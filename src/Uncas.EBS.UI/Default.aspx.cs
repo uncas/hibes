@@ -63,19 +63,13 @@ namespace Uncas.EBS.UI
             {
                 case "AddOneToPriority":
                     {
-                        Func<int, bool> func =
-                            (int _issueId)
-                                => issueController.AddOneToPriority(_issueId);
-                        ModifyIssue(e, func);
+                        AddOneToPriority(e);
                         break;
                     }
 
                 case "SubtractOneFromPriority":
                     {
-                        Func<int, bool> func =
-                            (int _issueId)
-                                => issueController.SubtractOneFromPriority(_issueId);
-                        ModifyIssue(e, func);
+                        SubtractOneFromPriority(e);
                         break;
                     }
 
@@ -84,6 +78,22 @@ namespace Uncas.EBS.UI
                         break;
                     }
             }
+        }
+
+        private void SubtractOneFromPriority(GridViewCommandEventArgs e)
+        {
+            Func<int, bool> func =
+                (int _issueId)
+                    => issueController.SubtractOneFromPriority(_issueId);
+            ModifyIssue(e, func);
+        }
+
+        private void AddOneToPriority(GridViewCommandEventArgs e)
+        {
+            Func<int, bool> func =
+                (int _issueId)
+                    => issueController.AddOneToPriority(_issueId);
+            ModifyIssue(e, func);
         }
 
         private void ModifyIssue(GridViewCommandEventArgs e

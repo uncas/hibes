@@ -136,20 +136,26 @@ namespace Uncas.EBS.UI.Helpers
                 }
 
                 int fieldIndex = 0;
-                foreach (LatexColumn<T> column in columns)
-                {
-                    if (fieldIndex > 0)
-                    {
-                        sb.AppendLine("        &");
-                    }
-
-                    sb.AppendLine("        "
-                        + LatexDocument.EncodeText(column.Transform(item)));
-                    fieldIndex++;
-                }
-
+                fieldIndex = AddColumnPerItem<T>(columns, sb, item, fieldIndex);
                 sb.AppendLine(@"    \\");
             }
+        }
+
+        private static int AddColumnPerItem<T>(LatexColumn<T>[] columns, StringBuilder sb, T item, int fieldIndex)
+        {
+            foreach (LatexColumn<T> column in columns)
+            {
+                if (fieldIndex > 0)
+                {
+                    sb.AppendLine("        &");
+                }
+
+                sb.AppendLine("        "
+                    + LatexDocument.EncodeText(column.Transform(item)));
+                fieldIndex++;
+            }
+
+            return fieldIndex;
         }
 
 

@@ -81,14 +81,14 @@ namespace Uncas.EBS.UI.Helpers
             if (!fractionElapsed.HasValue)
             {
                 row.CssClass = "noTasks";
+                return;
             }
-            else if (fractionElapsed.HasValue
-                && fractionElapsed.Value == 0d)
+
+            if (fractionElapsed.Value == 0d)
             {
                 row.CssClass = "notStarted";
             }
-            else if (fractionElapsed.HasValue
-                && fractionElapsed.Value > 0d)
+            else if (fractionElapsed.Value > 0d)
             {
                 row.CssClass = "inProgress";
             }

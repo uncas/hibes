@@ -1,199 +1,310 @@
 <?xml version="1.0"?>
 <project name="hibes" default="compile">
 
-    <!-- Initializing properties.
-         Customize these by copying local.properties.xml.template
-         to local.properties.xml and editing or adding values. -->
+  <!-- Initializing properties.
+       Customize these by copying local.properties.xml.template
+       to local.properties.xml and editing or adding values. -->
 
-    <property name="configuration" value="release" />
+  <property name="complexity.limit" value="5" />
+  <property name="nesting.limit" value="5" />
+  <property name="methods.limit" value="5" />
+  <property name="lines.limit" value="350" />
+  <property name="configuration" value="release" />
 
-    <property name="build.dir" value="build" />
-    <property name="test.dir" value="test"/>
-    <property name="source.dir" value="src"/>
-    <property name="results.dir" value="${build.dir}\results" />
+  <property name="build.dir" value="build" />
+  <property name="test.dir" value="test"/>
+  <property name="source.dir" value="src"/>
+  <property name="results.dir" value="${build.dir}\results" />
     
-    <property name="msbuild"
-        value="C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe" />
-    <property name="sqlcmd" 
-        value="C:\Program Files\Microsoft SQL Server\100\Tools\Binn\SqlCmd.exe" />
-    <property name="nunit.executable" value="lib\NUnit\nunit-console.exe" />
+  <property name="msbuild"
+    value="C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe" />
+  <property name="sqlcmd" 
+    value="C:\Program Files\Microsoft SQL Server\100\Tools\Binn\SqlCmd.exe" />
+  <property name="nunit.executable" value="lib\NUnit\nunit-console.exe" />
+  <property name="sourcemonitor.executable" value="lib\SourceMonitor\SourceMonitor.exe" />
+  <property name="svn" value="C:\Program Files (x86)\VisualSVN Server\bin\svn.exe" />
+  <property name="codemetrics.output.dir" value="build" />
 
-    <!-- The development sql server and database: -->
-    <property name="sqlServer" value=".\SqlExpress" />
-    <property name="database" value="hibes" />
+  <!-- The development sql server and database: -->
+  <property name="sqlServer" value=".\SqlExpress" />
+  <property name="database" value="hibes" />
 
-    <property name="testFolder"
-        value="c:\inetpub\wwwroot\hibes\" />
+  <property name="testFolder"
+    value="c:\inetpub\wwwroot\hibes\" />
 
-    <property name="productionConnectionString"
-        value="NO DEFAULT! Has to be specified in local.properties.xml!" />
-    <property name="productionFolder"
-        value="NO DEFAULT! Has to be specified in local.properties.xml!" />
+  <property name="productionConnectionString"
+    value="NO DEFAULT! Has to be specified in local.properties.xml!" />
+  <property name="productionFolder"
+    value="NO DEFAULT! Has to be specified in local.properties.xml!" />
 
-    <if test="${file::exists('local.properties.xml')}">
-        <echo message="Loading local.properties.xml" />
-        <include buildfile="local.properties.xml" />
-    </if>
+  <if test="${file::exists('local.properties.xml')}">
+    <echo message="Loading local.properties.xml" />
+    <include buildfile="local.properties.xml" />
+  </if>
     
+  <property name="websiteFolder" value="${testFolder}" />
+
+  <property name="sqlcmdCredentials"
+    value="-S ${sqlServer} -E" />
+
+  <property name="connectionString"
+    value="Server=${sqlServer};Database=${database};Integrated Security=true;" />
+
+
+
+  <!-- The targets -->
+
+  <target name="all"/>
+
+  <target name="cleanFolder">
+      <delete dir="src\Uncas.EBS.${folderToClean}\bin" />
+      <delete dir="src\Uncas.EBS.${folderToClean}\obj" />
+  </target>
+
+  <target name="clean">
+      <delete dir="${build.dir}" />
+
+      <property name="folderToClean" value="ApplicationServices" />
+      <call target="cleanFolder" />
+
+      <property name="folderToClean" value="DAL" />
+      <call target="cleanFolder" />
+
+      <property name="folderToClean" value="Domain" />
+      <call target="cleanFolder" />
+
+      <property name="folderToClean" value="Domain.Repository" />
+      <call target="cleanFolder" />
+
+      <property name="folderToClean" value="FakeRepository" />
+      <call target="cleanFolder" />
+
+      <property name="folderToClean" value="SQLiteRepository" />
+      <call target="cleanFolder" />
+
+      <property name="folderToClean" value="UI" />
+      <call target="cleanFolder" />
+
+    <property name="folderToClean" value="Utility" />
+    <call target="cleanFolder" />
+
+  <delete file="hibes.sln.cache" />
+
+  <delete>
+      <fileset basedir="sql">
+        <include name="**\*~" />
+      </fileset>
+    </delete>
+
+  </target>
+    
+  <target name="init" depends="clean">
+    <mkdir dir="${build.dir}" />
+  </target>
+
+  <target name="compile" depends="init">
+    <exec program="${msbuild}"
+      commandline="hibes.sln 
+        /p:Debug=false 
+        /p:Configuration=${configuration}"/>
+  </target>
+
+  <target name="getBuildProducts" depends="unitTest">
+    <copy todir="build\WebSite">
+      <fileset basedir="src\Uncas.EBS.UI">
+        <include name="**\*.*" />
+        <exclude name="bin\*.xml" />
+        <exclude name="obj\**\*.*" />
+        <exclude name="Uncas.EBS.UI.*" />
+        <exclude name="**\*.cs" />
+        <exclude name="**\*.pdb" />
+      </fileset>
+    </copy>
+  </target>
+
+  <target name="publishToTest">
     <property name="websiteFolder" value="${testFolder}" />
+    <property name="connectionString" value="${connectionString}" />
+    <call target="publish" />
+  </target>
 
-    <property name="sqlcmdCredentials"
-        value="-S ${sqlServer} -E" />
+  <target name="publishToProduction">
+    <property name="websiteFolder" value="${productionFolder}" />
+    <property name="connectionString" value="${productionConnectionString}" />
+    <call target="publish" />
+  </target>
 
-    <property name="connectionString"
-        value="Server=${sqlServer};Database=${database};Integrated Security=true;" />
+  <target name="publish" depends="getBuildProducts">
+    <property name="target" value="Web.connectionStrings.config" />
+    <call target="convert.template" />
+    <property name="target" value="Web.appSettings.config" />
+    <call target="convert.template" />
+    <copy todir="${websiteFolder}">
+      <fileset basedir="build\WebSite">
+        <include name="**\*.*" />
+      </fileset>
+    </copy>
+  </target>
 
+  <target name="convert.template">
+    <copy file="config\${target}.template" 
+      tofile="build\WebSite\${target}" 
+      overwrite="true">
+      <filterchain>
+        <replacetokens>
+          <token key="connectionString" value="${connectionString}" />
+          <token key="websiteFolder" value="${websiteFolder}" />
+          <token key="database" value="${database}" />
+        </replacetokens>
+      </filterchain>
+    </copy>
+  </target>
 
+  <target name="setupDatabase" depends="init">
+    <property name="target" value="database.sql" />
+    <call target="convert.template" />
+    <exec program="${sqlcmd}"
+      commandline="${sqlcmdCredentials} -d master -i build\WebSite\database.sql" />
+    <exec program="${sqlcmd}"
+      commandline="${sqlcmdCredentials} -d ${database} -i sql\schema-001.0000-base.sql" />
+    <exec program="${sqlcmd}"
+      commandline="${sqlcmdCredentials} -d ${database} -i sql\schema-001.0001-change.sql" />
+  </target>
 
-    <!-- The targets -->
+  <target name="moveForTest" depends="compile">
+    <copy todir="${build.dir}" flatten="true">
+      <fileset basedir="${source.dir}">
+        <include name="/**/bin/${configuration}/**" />
+      </fileset>
+    </copy>
+    <copy todir="${build.dir}" flatten="true">
+      <fileset basedir="${test.dir}">
+        <include name="/**/bin/${configuration}/**" />
+      </fileset>
+    </copy>
+  </target>  
 
-    <target name="all"/>
+  <target name="unitTest" depends="moveForTest">
+    <property name="test.assembly" value="Uncas.EBS.Tests.dll" />
+    <call target="basetest" />
+  </target>
 
-    <target name="cleanFolder">
-        <delete dir="src\Uncas.EBS.${folderToClean}\bin" />
-        <delete dir="src\Uncas.EBS.${folderToClean}\obj" />
-    </target>
+  <target name="integrationTest" depends="unitTest">
+    <property name="test.assembly" value="Uncas.EBS.IntegrationTests.dll" />
+    <call target="basetest" />
+  </target>
 
-    <target name="clean">
-        <delete dir="${build.dir}" />
+  <target name="test" depends="integrationTest">
+  </target>
 
-        <property name="folderToClean" value="ApplicationServices" />
-        <call target="cleanFolder" />
+  <target name="basetest">
+    <echo message="Testing ${test.assembly}:" />
+    <exec program="${nunit.executable}"
+    commandline="${build.dir}\${test.assembly} /framework=4.0.30319" />
+  </target>
 
-        <property name="folderToClean" value="DAL" />
-        <call target="cleanFolder" />
+  <target name="getSubversionRevision" depends="init">
+    <!-- Retrieve subversion revision number -->
+    <echo message="Retrieving Subversion revision number" />
+    <property name="svn.revision" value="0" />
+  </target>
+  <target name="getSubversionRevisionRest">
+    <exec
+      program="${svn}"
+      commandline='log --xml --limit 1'
+      output="build\revision.xml"
+      failonerror="false" />
+    <xmlpeek
+      file="build\revision.xml"
+      xpath="/log/logentry/@revision"
+      property="svn.revision"
+      failonerror="false" />
+    <echo message="Using Subversion revision number: ${svn.revision}" />
+  </target>
 
-        <property name="folderToClean" value="Domain" />
-        <call target="cleanFolder" />
+  <!-- From http://www.richard-banks.org/2007/06/real-world-cruisecontrolnet-setup.html
+       and http://www.ridgway.co.za/archive/2006/11/28/usefulsourcemonitorreportsincruisecontrol.aspx -->
+  <target name="SourceMonitor" depends="getSubversionRevision">
+    <!-- Create input command file -->
+    <property name="sourcemonitor.input" value="${codemetrics.output.dir}\sm_xxxx_cmd.xml" />
+    <echo file="${sourcemonitor.input}" append="false" failonerror="false">
+      <![CDATA[
+      <?xml version="1.0" encoding="UTF-8" ?>
+      <sourcemonitor_commands>
+       <write_log>true</write_log>
+       <command>
+        <project_file>${codemetrics.output.dir}\sm_xxxx.smp</project_file>
+        <project_language>CSharp</project_language>
+        <file_extensions>*.cs|*.Designer.cs,*.feature.cs</file_extensions>
+        <source_directory>${project::get-base-directory()}\src</source_directory>
+        <include_subdirectories>true</include_subdirectories>
+        <checkpoint_name>${svn.revision}</checkpoint_name>
+        <export>
+         <export_file>${project::get-base-directory()}\_sm_summary.xml</export_file>
+         <export_type>1</export_type>
+        </export>
+       </command>
+       <command>
+        <project_file>${codemetrics.output.dir}\sm_xxxx.smp</project_file>
+        <checkpoint_name>${svn.revision}</checkpoint_name>
+        <export>
+         <export_file>${project::get-base-directory()}\_sm_details.xml</export_file>
+         <export_type>2</export_type>
+        </export>
+       </command>
+      </sourcemonitor_commands>
+      ]]>
+     </echo>
+    <!-- Execute the commands -->
+    <exec program="${sourcemonitor.executable}"
+      commandline="/C ${sourcemonitor.input}"
+      failonerror="false" />
+    <style style="SourceMonitor-Top15Generation.xsl"
+      in="${project::get-base-directory()}\_sm_details.xml"
+      out="${project::get-base-directory()}\_sm_top15.xml" />
+    <delete file="${codemetrics.output.dir}\sm_xxxx.smp" failonerror="false" />
+  </target>
 
-        <property name="folderToClean" value="Domain.Repository" />
-        <call target="cleanFolder" />
-
-        <property name="folderToClean" value="FakeRepository" />
-        <call target="cleanFolder" />
-
-        <property name="folderToClean" value="SQLiteRepository" />
-        <call target="cleanFolder" />
-
-        <property name="folderToClean" value="UI" />
-        <call target="cleanFolder" />
-
-        <property name="folderToClean" value="Utility" />
-        <call target="cleanFolder" />
-
-	<delete file="hibes.sln.cache" />
-
-	<delete>
-            <fileset basedir="sql">
-                <include name="**\*~" />
-            </fileset>
-	</delete>
-
-    </target>
-    
-    <target name="init" depends="clean">
-        <mkdir dir="${build.dir}" />
-    </target>
-
-    <target name="compile" depends="init">
-        <exec program="${msbuild}"
-              commandline="hibes.sln 
-                /p:Debug=false 
-                /p:Configuration=${configuration}"/>
-    </target>
-
-    <target name="getBuildProducts" depends="unitTest">
-        <copy todir="build\WebSite">
-            <fileset basedir="src\Uncas.EBS.UI">
-                <include name="**\*.*" />
-                <exclude name="bin\*.xml" />
-                <exclude name="obj\**\*.*" />
-                <exclude name="Uncas.EBS.UI.*" />
-                <exclude name="**\*.cs" />
-                <exclude name="**\*.pdb" />
-            </fileset>
-        </copy>
-    </target>
-
-    <target name="publishToTest">
-        <property name="websiteFolder" value="${testFolder}" />
-        <property name="connectionString" value="${connectionString}" />
-        <call target="publish" />
-    </target>
-
-    <target name="publishToProduction">
-        <property name="websiteFolder" value="${productionFolder}" />
-        <property name="connectionString" value="${productionConnectionString}" />
-        <call target="publish" />
-    </target>
-
-    <target name="publish" depends="getBuildProducts">
-        <property name="target" value="Web.connectionStrings.config" />
-        <call target="convert.template" />
-        <property name="target" value="Web.appSettings.config" />
-        <call target="convert.template" />
-        <copy todir="${websiteFolder}">
-            <fileset basedir="build\WebSite">
-                <include name="**\*.*" />
-            </fileset>
-        </copy>
-    </target>
-
-    <target name="convert.template">
-        <copy file="config\${target}.template" 
-            tofile="build\WebSite\${target}" 
-            overwrite="true">
-            <filterchain>
-                <replacetokens>
-                    <token key="connectionString" value="${connectionString}" />
-                    <token key="websiteFolder" value="${websiteFolder}" />
-                    <token key="database" value="${database}" />
-                </replacetokens>
-            </filterchain>
-        </copy>
-    </target>
-
-    <target name="setupDatabase" depends="init">
-        <property name="target" value="database.sql" />
-        <call target="convert.template" />
-        <exec program="${sqlcmd}"
-            commandline="${sqlcmdCredentials} -d master -i build\WebSite\database.sql" />
-        <exec program="${sqlcmd}"
-            commandline="${sqlcmdCredentials} -d ${database} -i sql\schema-001.0000-base.sql" />
-        <exec program="${sqlcmd}"
-            commandline="${sqlcmdCredentials} -d ${database} -i sql\schema-001.0001-change.sql" />
-    </target>
-
-    <target name="moveForTest" depends="compile">
-        <copy todir="${build.dir}" flatten="true">
-            <fileset basedir="${source.dir}">
-                <include name="/**/bin/${configuration}/**" />
-            </fileset>
-        </copy>
-        <copy todir="${build.dir}" flatten="true">
-            <fileset basedir="${test.dir}">
-                <include name="/**/bin/${configuration}/**" />
-            </fileset>
-        </copy>
-    </target>    
-
-    <target name="unitTest" depends="moveForTest">
-        <property name="test.assembly" value="Uncas.EBS.Tests.dll" />
-        <call target="basetest" />
-    </target>
-
-    <target name="integrationTest" depends="unitTest">
-        <property name="test.assembly" value="Uncas.EBS.IntegrationTests.dll" />
-        <call target="basetest" />
-    </target>
-
-    <target name="test" depends="integrationTest">
-    </target>
-
-    <target name="basetest">
-      <echo message="Testing ${test.assembly}:" />
-      <exec program="${nunit.executable}"
-        commandline="${build.dir}\${test.assembly} /framework=4.0.30319" />
-    </target>
+  <target name="CheckSourceMonitorOutput" depends="SourceMonitor">
+    <xmlpeek
+      file="${project::get-base-directory()}\_sm_top15.xml"
+      xpath="/SourceMonitorComplexitySummary/MostComplexMethods/Method/Complexity"
+      nodeindex="0"
+      property="complexity.max" />
+    <xmlpeek
+      file="${project::get-base-directory()}\_sm_top15.xml"
+      xpath="/SourceMonitorComplexitySummary/MostDeeplyNestedCode/Block/Depth"
+      nodeindex="0"
+      property="nesting.max" />
+    <xmlpeek
+      file="${project::get-base-directory()}\_sm_top15.xml"
+      xpath="/SourceMonitorComplexitySummary/MostLines/File/Lines"
+      nodeindex="0"
+      property="lines.max" />
+    <xmlpeek
+      file="${project::get-base-directory()}\_sm_top15.xml"
+      xpath="/SourceMonitorComplexitySummary/MostMethods/File/Methods"
+      nodeindex="0"
+      property="methods.max" />
+    <echo message="Max complexity: ${complexity.max}. Max nesting: ${nesting.max}. Max lines: ${lines.max}. Max methods: ${methods.max}." />
+    <if test="${nesting.max > nesting.limit}">
+      <echo message="Too large nesting." />
+    </if>
+    <if test="${complexity.max > complexity.limit}">
+      <echo message="Too large complexity." />
+    </if>
+    <if test="${lines.max > lines.limit}">
+      <echo message="Too many lines." />
+    </if>
+    <if test="${nesting.max > nesting.limit}">
+      <fail message="Too large nesting." />
+    </if>
+    <if test="${complexity.max > complexity.limit}">
+      <fail message="Too large complexity." />
+    </if>
+    <if test="${lines.max > lines.limit}">
+      <fail message="Too many lines." />
+    </if>
+  </target>
 
 </project>
