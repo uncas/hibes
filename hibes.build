@@ -6,10 +6,11 @@
        to local.properties.xml and editing or adding values. -->
 
   <property name="complexity.limit" value="5" />
-  <property name="nesting.limit" value="5" />
+  <property name="lines.limit" value="344" />
   <property name="methods.limit" value="5" />
-  <property name="lines.limit" value="350" />
-  <property name="configuration" value="release" />
+  <property name="nesting.limit" value="5" />
+
+  <property name="configuration" value="debug" />
 
   <property name="build.dir" value="build" />
   <property name="test.dir" value="test"/>
@@ -24,6 +25,8 @@
   <property name="sourcemonitor.executable" value="lib\SourceMonitor\SourceMonitor.exe" />
   <property name="svn" value="C:\Program Files (x86)\VisualSVN Server\bin\svn.exe" />
   <property name="codemetrics.output.dir" value="build" />
+  <property name="FxCop"
+    value="C:\Program Files (x86)\Microsoft FxCop 1.36\FxCopCmd.exe" />
 
   <!-- The development sql server and database: -->
   <property name="sqlServer" value=".\SqlExpress" />
@@ -281,9 +284,31 @@
       property="complexity.max" />
     <xmlpeek
       file="${project::get-base-directory()}\_sm_top15.xml"
+      xpath="/SourceMonitorComplexitySummary/MostComplexMethods/Method/File"
+      nodeindex="0"
+      property="complexity.file" />
+    <xmlpeek
+      file="${project::get-base-directory()}\_sm_top15.xml"
+      xpath="/SourceMonitorComplexitySummary/MostComplexMethods/Method/Line"
+      nodeindex="0"
+      property="complexity.line" />
+
+    <xmlpeek
+      file="${project::get-base-directory()}\_sm_top15.xml"
       xpath="/SourceMonitorComplexitySummary/MostDeeplyNestedCode/Block/Depth"
       nodeindex="0"
       property="nesting.max" />
+    <xmlpeek
+      file="${project::get-base-directory()}\_sm_top15.xml"
+      xpath="/SourceMonitorComplexitySummary/MostDeeplyNestedCode/Block/File"
+      nodeindex="0"
+      property="nesting.file" />
+    <xmlpeek
+      file="${project::get-base-directory()}\_sm_top15.xml"
+      xpath="/SourceMonitorComplexitySummary/MostDeeplyNestedCode/Block/Line"
+      nodeindex="0"
+      property="nesting.line" />
+
     <xmlpeek
       file="${project::get-base-directory()}\_sm_top15.xml"
       xpath="/SourceMonitorComplexitySummary/MostLines/File/Lines"
@@ -291,18 +316,25 @@
       property="lines.max" />
     <xmlpeek
       file="${project::get-base-directory()}\_sm_top15.xml"
+      xpath="/SourceMonitorComplexitySummary/MostLines/File/Name"
+      nodeindex="0"
+      property="lines.file" />
+
+    <xmlpeek
+      file="${project::get-base-directory()}\_sm_top15.xml"
       xpath="/SourceMonitorComplexitySummary/MostMethods/File/Methods"
       nodeindex="0"
       property="methods.max" />
+
     <echo message="Max complexity: ${complexity.max}. Max nesting: ${nesting.max}. Max lines: ${lines.max}. Max methods: ${methods.max}." />
     <if test="${nesting.max > nesting.limit}">
-      <echo message="Too large nesting." />
+      <echo message="Too large nesting in ${nesting.file} line ${nesting.line}." />
     </if>
     <if test="${complexity.max > complexity.limit}">
-      <echo message="Too large complexity." />
+      <echo message="Too large complexity in ${complexity.file} line ${complexity.line}." />
     </if>
     <if test="${lines.max > lines.limit}">
-      <echo message="Too many lines." />
+      <echo message="Too many lines in ${lines.file}." />
     </if>
     <if test="${nesting.max > nesting.limit}">
       <fail message="Too large nesting." />
@@ -313,6 +345,24 @@
     <if test="${lines.max > lines.limit}">
       <fail message="Too many lines." />
     </if>
+  </target>
+
+  <target name="PrepareCommit" depends="CheckSourceMonitorOutput,test,FxCop">
+  </target>
+
+  <target name="FxCop" depends="compile">
+    <property name="FxCop.output" value="build\fxcopresults.xml" />
+    <delete file="${FxCop.output}" />
+    <exec program="${FxCop}"
+      commandline="/p:hibes.FxCop /o:${FxCop.output} /s"
+      failonerror="false"/>
+    <if test="${file::exists(FxCop.output)}">
+      <echo message="FxCop errors encountered" />
+      <loadfile file="${FxCop.output}" property="FxCop.contents" />
+      <echo message="${FxCop.contents}" />
+      <fail message="FxCop errors encountered" />
+    </if>
+    <echo message="FxCop says OK!" />
   </target>
 
 </project>

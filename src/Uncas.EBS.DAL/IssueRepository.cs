@@ -100,6 +100,10 @@ namespace Uncas.EBS.DAL
             return result.ToList();
         }
 
+        [SuppressMessage(
+            "Microsoft.Performance",
+            "CA1811:AvoidUncalledPrivateCode",
+            Justification = "Is called in Linq")]
         private static List<TaskDetails> GetTaskDetails(Issue issue)
         {
             return issue.Tasks

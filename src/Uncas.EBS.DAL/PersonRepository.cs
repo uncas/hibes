@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Uncas.EBS.Domain.Repository;
 using Uncas.EBS.Domain.ViewModel;
@@ -30,6 +31,10 @@ namespace Uncas.EBS.DAL
             return result.ToList();
         }
 
+        [SuppressMessage(
+            "Microsoft.Performance",
+            "CA1811:AvoidUncalledPrivateCode",
+            Justification = "Is called in Linq")]
         private static List<Model.PersonOff> GetPersonOffs
             (Person person)
         {
