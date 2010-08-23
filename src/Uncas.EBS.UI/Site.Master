@@ -49,5 +49,9 @@
         </div>
     </div>
     </form>
+    <div>
+        <hr />
+        <a href="http://hibes.sourceforge.net/"><uncas:ResourceLabel ID="rlAbout" runat="server" ResourceName="About"></uncas:ResourceLabel> hibes</a>
+    </div>
 </body>
 </html>

@@ -118,11 +118,16 @@ namespace Uncas.EBS.UI
                     return context.Request
                         .Cookies[LanguageCookieKey].Value;
                 }
-                else
+
+                // If no such cookie, tries to get from config file:
+                string configValue = ConfigurationManager.AppSettings["Language"];
+                if (!string.IsNullOrEmpty(configValue))
                 {
-                    // If no such cookie:
-                    return "da-DK";
+                    return configValue;
                 }
+
+                // If no such config value, returns default:
+                return "da-DK";
             }
 
             set
