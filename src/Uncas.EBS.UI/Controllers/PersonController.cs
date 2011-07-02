@@ -41,6 +41,7 @@ namespace Uncas.EBS.UI.Controllers
         /// Gets the persons.
         /// </summary>
         /// <returns>A list of persons.</returns>
+        /// TODO: [Obsolete("Use overload with paging instead")]
         [SuppressMessage("Microsoft.Design"
             , "CA1024:UsePropertiesWhereAppropriate"
             , Justification = "Read from database")]

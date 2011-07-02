@@ -3,11 +3,24 @@ using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
+[module: SuppressMessage(
+    "Microsoft.Design",
+    "CA1020:AvoidNamespacesWithFewTypes",
+    Scope = "namespace",
+    Target = "Uncas.EBS.Domain")]
+
+[module: SuppressMessage("Microsoft.Naming"
+    , "CA1709:IdentifiersShouldBeCasedCorrectly"
+    , Scope = "namespace"
+    , Target = "Uncas.EBS.Domain"
+    , MessageId = "EBS")]
+
 [module: SuppressMessage("Microsoft.Naming"
     , "CA1709:IdentifiersShouldBeCasedCorrectly"
     , Scope = "namespace"
     , Target = "Uncas.EBS.Domain.Model"
     , MessageId = "EBS")]
+
 [module: SuppressMessage("Microsoft.Naming"
     , "CA1709:IdentifiersShouldBeCasedCorrectly"
     , Scope = "namespace"

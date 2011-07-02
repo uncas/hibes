@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Linq;
 using NUnit.Framework;
 using Uncas.EBS.ApplicationServices;
+using Uncas.EBS.Domain;
 using Uncas.EBS.Domain.Repository;
 
 namespace Uncas.EBS.IntegrationTests.ApplicationServicesTests
@@ -56,7 +57,7 @@ namespace Uncas.EBS.IntegrationTests.ApplicationServicesTests
         [Test]
         public void GetProjectEstimate_FirstProject()
         {
-            var projId = projectRepository.GetProjects()
+            var projId = projectRepository.GetProjects(new Paging())
                 .Min(p => p.ProjectId);
             var projectEstimate = projectService.GetTeamEvaluation
                 (projId
@@ -97,7 +98,7 @@ namespace Uncas.EBS.IntegrationTests.ApplicationServicesTests
 
         private void RunSimulation(int numberOfSimulations, int maxNumberOfHistoricalData)
         {
-            foreach (var project in projectRepository.GetProjects())
+            foreach (var project in projectRepository.GetProjects(new Paging(1, 20)))
             {
                 var projId = project.ProjectId;
                 var projectEstimate = projectService.GetTeamEvaluation

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Uncas.EBS.Domain;
 using Uncas.EBS.Domain.Repository;
 using Model = Uncas.EBS.Domain.Model;
 
@@ -17,17 +18,22 @@ namespace Uncas.EBS.DAL
         /// <summary>
         /// Gets the projects.
         /// </summary>
-        /// <returns>A list of projects.</returns>
-        public IList<Model.Project> GetProjects()
+        /// <param name="paging">The paging.</param>
+        /// <returns>
+        /// A list of projects.
+        /// </returns>
+        public IList<Model.Project> GetProjects(Paging paging)
         {
             var result = DB.Projects
+                .OrderBy(p => p.ProjectName)
+                .Skip(paging.Skip)
+                .Take(paging.PageSize)
                 .Select
                 (p => new Model.Project
-                    {
-                        ProjectId = p.ProjectId,
-                        ProjectName = p.ProjectName
-                    })
-                .OrderBy(p => p.ProjectName);
+                {
+                    ProjectId = p.ProjectId,
+                    ProjectName = p.ProjectName
+                });
             return result.ToList();
         }
 

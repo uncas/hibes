@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using Uncas.EBS.Domain;
 using Uncas.EBS.Domain.Repository;
 using Uncas.EBS.Domain.ViewModel;
 using Model = Uncas.EBS.Domain.Model;
@@ -131,8 +132,8 @@ namespace Uncas.EBS.DAL
                 throw new RepositoryException("Project Id must be larger than zero.");
             }
 
-            ProjectRepository projRepo = new ProjectRepository();
-            if (!projRepo.GetProjects()
+            IProjectRepository projRepo = new ProjectRepository();
+            if (!projRepo.GetProjects(new Paging())
                 .Any(p => p.ProjectId == issue.RefProjectId))
             {
                 throw new RepositoryException

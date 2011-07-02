@@ -14,6 +14,7 @@ namespace Uncas.EBS.Domain.Repository
         /// Gets the person views.
         /// </summary>
         /// <returns>A list of persons.</returns>
+        /// TODO: [Obsolete("Use overload with paging instead")]
         [SuppressMessage("Microsoft.Design"
             , "CA1024:UsePropertiesWhereAppropriate"
             , Justification = "Read from database")]
@@ -23,6 +24,7 @@ namespace Uncas.EBS.Domain.Repository
         /// Gets the persons.
         /// </summary>
         /// <returns>A list of persons.</returns>
+        /// TODO: [Obsolete("Use overload with paging instead")]
         [SuppressMessage("Microsoft.Design"
             , "CA1024:UsePropertiesWhereAppropriate"
             , Justification = "Read from database")]

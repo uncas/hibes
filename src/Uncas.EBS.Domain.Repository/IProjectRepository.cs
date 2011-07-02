@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
+﻿using System;
+using System.Collections.Generic;
 using Uncas.EBS.Domain.Model;
 
 namespace Uncas.EBS.Domain.Repository
@@ -12,11 +12,11 @@ namespace Uncas.EBS.Domain.Repository
         /// <summary>
         /// Gets the projects.
         /// </summary>
-        /// <returns>A list of projects.</returns>
-        [SuppressMessage("Microsoft.Design"
-            , "CA1024:UsePropertiesWhereAppropriate"
-            , Justification = "Read from database")]
-        IList<Project> GetProjects();
+        /// <param name="paging">The paging.</param>
+        /// <returns>
+        /// A list of projects.
+        /// </returns>
+        IList<Project> GetProjects(Paging paging);
 
         /// <summary>
         /// Inserts the project.

@@ -55,6 +55,7 @@ namespace Uncas.EBS.Domain.ViewModel
         /// </summary>
         /// <returns>A list of completion date confidences.</returns>
         /// <value>The completion date confidences.</value>
+        /// TODO: [Obsolete("Use overload with paging instead")]
         [SuppressMessage("Microsoft.Design"
             , "CA1024:UsePropertiesWhereAppropriate"
             , Justification = "This is a relatively complex calculation...")]

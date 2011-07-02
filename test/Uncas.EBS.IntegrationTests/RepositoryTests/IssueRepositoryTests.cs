@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Linq;
 using NUnit.Framework;
 using Uncas.EBS.ApplicationServices;
+using Uncas.EBS.Domain;
 using Uncas.EBS.Domain.Model;
 using Uncas.EBS.Domain.Repository;
 using Uncas.EBS.Domain.ViewModel;
@@ -36,7 +37,7 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
         {
             // TODO: REFACTOR: Reduce number of asserts.
             int projectId = projectRepo
-                .GetProjects().FirstOrDefault()
+                .GetFirstProject()
                 .ProjectId;
 
             // Setting up:
@@ -93,7 +94,7 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
         {
             // TODO: REFACTOR: Reduce number of asserts.
             int projectId = projectRepo
-                .GetProjects().FirstOrDefault()
+                .GetFirstProject()
                 .ProjectId;
 
             // Setting up:
@@ -143,7 +144,7 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
         public void InsertIssue_Default_OK()
         {
             int projectId = projectRepo
-                .GetProjects().FirstOrDefault()
+                .GetFirstProject()
                 .ProjectId;
 
             // Setting up:
@@ -198,7 +199,7 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
         public void InsertIssueTest_MissingTitle_Retry()
         {
             int projectId = projectRepo
-                .GetProjects().FirstOrDefault()
+                .GetFirstProject()
                 .ProjectId;
 
             // Setting up:
@@ -229,7 +230,7 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
         {
             // TODO: REFACTOR: Reduce number of asserts.
             int projectId = projectRepo
-                .GetProjects().FirstOrDefault()
+                .GetFirstProject()
                 .ProjectId;
 
             // Setting up:
@@ -267,9 +268,9 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
         public void DeleteIssue_Default_OK()
         {
             int projectId = projectRepo
-                .GetProjects().FirstOrDefault()
+                .GetFirstProject()
                 .ProjectId;
-            
+
             // Setting up:
             Issue issue = Issue.ConstructIssue
                 (projectId
@@ -411,7 +412,7 @@ Indexes on all foreign keys:
 
         public void GetIssues_Speed()
         {
-            int projectId = projectRepo.GetProjects().First().ProjectId;
+            int projectId = projectRepo.GetFirstProject().ProjectId;
             FuncToSpeedTest tf = () =>
             {
                 issueRepo.GetIssues(null, Status.Any);
@@ -436,9 +437,9 @@ Indexes on all foreign keys:
         {
             FuncToSpeedTest tf = () =>
             {
-                projectRepo.GetProjects();
-                projectRepo.GetProjects();
-                projectRepo.GetProjects();
+                projectRepo.GetProjects(new Paging());
+                projectRepo.GetProjects(new Paging());
+                projectRepo.GetProjects(new Paging());
             };
             TestSpeed("GetProjects", tf);
         }

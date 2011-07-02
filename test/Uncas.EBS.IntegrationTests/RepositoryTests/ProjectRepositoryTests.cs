@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using NUnit.Framework;
+using Uncas.EBS.Domain;
 using Uncas.EBS.Domain.Model;
 using Uncas.EBS.Domain.Repository;
 
@@ -18,7 +19,7 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
         public void GetProjects()
         {
             var project = projRepo
-                .GetProjects().FirstOrDefault();
+                .GetFirstProject();
             int projectId = project.ProjectId;
 
             // Setting up:
@@ -30,7 +31,7 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
             issueRepo.InsertIssue(issue);
 
             // Testing:
-            var projects = projRepo.GetProjects();
+            var projects = projRepo.GetProjects(new Paging());
 
             // Checking:
             Assert.IsNotNull(projects);

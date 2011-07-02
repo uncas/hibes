@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Linq;
 using NUnit.Framework;
+using Uncas.EBS.Domain;
 using Uncas.EBS.Domain.Model;
 using Uncas.EBS.Domain.Repository;
 using Uncas.EBS.Domain.ViewModel;
+using Uncas.EBS.IntegrationTests.RepositoryTests;
 
 namespace Uncas.EBS.IntegrationTests
 {
@@ -59,7 +61,7 @@ namespace Uncas.EBS.IntegrationTests
 
         private void AddIssue()
         {
-            var project = projectRepo.GetProjects().FirstOrDefault();
+            var project = projectRepo.GetFirstProject();
 
             int priority = random.Next(100);
 
@@ -166,7 +168,7 @@ namespace Uncas.EBS.IntegrationTests
         {
             Repositories.ProjectRepository.InsertProject("My project");
 
-            var project = projectRepo.GetProjects().FirstOrDefault();
+            var project = projectRepo.GetFirstProject();
 
             for (int issueIndex = 0;
                 issueIndex < 15;
@@ -195,7 +197,7 @@ namespace Uncas.EBS.IntegrationTests
             }
 
             foreach (var project in
-                Repositories.ProjectRepository.GetProjects())
+                Repositories.ProjectRepository.GetProjects(new Paging()))
             {
                 Repositories.ProjectRepository.DeleteProject
                     (project.ProjectId);

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Caching;
 using Uncas.EBS.ApplicationServices;
+using Uncas.EBS.Domain;
 using Uncas.EBS.Domain.Model;
 using Uncas.EBS.Domain.Repository;
 using Uncas.EBS.Domain.ViewModel;
@@ -27,12 +28,13 @@ namespace Uncas.EBS.UI.Controllers
         /// Gets the projects.
         /// </summary>
         /// <returns>A list of projects.</returns>
+        /// TODO: [Obsolete("Use overload with paging instead")]
         [SuppressMessage("Microsoft.Design"
             , "CA1024:UsePropertiesWhereAppropriate"
             , Justification = "Read from database")]
         public IList<Project> GetProjects()
         {
-            var result = projectRepo.GetProjects();
+            var result = projectRepo.GetProjects(new Paging());
             return result;
         }
 

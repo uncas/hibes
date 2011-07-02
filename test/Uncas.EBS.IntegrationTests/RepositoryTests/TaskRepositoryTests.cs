@@ -21,7 +21,7 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
         public void InsertTask()
         {
             int projectId = projectRepo
-                .GetProjects().FirstOrDefault()
+                .GetFirstProject()
                 .ProjectId;
 
             // Setting up:
@@ -50,7 +50,7 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
         [ExpectedException(typeof(RepositoryException))]
         public void InsertTask_EmptyDescription()
         {
-            var project = projectRepo.GetProjects().FirstOrDefault();
+            var project = projectRepo.GetFirstProject();
 
             // Setting up:
             Issue issue = Issue.ConstructIssue
@@ -80,7 +80,7 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
         [Test]
         public void UpdateTask_ChangedDescription_ChangedOK()
         {
-            var project = projectRepo.GetProjects().FirstOrDefault();
+            var project = projectRepo.GetFirstProject();
 
             // Setting up:
             Issue issue = Issue.ConstructIssue
@@ -116,7 +116,7 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
         [Test]
         public void UpdateTask_NullIssue()
         {
-            var project = projectRepo.GetProjects().FirstOrDefault();
+            var project = projectRepo.GetFirstProject();
 
             // Setting up:
             Issue issue = Issue.ConstructIssue
@@ -153,7 +153,7 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
         public void DeleteTask_Default_OK()
         {
             int projectId = projectRepo
-                .GetProjects().FirstOrDefault()
+                .GetFirstProject()
                 .ProjectId;
 
             // Setting up:

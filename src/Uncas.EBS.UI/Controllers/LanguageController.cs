@@ -32,6 +32,7 @@ namespace Uncas.EBS.UI.Controllers
         /// Gets the languages.
         /// </summary>
         /// <returns>A list of languages.</returns>
+        /// TODO: [Obsolete("Use overload with paging instead")]
         [SuppressMessage("Microsoft.Design"
             , "CA1024:UsePropertiesWhereAppropriate"
             , Justification = "Read from database")]
