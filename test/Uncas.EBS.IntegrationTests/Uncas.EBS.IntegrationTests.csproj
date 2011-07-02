@@ -74,7 +74,7 @@
     <Compile Include="RepositoryTests\IssueRepositoryTests.cs" />
     <Compile Include="RepositoryTests\PersonOffRepositoryTests.cs" />
     <Compile Include="RepositoryTests\PersonRepositoryTests.cs" />
-    <Compile Include="RepositoryTests\ProjectRepositoryTestExtensions.cs" />
+    <Compile Include="RepositoryTests\RepositoryTestExtensions.cs" />
     <Compile Include="RepositoryTests\ProjectRepositoryTests.cs" />
     <Compile Include="RepositoryTests\TaskRepositoryTests.cs" />
     <Compile Include="TestApp.cs" />

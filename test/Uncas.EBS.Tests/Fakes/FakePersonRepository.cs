@@ -17,8 +17,8 @@ namespace Uncas.EBS.Tests.Fakes
             result.Add(new PersonView(1, "N.N.", null));
             return result;
         }
-        
-        public IList<Person> GetPersons()
+
+        public IList<Person> GetPersons(Paging paging)
         {
             throw new NotImplementedException();
         }

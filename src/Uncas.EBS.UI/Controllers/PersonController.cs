@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using Uncas.EBS.Domain;
 using Uncas.EBS.Domain.Model;
 using Uncas.EBS.Domain.Repository;
 
@@ -47,7 +48,7 @@ namespace Uncas.EBS.UI.Controllers
             , Justification = "Read from database")]
         public IList<Person> GetPersons()
         {
-            return PersonRepository.GetPersons();
+            return PersonRepository.GetPersons(new Paging());
         }
 
         /// <summary>

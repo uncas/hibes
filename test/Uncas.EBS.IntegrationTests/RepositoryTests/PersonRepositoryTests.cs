@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using NUnit.Framework;
+using Uncas.EBS.Domain;
 using Uncas.EBS.Domain.Model;
 using Uncas.EBS.Domain.Repository;
 
@@ -31,9 +32,7 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
             personRepo.UpdatePerson(person);
 
             Person retrievedPerson
-                = personRepo.GetPersons()
-                .Where(p => p.PersonId == person.PersonId)
-                .SingleOrDefault();
+                = personRepo.GetPerson(person.PersonId);
 
             Assert.AreEqual
                 (person, retrievedPerson);

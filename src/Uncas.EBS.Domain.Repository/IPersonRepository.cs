@@ -23,12 +23,11 @@ namespace Uncas.EBS.Domain.Repository
         /// <summary>
         /// Gets the persons.
         /// </summary>
-        /// <returns>A list of persons.</returns>
-        /// TODO: [Obsolete("Use overload with paging instead")]
-        [SuppressMessage("Microsoft.Design"
-            , "CA1024:UsePropertiesWhereAppropriate"
-            , Justification = "Read from database")]
-        IList<Person> GetPersons();
+        /// <param name="paging">The paging.</param>
+        /// <returns>
+        /// A list of persons.
+        /// </returns>
+        IList<Person> GetPersons(Paging paging);
 
         /// <summary>
         /// Inserts the person.

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
+using Uncas.EBS.Domain;
 using Uncas.EBS.Domain.Model;
 
 namespace Uncas.EBS.IntegrationTests.RepositoryTests
@@ -16,7 +17,7 @@ namespace Uncas.EBS.IntegrationTests.RepositoryTests
                 = new List<IList<PersonOff>>();
             foreach (var person in
                 TestApp.Repositories.PersonRepository
-                .GetPersons())
+                .GetPersons(new Paging()))
             {
                 var personOffs = TestApp.Repositories
                     .PersonOffRepository

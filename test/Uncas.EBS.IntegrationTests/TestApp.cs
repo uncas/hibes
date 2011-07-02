@@ -138,8 +138,7 @@ namespace Uncas.EBS.IntegrationTests
         {
             return Repositories
                 .PersonRepository
-                .GetPersons()
-                .FirstOrDefault()
+                .GetFirstPerson()
                 .PersonId;
         }
 

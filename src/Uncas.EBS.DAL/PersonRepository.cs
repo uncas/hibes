@@ -54,10 +54,15 @@ namespace Uncas.EBS.DAL
         /// <summary>
         /// Gets the persons.
         /// </summary>
-        /// <returns>A list of persons.</returns>
-        public IList<Model.Person> GetPersons()
+        /// <param name="paging">The paging.</param>
+        /// <returns>
+        /// A list of persons.
+        /// </returns>
+        public IList<Model.Person> GetPersons(Paging paging)
         {
             var result = DB.Persons
+                .Skip(paging.Skip)
+                .Take(paging.PageSize)
                 .Select(p =>
                     new Model.Person
                         (p.PersonId
