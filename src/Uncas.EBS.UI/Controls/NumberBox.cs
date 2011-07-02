@@ -123,7 +123,7 @@ namespace Uncas.EBS.UI.Controls
         /// <summary>
         /// Gets or sets the text content of a control.
         /// </summary>
-        /// <value>The text content of a control.</value>
+        /// <value>Text content of a control.</value>
         /// <returns>
         /// The text content of a control.
         /// </returns>

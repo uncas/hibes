@@ -121,11 +121,11 @@ namespace Uncas.EBS.UI.Helpers
         /// </summary>
         /// <param name="daysRemaining">The days remaining.</param>
         /// <example>
-        ///     daysRemaining  returnValue
+        ///     DaysRemaining  returnValue
         ///        0.4             ½
         ///        0.6             1
         ///        1.1             2
-        ///        3.9             4
+        ///        3.9             4.
         /// </example>
         /// <returns>The remaining days.</returns>
         private static string GetDaysRemainingText(double? daysRemaining)

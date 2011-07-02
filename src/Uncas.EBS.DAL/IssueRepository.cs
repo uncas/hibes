@@ -117,7 +117,7 @@ namespace Uncas.EBS.DAL
         /// Inserts the issue.
         /// </summary>
         /// <param name="issue">The issue.</param>
-        /// <exception cref="RepositoryException"></exception>
+        /// <exception cref="RepositoryException">The repository exception.</exception>
         public void InsertIssue
             (Model.Issue issue)
         {

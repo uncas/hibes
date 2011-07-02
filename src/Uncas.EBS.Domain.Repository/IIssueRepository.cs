@@ -38,7 +38,7 @@ namespace Uncas.EBS.Domain.Repository
         /// Inserts the issue.
         /// </summary>
         /// <param name="issue">The issue.</param>
-        /// <exception cref="RepositoryException"></exception>
+        /// <exception cref="RepositoryException">A repository exception.</exception>
         void InsertIssue(Issue issue);
 
         /// <summary>
