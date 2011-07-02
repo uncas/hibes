@@ -68,6 +68,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\GlobalAssemblyInfo.cs">
+      <Link>GlobalAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="IIssueRepository.cs" />
     <Compile Include="IPersonOffRepository.cs" />
     <Compile Include="IPersonRepository.cs" />
