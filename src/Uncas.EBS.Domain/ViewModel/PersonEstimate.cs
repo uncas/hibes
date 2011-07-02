@@ -28,10 +28,7 @@ namespace Uncas.EBS.Domain.ViewModel
 
         #endregion
 
-
-
         #region Public methods
-
 
         /// <summary>
         /// Gets the selected completion date confidences.
@@ -48,7 +45,6 @@ namespace Uncas.EBS.Domain.ViewModel
                     || cdc.Probability == levels.High)
                 .ToList();
         }
-
 
         /// <summary>
         /// Gets the completion date confidences.
@@ -107,19 +103,13 @@ namespace Uncas.EBS.Domain.ViewModel
             return result;
         }
 
-
         #endregion
-
-
 
         #region Private fields
 
-
         private PersonView _personView { get; set; }
 
-
         private IList<double> _evaluations { get; set; }
-
 
         #endregion
     }

@@ -96,7 +96,6 @@ namespace Uncas.EBS.Utility.Simulation
 
                 // The simulated remaining hours for the issue 
                 // is added to the container of the simulation results:
-                // TODO: Obey Law of Demeter...
                 evaluation.AddIssueEvaluation
                     (issue.Issue
                     , issue.Tasks.Count

@@ -28,7 +28,6 @@ namespace Uncas.EBS.Tests.ViewModelTests
         [Test]
         public void ProjectEvaluationTest()
         {
-            // TODO: REFACTOR: Reduce number of asserts.
             ProjectEvaluation projEval = new ProjectEvaluation
                 (new PersonView(1, "A", null)
                 , StandardNumberOfHoursPerDay);
