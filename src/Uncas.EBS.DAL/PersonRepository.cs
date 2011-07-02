@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using Uncas.EBS.Domain;
 using Uncas.EBS.Domain.Repository;
 using Uncas.EBS.Domain.ViewModel;
 using Model = Uncas.EBS.Domain.Model;
@@ -18,16 +19,20 @@ namespace Uncas.EBS.DAL
         /// <summary>
         /// Gets the person views.
         /// </summary>
-        /// <returns>A list of persons.</returns>
-        public IList<PersonView> GetPersonViews()
+        /// <param name="paging">The paging.</param>
+        /// <returns>
+        /// A list of persons.
+        /// </returns>
+        public IList<PersonView> GetPersonViews(Paging paging)
         {
             var result = DB.Persons
+                .Skip(paging.Skip)
+                .Take(paging.PageSize)
                 .Select(p =>
                     new PersonView
                         (p.PersonId
                         , p.PersonName
                         , GetPersonOffs(p)));
-
             return result.ToList();
         }
 

@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Uncas.EBS.Domain;
 using Uncas.EBS.Domain.Model;
 using Uncas.EBS.Domain.Repository;
 using Uncas.EBS.Domain.ViewModel;
@@ -79,7 +80,7 @@ namespace Uncas.EBS.ApplicationServices
                 = TaskRepository.GetTasks
                 (filter);
             var personViews
-                = PersonRepository.GetPersonViews();
+                = PersonRepository.GetPersonViews(new Paging());
             PersonView personView0 = null;
             if (personViews != null)
             {

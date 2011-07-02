@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using Uncas.EBS.Domain.Model;
 using Uncas.EBS.Domain.ViewModel;
@@ -13,12 +14,11 @@ namespace Uncas.EBS.Domain.Repository
         /// <summary>
         /// Gets the person views.
         /// </summary>
-        /// <returns>A list of persons.</returns>
-        /// TODO: [Obsolete("Use overload with paging instead")]
-        [SuppressMessage("Microsoft.Design"
-            , "CA1024:UsePropertiesWhereAppropriate"
-            , Justification = "Read from database")]
-        IList<PersonView> GetPersonViews();
+        /// <param name="paging">The paging.</param>
+        /// <returns>
+        /// A list of persons.
+        /// </returns>
+        IList<PersonView> GetPersonViews(Paging paging);
 
         /// <summary>
         /// Gets the persons.
