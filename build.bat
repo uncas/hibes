@@ -1,3 +1,3 @@
 @echo off
-lib\NAnt\NAnt.exe -buildfile:hibes.build %*
+"C:\Program Files (x86)\NAnt\NAnt.exe" -buildfile:hibes.build %*
 pause

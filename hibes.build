@@ -21,7 +21,7 @@
     value="C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe" />
   <property name="sqlcmd" 
     value="C:\Program Files\Microsoft SQL Server\100\Tools\Binn\SqlCmd.exe" />
-  <property name="nunit.executable" value="lib\NUnit\nunit-console.exe" />
+  <property name="nunit.executable" value="packages\NUnit.2.5.10.11092\tools\nunit-console.exe" />
   <property name="sourcemonitor.executable" value="lib\SourceMonitor\SourceMonitor.exe" />
   <property name="svn" value="C:\Program Files (x86)\VisualSVN Server\bin\svn.exe" />
   <property name="codemetrics.output.dir" value="build" />
